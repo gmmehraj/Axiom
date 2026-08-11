@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Settings — Axiom AI OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/motion-tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/app.css">
+  <link rel="stylesheet" href="styles/rtl.css">
+  <link rel="stylesheet" href="styles/ax-pages.css">
+  <link rel="stylesheet" href="styles/ax-dock.css">
+  <link rel="stylesheet" href="styles/ax-topbar.css">
+  <link rel="stylesheet" href="styles/ax-redesign.css">
+  <link rel="stylesheet" href="styles/ax-premium-polish.css">
+<link rel="stylesheet" href="styles/ai-identity.css">
+<link rel="stylesheet" href="os/core/ai-avatar.css">
+<link rel="stylesheet" href="styles/accessibility.css">
+</head>
+<body data-require-auth class="ax-redesign-active ax-dock-active ax-topbar-active ax-calm">
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="grain"></div>
+<div class="aurora"><span></span><span></span><span></span><div class="particles" id="particles"></div></div>
+
+<nav class="ax-dock" role="navigation" aria-label="Main navigation">
+  <a href="os-shell.html" class="ax-dock-item" title="OS Shell"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="ax-dock-label">OS Shell</span></a>
+  <a href="playground.html" class="ax-dock-item" title="AI Chat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.5 8.5 0 01-8.9 8.49 8.63 8.63 0 01-3.9-.94L3 21l1.95-5.2a8.5 8.5 0 1116.05-4.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="ax-dock-label">AI Chat</span></a>
+  <a href="workspace.html" class="ax-dock-item" title="Workspace"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Workspace</span></a>
+  <a href="agent-library.html" class="ax-dock-item" title="Agents"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Agents</span></a>
+  <a href="studios.html" class="ax-dock-item" title="AI Studios"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Studios</span></a>
+  <a href="brain.html" class="ax-dock-item" title="AI Brain"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 3a3 3 0 00-3 3 3 3 0 00-2 5 3 3 0 002 5 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M15 3a3 3 0 013 3 3 3 0 012 5 3 3 0 01-2 5 3 3 0 01-3 3 3 3 0 01-3-3V6a3 3 0 013-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 8h6M8 12h8M9 16h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="ax-dock-label">Brain</span></a>
+  <div class="ax-dock-divider"></div>
+  <a href="browser.html" class="ax-dock-item" title="Browser"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 00-10 10M12 2a15 15 0 0110 10" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Browser</span></a>
+  <a href="memory.html" class="ax-dock-item" title="Memory"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 4h8l4 4v12H6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 10h6M9 14h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Memory</span></a>
+  <a href="analytics.html" class="ax-dock-item" title="Analytics"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 18l5-5 4 3 7-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 6v12h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Analytics</span></a>
+  <a href="automation.html" class="ax-dock-item" title="Automation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2 2m10.8 10.8l-2-2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Automation</span></a>
+  <div class="ax-dock-divider"></div>
+  <a href="settings.html" class="ax-dock-item active" title="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.04 1.56V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.9 19.7a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.56-1.04H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001.04-1.56V3a2 2 0 014 0v.09A1.7 1.7 0 0015.4 4.6a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.56 1.04H21a2 2 0 010 4h-.09A1.7 1.7 0 0019.4 15z" stroke="currentColor" stroke-width="1.4"/></svg><span class="ax-dock-label">Settings</span></a>
+  <a href="billing.html" class="ax-dock-item" title="Billing"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M2 9h20" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Billing</span></a>
+</nav>
+
+<div class="app-body">
+  <div class="app-main">
+    <header class="ax-topbar" role="banner">
+      <div class="ax-topbar-left">
+        <div class="ax-topbar-search" id="axTopbarSearch">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="Search anything" id="topbarSearchInput" aria-label="Search anything" readonly><kbd aria-hidden="true">⌘K</kbd>
+        </div>
+        <div class="ax-topbar-model"><span class="dot"></span><span>Studio Pro</span></div>
+      </div>
+      <div class="ax-topbar-center">
+        <div class="ax-topbar-status"><span class="dot online"></span><span>Online</span></div>
+        <div class="ax-topbar-workspace"><span class="dot"></span><span>Studio Pro</span></div>
+      </div>
+      <div class="ax-topbar-right">
+        <div class="ax-topbar-item ax-topbar-notif" id="axNotifTrigger" role="button" tabindex="0" aria-label="Notifications"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ping" id="axNotifDot"></span></div>
+        <div class="ax-topbar-item ax-topbar-cmd" id="axCmdBtn" role="button" tabindex="0" aria-label="Open command palette (Cmd+Shift+K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3h12a3 3 0 003-3 3 3 0 00-3-3z" stroke="currentColor" stroke-width="1.6"/></svg><kbd>⌘⇧K</kbd></div>
+        <div class="ax-topbar-item ax-topbar-avatar" role="button" tabindex="0" aria-label="Profile menu"><span>AX</span></div>
+        <div class="ax-topbar-time" id="axTimeDisplay"></div>
+      </div>
+    </header>
+
+    <main class="app-content" id="main" tabindex="-1">
+      <div class="app-content-inner ax-page">
+        <div class="ax-page-header">
+          <div class="ax-page-header-left">
+            <h1>Settings</h1>
+            <p>Manage your account, security, and preferences.</p>
+          </div>
+        </div>
+
+        <div class="ax-tabs" id="settingsTabs">
+          <div class="ax-tab active" data-tab="profile">Profile</div>
+          <div class="ax-tab" data-tab="security">Security</div>
+          <div class="ax-tab" data-tab="language">Language &amp; Region</div>
+          <div class="ax-tab" data-tab="notifications">Notifications</div>
+          <div class="ax-tab" data-tab="danger">Danger Zone</div>
+        </div>
+
+        <!-- PROFILE -->
+        <div class="ax-chart-card settings-panel active ax-span-2" data-tab="profile">
+          <div class="ax-flex-gap-24 ax-mb-24">
+            <div class="ax-topbar-avatar ax-avatar-lg"><span>AX</span></div>
+            <div>
+              <button class="ax-btn ax-btn-outline ax-btn-sm">Upload new photo</button>
+              <p class="ax-sub-tertiary-mt4">PNG or JPG, up to 5MB.</p>
+            </div>
+          </div>
+          <div class="ax-page-grid ax-page-grid-2">
+            <div class="field"><label>First name</label><input type="text" value="Axiom" class="ax-input"></div>
+            <div class="field"><label>Last name</label><input type="text" value="User" class="ax-input"></div>
+            <div class="field ax-span-2"><label>Email</label><input type="email" value="user@axiomstudio.ai" class="ax-input"></div>
+            <div class="field ax-span-2"><label>Bio</label><input type="text" placeholder="Add a short bio…" class="ax-input"></div>
+          </div>
+          <div class="ax-mt-16"><button class="ax-btn ax-btn-solid" data-mock-save="Profile saved">Save changes</button></div>
+        </div>
+
+        <!-- SECURITY -->
+        <div class="ax-chart-card settings-panel ax-span-2" data-tab="security">
+          <div class="ax-page-grid ax-page-grid-2 ax-mb-20">
+            <div class="field"><label>Current password</label><input type="password" placeholder="••••••••" class="ax-input"></div>
+            <div class="field"></div>
+            <div class="field"><label>New password</label><input type="password" placeholder="••••••••" class="ax-input"></div>
+            <div class="field"><label>Confirm new password</label><input type="password" placeholder="••••••••" class="ax-input"></div>
+          </div>
+          <button class="ax-btn ax-btn-solid ax-mb-24" data-mock-save="Password updated">Update password</button>
+          <div class="ax-row-padded-divider">
+            <div><strong class="ax-text-strong">Two-factor authentication</strong><p class="ax-sub-secondary">Require a code from your authenticator app at sign-in.</p></div>
+            <label class="ax-switch"><input type="checkbox" aria-label="Two-factor authentication"><span class="ax-switch-track"></span></label>
+          </div>
+          <div class="ax-row-padded-divider">
+            <div><strong class="ax-text-strong">Active sessions</strong><p class="ax-sub-secondary">You're signed in on 2 devices.</p></div>
+            <button class="ax-btn ax-btn-outline ax-btn-sm" data-mock-save="Signed out of other sessions">Sign out others</button>
+          </div>
+        </div>
+
+        <!-- LANGUAGE -->
+        <div class="ax-chart-card settings-panel ax-span-2" data-tab="language">
+          <p class="ax-lang-intro">Choose the language for the interface and for JARVIS's replies.</p>
+          <div id="langGrid" class="lang-grid" role="radiogroup" aria-label="Language"></div>
+
+          <div class="ax-mt-32-pt-24">
+            <h3 class="ax-card-title-xs">Voice</h3>
+            <p class="ax-sub-secondary-mb16">Configure how JARVIS listens and speaks.</p>
+            <div class="ax-page-grid ax-page-grid-2">
+              <div class="field"><label>Voice language</label><select id="voiceInputLang" class="ax-input"></select></div>
+              <div class="field"><label>Preferred voice</label><div class="ax-flex-gap-8"><select id="voiceOutputVoice" class="ax-input ax-flex-1"></select><button class="ax-btn ax-btn-outline ax-btn-sm" id="voicePreviewBtn">Preview</button></div></div>
+            </div>
+            <div class="ax-page-grid ax-page-grid-3 ax-mt-12">
+              <div class="field"><label>Speed — <span id="voiceRateVal">1.0×</span></label><input type="range" id="voiceRate" min="0.5" max="2" step="0.05" value="1" class="ax-input ax-input-flush"></div>
+              <div class="field"><label>Pitch — <span id="voicePitchVal">1.0</span></label><input type="range" id="voicePitch" min="0" max="2" step="0.05" value="1" class="ax-input ax-input-flush"></div>
+              <div class="field"><label>Volume — <span id="voiceVolumeVal">100%</span></label><input type="range" id="voiceVolume" min="0" max="1" step="0.05" value="1" class="ax-input ax-input-flush"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTIFICATIONS -->
+        <div class="ax-chart-card settings-panel ax-span-2" data-tab="notifications">
+          <div class="ax-row-padded">
+            <div><strong class="ax-text-strong">Generation complete</strong><p class="ax-sub-secondary">Get notified when a long-running generation finishes.</p></div>
+            <label class="ax-switch"><input type="checkbox" checked aria-label="Generation complete notifications"><span class="ax-switch-track"></span></label>
+          </div>
+          <div class="ax-row-padded-divider">
+            <div><strong class="ax-text-strong">Product updates</strong><p class="ax-sub-secondary">New models, features, and changelog highlights.</p></div>
+            <label class="ax-switch"><input type="checkbox" checked aria-label="Product update notifications"><span class="ax-switch-track"></span></label>
+          </div>
+          <div class="ax-row-padded-divider">
+            <div><strong class="ax-text-strong">Billing alerts</strong><p class="ax-sub-secondary">Usage nearing your plan limit, failed payments.</p></div>
+            <label class="ax-switch"><input type="checkbox" checked aria-label="Billing alert notifications"><span class="ax-switch-track"></span></label>
+          </div>
+          <div class="ax-row-padded-divider">
+            <div><strong class="ax-text-strong">Weekly digest</strong><p class="ax-sub-secondary">A Monday summary of activity across your projects.</p></div>
+            <label class="ax-switch"><input type="checkbox" aria-label="Weekly digest notifications"><span class="ax-switch-track"></span></label>
+          </div>
+        </div>
+
+        <!-- DANGER ZONE -->
+        <div class="settings-panel ax-span-2" data-tab="danger">
+          <div class="danger-zone ax-mb-16">
+            <h3>Deactivate account</h3>
+            <p>Your projects and generations are hidden until you sign back in. Nothing is deleted.</p>
+            <button class="ax-btn ax-btn-danger" data-mock-save="Account deactivated">Deactivate account</button>
+          </div>
+          <div class="danger-zone">
+            <h3>Delete account</h3>
+            <p>Permanently deletes your account, projects, and generation history. This can't be undone.</p>
+            <button class="ax-btn ax-btn-danger" data-mock-save="Delete requires email confirmation">Delete account</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="js/core/env.config.js"></script>
+<script defer src="js/core/supabase/env.js"></script>
+<script defer src="js/core/supabase/connection-manager.js"></script>
+<script defer src="js/core/supabase/auth-service.js"></script>
+<script defer src="js/core/supabase-config.js"></script>
+<script defer src="js/core/dev-config.js"></script>
+<script defer src="locales/_registry.js"></script>
+<script defer src="js/core/i18n.js"></script>
+<script defer src="js/core/voice.js"></script>
+<script defer src="js/core/voice-controller.js"></script>
+<script defer src="js/core/auth.js"></script>
+<script defer src="js/core/script.js"></script>
+<script defer src="js/core/app.js"></script>
+<script defer src="js/core/openrouter-config.js"></script>
+<script defer src="js/core/openrouter-client.js"></script>
+<script defer src="js/core/core-ui.js"></script>
+<script defer src="js/pages/settings-i18n.js"></script>
+<script defer src="components/premium-shell.js"></script>
+<script defer src="js/core/os-state-engine.js"></script>
+<script defer src="js/core/os-environment.js"></script>
+<script defer src="os/core/axiom-brain.js"></script>
+<script defer src="js/core/ai-state-manager.js"></script>
+<script defer src="os/core/memory-engine.js"></script>
+<script defer src="os/core/brain-memory-bridge.js"></script>
+<script defer src="os/core/memory-manager.js"></script>
+<script defer src="os/shared/logger.js"></script>
+<script defer src="os/runtime/agent-runtime.js"></script>
+<script defer src="os/runtime/agent-definitions/_shared.js"></script>
+<script defer src="os/runtime/agent-definitions/assistant-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/browser-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/memory-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/planner-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/research-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/coding-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/vision-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/voice-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/automation-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/file-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/_assemble.js"></script>
+<script defer src="os/runtime/capabilities/capability-kit.js"></script>
+<script defer src="os/runtime/capabilities/browser-bridge.js"></script>
+<script defer src="os/runtime/capabilities/planner-store.js"></script>
+<script defer src="os/runtime/capabilities/research-toolkit.js"></script>
+<script defer src="os/runtime/capabilities/voice-adapter-kit.js"></script>
+<script defer src="os/runtime/capabilities/vision-adapter-kit.js"></script>
+<script defer src="os/runtime/capabilities/coding-toolkit.js"></script>
+<script defer src="os/runtime/capabilities/workflows.js"></script>
+<script defer src="os/runtime/task-router.js"></script>
+<script defer src="os/runtime/agent-manager.js"></script>
+<script defer src="os/runtime/runtime-bootstrap.js"></script>
+<script defer src="os/core/living-environment.js"></script>
+<script defer src="os/core/ai-avatar.js"></script>
+<script defer src="js/core/os-interface.js"></script>
+<script defer src="components/universal-search.js"></script>
+<script defer src="components/quick-command.js"></script>
+<script defer src="components/notifications-center.js"></script>
+ <script defer src="js/pages/settings-billing-ultimate.js"></script>
+<script defer src="js/core/premium-polish.js"></script>
+<script defer src="components/app-init.js"></script>
+<script>
+document.querySelectorAll('#settingsTabs .ax-tab').forEach(tab=>{tab.addEventListener('click',function(){document.querySelectorAll('#settingsTabs .ax-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');const t=this.dataset.tab;document.querySelectorAll('.settings-panel').forEach(p=>p.style.display=p.dataset.tab===t?'block':'none')})});
+</script>
+<script defer src="js/core/accessibility.js"></script>
+</body>
+</html>

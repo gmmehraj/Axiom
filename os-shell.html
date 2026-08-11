@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="midnight">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AXIOM AI OS</title>
+<meta name="description" content="AXIOM AI Operating System — Your AI desktop environment.">
+<meta name="theme-color" content="#050505">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- OS Core Styles: os-shell.css is the single source of truth for this
+     app (tokens, glass system, animation system, layout). styles.css /
+     app.css are the marketing site's stylesheets and are intentionally
+     NOT loaded here — they defined a second, conflicting set of the same
+     custom properties (--ink vs --ax-bg, --line vs --ax-border, etc.)
+     and were dead weight on this page (none of their .app-sidebar /
+     .app-body selectors exist in this markup). -->
+  <link rel="stylesheet" href="styles/motion-tokens.css">
+<link rel="stylesheet" href="styles/ax-design-system.css">
+<link rel="stylesheet" href="styles/ai-identity.css">
+<link rel="stylesheet" href="styles/os-shell.css">
+<link rel="stylesheet" href="os/windows/window-manager.css">
+<!-- ===== PART 6: AI Desktop OS ===== -->
+<link rel="stylesheet" href="os/core/snap-zones.css">
+<link rel="stylesheet" href="os/core/mission-control.css">
+<link rel="stylesheet" href="os/desktop/desktop-manager.css">
+<link rel="stylesheet" href="os/wallpapers/wallpaper-engine.css">
+<link rel="stylesheet" href="styles/accessibility.css">
+</head>
+<body data-require-auth class="ax-os-active" data-workspace="dashboard">
+
+<a href="#axWorkspaceContainer" class="skip-link">Skip to main content</a>
+<div class="ax-os" id="axOS">
+
+  <!-- ===== Background Effects ===== -->
+  <div class="ax-os-grain"></div>
+  <div class="ax-os-aurora"><span></span><span></span><span></span></div>
+
+  <!-- ===== AI CORE (always alive; docks into the dashboard center
+       stage via body[data-workspace="dashboard"], floats as a corner
+       orb everywhere else — see os-shell.css) ===== -->
+  <div class="ax-core" id="axiomCore" data-core-state="idle">
+    <canvas id="axiomCoreCanvas"></canvas>
+    <div class="ax-core-overlay">
+      <div class="ax-core-indicator">
+        <span class="ax-core-dot"></span>
+        <span class="ax-core-state-label">Idle</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FLOATING TOPBAR ===== -->
+  <header class="ax-topbar ax-glass ax-glass-shadow ax-glass-noise" id="axTopbar" role="banner">
+    <div class="ax-topbar-left">
+      <button type="button" class="ax-topbar-search" id="axTopbarSearch" title="Search everything (⌘K)" aria-label="Search everything (Command K)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="search" placeholder="Search anything" id="topbarSearchInput" readonly tabindex="-1" aria-hidden="true">
+        <kbd aria-hidden="true">⌘K</kbd>
+      </button>
+      <div class="ax-topbar-model" id="axTopbarModel">
+        <span class="dot"></span>
+        <span id="topbarModelDisplay">Axiom AI</span>
+      </div>
+    </div>
+    <div class="ax-topbar-center">
+      <div class="ax-topbar-status">
+        <span class="dot online" id="axStatusDot"></span>
+        <span id="axStatusLabel">Online</span>
+      </div>
+      <div class="ax-topbar-time" id="axTimeDisplay"></div>
+    </div>
+    <div class="ax-topbar-right">
+      <button type="button" class="ax-topbar-item ax-topbar-control-center" id="axControlCenterBtn" title="Control Center" aria-label="Open Control Center" aria-haspopup="true" aria-expanded="false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="2" width="9" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="2" y="13" width="9" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="13" width="9" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+      <button type="button" class="ax-topbar-item ax-topbar-notif" id="axNotifTrigger" title="Notifications" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="ping" id="axNotifDot" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="ax-topbar-item ax-topbar-avatar" id="axProfileBtn" title="Profile" aria-label="Profile menu">
+        <span aria-hidden="true">AX</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== COMMAND PALETTE TRIGGER ===== -->
+  <button type="button" class="ax-cmd-hint" id="axCmdHint" title="Command Palette (⌘⇧K)" aria-label="Open Command Palette (Command Shift K)">
+    <kbd aria-hidden="true">⌘⇧K</kbd>
+  </button>
+
+  <!-- ===== WORKSPACE CONTAINER ===== -->
+  <main class="ax-workspace-container" id="axWorkspaceContainer" tabindex="-1">
+  <h1 class="sr-only">AXIOM AI OS — Dashboard</h1>
+    <div class="ax-workspace-inner" id="axWorkspaceInner">
+      <!-- Default: Mission Control view -->
+      <div class="ax-mission-control" id="axMissionControl">
+        <!-- ===== THREE-PANEL DASHBOARD LAYOUT ===== -->
+        <div class="ax-dashboard">
+
+          <!-- LEFT PANEL: AI Companion -->
+          <aside class="ax-db-panel ax-db-left ax-glass-reflection" id="axAiCompanion">
+            <div class="ax-db-panel-label">Assistant</div>
+            <div class="ax-companion">
+              <!-- Greeting -->
+              <div class="ax-acc-greeting">
+                <div class="ax-acc-avatar"><span>AX</span></div>
+                <div class="ax-acc-info">
+                  <div class="ax-acc-name" id="axAccGreeting">Good Evening</div>
+                  <div class="ax-acc-status">
+                    <span class="dot active"></span>
+                    <span id="axAccStatus">Online</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AI Mood -->
+              <div class="ax-acc-mood">
+                <span>AI Mood</span>
+                <span id="axAccMood">Focused</span>
+              </div>
+
+              <!-- Current Model -->
+              <div class="ax-acc-row">
+                <span class="ax-acc-label">Model</span>
+                <span class="ax-acc-value" id="axAccModel">Axiom AI v11</span>
+              </div>
+
+              <!-- Voice Status -->
+              <div class="ax-acc-row">
+                <span class="ax-acc-label">Voice</span>
+                <span class="ax-acc-value" id="axAccVoice">Standing by</span>
+              </div>
+
+              <!-- Divider -->
+              <div class="ax-acc-divider"></div>
+
+              <!-- Section Title -->
+              <div class="ax-acc-section-title">Recent Chats</div>
+              <div class="ax-acc-chats" id="axAccChats">
+                <div class="ax-acc-chat-item"><span class="dot"></span> Project analysis</div>
+                <div class="ax-acc-chat-item"><span class="dot"></span> Code review session</div>
+                <div class="ax-acc-chat-item"><span class="dot"></span> Research notes</div>
+              </div>
+
+              <!-- Section Title -->
+              <div class="ax-acc-section-title">Suggested</div>
+              <div class="ax-acc-suggestions" id="axAccSuggestions">
+                <button type="button" class="ax-acc-suggestion" data-workspace="coding">Analyze project structure</button>
+                <button type="button" class="ax-acc-suggestion" data-workspace="analytics">Review recent changes</button>
+                <button type="button" class="ax-acc-suggestion" data-workspace="automation">Generate report</button>
+              </div>
+
+              <!-- Section Title -->
+              <div class="ax-acc-section-title">Quick Actions</div>
+              <div class="ax-qa-grid" id="axQuickActions" role="group" aria-label="Quick actions">
+                <button type="button" class="ax-qa-btn" data-action="chat" aria-label="Start a new chat"></button>
+                <button type="button" class="ax-qa-btn" data-action="image" aria-label="Generate an image"></button>
+                <button type="button" class="ax-qa-btn" data-action="memory" aria-label="Add a memory"></button>
+                <button type="button" class="ax-qa-btn" data-action="browser" aria-label="Open browser"></button>
+              </div>
+
+              <!-- Memory Highlights -->
+              <div class="ax-acc-section-title">Memory</div>
+              <div class="ax-acc-memories" id="axAccMemories">
+                <div class="ax-acc-memory">• API endpoints refactored yesterday</div>
+                <div class="ax-acc-memory">• User prefers clean architecture</div>
+              </div>
+
+              <!-- Current Task -->
+              <div class="ax-acc-section-title">Active Task</div>
+              <div class="ax-acc-task" id="axAccTask">
+                <div class="ax-acc-task-bar"><div data-progress="65"></div></div>
+                <span>Dashboard redesign — 65%</span>
+              </div>
+            </div>
+          </aside>
+
+          <!-- CENTER: AI Core -->
+          <div class="ax-db-panel ax-db-center ax-glass-liquid">
+            <div class="ax-db-panel-label">AI Core</div>
+            <div class="ax-db-core-wrap">
+              <!-- The AI Core (#axiomCore) docks here visually via CSS -->
+            </div>
+            <!-- Mini status beneath core -->
+            <div class="ax-db-core-status">
+              <div class="ax-db-core-metric">
+                <span>Neural Activity</span>
+                <span id="axDbNeuralActivity">87%</span>
+              </div>
+              <div class="ax-db-core-metric">
+                <span>Token Usage</span>
+                <span id="axDbTokenUsage">1.2k</span>
+              </div>
+              <div class="ax-db-core-metric">
+                <span>Context Load</span>
+                <span id="axDbContextLoad">34%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT PANEL: System Widgets -->
+          <aside class="ax-db-panel ax-db-right ax-glass-reflection">
+            <div class="ax-db-panel-label">Widgets</div>
+            <div class="ax-db-widgets" id="axDbWidgets">
+              <!-- Widgets rendered by JS -->
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== FLOATING DOCK ===== -->
+  <nav class="ax-dock ax-glass ax-glass-shadow" id="axDock" role="navigation" aria-label="Main navigation">
+    <!-- Workspace dock items will be injected by JS -->
+  </nav>
+
+  <!-- ===== SEARCH OVERLAY ===== -->
+  <div class="ax-search-overlay" id="axSearchOverlay">
+    <div class="ax-search-panel">
+      <div class="ax-search-input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="text" id="axSearchInput" placeholder="Search workspaces, files, commands, memory..." autofocus>
+        <kbd>ESC</kbd>
+      </div>
+      <div class="ax-search-results" id="axSearchResults">
+        <div class="ax-search-hint">Type to search anything</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COMMAND PALETTE OVERLAY ===== -->
+  <div class="ax-cmd-overlay" id="axCmdOverlay">
+    <div class="ax-cmd-panel">
+      <div class="ax-cmd-input-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3h12a3 3 0 003-3 3 3 0 00-3-3z" stroke="currentColor" stroke-width="1.6"/></svg>
+        <input type="text" id="axCmdInput" placeholder="Run a command...">
+        <kbd>ESC</kbd>
+      </div>
+      <div class="ax-cmd-results" id="axCmdResults"></div>
+      <div class="ax-cmd-footer">
+        <span>↑↓ Navigate</span>
+        <span>↵ Execute</span>
+        <span>Esc Close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTROL CENTER ===== -->
+  <div class="ax-control-center ax-glass-deep" id="axControlCenter">
+    <div class="ax-cc-header">
+      <h3>Control Center</h3>
+    </div>
+    <div class="ax-cc-body">
+      <div class="ax-cc-row">
+        <div class="ax-cc-row-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12.5a11 11 0 0114 0M8 16a6.5 6.5 0 018 0M11 19.5a2 2 0 012 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <div class="ax-cc-row-content">
+          <span>WiFi</span>
+          <span class="ax-cc-row-value" id="ccWiFi">Connected</span>
+        </div>
+      </div>
+      <div class="ax-cc-row">
+        <div class="ax-cc-row-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6.5 8.5l11 7-5.5 4V4.5l5.5 4-11 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="ax-cc-row-content">
+          <span>Bluetooth</span>
+          <span class="ax-cc-row-value" id="ccBluetooth">Off</span>
+        </div>
+      </div>
+      <div class="ax-cc-row">
+        <div class="ax-cc-row-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H3v6h3l5 4V5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M16 9a4 4 0 010 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+        <div class="ax-cc-row-content">
+          <span id="ccVolumeLabel">Volume</span>
+          <input type="range" min="0" max="100" value="70" class="ax-cc-slider" id="ccVolumeSlider" aria-labelledby="ccVolumeLabel">
+        </div>
+      </div>
+      <div class="ax-cc-row">
+        <div class="ax-cc-row-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+        <div class="ax-cc-row-content">
+          <span id="ccBrightnessLabel">Brightness</span>
+          <input type="range" min="0" max="100" value="80" class="ax-cc-slider" id="ccBrightnessSlider" aria-labelledby="ccBrightnessLabel">
+        </div>
+      </div>
+      <div class="ax-cc-row">
+        <div class="ax-cc-row-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+        <div class="ax-cc-row-content">
+          <span id="ccThemeLabel">Theme</span>
+          <select class="ax-cc-select" id="ccThemeSelect" aria-labelledby="ccThemeLabel">
+            <option value="midnight">Midnight</option>
+            <option value="graphite">Graphite</option>
+            <option value="carbon">Carbon</option>
+            <option value="titanium">Titanium</option>
+            <option value="obsidian">Obsidian</option>
+            <option value="slate">Slate</option>
+            <option value="glass">Glass</option>
+            <option value="vision">Vision</option>
+            <option value="arctic">Arctic</option>
+            <option value="aurora">Aurora</option>
+            <option value="monochrome">Monochrome</option>
+            <option value="professional">Professional</option>
+          </select>
+        </div>
+      </div>
+      <div class="ax-cc-row">
+        <div class="ax-cc-row-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3a7 7 0 00-7 9.5A7 7 0 1019 9a7 7 0 00-7-6z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+        <div class="ax-cc-row-content">
+          <span>AI Mode</span>
+          <span class="ax-cc-row-value" id="ccAIMode">Auto</span>
+        </div>
+      </div>
+      <div class="ax-cc-row">
+        <div class="ax-cc-row-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+        <div class="ax-cc-row-content">
+          <span>Performance</span>
+          <span class="ax-cc-row-value" id="ccPerformance">Balanced</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NOTIFICATIONS PANEL ===== -->
+  <div class="ax-notif-panel" id="axNotifPanel">
+    <div class="ax-notif-head">
+      <h3>Notifications</h3>
+      <button class="ax-notif-clear" id="axNotifClear">Clear all</button>
+    </div>
+    <div class="ax-notif-list" id="axNotifList">
+      <div class="ax-notif-empty">No new notifications</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="js/core/env.config.js"></script>
+<script defer src="js/core/supabase/env.js"></script>
+<script defer src="js/core/supabase/connection-manager.js"></script>
+<script defer src="js/core/supabase/auth-service.js"></script>
+<script defer src="js/core/supabase-config.js"></script>
+<script defer src="js/core/dev-config.js"></script>
+<script defer src="locales/_registry.js"></script>
+<script defer src="js/core/i18n.js"></script>
+<script defer src="os/shared/icons.js"></script>
+<script defer src="os/core/app-manifest.js"></script>
+<script defer src="os/core/theme-engine.js"></script>
+<script defer src="os/core/motion-system.js"></script>
+<script defer src="os/core/ai-core.js"></script>
+<script defer src="js/core/ai-state-manager.js"></script>
+<script defer src="os/shared/logger.js"></script>
+<script defer src="os/shared/id-factory.js"></script>
+<script defer src="os/runtime/agent-runtime.js"></script>
+<script defer src="os/runtime/agent-definitions/_shared.js"></script>
+<script defer src="os/runtime/agent-definitions/assistant-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/browser-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/memory-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/planner-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/research-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/coding-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/vision-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/voice-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/automation-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/file-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/_assemble.js"></script>
+<script defer src="os/runtime/capabilities/capability-kit.js"></script>
+<script defer src="os/runtime/capabilities/browser-bridge.js"></script>
+<script defer src="os/runtime/capabilities/planner-store.js"></script>
+<script defer src="os/runtime/capabilities/research-toolkit.js"></script>
+<script defer src="os/runtime/capabilities/voice-adapter-kit.js"></script>
+<script defer src="os/runtime/capabilities/vision-adapter-kit.js"></script>
+<script defer src="os/runtime/capabilities/coding-toolkit.js"></script>
+<script defer src="os/runtime/capabilities/workflows.js"></script>
+<script defer src="os/runtime/task-router.js"></script>
+<script defer src="os/runtime/agent-manager.js"></script>
+<script defer src="os/runtime/runtime-bootstrap.js"></script>
+
+<!-- Milestone 8 — AI Intelligence & Multi-Agent Collaboration.
+     Purely additive: no existing runtime file above is modified,
+     no UI/layout changes. See os/runtime/intelligence/ for details. -->
+<script defer src="os/runtime/intelligence/context-store.js"></script>
+<script defer src="os/runtime/intelligence/task-planner.js"></script>
+<script defer src="os/runtime/intelligence/orchestrator.js"></script>
+<script defer src="os/runtime/intelligence/job-manager.js"></script>
+<script defer src="os/runtime/intelligence/error-recovery.js"></script>
+<script defer src="os/runtime/intelligence/runtime-monitor.js"></script>
+<script defer src="os/runtime/intelligence/planner-intelligence.js"></script>
+<script defer src="os/runtime/intelligence/browser-intelligence.js"></script>
+<script defer src="os/runtime/intelligence/memory-intelligence.js"></script>
+<script defer src="os/runtime/intelligence/dynamic-workflow.js"></script>
+<script defer src="os/runtime/intelligence/m8-bootstrap.js"></script>
+
+<!-- Milestone 9 — Executive AI. A supervisory layer above the Task
+     Router that plans, coordinates and monitors — it never dispatches
+     to an agent directly. Every capability below is a call into the
+     Milestone 4/8 modules above; nothing here duplicates them. See
+     os/runtime/executive/ for details. -->
+<script defer src="os/runtime/executive/executive-ai.js"></script>
+<script defer src="os/runtime/executive/m9-bootstrap.js"></script>
+
+<!-- Milestone 10 — Conversational AI & Natural Interaction Layer.
+     Purely additive: no existing runtime file above is modified, no
+     UI/layout changes. Conversation Manager coordinates turns into the
+     unmodified Executive AI pipeline above — it never plans, routes, or
+     dispatches on its own. See os/runtime/conversation/ for details. -->
+<script defer src="os/runtime/conversation/nlu-resolver.js"></script>
+<script defer src="os/runtime/conversation/conversation-stream.js"></script>
+<script defer src="os/runtime/conversation/conversation-memory.js"></script>
+<script defer src="os/runtime/conversation/conversation-manager.js"></script>
+<script defer src="os/runtime/conversation/conversation-context.js"></script>
+<script defer src="os/runtime/conversation/m10-bootstrap.js"></script>
+
+<!-- Milestone 11 — Autonomous AI Operating System.
+     Purely additive: no existing runtime file above is modified, no
+     UI/layout changes. Adds a global priority/dependency task scheduler
+     in front of the unmodified Job Manager, a read-only task graph and
+     event timeline, an aggregated resource-monitoring API, a plugin
+     agent registration API on top of the unmodified Agent Manager, and
+     an additive extension to Executive AI for autonomous, graph-driven
+     scheduling. See os/runtime/scheduler/ for details. -->
+<script defer src="os/runtime/scheduler/event-timeline.js"></script>
+<script defer src="os/runtime/scheduler/task-graph.js"></script>
+<script defer src="os/runtime/scheduler/task-scheduler.js"></script>
+<script defer src="os/runtime/scheduler/resource-monitor.js"></script>
+<script defer src="os/runtime/scheduler/plugin-registry.js"></script>
+<script defer src="os/runtime/scheduler/autonomous-executive.js"></script>
+<script defer src="os/runtime/scheduler/m11-bootstrap.js"></script>
+
+<!-- Milestone 12 — Knowledge & Memory Intelligence.
+     Purely additive: no existing runtime file above is modified, no
+     UI/layout changes. Builds a read-only Knowledge Graph over the
+     unmodified agent_memory data (Milestones 1/5/6), adds a TF-IDF
+     semantic search layer, automatic tag/category filling (blanks
+     only), duplicate detection, extractive memory summaries, and a
+     real importance signal fed into the unmodified Milestone 8
+     ranker. Executive AI (Milestone 9) is upgraded by wrapping its
+     existing AxiomMemoryIntelligence.rankedRecall() call with graph
+     expansion — the same non-destructive Object.assign technique
+     Milestone 11's autonomous-executive.js already used on this
+     object. See os/runtime/knowledge/ for details. -->
+<script defer src="os/runtime/knowledge/knowledge-graph.js"></script>
+<script defer src="os/runtime/knowledge/semantic-search.js"></script>
+<script defer src="os/runtime/knowledge/auto-tagger.js"></script>
+<script defer src="os/runtime/knowledge/duplicate-detector.js"></script>
+<script defer src="os/runtime/knowledge/importance-ranker.js"></script>
+<script defer src="os/runtime/knowledge/memory-summarizer.js"></script>
+<script defer src="os/runtime/knowledge/executive-knowledge-extension.js"></script>
+<script defer src="os/runtime/knowledge/m12-bootstrap.js"></script>
+
+<!-- Milestone 13 — Automation & Skills Engine.
+     Purely additive: no existing runtime file above is modified, no
+     UI/layout changes. Adds a namespaced Skill Registry (reusable AI
+     skills invoked through the unmodified Milestone 5 capability
+     kit), a custom Workflow Engine (user-defined, dependency-ordered,
+     multi-agent step graphs built on the unmodified Milestone 11 task
+     graph), a Trigger Scheduler for interval/at/event-based automatic
+     execution, a top-level Automation Engine that binds a trigger to
+     a workflow and nudges the unmodified 'agent.automation' core
+     agent, a read-only Workflow History log, and an additive
+     extension to Executive AI so any natural-language request can be
+     turned into a running, dependency-ordered automation. See
+     os/runtime/automation/ for details. -->
+<script defer src="os/runtime/automation/skill-registry.js"></script>
+<script defer src="os/runtime/automation/workflow-engine.js"></script>
+<script defer src="os/runtime/automation/trigger-scheduler.js"></script>
+<script defer src="os/runtime/automation/automation-engine.js"></script>
+<script defer src="os/runtime/automation/workflow-history.js"></script>
+<script defer src="os/runtime/automation/executive-automation-extension.js"></script>
+<script defer src="os/runtime/automation/m13-bootstrap.js"></script>
+
+<!-- Milestone 14 Part 1 — Plugin Foundation.
+     Purely additive: no existing runtime file above is modified, no
+     UI/layout changes, no AI Core visuals touched. Adds a namespaced
+     Plugin Manifest validator (name/version/author/description/
+     permissions/dependencies/capabilities), a Plugin Loader (lazy,
+     duplicate-load-safe, error-handled, dependency-free code
+     instantiation), and a Plugin Manager implementing the full
+     install/uninstall/enable/disable/load/unload lifecycle
+     (Installing/Loading/Running/Paused/Disabled/Failed/Uninstalling)
+     on top of the unmodified Event Bus, Capability Kit, Plugin
+     Registry, Skill Registry, Workflow Engine and Automation Engine.
+     See os/runtime/plugins/ for details. -->
+<script defer src="os/runtime/plugins/plugin-manifest.js"></script>
+<script defer src="os/runtime/plugins/plugin-loader.js"></script>
+<script defer src="os/runtime/plugins/plugin-manager.js"></script>
+<script defer src="os/runtime/plugins/m14-bootstrap.js"></script>
+
+<script defer src="os/core/window-manager.js"></script>
+<script defer src="os/core/workspace-manager.js"></script>
+<!-- ===== PART 6: AI Desktop OS ===== -->
+<script defer src="os/wallpapers/wallpaper-engine.js"></script>
+<script defer src="os/desktop/desktop-manager.js"></script>
+<script defer src="os/core/snap-zones.js"></script>
+<script defer src="os/core/mission-control.js"></script>
+<script defer src="os/core/part6-bootstrap.js"></script>
+<script defer src="js/core/os-shell.js"></script>
+<script defer src="js/core/auth.js"></script>
+<script defer src="js/core/script.js"></script>
+<script defer src="js/core/openrouter-config.js"></script>
+<script defer src="js/core/openrouter-client.js"></script>
+<script defer src="js/core/core-ui.js"></script>
+<script defer src="js/core/voice.js"></script>
+<script defer src="js/core/voice-controller.js"></script>
+<script defer src="js/core/accessibility.js"></script>
+</body>
+</html>

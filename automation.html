@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Automation — Axiom AI OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/motion-tokens.css">
+<link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/app.css">
+  <link rel="stylesheet" href="styles/rtl.css">
+  <link rel="stylesheet" href="styles/ax-pages.css">
+  <link rel="stylesheet" href="styles/ax-redesign.css">
+  <link rel="stylesheet" href="styles/ax-premium-polish.css">
+  <link rel="stylesheet" href="styles/ax-topbar.css">
+  <link rel="stylesheet" href="styles/ax-dock.css">
+<style>
+.ax-automation-palette {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background: var(--ax-glass-bg, rgba(255,255,255,.02));
+  border: 1px solid var(--ax-border, rgba(255,255,255,.06));
+  border-radius: var(--ax-radius-lg, 20px);
+  min-width: 200px;
+}
+.ax-palette-section { padding: 10px 4px; }
+.ax-palette-section + .ax-palette-section { border-top: 1px solid var(--ax-border-light, rgba(255,255,255,.06)); }
+.ax-palette-section h4 {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--ax-text-tertiary, rgba(255,255,255,.3));
+  padding: 0 8px 6px;
+  font-weight: 600;
+}
+.ax-palette-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  cursor: grab;
+  font-size: .82rem;
+  color: var(--ax-text-secondary, rgba(255,255,255,.6));
+  transition: background .15s, color .15s;
+  border: 1px solid transparent;
+}
+.ax-palette-item:hover {
+  background: var(--ax-glass-bg-hover, rgba(255,255,255,.04));
+  color: var(--ax-text, #F5F5F5);
+  border-color: var(--ax-border-light, rgba(255,255,255,.06));
+}
+.ax-palette-item:active { cursor: grabbing; }
+.ax-palette-item svg { flex-shrink: 0; opacity: .6; }
+.ax-workflow-canvas {
+  flex: 1;
+  min-height: 420px;
+  border-radius: var(--ax-radius-xl, 20px);
+  background: rgba(255,255,255,.015);
+  border: 1px dashed var(--ax-border, rgba(255,255,255,.08));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--ax-text-tertiary, rgba(255,255,255,.15));
+  position: relative;
+  padding: 24px;
+}
+.ax-workflow-node {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--ax-glass-bg, rgba(255,255,255,.04));
+  border: 1px solid var(--ax-border, rgba(255,255,255,.08));
+  border-radius: 16px;
+  backdrop-filter: var(--ax-glass-blur, blur(20px));
+  -webkit-backdrop-filter: var(--ax-glass-blur, blur(20px));
+  box-shadow: var(--ax-shadow-sm, 0 8px 28px rgba(0,0,0,.25));
+  min-width: 200px;
+  cursor: pointer;
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+.ax-workflow-node:hover {
+  transform: translateY(-2px);
+  border-color: var(--ax-border-strong, rgba(255,255,255,.14));
+  box-shadow: var(--ax-shadow-md, 0 12px 36px rgba(0,0,0,.35));
+}
+.ax-workflow-node .node-icon {
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--ax-glass-bg-hover, rgba(255,255,255,.06));
+  flex-shrink: 0;
+}
+.ax-workflow-node .node-label { font-size: .82rem; font-weight: 600; color: var(--ax-text, #F5F5F5); }
+.ax-workflow-node .node-desc { font-size: .72rem; color: var(--ax-text-tertiary, rgba(255,255,255,.4)); }
+.ax-workflow-connector {
+  display: flex; align-items: center; gap: 8px; padding: 6px 0;
+  color: var(--ax-text-tertiary, rgba(255,255,255,.2));
+}
+.ax-workflow-connector::before,
+.ax-workflow-connector::after {
+  content: ''; flex: 1; height: 1px;
+  background: var(--ax-border-light, rgba(255,255,255,.1));
+  min-width: 40px;
+}
+.ax-workflow-connector svg { flex-shrink: 0; }
+.ax-automation-layout { display: grid; grid-template-columns: 240px 1fr; gap: 16px; align-items: start; }
+@media (max-width: 900px) {
+  .ax-automation-layout { grid-template-columns: 1fr; }
+  .ax-automation-palette { flex-direction: row; overflow-x: auto; min-width: 0; padding: 8px; gap: 8px; }
+  .ax-palette-section { min-width: 140px; }
+}
+/* ---- Phase 2 · Part 2 — semantic accent classes (token-backed) ----
+   Purple = AI identity · Blue = analytics/selection · Green = success ·
+   Amber = warnings · Red = errors. Replaces per-node inline hex colors
+   so state (.selected) can win on class specificity alone — no !important. */
+.ax-node-success { border-color: rgba(110,231,183,.2); }
+.ax-node-success .node-icon { background: rgba(110,231,183,.1); color: var(--ax-success, #6EE7B7); }
+.ax-node-warning { border-color: rgba(251,191,36,.2); }
+.ax-node-warning .node-icon { background: rgba(251,191,36,.1); color: var(--ax-warning, #FBBF24); }
+.ax-node-info { border-color: rgba(96,165,250,.2); }
+.ax-node-info .node-icon { background: rgba(96,165,250,.1); color: var(--ax-info, #60A5FA); }
+.ax-node-error { border-color: rgba(239,68,68,.2); }
+.ax-node-error .node-icon { background: rgba(239,68,68,.1); color: var(--ax-error, #EF4444); }
+.ax-node-ai { border-color: var(--ax-ai-accent-border, rgba(168,85,247,.2)); }
+.ax-node-ai .node-icon { background: var(--ax-ai-accent-bg, rgba(168,85,247,.1)); color: var(--ax-ai-accent, #A855F7); }
+
+.ax-workflow-node.selected { border-color: var(--ax-info, #60A5FA); box-shadow: 0 0 0 2px rgba(96,165,250,.25); }
+.ax-workflow-node { position: relative; }
+.ax-node-remove {
+  position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--ax-error, #EF4444); color: #fff; border: none; display: none;
+  align-items: center; justify-content: center; font-size: 12px; line-height: 1; cursor: pointer;
+}
+.ax-workflow-node:hover .ax-node-remove { display: flex; }
+.ax-workflow-canvas.drop-hover { border-color: var(--ax-success, #6EE7B7); background: rgba(110,231,183,.03); }
+.ax-tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--ax-border, rgba(255,255,255,.08)); margin-bottom: 16px; flex-wrap: wrap; }
+.ax-tab {
+  padding: 10px 16px; font-size: .82rem; font-weight: 600; color: var(--ax-text-tertiary, rgba(255,255,255,.4));
+  cursor: pointer; border-bottom: 2px solid transparent; transition: color .15s, border-color .15s;
+}
+.ax-tab:hover { color: var(--ax-text, #F5F5F5); }
+.ax-tab.active { color: var(--ax-info, #60A5FA); border-color: var(--ax-info, #60A5FA); }
+.ax-tab-panel { display: none; }
+.ax-tab-panel.active { display: block; }
+.ax-integration-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.ax-integration-card {
+  display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 16px;
+  background: var(--ax-glass-bg, rgba(255,255,255,.03)); border: 1px solid var(--ax-border, rgba(255,255,255,.07));
+  transition: border-color .15s, transform .15s;
+}
+.ax-integration-card:hover { transform: translateY(-2px); border-color: var(--ax-border-strong, rgba(255,255,255,.14)); }
+.ax-integration-icon {
+  width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  background: var(--ax-glass-bg-hover, rgba(255,255,255,.06)); flex-shrink: 0;
+}
+.ax-integration-info { flex: 1; min-width: 0; }
+.ax-integration-info .name { font-size: .85rem; font-weight: 600; color: var(--ax-text, #F5F5F5); }
+.ax-integration-info .desc { font-size: .72rem; color: var(--ax-text-tertiary, rgba(255,255,255,.4)); margin-top: 2px; }
+.ax-integration-toggle {
+  font-size: .7rem; font-weight: 600; padding: 5px 12px; border-radius: 20px; cursor: pointer; white-space: nowrap;
+  border: 1px solid var(--ax-border, rgba(255,255,255,.1)); background: transparent; color: var(--ax-text-secondary, rgba(255,255,255,.6));
+  transition: all .15s;
+}
+.ax-integration-toggle.connected { background: rgba(110,231,183,.12); color: #6EE7B7; border-color: rgba(110,231,183,.3); }
+.ax-integration-toggle:hover { border-color: var(--ax-border-strong, rgba(255,255,255,.2)); }
+.ax-builder-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
+.ax-builder-row input, .ax-builder-row select {
+  background: var(--ax-glass-bg, rgba(255,255,255,.03)); border: 1px solid var(--ax-border, rgba(255,255,255,.1));
+  border-radius: 10px; padding: .55em .9em; font-size: .8rem; color: var(--ax-text, #F5F5F5); font-family: inherit;
+}
+.ax-endpoint-row {
+  display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 12px;
+  background: var(--ax-glass-bg, rgba(255,255,255,.02)); border: 1px solid var(--ax-border, rgba(255,255,255,.06));
+  margin-bottom: 8px; font-size: .78rem; flex-wrap: wrap;
+}
+.ax-method-tag { font-size: .68rem; font-weight: 700; padding: 3px 9px; border-radius: 8px; letter-spacing: .04em; }
+.ax-method-get { background: rgba(110,231,183,.14); color: #6EE7B7; }
+.ax-method-post { background: rgba(251,191,36,.14); color: #FBBF24; }
+.ax-method-put { background: rgba(96,165,250,.14); color: #60A5FA; }
+.ax-method-delete { background: rgba(242,101,122,.14); color: #F2657A; }
+.ax-endpoint-path { font-family: 'JetBrains Mono', monospace; color: var(--ax-text, #F5F5F5); flex: 1; min-width: 160px; }
+.ax-copy-btn {
+  font-size: .68rem; padding: 4px 10px; border-radius: 8px; border: 1px solid var(--ax-border, rgba(255,255,255,.1));
+  background: transparent; color: var(--ax-text-secondary, rgba(255,255,255,.6)); cursor: pointer;
+}
+.ax-copy-btn:hover { border-color: var(--ax-border-strong, rgba(255,255,255,.2)); color: var(--ax-text, #F5F5F5); }
+
+/* ---- Phase 4 · Part 2 — shared header/action pattern, replaces the
+   repeated inline `style="flex-wrap:wrap; gap:12px;"` / `style="display:flex;
+   gap:6px; margin-left:auto;"` pairs that appeared on every panel header
+   in this file. Same visual result, one definition. ---- */
+.ax-chart-header-wrap { flex-wrap: wrap; gap: 12px; }
+.ax-chart-header-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; flex-wrap: wrap; }
+
+/* ---- Standardized loading skeleton for panel content that is populated
+   at runtime (e.g. #axIntegrationGrid via automation-part9.js). Markup
+   mirrors the real .ax-integration-card so the swap-in doesn't jump. ---- */
+.ax-integration-card.is-loading { pointer-events: none; }
+.ax-skeleton-icon { width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; }
+.ax-skeleton-line { height: 10px; border-radius: 6px; margin-bottom: 6px; }
+.ax-skeleton-line.w-60 { width: 60%; }
+.ax-skeleton-line.w-85 { width: 85%; }
+
+/* ---- Standardized empty states — dormant by default (hidden), ready for
+   any list on this page to show if it ever has zero items. Uses the same
+   visual language as the shared .ax-empty pattern already defined in
+   ax-redesign.css, scoped locally so it fits this page's card padding. ---- */
+.ax-panel-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 40px 20px; text-align: center; }
+.ax-panel-empty svg { opacity: .35; }
+.ax-panel-empty p { font-size: .82rem; color: var(--ax-text-tertiary, rgba(255,255,255,.4)); max-width: 320px; line-height: 1.5; }
+.ax-panel-empty strong { color: var(--ax-text-secondary, rgba(255,255,255,.6)); }
+</style>
+<link rel="stylesheet" href="styles/ai-identity.css">
+<link rel="stylesheet" href="os/core/ai-avatar.css">
+<link rel="stylesheet" href="styles/accessibility.css">
+</head>
+<body data-require-auth class="ax-redesign-active ax-dock-active ax-topbar-active">
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="grain"></div>
+<div class="aurora"><span></span><span></span><span></span><div class="particles" id="particles"></div></div>
+
+<!-- ===== FLOATING DOCK ===== -->
+<nav class="ax-dock" id="axDock" role="navigation" aria-label="Main navigation">
+  <a href="os-shell.html" class="ax-dock-item" title="OS Shell"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="ax-dock-label">OS Shell</span></a>
+  <a href="playground.html" class="ax-dock-item" title="AI Chat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.5 8.5 0 01-8.9 8.49 8.63 8.63 0 01-3.9-.94L3 21l1.95-5.2a8.5 8.5 0 1116.05-4.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="ax-dock-label">AI Chat</span></a>
+  <a href="workspace.html" class="ax-dock-item" title="Workspace"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Workspace</span></a>
+  <a href="agent-library.html" class="ax-dock-item" title="Agents"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Agents</span></a>
+  <a href="studios.html" class="ax-dock-item" title="AI Studios"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Studios</span></a>
+  <a href="brain.html" class="ax-dock-item" title="AI Brain"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 3a3 3 0 00-3 3 3 3 0 00-2 5 3 3 0 002 5 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M15 3a3 3 0 013 3 3 3 0 012 5 3 3 0 01-2 5 3 3 0 01-3 3 3 3 0 01-3-3V6a3 3 0 013-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 8h6M8 12h8M9 16h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="ax-dock-label">Brain</span></a>
+  <a href="browser.html" class="ax-dock-item" title="Browser"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 00-10 10M12 2a15 15 0 0110 10" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Browser</span></a>
+  <div class="ax-dock-divider"></div>
+  <a href="analytics.html" class="ax-dock-item" title="Analytics"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 18l5-5 4 3 7-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 6v12h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Analytics</span></a>
+  <a href="memory.html" class="ax-dock-item" title="Memory"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 4h8l4 4v12H6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 10h6M9 14h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Memory</span></a>
+  <a href="automation.html" class="ax-dock-item active" title="Automation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2 2m10.8 10.8l-2-2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Automation</span></a>
+  <div class="ax-dock-divider"></div>
+  <a href="settings.html" class="ax-dock-item" title="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.04 1.56V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.9 19.7a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.56-1.04H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001.04-1.56V3a2 2 0 014 0v.09A1.7 1.7 0 0015.4 4.6a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.56 1.04H21a2 2 0 010 4h-.09A1.7 1.7 0 0019.4 15z" stroke="currentColor" stroke-width="1.4"/></svg><span class="ax-dock-label">Settings</span></a>
+</nav>
+
+<div class="app-body">
+  <div class="app-main">
+    <!-- ===== FLOATING TOPBAR ===== -->
+    <header class="ax-topbar" role="banner">
+      <div class="ax-topbar-left">
+<div class="ax-topbar-search" id="axTopbarSearch">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="Search anything" id="topbarSearchInput" aria-label="Search anything" readonly><kbd aria-hidden="true">⌘K</kbd>
+        </div>
+      </div>
+      <div class="ax-topbar-center">
+        <div class="ax-topbar-model"><span class="dot"></span>Claude 3.5 Sonnet</div>
+        <div class="ax-topbar-status"><span class="dot online"></span>Online</div>
+        <div class="ax-topbar-workspace"><span class="dot"></span>Automation</div>
+      </div>
+      <div class="ax-topbar-right">
+        <div class="ax-topbar-item ax-topbar-notif" id="axNotifTrigger" role="button" tabindex="0" aria-label="Notifications">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="ping" id="axNotifDot" aria-hidden="true"></span>
+        </div>
+        <div class="ax-topbar-item ax-topbar-cmd" id="axCmdBtn" role="button" tabindex="0" aria-label="Open command palette (Cmd+Shift+K)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3h12a3 3 0 003-3 3 3 0 00-3-3z" stroke="currentColor" stroke-width="1.6"/></svg><kbd aria-hidden="true">⌘⇧K</kbd>
+        </div>
+        <div class="ax-topbar-avatar" role="button" tabindex="0" title="Profile" aria-label="Profile menu">AX</div>
+        <div class="ax-topbar-time" id="axTimeDisplay"></div>
+      </div>
+    </header>
+
+    <main class="app-content" id="main" tabindex="-1">
+      <div class="app-content-inner ax-page">
+
+        <div class="ax-page-header">
+          <div class="ax-page-header-left">
+            <h1>Visual Automation Builder</h1>
+            <p>Drag and drop to build workflows like Zapier.</p>
+          </div>
+          <div class="ax-page-header-right">
+            <button class="btn btn-outline btn-sm">Save Draft</button>
+            <button class="btn btn-outline btn-sm" id="runWorkflowNow" disabled>Run Now</button>
+            <button class="btn btn-solid btn-sm" id="publishWorkflow">Publish Workflow</button>
+          </div>
+        </div>
+
+        <!-- Workflow Stats (live — populated by automation-runtime-ui.js from AxiomAutomationEngine.getStats()) -->
+        <div class="ax-page-grid ax-page-grid-3">
+          <div class="ax-metric-card">
+            <div class="ax-metric-label">Active Workflows</div>
+            <div class="ax-metric-value" id="axMetricActiveWorkflows">0</div>
+            <div class="ax-metric-sub" id="axMetricActiveWorkflowsSub">No workflows published yet</div>
+          </div>
+          <div class="ax-metric-card">
+            <div class="ax-metric-label">Total Runs Today</div>
+            <div class="ax-metric-value" id="axMetricRunsToday">0</div>
+            <div class="ax-metric-sub" id="axMetricRunningNow">Queue idle</div>
+          </div>
+          <div class="ax-metric-card">
+            <div class="ax-metric-label">Failed Runs</div>
+            <div class="ax-metric-value" id="axMetricFailedRuns">0</div>
+            <div class="ax-metric-sub">Today</div>
+          </div>
+        </div>
+
+        <!-- Section Tabs -->
+        <div class="ax-tabs" id="axAutomationTabs">
+          <div class="ax-tab active" data-tab="builder">Workflow Builder</div>
+          <div class="ax-tab" data-tab="agents">Agents</div>
+          <div class="ax-tab" data-tab="integrations">Integrations</div>
+          <div class="ax-tab" data-tab="api">API Builder</div>
+          <div class="ax-tab" data-tab="webhooks">Webhook Builder</div>
+        </div>
+
+        <div class="ax-tab-panel active" data-panel="builder">
+
+        <!-- Workflow Builder -->
+        <div class="ax-chart-card" style="grid-column:span 3;">
+          <div class="ax-chart-header ax-chart-header-wrap">
+            <h3>Workflow Builder</h3>
+            <div class="ax-chart-header-actions">
+              <select class="select-native" style="width:auto; padding:0.3em 0.8em; font-size:.78rem;">
+                <option>My Workflows</option>
+                <option>Community Templates</option>
+                <option>Recently Used</option>
+              </select>
+              <button class="btn btn-outline btn-sm">+ New Workflow</button>
+            </div>
+          </div>
+
+          <div class="ax-automation-layout">
+            <!-- Palette -->
+            <div class="ax-automation-palette">
+              <div class="ax-palette-section">
+                <h4>Triggers</h4>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                  Schedule
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.5 8.5 0 01-8.9 8.49 8.63 8.63 0 01-3.9-.94L3 21l1.95-5.2a8.5 8.5 0 1116.05-4.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                  AI Event
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.6"/></svg>
+                  Webhook
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  File Upload
+                </div>
+              </div>
+              <div class="ax-palette-section">
+                <h4>Actions</h4>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2 2m10.8 10.8l-2-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  AI Generate
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  API Call
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Send Email
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                  Save File
+                </div>
+              </div>
+              <div class="ax-palette-section">
+                <h4>Logic</h4>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 16l6-8M9 8l6 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="3" y="3" width="18" height="18" rx="6" stroke="currentColor" stroke-width="1.6"/></svg>
+                  Condition
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  Loop
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 010 12H6a6 6 0 010-12h12zM6 8a6 6 0 010-12h12a6 6 0 010 12H6z" stroke="currentColor" stroke-width="1.6"/></svg>
+                  Variable
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                  Filter
+                </div>
+              </div>
+              <div class="ax-palette-section">
+                <h4>Integrations</h4>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                  Email
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  Calendar
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 9v4M12 9a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="1.6"/></svg>
+                  GitHub
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.5 8.5 0 01-8.9 8.49 8.63 8.63 0 01-3.9-.94L3 21l1.95-5.2a8.5 8.5 0 1116.05-4.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                  Slack
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.07L2 22l5.07-1.32A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" stroke="currentColor" stroke-width="1.6"/></svg>
+                  WhatsApp
+                </div>
+                <div class="ax-palette-item" draggable="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M8 3l8 0 5 8.5-5 8.5H8l-5-8.5L8 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                  Google Drive
+                </div>
+              </div>
+            </div>
+
+            <!-- Canvas -->
+            <div class="ax-workflow-canvas">
+              <div class="ax-workflow-node ax-node-success">
+                <div class="node-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                </div>
+                <div>
+                  <div class="node-label">Scheduled Trigger</div>
+                  <div class="node-desc">Every Monday at 9:00 AM</div>
+                </div>
+              </div>
+              <div class="ax-workflow-connector">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="ax-workflow-node ax-node-warning">
+                <div class="node-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 16l6-8M9 8l6 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="3" y="3" width="18" height="18" rx="6" stroke="currentColor" stroke-width="1.6"/></svg>
+                </div>
+                <div>
+                  <div class="node-label">Condition: New Files</div>
+                  <div class="node-desc">If files were uploaded in last 24h</div>
+                </div>
+              </div>
+              <div class="ax-workflow-connector">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="ax-workflow-node ax-node-ai">
+                <div class="node-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2 2m10.8 10.8l-2-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </div>
+                <div>
+                  <div class="node-label">AI Analyze Content</div>
+                  <div class="node-desc">Extract key insights</div>
+                </div>
+              </div>
+              <div class="ax-workflow-connector">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="ax-workflow-node ax-node-success">
+                <div class="node-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                </div>
+                <div>
+                  <div class="node-label">Save to Workspace</div>
+                  <div class="node-desc">Results stored in /AI Analysis</div>
+                </div>
+              </div>
+              <div style="margin-top:16px; padding:10px 14px; border-radius:12px; font-size:.72rem; text-align:center; color:var(--ax-text-tertiary, rgba(255,255,255,.35)); border:1px dashed var(--ax-border-light, rgba(255,255,255,.1));">
+                + Drag items from the palette to add steps
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Runs -->
+        <div class="ax-chart-card" style="grid-column:span 3;">
+          <div class="ax-chart-header">
+            <h3>Recent Workflow Runs</h3>
+          </div>
+          <div class="ax-table-wrap" id="axRunsTableWrap">
+            <table class="ax-table">
+              <thead>
+                <tr><th>Workflow</th><th>Status</th><th>Duration</th><th>Trigger</th><th>Time</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="axRunsTableBody">
+                <!-- Rendered live by automation-runtime-ui.js from AxiomAutomationEngine.listRuns().
+                     No hardcoded runs: this starts empty until a workflow actually executes. -->
+              </tbody>
+            </table>
+          </div>
+          <!-- Empty state — shown until a workflow has run at least once. -->
+          <div class="ax-panel-empty" id="axRunsEmpty">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/></svg>
+            <p><strong>No runs yet</strong><br>Publish a workflow or click "Run Now" to see execution history here.</p>
+          </div>
+        </div>
+
+        </div><!-- /panel: builder -->
+
+        <!-- ===== AGENTS PANEL ===== -->
+        <div class="ax-tab-panel" data-panel="agents">
+          <div class="ax-chart-card" style="grid-column:span 3;">
+            <div class="ax-chart-header ax-chart-header-wrap">
+              <h3>Automation Agents</h3>
+              <div class="ax-chart-header-actions">
+                <a href="agent-library.html" class="btn btn-outline btn-sm">Open Agent Library</a>
+                <button class="btn btn-solid btn-sm">+ New Agent</button>
+              </div>
+            </div>
+            <div class="ax-integration-grid">
+              <div class="ax-integration-card">
+                <div class="ax-integration-icon" style="background:var(--ax-ai-accent-bg, rgba(168,85,247,.1)); color:var(--ax-ai-accent, #A855F7);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2 2m10.8 10.8l-2-2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </div>
+                <div class="ax-integration-info">
+                  <div class="name">Inbox Triage Agent</div>
+                  <div class="desc">Reads, labels &amp; drafts replies</div>
+                </div>
+                <span class="ax-badge ax-badge-success">Active</span>
+              </div>
+              <div class="ax-integration-card">
+                <div class="ax-integration-icon" style="background:rgba(96,165,250,.1); color:var(--ax-info, #60A5FA);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 00-10 10M12 2a15 15 0 0110 10" stroke="currentColor" stroke-width="1.6"/></svg>
+                </div>
+                <div class="ax-integration-info">
+                  <div class="name">Browser Automation Agent</div>
+                  <div class="desc">Navigates sites &amp; fills forms</div>
+                </div>
+                <span class="ax-badge ax-badge-success">Active</span>
+              </div>
+              <div class="ax-integration-card">
+                <div class="ax-integration-icon" style="background:rgba(251,191,36,.1); color:var(--ax-warning, #FBBF24);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="ax-integration-info">
+                  <div class="name">Report Digest Agent</div>
+                  <div class="desc">Summarizes weekly analytics</div>
+                </div>
+                <span class="ax-badge ax-badge-warning">Paused</span>
+              </div>
+              <div class="ax-integration-card">
+                <div class="ax-integration-icon" style="background:rgba(110,231,183,.1); color:var(--ax-success, #6EE7B7);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="ax-integration-info">
+                  <div class="name">File Organizer Agent</div>
+                  <div class="desc">Sorts &amp; tags Drive uploads</div>
+                </div>
+                <span class="ax-badge ax-badge-success">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== INTEGRATIONS PANEL ===== -->
+        <div class="ax-tab-panel" data-panel="integrations">
+          <div class="ax-chart-card" style="grid-column:span 3;">
+            <div class="ax-chart-header ax-chart-header-wrap">
+              <h3>Connected Apps &amp; Integrations</h3>
+              <p style="margin-left:auto; font-size:.76rem; color:var(--ax-text-tertiary, rgba(255,255,255,.4));">10 available · 6 connected</p>
+            </div>
+            <div class="ax-integration-grid" id="axIntegrationGrid">
+              <!-- Skeleton shown until automation-part9.js replaces this
+                   innerHTML on DOMContentLoaded — keeps the grid from
+                   flashing empty on slower connections. -->
+              <div class="ax-integration-card is-loading" aria-hidden="true">
+                <div class="ax-skeleton-icon ax-skeleton"></div>
+                <div class="ax-integration-info">
+                  <div class="ax-skeleton-line w-60 ax-skeleton"></div>
+                  <div class="ax-skeleton-line w-85 ax-skeleton"></div>
+                </div>
+              </div>
+              <div class="ax-integration-card is-loading" aria-hidden="true">
+                <div class="ax-skeleton-icon ax-skeleton"></div>
+                <div class="ax-integration-info">
+                  <div class="ax-skeleton-line w-60 ax-skeleton"></div>
+                  <div class="ax-skeleton-line w-85 ax-skeleton"></div>
+                </div>
+              </div>
+              <div class="ax-integration-card is-loading" aria-hidden="true">
+                <div class="ax-skeleton-icon ax-skeleton"></div>
+                <div class="ax-integration-info">
+                  <div class="ax-skeleton-line w-60 ax-skeleton"></div>
+                  <div class="ax-skeleton-line w-85 ax-skeleton"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Empty state — dormant; shown only if a future filter/search
+                 ever leaves this grid with zero matches. -->
+            <div class="ax-panel-empty" hidden id="axIntegrationEmpty">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M8 3l8 0 5 8.5-5 8.5H8l-5-8.5L8 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+              <p><strong>No integrations found</strong><br>Try a different search or connect a new app.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== API BUILDER PANEL ===== -->
+        <div class="ax-tab-panel" data-panel="api">
+          <div class="ax-chart-card" style="grid-column:span 3;">
+            <div class="ax-chart-header ax-chart-header-wrap">
+              <h3>API Builder</h3>
+              <p style="margin-left:auto; font-size:.76rem; color:var(--ax-text-tertiary, rgba(255,255,255,.4));">Base URL: <code>https://api.axiomai.app/v1</code></p>
+            </div>
+            <div class="ax-builder-row">
+              <select id="apiMethodSelect">
+                <option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option>
+              </select>
+              <input type="text" id="apiPathInput" placeholder="/custom/route" style="flex:1; min-width:200px;">
+              <button class="btn btn-solid btn-sm" id="apiCreateBtn">+ Create Endpoint</button>
+            </div>
+            <div id="apiEndpointList">
+              <div class="ax-endpoint-row">
+                <span class="ax-method-tag ax-method-get">GET</span>
+                <span class="ax-endpoint-path">/workflows</span>
+                <span class="ax-badge ax-badge-success">Live</span>
+                <button class="ax-copy-btn" data-copy="https://api.axiomai.app/v1/workflows">Copy URL</button>
+              </div>
+              <div class="ax-endpoint-row">
+                <span class="ax-method-tag ax-method-post">POST</span>
+                <span class="ax-endpoint-path">/workflows/run</span>
+                <span class="ax-badge ax-badge-success">Live</span>
+                <button class="ax-copy-btn" data-copy="https://api.axiomai.app/v1/workflows/run">Copy URL</button>
+              </div>
+              <div class="ax-endpoint-row">
+                <span class="ax-method-tag ax-method-put">PUT</span>
+                <span class="ax-endpoint-path">/agents/:id</span>
+                <span class="ax-badge ax-badge-success">Live</span>
+                <button class="ax-copy-btn" data-copy="https://api.axiomai.app/v1/agents/:id">Copy URL</button>
+              </div>
+              <div class="ax-endpoint-row">
+                <span class="ax-method-tag ax-method-delete">DELETE</span>
+                <span class="ax-endpoint-path">/agents/:id</span>
+                <span class="ax-badge ax-badge-warning">Draft</span>
+                <button class="ax-copy-btn" data-copy="https://api.axiomai.app/v1/agents/:id">Copy URL</button>
+              </div>
+            </div>
+            <!-- Empty state — dormant; shown once the last endpoint is deleted. -->
+            <div class="ax-panel-empty" hidden id="axEndpointsEmpty">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <p><strong>No endpoints yet</strong><br>Create one above to expose it at your base URL.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== WEBHOOK BUILDER PANEL ===== -->
+        <div class="ax-tab-panel" data-panel="webhooks">
+          <div class="ax-chart-card" style="grid-column:span 3;">
+            <div class="ax-chart-header ax-chart-header-wrap">
+              <h3>Webhook Builder</h3>
+            </div>
+            <div class="ax-builder-row">
+              <input type="text" id="webhookNameInput" placeholder="Webhook name (e.g. Stripe Payment)" style="flex:1; min-width:220px;">
+              <select id="webhookEventSelect">
+                <option>workflow.completed</option>
+                <option>workflow.failed</option>
+                <option>agent.triggered</option>
+                <option>file.uploaded</option>
+                <option>custom.event</option>
+              </select>
+              <button class="btn btn-solid btn-sm" id="webhookCreateBtn">+ Generate Webhook</button>
+            </div>
+            <div id="webhookList">
+              <div class="ax-endpoint-row">
+                <span class="ax-badge ax-badge-info">workflow.completed</span>
+                <span class="ax-endpoint-path">https://hooks.axiomai.app/wh/8f2a1c</span>
+                <span class="ax-badge ax-badge-success">Active</span>
+                <button class="ax-copy-btn" data-copy="https://hooks.axiomai.app/wh/8f2a1c">Copy URL</button>
+              </div>
+              <div class="ax-endpoint-row">
+                <span class="ax-badge ax-badge-info">agent.triggered</span>
+                <span class="ax-endpoint-path">https://hooks.axiomai.app/wh/3d9e77</span>
+                <span class="ax-badge ax-badge-success">Active</span>
+                <button class="ax-copy-btn" data-copy="https://hooks.axiomai.app/wh/3d9e77">Copy URL</button>
+              </div>
+            </div>
+            <!-- Empty state — dormant; shown once the last webhook is deleted. -->
+            <div class="ax-panel-empty" hidden id="axWebhooksEmpty">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.6"/></svg>
+              <p><strong>No webhooks yet</strong><br>Generate one above to start receiving event callbacks.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="axNotificationsContainer" style="position:relative;"></div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="js/core/env.config.js"></script>
+<script defer src="js/core/supabase/env.js"></script>
+<script defer src="js/core/supabase/connection-manager.js"></script>
+<script defer src="js/core/supabase/auth-service.js"></script>
+<script defer src="js/core/supabase-config.js"></script>
+<script defer src="js/core/dev-config.js"></script>
+<script defer src="locales/_registry.js"></script>
+<script defer src="js/core/i18n.js"></script>
+<script defer src="js/core/auth.js"></script>
+<script defer src="js/core/script.js"></script>
+<script defer src="js/core/core-ui.js"></script>
+<script defer src="components/premium-shell.js"></script>
+<script defer src="js/core/os-state-engine.js"></script>
+<script defer src="js/core/os-environment.js"></script>
+<script defer src="os/core/axiom-brain.js"></script>
+<script defer src="js/core/ai-state-manager.js"></script>
+<script defer src="os/core/memory-engine.js"></script>
+<script defer src="os/core/memory-manager.js"></script>
+<script defer src="os/core/browser-sandbox.js"></script>
+<script defer src="os/core/browser-engine.js"></script>
+<script defer src="os/core/browser-manager.js"></script>
+<script defer src="os/core/automation-engine.js"></script>
+<script defer src="os/core/brain-automation-bridge.js"></script>
+<script defer src="os/core/automation-memory-bridge.js"></script>
+<script defer src="os/core/automation-manager.js"></script>
+<!-- Block 2 / Step 6 / Part 6A: Step 6 orchestration stack, wired into
+     the page documented in SYSTEM_REGISTRY.md as the intended
+     integration target. Load order matches each module's verified
+     dependency requirements (runtime-context.js before
+     workflow-planner.js is a hard requirement; the rest are ordered
+     base-first). Does not collide with window.AxiomOrchestrator from
+     os/runtime/intelligence/orchestrator.js, which this page does not
+     load. -->
+<script defer src="os/core/orchestrator.js"></script>
+<script defer src="os/core/runtime-context.js"></script>
+<script defer src="os/core/capability-router.js"></script>
+<script defer src="os/core/agent-registry-integration.js"></script>
+<script defer src="os/core/workflow-planner.js"></script>
+<!-- Block 2 / Step 7 / Part 2: Autonomous AI Task Planning &
+     Execution. Additive only — requires orchestrator.js,
+     capability-router.js, agent-registry-integration.js, and
+     runtime-context.js (all above); does not require and does not
+     touch workflow-planner.js. Installs AxiomOrchestrator.planGoal /
+     executeGoal / cancelGoal / retryGoal and exposes
+     window.AxiomAutonomousTaskPlanner. -->
+<script defer src="os/core/task-planner.js"></script>
+<!-- Block 2 / Step 7 / Part 3A: Autonomous Goal Management System —
+     Foundation. Additive only — requires orchestrator.js (Event Bus)
+     and runtime-context.js (both above); does not require and does
+     not touch capability-router.js, agent-registry-integration.js,
+     workflow-planner.js, or task-planner.js. Installs NOTHING onto
+     AxiomOrchestrator (task-planner.js already owns the "Goal"
+     namespace there for its own, differently-shaped plan/task model)
+     — reachable only as window.AxiomGoalManager, publishing its own
+     goalmgr_* events on the same Event Bus. -->
+<script defer src="os/core/goal-manager.js"></script>
+<script defer src="os/shared/logger.js"></script>
+<script defer src="os/runtime/agent-runtime.js"></script>
+<script defer src="os/runtime/agent-definitions/_shared.js"></script>
+<script defer src="os/runtime/agent-definitions/assistant-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/browser-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/memory-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/planner-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/research-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/coding-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/vision-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/voice-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/automation-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/file-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/_assemble.js"></script>
+<script defer src="os/runtime/capabilities/capability-kit.js"></script>
+<script defer src="os/runtime/capabilities/browser-bridge.js"></script>
+<script defer src="os/runtime/capabilities/browser-tool-registry.js"></script>
+<script defer src="os/runtime/capabilities/planner-store.js"></script>
+<script defer src="os/runtime/capabilities/research-toolkit.js"></script>
+<script defer src="os/runtime/capabilities/voice-adapter-kit.js"></script>
+<script defer src="os/runtime/capabilities/vision-adapter-kit.js"></script>
+<script defer src="os/runtime/capabilities/coding-toolkit.js"></script>
+<script defer src="os/runtime/capabilities/workflows.js"></script>
+<script defer src="os/runtime/task-router.js"></script>
+<script defer src="os/runtime/agent-manager.js"></script>
+<script defer src="os/runtime/runtime-bootstrap.js"></script>
+<script defer src="os/core/living-environment.js"></script>
+<script defer src="os/core/ai-avatar.js"></script>
+<script defer src="js/core/os-interface.js"></script>
+<script defer src="components/universal-search.js"></script>
+<script defer src="components/quick-command.js"></script>
+<script defer src="components/notifications-center.js"></script>
+<script defer src="js/pages/automation-part9.js"></script>
+<script defer src="js/pages/automation-runtime-ui.js"></script>
+ <script defer src="js/pages/analytics-automation-ultimate.js"></script>
+<script defer src="js/core/premium-polish.js"></script>
+<script defer src="components/app-init.js"></script>
+<script defer src="js/core/accessibility.js"></script>
+</body>
+</html>

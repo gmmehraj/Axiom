@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI Brain — Axiom AI OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/motion-tokens.css">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/app.css">
+<link rel="stylesheet" href="styles/rtl.css">
+<link rel="stylesheet" href="styles/ax-dock.css">
+<link rel="stylesheet" href="styles/ax-topbar.css">
+<link rel="stylesheet" href="styles/ax-redesign.css">
+<link rel="stylesheet" href="styles/ax-premium-polish.css">
+<link rel="stylesheet" href="styles/brain.css">
+<link rel="stylesheet" href="styles/ai-identity.css">
+<link rel="stylesheet" href="os/core/ai-avatar.css">
+<link rel="stylesheet" href="styles/accessibility.css">
+</head>
+<body data-require-auth class="ax-redesign-active ax-dock-active ax-topbar-active">
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="grain"></div>
+<div class="aurora"><span></span><span></span><span></span><div class="particles" id="particles"></div></div>
+
+<nav class="ax-dock" role="navigation" aria-label="Main navigation">
+  <a href="os-shell.html" class="ax-dock-item" title="OS Shell"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="ax-dock-label">OS Shell</span></a>
+  <a href="playground.html" class="ax-dock-item" title="AI Chat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.5 8.5 0 01-8.9 8.49 8.63 8.63 0 01-3.9-.94L3 21l1.95-5.2a8.5 8.5 0 1116.05-4.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="ax-dock-label">AI Chat</span></a>
+  <a href="workspace.html" class="ax-dock-item" title="Workspace"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Workspace</span></a>
+  <a href="agent-library.html" class="ax-dock-item" title="Agents"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Agents</span></a>
+  <a href="studios.html" class="ax-dock-item" title="AI Studios"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Studios</span></a>
+  <a href="brain.html" class="ax-dock-item active" title="AI Brain"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 3a3 3 0 00-3 3 3 3 0 00-2 5 3 3 0 002 5 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M15 3a3 3 0 013 3 3 3 0 012 5 3 3 0 01-2 5 3 3 0 01-3 3 3 3 0 01-3-3V6a3 3 0 013-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 8h6M8 12h8M9 16h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="ax-dock-label">Brain</span></a>
+  <div class="ax-dock-divider"></div>
+  <a href="browser.html" class="ax-dock-item" title="Browser"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 00-10 10M12 2a15 15 0 0110 10" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Browser</span></a>
+  <a href="memory.html" class="ax-dock-item" title="Memory"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 4h8l4 4v12H6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 10h6M9 14h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Memory</span></a>
+  <a href="analytics.html" class="ax-dock-item" title="Analytics"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 18l5-5 4 3 7-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 6v12h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Analytics</span></a>
+  <a href="automation.html" class="ax-dock-item" title="Automation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2 2m10.8 10.8l-2-2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Automation</span></a>
+  <div class="ax-dock-divider"></div>
+  <a href="settings.html" class="ax-dock-item" title="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.04 1.56V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.9 19.7a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.56-1.04H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001.04-1.56V3a2 2 0 014 0v.09A1.7 1.7 0 0015.4 4.6a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.56 1.04H21a2 2 0 010 4h-.09A1.7 1.7 0 0019.4 15z" stroke="currentColor" stroke-width="1.4"/></svg><span class="ax-dock-label">Settings</span></a>
+  <a href="billing.html" class="ax-dock-item" title="Billing"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M2 9h20" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Billing</span></a>
+</nav>
+
+<div class="app-body">
+  <div class="app-main">
+    <header class="ax-topbar" role="banner">
+      <div class="ax-topbar-left">
+        <div class="ax-topbar-search" id="axTopbarSearch">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="Search anything" id="topbarSearchInput" aria-label="Search anything" readonly><kbd aria-hidden="true">⌘K</kbd>
+        </div>
+        <div class="ax-topbar-model"><span class="dot"></span><span id="topbarModelDisplay">Claude 3.5 Sonnet</span></div>
+      </div>
+      <div class="ax-topbar-center">
+        <div class="ax-topbar-status"><span class="dot online"></span><span>Online</span></div>
+        <div class="ax-topbar-workspace"><span class="dot"></span><span>Studio Pro</span></div>
+      </div>
+      <div class="ax-topbar-right">
+        <div class="ax-topbar-item ax-topbar-notif" id="axNotifTrigger" role="button" tabindex="0" aria-label="Notifications"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ping" id="axNotifDot"></span></div>
+        <div class="ax-topbar-item ax-topbar-cmd" id="axCmdBtn" role="button" tabindex="0" aria-label="Open command palette (Cmd+Shift+K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3h12a3 3 0 003-3 3 3 0 00-3-3z" stroke="currentColor" stroke-width="1.6"/></svg><kbd>⌘⇧K</kbd></div>
+        <div class="ax-topbar-item ax-topbar-avatar" role="button" tabindex="0" aria-label="Profile menu"><span>AX</span></div>
+        <div class="ax-topbar-time" id="axTimeDisplay"></div>
+      </div>
+    </header>
+
+    <main class="app-content" id="main" tabindex="-1">
+      <div class="app-content-inner">
+
+        <section class="panel">
+          <div class="brain-hero">
+            <div>
+              <h1>🧠 AI Brain</h1>
+              <p>A live window into how the model reasons, plans, remembers, and decides.</p>
+            </div>
+            <div class="brain-core-live"><span class="pulse-dot"></span> Cognition active</div>
+          </div>
+
+          <div class="brain-mode-switch">
+            <button type="button" class="brain-mode-btn active" data-mode="sections">Sections</button>
+            <button type="button" class="brain-mode-btn" data-mode="viz">Visualization</button>
+          </div>
+
+          <!-- ============ SECTIONS MODE ============ -->
+          <div class="brain-mode-panel active" id="mode-sections">
+
+            <div class="brain-nav" id="brainNav">
+              <button type="button" class="brain-nav-card active" data-section="reasoning">
+              <div class="brain-nav-icon brain-nav-icon--accent"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 8l-5 4 5 4M15 8l5 4-5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div><div class="brain-nav-label">Reasoning</div><div class="brain-nav-sub">Live chain-of-thought</div></div>
+              </button>
+              <button type="button" class="brain-nav-card" data-section="planning">
+                <div class="brain-nav-icon brain-nav-icon--accent"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div><div class="brain-nav-label">Planning</div><div class="brain-nav-sub">Task breakdown</div></div>
+              </button>
+              <button type="button" class="brain-nav-card" data-section="learning">
+                <div class="brain-nav-icon brain-nav-icon--accent"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 6l8-3 8 3-8 3-8-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 6v8c0 2 3 4 8 4s8-2 8-4V6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+                <div><div class="brain-nav-label">Learning</div><div class="brain-nav-sub">Adapting over time</div></div>
+              </button>
+              <button type="button" class="brain-nav-card" data-section="knowledge">
+                <div class="brain-nav-icon brain-nav-icon--warning"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 016.5 17H20V4H6.5A2.5 2.5 0 004 6.5v13z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+                <div><div class="brain-nav-label">Knowledge</div><div class="brain-nav-sub">What it knows</div></div>
+              </button>
+              <button type="button" class="brain-nav-card" data-section="memory">
+                <div class="brain-nav-icon brain-nav-icon--accent"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 4h8l4 4v12H6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 10h6M9 14h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+                <div><div class="brain-nav-label">Memory</div><div class="brain-nav-sub">Recall &amp; retention</div></div>
+              </button>
+              <button type="button" class="brain-nav-card" data-section="goals">
+                <div class="brain-nav-icon brain-nav-icon--danger"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg></div>
+                <div><div class="brain-nav-label">Goals</div><div class="brain-nav-sub">Active objectives</div></div>
+              </button>
+              <button type="button" class="brain-nav-card" data-section="prediction">
+                <div class="brain-nav-icon brain-nav-icon--accent"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 4 8-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 8h5v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div><div class="brain-nav-label">Prediction</div><div class="brain-nav-sub">Next likely action</div></div>
+              </button>
+              <button type="button" class="brain-nav-card" data-section="awareness">
+                <div class="brain-nav-icon brain-nav-icon--accent"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></svg></div>
+                <div><div class="brain-nav-label">Awareness</div><div class="brain-nav-sub">Context tracking</div></div>
+              </button>
+              <button type="button" class="brain-nav-card" data-section="confidence">
+                <div class="brain-nav-icon brain-nav-icon--accent"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 6 1-4.5 4.5L17.5 20 12 17l-5.5 3 1-6.5L3 9l6-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+                <div><div class="brain-nav-label">Confidence</div><div class="brain-nav-sub">Certainty per answer</div></div>
+              </button>
+              <button type="button" class="brain-nav-card" data-section="emotion">
+                <div class="brain-nav-icon brain-nav-icon--accent"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+                <div><div class="brain-nav-label">Emotion</div><div class="brain-nav-sub">Tone read on the room</div></div>
+              </button>
+            </div>
+
+            <!-- REASONING -->
+            <div class="brain-section active" id="section-reasoning">
+              <div class="brain-section-head"><div><h2>Reasoning</h2><p>The active chain-of-thought behind the current response.</p></div></div>
+              <div class="brain-metrics-grid">
+                <div class="brain-metric-card"><div class="brain-metric-label">Reasoning Depth</div><div class="brain-metric-value">4 steps</div><div class="brain-metric-bar"><span style="--fill:68%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Branches Explored</div><div class="brain-metric-value">7</div><div class="brain-metric-bar"><span style="--fill:52%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Logic Consistency</div><div class="brain-metric-value">96%</div><div class="brain-metric-bar"><span style="--fill:96%"></span></div></div>
+              </div>
+              <div class="brain-feed">
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--accent"></div><div class="brain-feed-main"><div class="brain-feed-title">Parsed request into sub-goals</div><div class="brain-feed-sub">Split the task into 3 dependent steps before drafting a response</div></div><div class="brain-feed-time">now</div></div>
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--accent"></div><div class="brain-feed-main"><div class="brain-feed-title">Cross-checked constraints</div><div class="brain-feed-sub">Verified formatting and scope against the original ask</div></div><div class="brain-feed-time">2s ago</div></div>
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--accent"></div><div class="brain-feed-main"><div class="brain-feed-title">Selected best-supported path</div><div class="brain-feed-sub">Discarded 2 lower-confidence branches</div></div><div class="brain-feed-time">4s ago</div></div>
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--warning"></div><div class="brain-feed-main"><div class="brain-feed-title">Drafting final answer</div><div class="brain-feed-sub">Composing response from the selected reasoning path</div></div><div class="brain-feed-time">6s ago</div></div>
+              </div>
+            </div>
+
+            <!-- PLANNING -->
+            <div class="brain-section" id="section-planning">
+              <div class="brain-section-head"><div><h2>Planning</h2><p>How the current task is being broken down and sequenced.</p></div></div>
+              <div class="brain-metrics-grid">
+                <div class="brain-metric-card"><div class="brain-metric-label">Active Plan Steps</div><div class="brain-metric-value">5</div><div class="brain-metric-bar"><span style="--fill:60%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Steps Completed</div><div class="brain-metric-value">3 / 5</div><div class="brain-metric-bar"><span style="--fill:60%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Replans Triggered</div><div class="brain-metric-value">1</div><div class="brain-metric-bar"><span style="--fill:20%"></span></div></div>
+              </div>
+              <div class="brain-feed">
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--accent"></div><div class="brain-feed-main"><div class="brain-feed-title">Step 1 — Gather context</div><div class="brain-feed-sub">Read relevant files and prior messages</div></div><div class="brain-feed-time">done</div></div>
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--accent"></div><div class="brain-feed-main"><div class="brain-feed-title">Step 2 — Choose approach</div><div class="brain-feed-sub">Compared two candidate strategies</div></div><div class="brain-feed-time">done</div></div>
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--warning"></div><div class="brain-feed-main"><div class="brain-feed-title">Step 3 — Execute</div><div class="brain-feed-sub">Currently generating the deliverable</div></div><div class="brain-feed-time">active</div></div>
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--muted"></div><div class="brain-feed-main"><div class="brain-feed-title">Step 4 — Review</div><div class="brain-feed-sub">Pending</div></div><div class="brain-feed-time">queued</div></div>
+              </div>
+            </div>
+
+            <!-- LEARNING -->
+            <div class="brain-section" id="section-learning">
+              <div class="brain-section-head"><div><h2>Learning</h2><p>Patterns picked up from this session and how they refine future answers.</p></div></div>
+              <div class="brain-metrics-grid">
+                <div class="brain-metric-card"><div class="brain-metric-label">Session Adaptations</div><div class="brain-metric-value">12</div><div class="brain-metric-bar"><span style="--fill:44%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Preference Signals</div><div class="brain-metric-value">8</div><div class="brain-metric-bar"><span style="--fill:38%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Style Match</div><div class="brain-metric-value">91%</div><div class="brain-metric-bar"><span style="--fill:91%"></span></div></div>
+              </div>
+              <div class="brain-feed">
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--accent"></div><div class="brain-feed-main"><div class="brain-feed-title">Noticed a preference for concise replies</div><div class="brain-feed-sub">Trimming boilerplate in subsequent responses</div></div><div class="brain-feed-time">1m ago</div></div>
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--accent"></div><div class="brain-feed-main"><div class="brain-feed-title">Picked up on preferred code style</div><div class="brain-feed-sub">Matching indentation and naming conventions seen earlier</div></div><div class="brain-feed-time">3m ago</div></div>
+              </div>
+            </div>
+
+            <!-- KNOWLEDGE -->
+            <div class="brain-section" id="section-knowledge">
+              <div class="brain-section-head"><div><h2>Knowledge</h2><p>What the model is drawing on to answer right now.</p></div></div>
+              <div class="brain-metrics-grid">
+                <div class="brain-metric-card"><div class="brain-metric-label">Domains Referenced</div><div class="brain-metric-value">6</div><div class="brain-metric-bar"><span style="--fill:50%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Source Freshness</div><div class="brain-metric-value">High</div><div class="brain-metric-bar"><span style="--fill:80%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Knowledge Coverage</div><div class="brain-metric-value">88%</div><div class="brain-metric-bar"><span style="--fill:88%"></span></div></div>
+              </div>
+              <div class="brain-feed">
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--warning"></div><div class="brain-feed-main"><div class="brain-feed-title">Referenced project files</div><div class="brain-feed-sub">Workspace documents used as grounding context</div></div><div class="brain-feed-time">now</div></div>
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--accent"></div><div class="brain-feed-main"><div class="brain-feed-title">Applied domain knowledge</div><div class="brain-feed-sub">Drew on general software architecture patterns</div></div><div class="brain-feed-time">now</div></div>
+              </div>
+            </div>
+
+            <!-- MEMORY -->
+            <div class="brain-section" id="section-memory">
+              <div class="brain-section-head"><div><h2>Memory</h2><p>What's being held in short-term context vs. recalled long-term.</p></div></div>
+              <div class="brain-metrics-grid">
+                <div class="brain-metric-card"><div class="brain-metric-label">Short-Term Load</div><div class="brain-metric-value">62%</div><div class="brain-metric-bar"><span style="--fill:62%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Long-Term Recalls</div><div class="brain-metric-value">5</div><div class="brain-metric-bar"><span style="--fill:40%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Retention Score</div><div class="brain-metric-value">97%</div><div class="brain-metric-bar"><span style="--fill:97%"></span></div></div>
+              </div>
+              <div class="brain-feed">
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--accent"></div><div class="brain-feed-main"><div class="brain-feed-title">Recalled earlier preference</div><div class="brain-feed-sub">Reused a formatting choice from 20 minutes ago</div></div><div class="brain-feed-time">20m ago</div></div>
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--accent"></div><div class="brain-feed-main"><div class="brain-feed-title">Stored new fact</div><div class="brain-feed-sub">Saved project naming convention for reuse</div></div><div class="brain-feed-time">1h ago</div></div>
+              </div>
+            </div>
+
+            <!-- GOALS -->
+            <div class="brain-section" id="section-goals">
+              <div class="brain-section-head"><div><h2>Goals</h2><p>Active objectives being tracked across the conversation.</p></div></div>
+              <div class="brain-feed">
+                <div class="brain-goal-row"><div class="brain-goal-info"><div class="brain-goal-name">Finish the Vision Glass redesign</div><div class="brain-goal-sub">8 of 8 planned parts</div></div><div class="brain-goal-track"><div class="brain-goal-fill" style="--fill:100%"></div></div><div class="brain-goal-pct">100%</div></div>
+                <div class="brain-goal-row"><div class="brain-goal-info"><div class="brain-goal-name">Keep visual language consistent</div><div class="brain-goal-sub">Match glass panels across all pages</div></div><div class="brain-goal-track"><div class="brain-goal-fill" style="--fill:94%"></div></div><div class="brain-goal-pct">94%</div></div>
+                <div class="brain-goal-row"><div class="brain-goal-info"><div class="brain-goal-name">Minimize follow-up questions</div><div class="brain-goal-sub">Resolve ambiguity with sensible defaults</div></div><div class="brain-goal-track"><div class="brain-goal-fill" style="--fill:82%"></div></div><div class="brain-goal-pct">82%</div></div>
+              </div>
+            </div>
+
+            <!-- PREDICTION -->
+            <div class="brain-section" id="section-prediction">
+              <div class="brain-section-head"><div><h2>Prediction</h2><p>What the model expects to happen next.</p></div></div>
+              <div class="brain-feed">
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--accent"></div><div class="brain-feed-main"><div class="brain-feed-title">You'll ask for Part 9 next</div><div class="brain-feed-sub">Based on the sequential pattern of this conversation</div></div><div class="brain-feed-time">78% likely</div></div>
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--warning"></div><div class="brain-feed-main"><div class="brain-feed-title">A visual tweak request</div><div class="brain-feed-sub">Minor color or spacing adjustment to this page</div></div><div class="brain-feed-time">14% likely</div></div>
+                <div class="brain-feed-item"><div class="brain-feed-dot brain-feed-dot--accent"></div><div class="brain-feed-main"><div class="brain-feed-title">A request to zip and review everything</div><div class="brain-feed-sub">Full-project export once all parts are done</div></div><div class="brain-feed-time">8% likely</div></div>
+              </div>
+            </div>
+
+            <!-- AWARENESS -->
+            <div class="brain-section" id="section-awareness">
+              <div class="brain-section-head"><div><h2>Awareness</h2><p>What context the model is currently tracking.</p></div></div>
+              <div class="brain-metrics-grid">
+                <div class="brain-metric-card"><div class="brain-metric-label">Conversation History</div><div class="brain-metric-value">Full</div><div class="brain-metric-bar"><span style="--fill:100%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Project File Awareness</div><div class="brain-metric-value">High</div><div class="brain-metric-bar"><span style="--fill:85%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Design System Awareness</div><div class="brain-metric-value">92%</div><div class="brain-metric-bar"><span style="--fill:92%"></span></div></div>
+              </div>
+            </div>
+
+            <!-- CONFIDENCE -->
+            <div class="brain-section" id="section-confidence">
+              <div class="brain-section-head"><div><h2>Confidence</h2><p>How certain the model is about its most recent output.</p></div></div>
+              <div class="brain-metrics-grid">
+                <div class="brain-metric-card"><div class="brain-metric-label">Overall Confidence</div><div class="brain-metric-value">93%</div><div class="brain-metric-bar"><span style="--fill:93%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Factual Certainty</div><div class="brain-metric-value">89%</div><div class="brain-metric-bar"><span style="--fill:89%"></span></div></div>
+                <div class="brain-metric-card"><div class="brain-metric-label">Style Match Certainty</div><div class="brain-metric-value">97%</div><div class="brain-metric-bar"><span style="--fill:97%"></span></div></div>
+              </div>
+            </div>
+
+            <!-- EMOTION -->
+            <div class="brain-section" id="section-emotion">
+              <div class="brain-section-head"><div><h2>Emotion</h2><p>A read on conversational tone — not the model's own feelings, but a signal about the room.</p></div></div>
+              <div class="emotion-grid">
+                <div class="emotion-tile"><div class="emotion-emoji">🙂</div><div class="emotion-name">Positive</div><div class="emotion-val">64%</div></div>
+                <div class="emotion-tile"><div class="emotion-emoji">😐</div><div class="emotion-name">Neutral</div><div class="emotion-val">29%</div></div>
+                <div class="emotion-tile"><div class="emotion-emoji">⚡</div><div class="emotion-name">Energetic</div><div class="emotion-val">52%</div></div>
+                <div class="emotion-tile"><div class="emotion-emoji">🎯</div><div class="emotion-name">Focused</div><div class="emotion-val">81%</div></div>
+                <div class="emotion-tile"><div class="emotion-emoji">😕</div><div class="emotion-name">Frustrated</div><div class="emotion-val">4%</div></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ============ VISUALIZATION MODE ============ -->
+          <div class="brain-mode-panel" id="mode-viz">
+
+            <div class="viz-nav" id="vizNav">
+              <button type="button" class="viz-nav-card active" data-viz="neural"><span>Neural Graph</span></button>
+              <button type="button" class="viz-nav-card" data-viz="memorygraph"><span>Memory Graph</span></button>
+              <button type="button" class="viz-nav-card" data-viz="reasoninggraph"><span>Reasoning Graph</span></button>
+              <button type="button" class="viz-nav-card" data-viz="decisiontree"><span>Decision Tree</span></button>
+              <button type="button" class="viz-nav-card" data-viz="tokenflow"><span>Live Token Flow</span></button>
+              <button type="button" class="viz-nav-card" data-viz="knowledgenet"><span>Knowledge Network</span></button>
+            </div>
+
+            <div class="viz-stage">
+              <div class="viz-stage-head">
+                <div>
+                  <h3 id="vizTitle">Neural Graph</h3>
+                  <p id="vizDesc">A live map of activation clusters across the model's layers.</p>
+                </div>
+                <div class="brain-core-live"><span class="pulse-dot"></span> Live</div>
+              </div>
+              <div id="vizCanvas"></div>
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="js/core/env.config.js"></script>
+<script defer src="js/core/supabase/env.js"></script>
+<script defer src="js/core/supabase/connection-manager.js"></script>
+<script defer src="js/core/supabase/auth-service.js"></script>
+<script defer src="js/core/supabase-config.js"></script>
+<script defer src="js/core/dev-config.js"></script>
+<script defer src="locales/_registry.js"></script>
+<script defer src="js/core/i18n.js"></script>
+<script defer src="js/core/auth.js"></script>
+<script defer src="js/core/script.js"></script>
+<script defer src="js/core/app.js"></script>
+<script defer src="js/core/openrouter-config.js"></script>
+<script defer src="js/core/openrouter-client.js"></script>
+<script defer src="js/core/core-ui.js"></script>
+<script defer src="components/premium-shell.js"></script>
+<script defer src="js/core/os-state-engine.js"></script>
+<script defer src="js/core/os-environment.js"></script>
+<script defer src="os/core/axiom-brain.js"></script>
+<script defer src="js/core/ai-state-manager.js"></script>
+<script defer src="os/core/memory-engine.js"></script>
+<script defer src="os/core/brain-memory-bridge.js"></script>
+<script defer src="os/core/memory-manager.js"></script>
+<script defer src="os/shared/logger.js"></script>
+<script defer src="os/runtime/agent-runtime.js"></script>
+<script defer src="os/runtime/agent-definitions/_shared.js"></script>
+<script defer src="os/runtime/agent-definitions/assistant-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/browser-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/memory-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/planner-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/research-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/coding-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/vision-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/voice-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/automation-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/file-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/_assemble.js"></script>
+<script defer src="os/runtime/capabilities/capability-kit.js"></script>
+<script defer src="os/runtime/capabilities/browser-bridge.js"></script>
+<script defer src="os/runtime/capabilities/planner-store.js"></script>
+<script defer src="os/runtime/capabilities/research-toolkit.js"></script>
+<script defer src="os/runtime/capabilities/voice-adapter-kit.js"></script>
+<script defer src="os/runtime/capabilities/vision-adapter-kit.js"></script>
+<script defer src="os/runtime/capabilities/coding-toolkit.js"></script>
+<script defer src="os/runtime/capabilities/workflows.js"></script>
+<script defer src="os/runtime/task-router.js"></script>
+<script defer src="os/runtime/agent-manager.js"></script>
+<script defer src="os/runtime/runtime-bootstrap.js"></script>
+<script defer src="os/core/living-environment.js"></script>
+<script defer src="os/core/ai-avatar.js"></script>
+<script defer src="js/core/os-interface.js"></script>
+<script defer src="components/universal-search.js"></script>
+<script defer src="components/quick-command.js"></script>
+<script defer src="components/notifications-center.js"></script>
+<script defer src="components/app-init.js"></script>
+ <script defer src="js/pages/brain-ultimate.js"></script>
+<script defer src="js/core/premium-polish.js"></script>
+<script>
+(function(){
+  // ---- mode switch ----
+  var modeBtns = document.querySelectorAll('.brain-mode-btn');
+  var modePanels = document.querySelectorAll('.brain-mode-panel');
+  modeBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = btn.getAttribute('data-mode');
+      modeBtns.forEach(function(b){ b.classList.toggle('active', b === btn); });
+      modePanels.forEach(function(p){ p.classList.toggle('active', p.id === 'mode-' + target); });
+    });
+  });
+
+  // ---- section switch ----
+  var navCards = document.querySelectorAll('.brain-nav-card');
+  var sections = document.querySelectorAll('.brain-section');
+  navCards.forEach(function(card){
+    card.addEventListener('click', function(){
+      var target = card.getAttribute('data-section');
+      navCards.forEach(function(c){ c.classList.toggle('active', c === card); });
+      sections.forEach(function(s){ s.classList.toggle('active', s.id === 'section-' + target); });
+    });
+  });
+
+  // ---- visualization rendering ----
+  var vizMeta = {
+    neural: { title: 'Neural Graph', desc: "A live map of activation clusters across the model's layers." },
+    memorygraph: { title: 'Memory Graph', desc: 'How stored memories connect to each other and to this conversation.' },
+    reasoninggraph: { title: 'Reasoning Graph', desc: 'The branching thought paths considered while forming a response.' },
+    decisiontree: { title: 'Decision Tree', desc: 'The branch points and choices made to reach the final answer.' },
+    tokenflow: { title: 'Live Token Flow', desc: 'Tokens as they stream out, one after another.' },
+    knowledgenet: { title: 'Knowledge Network', desc: 'How referenced facts and domains relate to one another.' }
+  };
+
+  var vizNavCards = document.querySelectorAll('.viz-nav-card');
+  var vizCanvas = document.getElementById('vizCanvas');
+  var vizTitle = document.getElementById('vizTitle');
+  var vizDesc = document.getElementById('vizDesc');
+
+  function mulberry32(seed){
+    return function(){
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  var palette = ['#A855F7','#C084FC','#FBBF24','#F97316','rgba(255,255,255,.3)'];
+
+  function renderGraph(seedNum, nodeCount, layered){
+    var rand = mulberry32(seedNum);
+    var W = 900, H = 460;
+    var nodes = [];
+    if (layered) {
+      var layers = 5;
+      var perLayer = Math.ceil(nodeCount / layers);
+      var idx = 0;
+      for (var l = 0; l < layers; l++){
+        var countInLayer = Math.min(perLayer, nodeCount - idx);
+        for (var i = 0; i < countInLayer; i++){
+          nodes.push({
+            x: 70 + l * ((W-140)/(layers-1)),
+            y: 50 + (i+1) * (H-100)/(countInLayer+1) + (rand()-0.5)*10,
+            r: 4 + rand()*4,
+            c: palette[Math.floor(rand()*palette.length)],
+            layer: l
+          });
+          idx++;
+        }
+      }
+    } else {
+      for (var n = 0; n < nodeCount; n++){
+        nodes.push({
+          x: 60 + rand()*(W-120),
+          y: 40 + rand()*(H-80),
+          r: 4 + rand()*5,
+          c: palette[Math.floor(rand()*palette.length)]
+        });
+      }
+    }
+
+    var edges = [];
+    if (layered) {
+      for (var a = 0; a < nodes.length; a++){
+        for (var b = 0; b < nodes.length; b++){
+          if (nodes[b].layer === nodes[a].layer + 1 && rand() < 0.35){
+            edges.push([a,b]);
+          }
+        }
+      }
+    } else {
+      for (var e = 0; e < nodeCount * 1.4; e++){
+        var a2 = Math.floor(rand()*nodes.length);
+        var b2 = Math.floor(rand()*nodes.length);
+        if (a2 !== b2) edges.push([a2,b2]);
+      }
+    }
+
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+    edges.forEach(function(pair, i){
+      var A = nodes[pair[0]], B = nodes[pair[1]];
+      var flow = (i % 4 === 0) ? ' viz-edge-flow' : '';
+      svg += '<path class="viz-edge' + flow + '" d="M' + A.x + ',' + A.y + ' L' + B.x + ',' + B.y + '"/>';
+    });
+    nodes.forEach(function(nd, i){
+      var pulse = (i % 3 === 0) ? ' viz-node-pulse' : '';
+      svg += '<circle class="' + pulse.trim() + '" cx="' + nd.x + '" cy="' + nd.y + '" r="' + nd.r + '" fill="' + nd.c + '" opacity="0.85"/>';
+    });
+    svg += '</svg>';
+    vizCanvas.innerHTML = svg;
+  }
+
+  function renderTree(){
+    var W = 900, H = 460;
+    var rand = mulberry32(42);
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+    var root = {x: W/2, y: 40};
+  svg += '<circle cx="' + root.x + '" cy="' + root.y + '" r="7" fill="#A855F7"/>';
+    var level1 = [];
+    var count1 = 3;
+    for (var i=0;i<count1;i++){
+      var x = (W/(count1+1)) * (i+1);
+      var y = 170;
+      level1.push({x:x,y:y});
+      svg += '<path class="viz-edge viz-edge-flow" d="M' + root.x + ',' + root.y + ' L' + x + ',' + y + '"/>';
+      var col = palette[i % palette.length];
+      svg += '<circle class="viz-node-pulse" cx="' + x + '" cy="' + y + '" r="6" fill="' + col + '"/>';
+    }
+    level1.forEach(function(node, li){
+      var count2 = 2 + Math.floor(rand()*2);
+      for (var j=0;j<count2;j++){
+        var spread = 110;
+        var x2 = node.x - spread/2 + (spread/(count2-1||1))*j;
+        var y2 = 320;
+        svg += '<path class="viz-edge" d="M' + node.x + ',' + node.y + ' L' + x2 + ',' + y2 + '"/>';
+        var col2 = palette[(li+j) % palette.length];
+        svg += '<circle cx="' + x2 + '" cy="' + y2 + '" r="4.5" fill="' + col2 + '" opacity="0.8"/>';
+      }
+    });
+    svg += '</svg>';
+    vizCanvas.innerHTML = svg;
+  }
+
+  function renderTokenFlow(){
+    var tokens = ['The', ' redesign', ' keeps', ' the', ' glass', ' aesthetic', ' consistent', ' across', ' every', ' new', ' page', ' and', ' section', '.'];
+    var html = '<div class="token-flow-row">';
+    tokens.forEach(function(t, i){
+      html += '<span class="token-chip" style="animation-delay:' + (i*0.12) + 's">' + t.trim() + '</span>';
+    });
+    html += '</div>';
+    vizCanvas.innerHTML = html;
+  }
+
+  function renderViz(key){
+    if (key === 'neural') renderGraph(7, 26, true);
+    else if (key === 'memorygraph') renderGraph(13, 20, false);
+    else if (key === 'reasoninggraph') renderGraph(21, 16, false);
+    else if (key === 'decisiontree') renderTree();
+    else if (key === 'tokenflow') renderTokenFlow();
+    else if (key === 'knowledgenet') renderGraph(31, 24, false);
+  }
+
+  vizNavCards.forEach(function(card){
+    card.addEventListener('click', function(){
+      var key = card.getAttribute('data-viz');
+      vizNavCards.forEach(function(c){ c.classList.toggle('active', c === card); });
+      vizTitle.textContent = vizMeta[key].title;
+      vizDesc.textContent = vizMeta[key].desc;
+      renderViz(key);
+    });
+  });
+
+  renderViz('neural');
+})();
+</script>
+<script defer src="js/core/accessibility.js"></script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Billing — Axiom AI OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://checkout.razorpay.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/motion-tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/app.css">
+  <link rel="stylesheet" href="styles/rtl.css">
+  <link rel="stylesheet" href="styles/ax-pages.css">
+  <link rel="stylesheet" href="styles/ax-dock.css">
+  <link rel="stylesheet" href="styles/ax-topbar.css">
+  <link rel="stylesheet" href="styles/ax-redesign.css">
+  <link rel="stylesheet" href="styles/ax-premium-polish.css">
+  <link rel="stylesheet" href="styles/ai-identity.css">
+  <link rel="stylesheet" href="os/core/ai-avatar.css">
+<link rel="stylesheet" href="styles/accessibility.css">
+</head>
+<body data-require-auth class="ax-redesign-active ax-dock-active ax-topbar-active ax-calm">
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="grain"></div>
+<div class="aurora"><span></span><span></span><span></span><div class="particles" id="particles"></div></div>
+
+<nav class="ax-dock" role="navigation" aria-label="Main navigation">
+  <a href="os-shell.html" class="ax-dock-item" title="OS Shell"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="ax-dock-label">OS Shell</span></a>
+  <a href="playground.html" class="ax-dock-item" title="AI Chat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.5 8.5 0 01-8.9 8.49 8.63 8.63 0 01-3.9-.94L3 21l1.95-5.2a8.5 8.5 0 1116.05-4.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="ax-dock-label">AI Chat</span></a>
+  <a href="workspace.html" class="ax-dock-item" title="Workspace"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Workspace</span></a>
+  <a href="agent-library.html" class="ax-dock-item" title="Agents"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Agents</span></a>
+  <a href="studios.html" class="ax-dock-item" title="AI Studios"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Studios</span></a>
+  <a href="brain.html" class="ax-dock-item" title="AI Brain"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 3a3 3 0 00-3 3 3 3 0 00-2 5 3 3 0 002 5 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M15 3a3 3 0 013 3 3 3 0 012 5 3 3 0 01-2 5 3 3 0 01-3 3 3 3 0 01-3-3V6a3 3 0 013-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 8h6M8 12h8M9 16h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="ax-dock-label">Brain</span></a>
+  <div class="ax-dock-divider"></div>
+  <a href="browser.html" class="ax-dock-item" title="Browser"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 00-10 10M12 2a15 15 0 0110 10" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Browser</span></a>
+  <a href="memory.html" class="ax-dock-item" title="Memory"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 4h8l4 4v12H6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 10h6M9 14h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Memory</span></a>
+  <a href="analytics.html" class="ax-dock-item" title="Analytics"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 18l5-5 4 3 7-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 6v12h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Analytics</span></a>
+  <a href="automation.html" class="ax-dock-item" title="Automation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2 2m10.8 10.8l-2-2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Automation</span></a>
+  <div class="ax-dock-divider"></div>
+  <a href="settings.html" class="ax-dock-item" title="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.04 1.56V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.9 19.7a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.56-1.04H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001.04-1.56V3a2 2 0 014 0v.09A1.7 1.7 0 0015.4 4.6a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.56 1.04H21a2 2 0 010 4h-.09A1.7 1.7 0 0019.4 15z" stroke="currentColor" stroke-width="1.4"/></svg><span class="ax-dock-label">Settings</span></a>
+  <a href="billing.html" class="ax-dock-item active" title="Billing"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M2 9h20" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Billing</span></a>
+</nav>
+
+<div class="app-body">
+  <div class="app-main">
+    <header class="ax-topbar" role="banner">
+      <div class="ax-topbar-left">
+        <div class="ax-topbar-search" id="axTopbarSearch">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="Search anything" id="topbarSearchInput" aria-label="Search anything" readonly><kbd aria-hidden="true">⌘K</kbd>
+        </div>
+        <div class="ax-topbar-model"><span class="dot"></span><span>Studio Pro</span></div>
+      </div>
+      <div class="ax-topbar-center">
+        <div class="ax-topbar-status"><span class="dot online"></span><span>Online</span></div>
+        <div class="ax-topbar-workspace"><span class="dot"></span><span>Studio Pro</span></div>
+      </div>
+      <div class="ax-topbar-right">
+        <div class="ax-topbar-item ax-topbar-notif" id="axNotifTrigger" role="button" tabindex="0" aria-label="Notifications"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ping" id="axNotifDot"></span></div>
+        <div class="ax-topbar-item ax-topbar-cmd" id="axCmdBtn" role="button" tabindex="0" aria-label="Open command palette (Cmd+Shift+K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3h12a3 3 0 003-3 3 3 0 00-3-3z" stroke="currentColor" stroke-width="1.6"/></svg><kbd>⌘⇧K</kbd></div>
+        <div class="ax-topbar-item ax-topbar-avatar" role="button" tabindex="0" aria-label="Profile menu"><span>AX</span></div>
+        <div class="ax-topbar-time" id="axTimeDisplay"></div>
+      </div>
+    </header>
+
+    <main class="app-content" id="main" tabindex="-1">
+      <div class="app-content-inner ax-page">
+        <div class="ax-page-header">
+          <div class="ax-page-header-left">
+            <h1>Billing</h1>
+            <p>Manage your plan, credits, and payment methods.</p>
+          </div>
+          <div class="ax-page-header-right">
+            <button class="ax-btn ax-btn-outline ax-btn-sm" data-mock-save="Invoice download started">Download Invoices</button>
+          </div>
+        </div>
+
+        <!-- Current Plan -->
+        <div class="ax-chart-card ax-plan-card-row">
+          <div>
+            <div class="ax-eyebrow ax-mb-4">Current Plan</div>
+            <h2 id="planCardName" class="ax-heading-md">Studio Pro</h2>
+            <p class="ax-text-secondary ax-text-90" id="planCardPrice">₹299 / month</p>
+          </div>
+          <div class="ax-flex-gap-8">
+            <button class="ax-btn ax-btn-outline ax-btn-sm" data-mock-save="Redirecting to plan comparison">Change Plan</button>
+            <button class="ax-btn ax-btn-solid ax-btn-sm" data-mock-save="Opened payment update flow">Update Payment</button>
+          </div>
+        </div>
+
+        <!-- Credit Balance -->
+        <div class="ax-chart-card ax-span-4">
+          <div class="ax-chart-header"><h3>Credit Balance</h3></div>
+          <div class="usage-row ax-mt-12">
+            <div class="usage-row-top ax-flex-between-mb8">
+              <span class="ax-text-secondary-inline">Credits</span>
+              <strong class="ax-text-strong"><span data-user-credits>—</span> remaining</strong>
+            </div>
+            <div class="ax-page-progress"><div class="ax-page-progress-fill" data-credit-bar-fill style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <!-- Buy Credits -->
+        <div class="ax-chart-card ax-span-4">
+          <div class="ax-chart-header"><h3>Buy Credits</h3></div>
+          <div class="ax-page-grid ax-page-grid-3 ax-mt-12">
+            <div class="ax-metric-card ax-text-center-clickable" data-pack-checkout="starter_pack">
+              <h3 class="ax-card-title-xs">Starter Pack</h3>
+              <div class="ax-price-lg">₹49</div>
+              <p class="ax-sub-tertiary">500 credits</p>
+              <button class="ax-btn ax-btn-outline ax-btn-sm ax-btn-full">Buy</button>
+            </div>
+            <div class="ax-metric-card ax-text-center-clickable" data-pack-checkout="plus_pack">
+              <h3 class="ax-card-title-xs">Plus Pack</h3>
+              <div class="ax-price-lg">₹199</div>
+              <p class="ax-sub-tertiary">2,200 credits</p>
+              <button class="ax-btn ax-btn-outline ax-btn-sm ax-btn-full">Buy</button>
+            </div>
+            <div class="ax-metric-card ax-text-center-clickable" data-pack-checkout="mega_pack">
+              <h3 class="ax-card-title-xs">Mega Pack</h3>
+              <div class="ax-price-lg">₹499</div>
+              <p class="ax-sub-tertiary">6,000 credits</p>
+              <button class="ax-btn ax-btn-outline ax-btn-sm ax-btn-full">Buy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Usage History -->
+        <div class="ax-chart-card ax-span-4">
+          <div class="ax-chart-header"><h3>Usage History</h3></div>
+          <div class="ax-table-wrap">
+            <table class="ax-table">
+              <thead><tr><th>Model</th><th>Date</th><th>Tokens</th><th>Credits Charged</th></tr></thead>
+              <tbody id="usageHistoryBody"><tr><td colspan="4" class="ax-text-tertiary-inline">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Compare Plans -->
+        <div class="ax-chart-card ax-span-4">
+          <div class="ax-chart-header"><h3>Compare Plans</h3></div>
+          <div class="ax-page-grid ax-page-grid-4 ax-mt-12">
+            <div class="ax-metric-card ax-text-center">
+              <h3 class="ax-card-title-sm">Studio</h3>
+              <div class="ax-price-md">₹0</div>
+              <p class="ax-sub-tertiary-sm">50 credits on signup</p>
+              <button class="ax-btn ax-btn-outline ax-btn-sm ax-btn-full" data-mock-save="Downgrade">Downgrade</button>
+            </div>
+            <div class="ax-metric-card ax-text-center">
+              <h3 class="ax-card-title-sm">Starter</h3>
+              <div class="ax-price-md">₹99</div>
+              <p class="ax-sub-tertiary-sm">1,200 credits / mo</p>
+              <button class="ax-btn ax-btn-solid ax-btn-sm ax-btn-full" data-tier-checkout="starter">Subscribe</button>
+            </div>
+            <div class="ax-metric-card ax-text-center-strong-border">
+              <span class="ax-badge ax-badge-info ax-mb-8">Popular</span>
+              <h3 class="ax-card-title-sm">Pro</h3>
+              <div class="ax-price-md">₹299</div>
+              <p class="ax-sub-tertiary-sm">4,000 credits / mo</p>
+              <button class="ax-btn ax-btn-solid ax-btn-sm ax-btn-full" data-tier-checkout="pro">Subscribe</button>
+            </div>
+            <div class="ax-metric-card ax-text-center">
+              <h3 class="ax-card-title-sm">Creator</h3>
+              <div class="ax-price-md">₹799</div>
+              <p class="ax-sub-tertiary-sm">12,000 credits / mo</p>
+              <button class="ax-btn ax-btn-solid ax-btn-sm ax-btn-full" data-tier-checkout="creator">Subscribe</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script defer src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="js/core/env.config.js"></script>
+<script defer src="js/core/supabase/env.js"></script>
+<script defer src="js/core/supabase/connection-manager.js"></script>
+<script defer src="js/core/supabase/auth-service.js"></script>
+<script defer src="js/core/supabase-config.js"></script>
+<script defer src="js/core/dev-config.js"></script>
+<script defer src="js/core/razorpay-config.js"></script>
+<script defer src="locales/_registry.js"></script>
+<script defer src="js/core/i18n.js"></script>
+<script defer src="js/core/voice.js"></script>
+<script defer src="js/core/voice-controller.js"></script>
+<script defer src="js/core/auth.js"></script>
+<script defer src="js/core/script.js"></script>
+<script defer src="js/core/app.js"></script>
+<script defer src="js/pages/billing-checkout.js"></script>
+<script defer src="js/core/openrouter-config.js"></script>
+<script defer src="js/core/openrouter-client.js"></script>
+<script defer src="js/core/core-ui.js"></script>
+<script defer src="components/premium-shell.js"></script>
+<script defer src="js/core/os-state-engine.js"></script>
+<script defer src="js/core/os-environment.js"></script>
+<script defer src="js/core/os-interface.js"></script>
+<script defer src="components/universal-search.js"></script>
+<script defer src="components/quick-command.js"></script>
+<script defer src="components/notifications-center.js"></script>
+ <script defer src="js/pages/settings-billing-ultimate.js"></script>
+<script defer src="os/core/axiom-brain.js"></script>
+<script defer src="js/core/ai-state-manager.js"></script>
+<script defer src="os/core/memory-engine.js"></script>
+<script defer src="os/core/brain-memory-bridge.js"></script>
+<script defer src="os/core/memory-manager.js"></script>
+<script defer src="os/shared/logger.js"></script>
+<script defer src="os/runtime/agent-runtime.js"></script>
+<script defer src="os/runtime/agent-definitions/_shared.js"></script>
+<script defer src="os/runtime/agent-definitions/assistant-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/browser-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/memory-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/planner-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/research-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/coding-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/vision-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/voice-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/automation-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/file-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/_assemble.js"></script>
+<script defer src="os/runtime/capabilities/capability-kit.js"></script>
+<script defer src="os/runtime/capabilities/browser-bridge.js"></script>
+<script defer src="os/runtime/capabilities/planner-store.js"></script>
+<script defer src="os/runtime/capabilities/research-toolkit.js"></script>
+<script defer src="os/runtime/capabilities/voice-adapter-kit.js"></script>
+<script defer src="os/runtime/capabilities/vision-adapter-kit.js"></script>
+<script defer src="os/runtime/capabilities/coding-toolkit.js"></script>
+<script defer src="os/runtime/capabilities/workflows.js"></script>
+<script defer src="os/runtime/task-router.js"></script>
+<script defer src="os/runtime/agent-manager.js"></script>
+<script defer src="os/runtime/runtime-bootstrap.js"></script>
+<script defer src="os/core/living-environment.js"></script>
+<script defer src="os/core/ai-avatar.js"></script>
+<script defer src="js/core/premium-polish.js"></script>
+<script defer src="components/app-init.js"></script>
+<script defer src="js/core/accessibility.js"></script>
+</body>
+</html>

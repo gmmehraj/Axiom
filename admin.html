@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Admin — Axiom AI OS</title>
+<meta name="description" content="Axiom admin dashboard — users, usage, and system health.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/motion-tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/app.css">
+  <link rel="stylesheet" href="styles/rtl.css">
+  <link rel="stylesheet" href="styles/ax-pages.css">
+  <link rel="stylesheet" href="styles/ax-dock.css">
+  <link rel="stylesheet" href="styles/ax-topbar.css">
+  <link rel="stylesheet" href="styles/ax-redesign.css">
+  <link rel="stylesheet" href="styles/ax-premium-polish.css">
+<link rel="stylesheet" href="styles/ai-identity.css">
+<link rel="stylesheet" href="os/core/ai-avatar.css">
+<link rel="stylesheet" href="styles/accessibility.css">
+</head>
+<body data-require-auth data-require-admin class="ax-redesign-active ax-dock-active ax-topbar-active">
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="grain"></div>
+<div class="aurora"><span></span><span></span><span></span><div class="particles" id="particles"></div></div>
+
+<nav class="ax-dock" role="navigation" aria-label="Main navigation">
+  <a href="os-shell.html" class="ax-dock-item" title="OS Shell"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="ax-dock-label">OS Shell</span></a>
+  <a href="playground.html" class="ax-dock-item" title="AI Chat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.5 8.5 0 01-8.9 8.49 8.63 8.63 0 01-3.9-.94L3 21l1.95-5.2a8.5 8.5 0 1116.05-4.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="ax-dock-label">AI Chat</span></a>
+  <a href="workspace.html" class="ax-dock-item" title="Workspace"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Workspace</span></a>
+  <a href="agent-library.html" class="ax-dock-item" title="Agents"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Agents</span></a>
+  <a href="studios.html" class="ax-dock-item" title="AI Studios"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Studios</span></a>
+  <a href="brain.html" class="ax-dock-item" title="AI Brain"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 3a3 3 0 00-3 3 3 3 0 00-2 5 3 3 0 002 5 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M15 3a3 3 0 013 3 3 3 0 012 5 3 3 0 01-2 5 3 3 0 01-3 3 3 3 0 01-3-3V6a3 3 0 013-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 8h6M8 12h8M9 16h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="ax-dock-label">Brain</span></a>
+  <div class="ax-dock-divider"></div>
+  <a href="browser.html" class="ax-dock-item" title="Browser"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 00-10 10M12 2a15 15 0 0110 10" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Browser</span></a>
+  <a href="memory.html" class="ax-dock-item" title="Memory"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 4h8l4 4v12H6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 10h6M9 14h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Memory</span></a>
+  <a href="analytics.html" class="ax-dock-item" title="Analytics"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 18l5-5 4 3 7-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 6v12h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="ax-dock-label">Analytics</span></a>
+  <a href="automation.html" class="ax-dock-item" title="Automation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2 2m10.8 10.8l-2-2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Automation</span></a>
+  <div class="ax-dock-divider"></div>
+  <a href="settings.html" class="ax-dock-item" title="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.04 1.56V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.9 19.7a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.56-1.04H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001.04-1.56V3a2 2 0 014 0v.09A1.7 1.7 0 0015.4 4.6a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.56 1.04H21a2 2 0 010 4h-.09A1.7 1.7 0 0019.4 15z" stroke="currentColor" stroke-width="1.4"/></svg><span class="ax-dock-label">Settings</span></a>
+  <a href="billing.html" class="ax-dock-item" title="Billing"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M2 9h20" stroke="currentColor" stroke-width="1.6"/></svg><span class="ax-dock-label">Billing</span></a>
+  <div class="ax-dock-divider"></div>
+  <a href="admin.html" class="ax-dock-item active" title="Admin"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="ax-dock-label">Admin</span></a>
+</nav>
+
+<div class="app-body">
+  <div class="app-main">
+    <header class="ax-topbar" role="banner">
+      <div class="ax-topbar-left">
+        <div class="ax-topbar-search" id="axTopbarSearch">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="Search anything" id="topbarSearchInput" aria-label="Search anything" readonly><kbd aria-hidden="true">⌘K</kbd>
+        </div>
+        <div class="ax-topbar-model"><span class="dot"></span><span>Admin</span></div>
+      </div>
+      <div class="ax-topbar-center">
+        <div class="ax-topbar-status"><span class="dot online"></span><span>Online</span></div>
+      </div>
+      <div class="ax-topbar-right">
+        <div class="ax-topbar-item ax-topbar-notif" id="axNotifTrigger" role="button" tabindex="0" aria-label="Notifications"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ping" id="axNotifDot"></span></div>
+        <div class="ax-topbar-item ax-topbar-cmd" id="axCmdBtn" role="button" tabindex="0" aria-label="Open command palette (Cmd+Shift+K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3h12a3 3 0 003-3 3 3 0 00-3-3z" stroke="currentColor" stroke-width="1.6"/></svg><kbd>⌘⇧K</kbd></div>
+        <div class="ax-topbar-item ax-topbar-avatar" role="button" tabindex="0" aria-label="Profile menu"><span>A</span></div>
+        <div class="ax-topbar-time" id="axTimeDisplay"></div>
+      </div>
+    </header>
+
+    <main class="app-content" id="main" tabindex="-1">
+      <div class="app-content-inner ax-page">
+        <div class="ax-page-header">
+          <div class="ax-page-header-left">
+            <h1>Admin</h1>
+            <p>System administration and user management.</p>
+          </div>
+        </div>
+
+        <div class="ax-page-grid ax-page-grid-4">
+          <div class="ax-metric-card">
+            <div class="ax-metric-label">Total Users</div>
+            <div class="ax-metric-value" data-admin-total-users>—</div>
+            <div class="ax-metric-sub">Registered accounts</div>
+          </div>
+          <div class="ax-metric-card">
+            <div class="ax-metric-label">Generations (24h)</div>
+            <div class="ax-metric-value" data-admin-generations-24h>—</div>
+            <div class="ax-metric-sub">AI requests in last day</div>
+          </div>
+          <div class="ax-metric-card">
+            <div class="ax-metric-label">Active Subscriptions</div>
+            <div class="ax-metric-value" data-admin-active-subs>—</div>
+            <div class="ax-metric-sub">Paying users</div>
+          </div>
+          <div class="ax-metric-card">
+            <div class="ax-metric-label">System Health</div>
+            <div class="ax-metric-value" style="font-size:1.3rem;">98.2%</div>
+            <span class="ax-metric-trend">Uptime</span>
+            <div class="ax-metric-sub">All systems nominal</div>
+          </div>
+        </div>
+
+        <div class="ax-chart-card" style="grid-column:span 4;">
+          <div class="ax-chart-header"><h3 role="heading" aria-level="2">Recent Users</h3></div>
+          <div class="ax-table-wrap">
+            <table class="ax-table">
+              <thead><tr><th>Name</th><th>Plan</th><th>Credits</th><th>Joined</th></tr></thead>
+              <tbody data-admin-users-body><tr><td colspan="4" style="color:var(--ax-text-tertiary);">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="ax-chart-card" style="grid-column:span 4;">
+          <div class="ax-chart-header"><h3 role="heading" aria-level="2">Model Load Distribution</h3></div>
+          <div class="ax-table-wrap">
+            <table class="ax-table">
+              <thead><tr><th>Model</th><th>Requests (24h)</th><th>Avg Latency</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>GPT-4o</td><td>12,483</td><td>1.2s</td><td><span class="ax-status-dot online" style="width:6px;height:6px;display:inline-block;"></span> Healthy</td></tr>
+                <tr><td>Claude 3.5 Sonnet</td><td>8,927</td><td>1.8s</td><td><span class="ax-status-dot online" style="width:6px;height:6px;display:inline-block;"></span> Healthy</td></tr>
+                <tr><td>Gemini 1.5 Pro</td><td>5,342</td><td>0.9s</td><td><span class="ax-status-dot online" style="width:6px;height:6px;display:inline-block;"></span> Healthy</td></tr>
+                <tr><td>DeepSeek V3</td><td>3,871</td><td>2.1s</td><td><span class="ax-status-dot warning" style="width:6px;height:6px;display:inline-block;"></span> Degraded</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="ax-page-header" style="margin-top:8px;" data-owner-api-section>
+          <div class="ax-page-header-left">
+            <h1>Axiom API &amp; Services</h1>
+            <p>Owner Access — central infrastructure configuration and live status. Normal users never see this section and never need to enter these values themselves.</p>
+          </div>
+          <span class="ax-badge ax-badge-info">Owner Access</span>
+        </div>
+
+        <div class="ax-chart-card" style="grid-column:span 4;" data-owner-api-section>
+          <div class="ax-chart-header">
+            <h3 role="heading" aria-level="2">Supabase</h3>
+            <span class="ax-badge" data-status-badge="supabase-overall">—</span>
+          </div>
+          <div class="ax-table-wrap">
+            <table class="ax-table">
+              <tbody>
+                <tr><td style="color:var(--ax-text-tertiary);width:220px;">Project URL</td><td data-supabase-url style="font-family:var(--ax-font-mono, monospace);font-size:.85em;">—</td></tr>
+                <tr><td style="color:var(--ax-text-tertiary);">Publishable / Anon Key</td><td data-supabase-anon-key style="font-family:var(--ax-font-mono, monospace);font-size:.85em;">—</td></tr>
+                <tr><td style="color:var(--ax-text-tertiary);">Connection</td><td><span class="ax-badge" data-status-badge="supabase-connection">—</span></td></tr>
+                <tr><td style="color:var(--ax-text-tertiary);">Authentication</td><td><span class="ax-badge" data-status-badge="supabase-authentication">—</span></td></tr>
+                <tr><td style="color:var(--ax-text-tertiary);">Database</td><td><span class="ax-badge" data-status-badge="supabase-database">—</span></td></tr>
+                <tr><td style="color:var(--ax-text-tertiary);">Storage</td><td><span class="ax-badge" data-status-badge="supabase-storage">—</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="color:var(--ax-text-tertiary);font-size:.8em;margin-top:10px;">Project URL and the anon/publishable key are safe for the browser by design (see js/core/supabase/env.js) — this page only ever reads the same client-safe values every page already loads. The service-role key is never sent here and never rendered.</p>
+          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+            <button type="button" class="btn btn-outline btn-sm" data-test-target="supabase">Test Supabase</button>
+            <button type="button" class="btn btn-outline btn-sm" data-test-target="supabase" data-test-focus="database">Test Database</button>
+            <button type="button" class="btn btn-outline btn-sm" data-test-target="supabase" data-test-focus="storage">Test Storage</button>
+          </div>
+        </div>
+
+        <div class="ax-chart-card" style="grid-column:span 4;" data-owner-api-section>
+          <div class="ax-chart-header">
+            <h3 role="heading" aria-level="2">OpenRouter</h3>
+            <span class="ax-badge" data-status-badge="openrouter-connection">—</span>
+          </div>
+          <div class="ax-table-wrap">
+            <table class="ax-table">
+              <tbody>
+                <tr><td style="color:var(--ax-text-tertiary);width:220px;">API Key Configured</td><td><span class="ax-badge" data-status-badge="openrouter-key">—</span></td></tr>
+                <tr><td style="color:var(--ax-text-tertiary);">Provider / Connection</td><td><span class="ax-badge" data-status-badge="openrouter-connection-row">—</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="color:var(--ax-text-tertiary);font-size:.8em;margin-top:10px;">The OpenRouter key lives only in this project's Edge Function secrets (<code>OPENROUTER_API_KEY</code>) and is checked server-side — it is never returned to this page, only whether it's configured and reachable.</p>
+          <div style="margin-top:14px;">
+            <button type="button" class="btn btn-outline btn-sm" data-test-target="openrouter">Test OpenRouter</button>
+          </div>
+        </div>
+
+        <div class="ax-chart-card" style="grid-column:span 4;" data-owner-api-section>
+          <div class="ax-chart-header">
+            <h3 role="heading" aria-level="2">Edge Functions</h3>
+            <span class="ax-badge" data-status-badge="edge-functions-overall">—</span>
+          </div>
+          <div class="ax-table-wrap">
+            <table class="ax-table">
+              <thead><tr><th>Function</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>openrouter-chat</td><td><span class="ax-badge" data-status-badge="edge-openrouter-chat">—</span></td></tr>
+                <tr><td>openrouter-models</td><td><span class="ax-badge" data-status-badge="edge-openrouter-models">—</span></td></tr>
+                <tr><td>analyze-file</td><td><span class="ax-badge" data-status-badge="edge-analyze-file">—</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top:14px;">
+            <button type="button" class="btn btn-outline btn-sm" data-test-target="edge_functions">Test Edge Functions</button>
+          </div>
+        </div>
+
+        <div class="ax-chart-card" style="grid-column:span 4;" data-owner-api-section>
+          <div class="ax-chart-header">
+            <h3 role="heading" aria-level="2">System Health</h3>
+            <span data-status-checked-at style="color:var(--ax-text-tertiary);font-size:.8em;"></span>
+          </div>
+          <div class="ax-table-wrap">
+            <table class="ax-table">
+              <tbody>
+                <tr><td style="width:220px;">Supabase</td><td><span class="ax-badge" data-status-badge="health-supabase">—</span></td></tr>
+                <tr><td>OpenRouter</td><td><span class="ax-badge" data-status-badge="health-openrouter">—</span></td></tr>
+                <tr><td>Edge Functions</td><td><span class="ax-badge" data-status-badge="health-edge-functions">—</span></td></tr>
+                <tr><td>Database</td><td><span class="ax-badge" data-status-badge="health-database">—</span></td></tr>
+                <tr><td>Storage</td><td><span class="ax-badge" data-status-badge="health-storage">—</span></td></tr>
+                <tr><td>Authentication</td><td><span class="ax-badge" data-status-badge="health-authentication">—</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top:14px;">
+            <button type="button" class="btn btn-solid btn-sm" data-test-target="all">Test All</button>
+          </div>
+          <p data-status-error style="color:var(--ax-error, #EF4444);font-size:.85em;margin-top:10px;display:none;"></p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="js/core/env.config.js"></script>
+<script defer src="js/core/supabase/env.js"></script>
+<script defer src="js/core/supabase/connection-manager.js"></script>
+<script defer src="js/core/supabase/auth-service.js"></script>
+<script defer src="js/core/supabase-config.js"></script>
+<script defer src="js/core/dev-config.js"></script>
+<script defer src="locales/_registry.js"></script>
+<script defer src="js/core/i18n.js"></script>
+<script defer src="js/core/auth.js"></script>
+<script defer src="js/pages/admin.js"></script>
+<script defer src="js/pages/admin-api-services.js"></script>
+<script defer src="js/core/script.js"></script>
+<script defer src="js/core/openrouter-config.js"></script>
+<script defer src="js/core/openrouter-client.js"></script>
+<script defer src="js/core/core-ui.js"></script>
+<script defer src="components/premium-shell.js"></script>
+<script defer src="js/core/os-state-engine.js"></script>
+<script defer src="js/core/os-environment.js"></script>
+<script defer src="os/core/axiom-brain.js"></script>
+<script defer src="js/core/ai-state-manager.js"></script>
+<script defer src="os/core/memory-engine.js"></script>
+<script defer src="os/core/brain-memory-bridge.js"></script>
+<script defer src="os/core/memory-manager.js"></script>
+<script defer src="os/shared/logger.js"></script>
+<script defer src="os/runtime/agent-runtime.js"></script>
+<script defer src="os/runtime/agent-definitions/_shared.js"></script>
+<script defer src="os/runtime/agent-definitions/assistant-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/browser-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/memory-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/planner-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/research-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/coding-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/vision-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/voice-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/automation-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/file-agent.js"></script>
+<script defer src="os/runtime/agent-definitions/_assemble.js"></script>
+<script defer src="os/runtime/capabilities/capability-kit.js"></script>
+<script defer src="os/runtime/capabilities/browser-bridge.js"></script>
+<script defer src="os/runtime/capabilities/planner-store.js"></script>
+<script defer src="os/runtime/capabilities/research-toolkit.js"></script>
+<script defer src="os/runtime/capabilities/voice-adapter-kit.js"></script>
+<script defer src="os/runtime/capabilities/vision-adapter-kit.js"></script>
+<script defer src="os/runtime/capabilities/coding-toolkit.js"></script>
+<script defer src="os/runtime/capabilities/workflows.js"></script>
+<script defer src="os/runtime/task-router.js"></script>
+<script defer src="os/runtime/agent-manager.js"></script>
+<script defer src="os/runtime/runtime-bootstrap.js"></script>
+<script defer src="os/core/living-environment.js"></script>
+<script defer src="os/core/ai-avatar.js"></script>
+<script defer src="js/core/os-interface.js"></script>
+<script defer src="components/universal-search.js"></script>
+<script defer src="components/quick-command.js"></script>
+<script defer src="components/notifications-center.js"></script>
+<script defer src="js/core/premium-polish.js"></script>
+<script defer src="components/app-init.js"></script>
+<script defer src="js/core/accessibility.js"></script>
+</body>
+</html>
