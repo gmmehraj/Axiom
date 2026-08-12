@@ -1,0 +1,3 @@
+/* Shared desktop entrypoint. Loaded independently so page-specific CSS remains untouched. */
+@import url('./desktop-polish.css');
+@import url('./desktop-layout-fixes.css');
