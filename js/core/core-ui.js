@@ -1,8 +1,6 @@
 // ============================================
-// AXIOM — Phase 1 UI redesign glue
-// Sidebar collapse, mobile bottom nav, and the playground tool
-// deep-link handler for the app shell. Purely presentational: no
-// auth, billing, or chat business logic lives here.
+// AXIOM — Shared UI glue + premium motion layer
+// Presentational only: no auth, billing, chat, or backend logic.
 // ============================================
 (function () {
   'use strict';
@@ -17,23 +15,59 @@
   function init() {
     if (!document.querySelector('.app-body')) return;
     loadDesktopPolish();
+    loadMotionLayer();
+    wireMotionTargets();
     wireSidebarCollapse();
     injectMobileNav();
     wirePlaygroundDeepLink();
   }
 
-  // ---- Shared desktop polish layer ----
-  // Absolute paths keep the shared visual system working from nested pages.
-  function loadDesktopPolish() {
-    if (document.querySelector('link[data-axiom-desktop-polish]')) return;
+  function loadStylesheet(href, marker) {
+    if (document.querySelector(`link[data-${marker}]`)) return;
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = '/styles/desktop-ui-entry.css';
-    link.dataset.axiomDesktopPolish = 'true';
+    link.href = href;
+    link.dataset[marker] = 'true';
     document.head.appendChild(link);
   }
 
-  // ---- Desktop sidebar collapse (independent of the mobile drawer) ----
+  // Shared desktop visual system. Root-safe for nested pages.
+  function loadDesktopPolish() {
+    loadStylesheet('/styles/desktop-ui-entry.css', 'axiomDesktopPolish');
+  }
+
+  // Anime.js + Motion integration. Both are optional at runtime and have fallbacks.
+  function loadMotionLayer() {
+    loadStylesheet('/styles/axiom-motion.css', 'axiomMotionStyles');
+    if (document.querySelector('script[data-axiom-motion]')) return;
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/js/core/axiom-motion.js';
+    script.dataset.axiomMotion = 'true';
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+
+  // Opt common existing controls into the motion/backlit language without requiring
+  // page-by-page markup rewrites. Existing page-specific classes remain untouched.
+  function wireMotionTargets() {
+    document.querySelectorAll('button, .btn, .ax-btn, .icon-btn, [role="button"]').forEach(el => {
+      if (!el.hasAttribute('data-backlit')) el.setAttribute('data-backlit', '');
+    });
+
+    document.querySelectorAll('.panel, .card, .workspace-card, .dash-stat, .recent-card, .quick-tile, .tool-card').forEach(el => {
+      if (!el.hasAttribute('data-axiom-motion')) el.setAttribute('data-axiom-motion', 'reveal');
+    });
+
+    document.querySelectorAll('.chat-input, .chat-composer, .composer, textarea, input[type="text"], input[type="search"]').forEach(el => {
+      if (!el.closest('.kokonut-ai-input')) {
+        const parent = el.parentElement;
+        if (parent && parent.children.length <= 3) parent.classList.add('kokonut-ai-input');
+      }
+    });
+  }
+
+  // ---- Desktop sidebar collapse ----
   function wireSidebarCollapse() {
     const sidebar = document.querySelector('.app-sidebar');
     const logo = sidebar && sidebar.querySelector('.logo');
@@ -62,16 +96,11 @@
     const page = (location.pathname.split('/').pop() || 'os-shell.html');
 
     const items = [
-      { href: 'os-shell.html', match: ['os-shell.html', ''], label: 'Home',
-        icon: '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="11" width="8" height="10" rx="1.5"/><rect x="3" y="14" width="8" height="7" rx="1.5"/>' },
-      { href: 'playground.html', match: ['playground.html'], label: 'Chats',
-        icon: '<path d="M21 11.5a8.5 8.5 0 01-8.9 8.49 8.63 8.63 0 01-3.9-.94L3 21l1.95-5.2a8.5 8.5 0 1116.05-4.3z" stroke-linejoin="round"/>' },
-      { href: 'playground.html?tool=voice', match: [], label: 'Voice',
-        icon: '<path d="M9 2h6v11a3 3 0 01-6 0V2Z"/><path d="M5 11a7 7 0 0014 0M12 18v4M9 22h6" stroke-linecap="round"/>' },
-      { href: '#', match: [], label: 'Files',
-        icon: '<path d="M5 3h10l4 4v14H5z" stroke-linejoin="round"/><path d="M8 11h8M8 15h8M8 7h4" stroke-linecap="round"/>' },
-      { href: 'settings.html', match: ['settings.html'], label: 'Settings',
-        icon: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.04 1.56V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.9 19.7a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.56-1.04H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001.04-1.56V3a2 2 0 014 0v.09A1.7 1.7 0 0015.4 4.6a1.7 1.7 0 001.87-.34l-.06-.06a2 2 0 112.83 2.83l.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.56 1.04H21a2 2 0 010 4h-.09A1.7 1.7 0 0019.4 15z" stroke-width="1.4"/>' }
+      { href: 'os-shell.html', match: ['os-shell.html', ''], label: 'Home', icon: '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="11" width="8" height="10" rx="1.5"/><rect x="3" y="14" width="8" height="7" rx="1.5"/>' },
+      { href: 'playground.html', match: ['playground.html'], label: 'Chats', icon: '<path d="M21 11.5a8.5 8.5 0 01-8.9 8.49 8.63 8.63 0 01-3.9-.94L3 21l1.95-5.2a8.5 8.5 0 1116.05-4.3z" stroke-linejoin="round"/>' },
+      { href: 'playground.html?tool=voice', match: [], label: 'Voice', icon: '<path d="M9 2h6v11a3 3 0 01-6 0V2Z"/><path d="M5 11a7 7 0 0014 0M12 18v4M9 22h6" stroke-linecap="round"/>' },
+      { href: '#', match: [], label: 'Files', icon: '<path d="M5 3h10l4 4v14H5z" stroke-linejoin="round"/><path d="M8 11h8M8 15h8M8 7h4" stroke-linecap="round"/>' },
+      { href: 'settings.html', match: ['settings.html'], label: 'Settings', icon: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.04 1.56V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.9 19.7a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.56-1.04H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001.04-1.56V3a2 2 0 014 0v.09A1.7 1.7 0 0015.4 4.6a1.7 1.7 0 001.87-.34l-.06-.06a2 2 0 112.83 2.83l.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.56 1.04H21a2 2 0 010 4h-.09A1.7 1.7 0 0019.4 15z" stroke-width="1.4"/>' }
     ];
 
     const nav = document.createElement('nav');
@@ -88,7 +117,6 @@
     document.body.appendChild(nav);
   }
 
-  // ---- Playground: honor ?tool= deep links from the sidebar/bottom nav ----
   function wirePlaygroundDeepLink() {
     if (!document.querySelector('.pg-tools')) return;
     const params = new URLSearchParams(location.search);
