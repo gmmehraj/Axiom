@@ -1,0 +1,107 @@
+/* AXIOM — Desktop UI Polish Layer
+   Safe, additive pass. Loaded after the existing design system. */
+
+@media (min-width: 1025px) {
+  :root {
+    --axiom-desktop-content-max: 1440px;
+    --axiom-desktop-gutter: clamp(24px, 2.4vw, 48px);
+    --axiom-desktop-panel-gap: clamp(16px, 1.4vw, 24px);
+  }
+
+  /* Prevent accidental viewport-width layouts while preserving intentional app shells. */
+  .app-body main,
+  .app-main,
+  .workspace-main,
+  .workspace-content,
+  .page-content,
+  .dashboard-content {
+    min-width: 0;
+  }
+
+  /* Consistent desktop focus treatment. */
+  :where(button, a, input, textarea, select, [role="button"]):focus-visible {
+    outline: 2px solid rgba(141, 187, 255, .72);
+    outline-offset: 3px;
+  }
+
+  /* Cleaner desktop text rendering and wrapping. */
+  :where(h1, h2, h3, h4, h5, h6) {
+    text-wrap: balance;
+  }
+
+  :where(p, .subtitle, .description, .muted) {
+    text-wrap: pretty;
+  }
+
+  /* Shared premium interaction language. */
+  :where(button, .btn, .ax-btn, .icon-btn, .nav-links a, .tool-link, [role="button"]) {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :where(button, .btn, .ax-btn, .icon-btn, .tool-link, .nav-links a):hover {
+    transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+  }
+
+  /* Avoid hover-lift on containers that can cause layout jitter. */
+  :where(.panel, .card, .workspace-card, .dash-stat, .recent-card, .quick-tile):focus-within {
+    border-color: rgba(255,255,255,.16);
+  }
+
+  /* Premium scrollbar without changing layout dimensions. */
+  :where(*) {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,.18) transparent;
+  }
+
+  :where(*::-webkit-scrollbar) { width: 8px; height: 8px; }
+  :where(*::-webkit-scrollbar-track) { background: transparent; }
+  :where(*::-webkit-scrollbar-thumb) {
+    background: rgba(255,255,255,.14);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    border-radius: 999px;
+  }
+  :where(*::-webkit-scrollbar-thumb:hover) { background-color: rgba(255,255,255,.24); }
+
+  /* Keep dense desktop workspaces visually aligned. */
+  :where(.app-shell, .os-shell, .workspace-shell, .dashboard-shell) {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* Tables: improve scanability without introducing heavy borders. */
+  :where(table) {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  :where(thead th) {
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  :where(tbody tr) {
+    transition: background-color 160ms ease;
+  }
+  :where(tbody tr:hover) { background: rgba(255,255,255,.025); }
+
+  /* Form controls get a consistent desktop rhythm. */
+  :where(input, textarea, select) {
+    min-width: 0;
+  }
+
+  /* Keep decorative effects below interactive content. */
+  :where(.grain, .aurora, .particles, .cursor-glow) { pointer-events: none; }
+}
+
+@media (min-width: 1440px) {
+  :where(.container, .nav-inner, .page-container, .content-container) {
+    max-width: var(--axiom-desktop-content-max);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(*) {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
