@@ -1,0 +1,40 @@
+name: Sync Axiom project from ZIP
+
+on:
+  push:
+    paths:
+      - axiom-project-with-git.zip
+      - .github/workflows/sync-production-zip.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract project into repository root
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .axiom-extract
+          mkdir .axiom-extract
+          unzip -q axiom-project-with-git.zip -d .axiom-extract
+          test -d .axiom-extract/axiom-project
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .github ! -name .axiom-extract -exec rm -rf {} +
+          rsync -a --exclude='.git/' .axiom-extract/axiom-project/ ./
+          rm -rf .axiom-extract
+          rm -f axiom-project-with-git.zip
+          rm -f js/core/env.config.js
+          find . -type d -name node_modules -prune -exec rm -rf {} +
+          grep -qxF 'js/core/env.config.js' .gitignore || printf '\n# Generated public Supabase runtime config\njs/core/env.config.js\n' >> .gitignore
+          git add -A
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'fix: restore complete Axiom project source' || exit 0
+          git push origin HEAD:main
