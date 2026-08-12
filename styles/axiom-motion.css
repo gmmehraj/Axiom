@@ -1,0 +1,77 @@
+/* AXIOM — Motion / Kokonut-inspired / Backlit UI layer
+   Vanilla-compatible equivalents for the current static HTML architecture. */
+
+:root {
+  --axiom-ease-premium: cubic-bezier(.22, 1, .36, 1);
+  --axiom-ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --backlit-strength: 0;
+  --backlit-cyan: rgba(126, 231, 255, .34);
+  --backlit-blue: rgba(117, 164, 255, .26);
+}
+
+@media (min-width: 1025px) {
+  [data-backlit], .backlit-ui {
+    position: relative;
+    isolation: isolate;
+    --backlit-strength: 0;
+  }
+
+  [data-backlit]::before, .backlit-ui::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(circle at 50% 0%, var(--backlit-cyan), transparent 62%);
+    opacity: calc(.85 * var(--backlit-strength));
+    filter: blur(14px);
+    pointer-events: none;
+    transition: opacity 260ms var(--axiom-ease-premium);
+  }
+
+  [data-backlit].is-backlit-active, .backlit-ui.is-backlit-active {
+    border-color: rgba(155, 226, 255, .28);
+  }
+
+  /* Kokonut-style premium surfaces, adapted to Axiom's existing tokens. */
+  .kokonut-surface {
+    border: 1px solid rgba(255,255,255,.09);
+    background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+    box-shadow: 0 16px 50px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.045);
+    backdrop-filter: blur(18px) saturate(125%);
+  }
+
+  .kokonut-surface:hover {
+    border-color: rgba(255,255,255,.15);
+  }
+
+  .kokonut-command {
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(10, 15, 24, .78);
+    box-shadow: 0 24px 70px rgba(0,0,0,.35), 0 0 0 1px rgba(126,231,255,.035);
+    backdrop-filter: blur(24px) saturate(135%);
+  }
+
+  .kokonut-ai-input {
+    border: 1px solid rgba(255,255,255,.11);
+    background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.045), 0 12px 38px rgba(0,0,0,.16);
+    transition: border-color 180ms var(--axiom-ease-premium), box-shadow 180ms var(--axiom-ease-premium), transform 180ms var(--axiom-ease-premium);
+  }
+
+  .kokonut-ai-input:focus-within {
+    border-color: rgba(126,231,255,.3);
+    box-shadow: 0 0 0 3px rgba(126,231,255,.055), inset 0 1px 0 rgba(255,255,255,.055), 0 16px 46px rgba(0,0,0,.2);
+  }
+
+  [data-axiom-motion="reveal"] { will-change: transform, opacity; }
+
+  .axiom-motion-glow {
+    box-shadow: 0 0 0 1px rgba(126,231,255,.06), 0 0 36px rgba(126,231,255,.07);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-backlit]::before, .backlit-ui::before { transition: none !important; }
+  .kokonut-surface, .kokonut-ai-input { transition: none !important; }
+}
