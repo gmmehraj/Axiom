@@ -1,0 +1,104 @@
+@import url("design-tokens.css");
+/* ============================================================
+   AXIOM DESIGN SYSTEM — Phase 1: Foundation
+   ------------------------------------------------------------
+   MIGRATED (Milestone 14, Phase 1, Part 2): every token that
+   used to live in this file's :root — spacing, radius, type,
+   icon, elevation, glass and gradient scales — is now defined
+   once in styles/design-tokens.css and reaches this file via
+   the @import above. Nothing below was renamed, so every
+   var(--ax-*) reference in the utility classes still resolves
+   to the exact same value it did before this migration.
+
+   This file now only holds the utility classes (.ax-glass-1,
+   .ax-h1, .ax-r-sm, etc.) that consume those tokens. Load order
+   is unchanged: still before os-shell.css / any page stylesheet.
+   ============================================================ */
+
+/* ============================================================
+   UTILITY CLASSES
+   Optional, opt-in helpers pages can adopt during rollout
+   without needing to touch every hand-rolled selector at once.
+   ============================================================ */
+
+/* -- Glass panels -- */
+.ax-glass-1, .ax-glass-2, .ax-glass-3 {
+  border: 1px solid;
+  background-repeat: no-repeat;
+  background-image: var(--ax-glass-sheen);
+}
+.ax-glass-1 {
+  background-color: var(--ax-glass-1-bg);
+  border-color: var(--ax-glass-1-border);
+  backdrop-filter: blur(var(--ax-glass-1-blur));
+  -webkit-backdrop-filter: blur(var(--ax-glass-1-blur));
+  box-shadow: var(--ax-elevation-2);
+}
+.ax-glass-2 {
+  background-color: var(--ax-glass-2-bg);
+  border-color: var(--ax-glass-2-border);
+  backdrop-filter: blur(var(--ax-glass-2-blur));
+  -webkit-backdrop-filter: blur(var(--ax-glass-2-blur));
+  box-shadow: var(--ax-elevation-3);
+}
+.ax-glass-3 {
+  background-color: var(--ax-glass-3-bg);
+  border-color: var(--ax-glass-3-border);
+  backdrop-filter: blur(var(--ax-glass-3-blur));
+  -webkit-backdrop-filter: blur(var(--ax-glass-3-blur));
+  box-shadow: var(--ax-elevation-4);
+}
+
+/* -- Elevation only (no glass fill) -- */
+.ax-elevation-1 { box-shadow: var(--ax-elevation-1); }
+.ax-elevation-2 { box-shadow: var(--ax-elevation-2); }
+.ax-elevation-3 { box-shadow: var(--ax-elevation-3); }
+.ax-elevation-4 { box-shadow: var(--ax-elevation-4); }
+.ax-elevation-5 { box-shadow: var(--ax-elevation-5); }
+
+/* -- Radius -- */
+.ax-r-xs  { border-radius: var(--ax-radius-xs); }
+.ax-r-sm  { border-radius: var(--ax-radius-sm); }
+.ax-r-md  { border-radius: var(--ax-radius-md); }
+.ax-r-lg  { border-radius: var(--ax-radius-lg); }
+.ax-r-xl  { border-radius: var(--ax-radius-xl); }
+.ax-r-2xl { border-radius: var(--ax-radius-2xl); }
+.ax-r-full{ border-radius: var(--ax-radius-full); }
+
+/* -- Typography hierarchy -- */
+.ax-display   { font-size: var(--ax-text-5xl); line-height: var(--ax-lh-tight); letter-spacing: var(--ax-tracking-tightest); font-weight: var(--ax-weight-bold); }
+.ax-h1        { font-size: var(--ax-text-4xl); line-height: var(--ax-lh-tight); letter-spacing: var(--ax-tracking-tight);   font-weight: var(--ax-weight-bold); }
+.ax-h2        { font-size: var(--ax-text-3xl); line-height: var(--ax-lh-tight); letter-spacing: var(--ax-tracking-tight);   font-weight: var(--ax-weight-semibold); }
+.ax-h3        { font-size: var(--ax-text-2xl); line-height: var(--ax-lh-snug);  letter-spacing: var(--ax-tracking-tight);   font-weight: var(--ax-weight-semibold); }
+.ax-h4        { font-size: var(--ax-text-xl);  line-height: var(--ax-lh-snug);  font-weight: var(--ax-weight-semibold); }
+.ax-body-lg   { font-size: var(--ax-text-lg);  line-height: var(--ax-lh-normal); font-weight: var(--ax-weight-regular); }
+.ax-body      { font-size: var(--ax-text-md);  line-height: var(--ax-lh-normal); font-weight: var(--ax-weight-regular); }
+.ax-body-sm   { font-size: var(--ax-text-base);line-height: var(--ax-lh-normal); font-weight: var(--ax-weight-regular); }
+.ax-caption   { font-size: var(--ax-text-sm);  line-height: var(--ax-lh-snug);  color: var(--ax-text-2, #A3A3A3); }
+.ax-meta      { font-size: var(--ax-text-xs);  line-height: var(--ax-lh-snug);  color: var(--ax-text-3, rgba(163,163,163,.55)); }
+.ax-label-caps{ font-size: var(--ax-text-2xs); letter-spacing: var(--ax-tracking-widest); text-transform: uppercase; font-weight: var(--ax-weight-semibold); }
+
+/* -- Icon sizing (apply to <svg>/<img> icon elements) -- */
+.ax-icon-sm { width: var(--ax-icon-sm); height: var(--ax-icon-sm); flex-shrink: 0; }
+.ax-icon-md { width: var(--ax-icon-md); height: var(--ax-icon-md); flex-shrink: 0; }
+.ax-icon-lg { width: var(--ax-icon-lg); height: var(--ax-icon-lg); flex-shrink: 0; }
+.ax-icon-xl { width: var(--ax-icon-xl); height: var(--ax-icon-xl); flex-shrink: 0; }
+
+/* -- Spacing utilities (gap-based; margins are intentionally
+      left to components so this stays layout-agnostic) -- */
+.ax-gap-1 { gap: var(--ax-space-4); }  /* 8px  */
+.ax-gap-2 { gap: var(--ax-space-6); }  /* 16px */
+.ax-gap-3 { gap: var(--ax-space-8); }  /* 24px */
+.ax-gap-4 { gap: var(--ax-space-9); }  /* 32px */
+
+/* -- Diagonal reflection sweep overlay, for glass panels that
+      want the "premium glass" highlight sweeping across them.
+      Add `position:relative` + `overflow:hidden` on the panel,
+      then add a child with this class absolutely positioned. -- */
+.ax-reflection-sweep {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--ax-glass-reflection-sweep);
+  mix-blend-mode: overlay;
+}

@@ -1,0 +1,1156 @@
+@import url("design-tokens.css");
+/* ============================================================
+   AXIOM AI OS V8 — Master Redesign Stylesheet
+   ------------------------------------------------------------
+   Apple VisionOS · ChatGPT Desktop · Arc Browser · Linear · Raycast
+   Nothing OS · Notion AI — Premium Liquid Glass Design
+
+   Load this LAST on every page so it overrides by cascade.
+   Preserves 100% of existing functionality — only visuals change.
+
+   Color Palette:
+     Background:    #050505
+     Secondary:     #0B0B0B
+     Card:          rgba(255,255,255,.03)
+     Border:        rgba(255,255,255,.08)
+     Text:          #F5F5F5
+     Secondary Text: #9A9A9A
+     Accent:        #E8E8E8
+     Success:       #6EE7B7
+     Warning:       #FBBF24
+     Error:         #EF4444
+   ============================================================ */
+
+/* ============================================================
+   1. DESIGN TOKENS
+   ------------------------------------------------------------
+   Phase 10 · Part 2 · Block 1 Step 1 note: design-tokens.css
+   (imported above) resolves the glass/radius/typography/shadow
+   scale conflicts between this file (V8) and ax-design-system.css
+   (V11) in V11's favor as its documented long-term direction, but
+   says plainly that migrating these 12 pages onto V11's values
+   would be a real visual change, not a rename, and leaves that
+   migration for a later phase to decide. Per this phase's "no
+   color regressions" requirement, that migration is NOT done here
+   — every block below that duplicates a design-tokens.css name
+   with a different value is an intentional, currently-rendering
+   override, kept as-is on purpose. See TOKEN_AUDIT.md for the
+   full list and reasoning.
+   ============================================================ */
+:root {
+  /* ---- 1.1 Core Palette ---- */
+
+  /* ---- 1.2 Premium Liquid Glass Recipe ---- */
+  --ax-glass-bg:        rgba(255, 255, 255, .03);
+  --ax-glass-bg-hover:  rgba(255, 255, 255, .06);
+  --ax-glass-bg-active: rgba(255, 255, 255, .09);
+  --ax-glass-blur:      blur(40px);
+  --ax-glass-blur-sm:   blur(20px);
+  --ax-glass-shadow:    0 25px 60px rgba(0, 0, 0, .5), inset 0 1px rgba(255, 255, 255, .10);
+  --ax-glass-shadow-sm: 0 10px 30px rgba(0, 0, 0, .35), inset 0 1px rgba(255, 255, 255, .08);
+  --ax-glass-inset:     inset 0 1px rgba(255, 255, 255, .10);
+  --ax-glass-border:    rgba(255, 255, 255, .08);
+
+  /* ---- 1.3 Typography ---- */
+  --ax-font-size-xs:    .72rem;
+  --ax-font-size-sm:    .82rem;
+  --ax-font-size-base:  .92rem;
+  --ax-font-size-lg:    1.05rem;
+  --ax-font-size-xl:    1.25rem;
+  --ax-font-size-2xl:   1.5rem;
+  --ax-font-size-3xl:   2rem;
+  --ax-font-size-4xl:   2.8rem;
+  --ax-font-weight:     500;
+  --ax-font-weight-bold: 600;
+  --ax-letter-spacing:  -.01em;
+
+  /* ---- 1.4 Spacing (8px scale) ---- */
+
+  /* ---- 1.5 Border Radius ---- */
+  --ax-radius-sm:       12px;
+  --ax-radius-md:       18px;
+  --ax-radius-lg:       24px;
+  --ax-radius-xl:       28px;
+  --ax-radius-2xl:      34px;
+  --ax-radius-pill:     999px;
+  --ax-radius-full:     50%;
+
+  /* ---- 1.6 Motion / Easing ---- */
+
+  /* ---- 1.7 Shadows ---- */
+  --ax-shadow-xs:       0 2px 8px rgba(0, 0, 0, .25);
+  --ax-shadow-sm:       0 4px 16px rgba(0, 0, 0, .3);
+  --ax-shadow-md:       0 12px 32px rgba(0, 0, 0, .35);
+  --ax-shadow-lg:       0 20px 50px rgba(0, 0, 0, .42);
+  --ax-shadow-xl:       0 30px 80px rgba(0, 0, 0, .5);
+
+  /* ---- 1.8 Legacy Alias Overrides ---- */
+
+  --a-violet:           var(--ax-accent);
+  --a-violet-2:         var(--ax-accent-hover);
+  --a-cyan:             var(--ax-accent);
+  --a-cyan-2:           var(--ax-accent-hover);
+  --a-pink:             var(--ax-accent);
+
+  --radius-s:           var(--ax-radius-sm);
+  --radius-m:           var(--ax-radius-md);
+  --radius-l:           var(--ax-radius-xl);
+}
+
+/* ---- 1.9 .app-body scoped tokens ---- */
+.app-body {
+  --a-violet:           var(--ax-accent);
+  --a-violet-2:         var(--ax-accent-hover);
+  --a-cyan:             var(--ax-accent);
+  --a-cyan-2:           var(--ax-accent-hover);
+  --a-pink:             var(--ax-accent);
+  --ink:                var(--ax-bg);
+  --ink-2:              var(--ax-bg-secondary);
+  --ink-3:              var(--ax-bg-tertiary);
+  --card:               var(--ax-bg-tertiary);
+  --line:               var(--ax-border);
+  --line-soft:          var(--ax-border-light);
+  --bg:                 var(--ax-bg);
+  --sidebar-bg:         var(--ax-bg-secondary);
+  --panel-bg:           var(--ax-bg-tertiary);
+  --card-bg:            var(--ax-bg-tertiary);
+  --accent:             var(--ax-accent);
+  --accent-glow:        rgba(255, 255, 255, .08);
+  --accent-hover:       var(--ax-accent-hover);
+  --text-1:             var(--ax-text);
+  --text-2:             var(--ax-text-secondary);
+  --text-muted:         var(--ax-text-tertiary);
+  --border-accent:      var(--ax-border);
+
+  background: var(--ax-bg);
+  color: var(--ax-text);
+}
+
+/* ============================================================
+   2. BASE / RESET
+   ============================================================ */
+html, body {
+  background: var(--ax-bg);
+  color: var(--ax-text);
+  font-family: var(--ax-font);
+  font-weight: var(--ax-font-weight);
+  font-size: var(--ax-font-size-base);
+  line-height: 1.6;
+  letter-spacing: var(--ax-letter-spacing);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(255, 255, 255, .12);
+  color: var(--ax-text);
+}
+
+:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, .35);
+  outline-offset: 2px;
+  border-radius: var(--ax-radius-sm);
+}
+
+body.ax-redesign-active h1,
+body.ax-redesign-active h2,
+body.ax-redesign-active h3,
+body.ax-redesign-active h4,
+body.ax-redesign-active h5,
+body.ax-redesign-active h6 {
+  font-family: var(--ax-font);
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  color: var(--ax-text);
+}
+
+body.ax-redesign-active a {
+  color: var(--ax-text-secondary);
+  transition: color var(--motion-duration-fast) var(--motion-ease-emphasized);
+}
+body.ax-redesign-active a:hover {
+  color: var(--ax-text);
+}
+
+/* ============================================================
+   3. PREMIUM LIQUID GLASS SURFACES
+   Apply to: panels, cards, stats, sidecards, any glass surface
+   ============================================================ */
+.ax-glass,
+.panel,
+.dash-stat,
+.recent-card,
+.quick-tile,
+.plan-card,
+.price-card,
+.showcase-card,
+.workspace-card,
+.file-card,
+.ax-panel,
+.ax-side-card,
+.agent-modal-panel,
+.api-key-banner,
+.toast {
+  position: relative;
+  background: var(--ax-glass-bg);
+  border: 1px solid var(--ax-border);
+  border-radius: var(--ax-radius-xl);
+  backdrop-filter: var(--ax-glass-blur) saturate(120%);
+  -webkit-backdrop-filter: var(--ax-glass-blur) saturate(120%);
+  box-shadow: var(--ax-glass-shadow);
+  transition: transform var(--motion-duration-slow) var(--motion-ease-emphasized),
+              box-shadow var(--motion-duration-slow) var(--motion-ease-emphasized),
+              border-color var(--motion-duration-slow) var(--motion-ease-emphasized),
+              background var(--motion-duration-slow) var(--motion-ease-emphasized);
+  overflow: hidden;
+}
+
+/* Top reflection line — Apple glass highlight */
+.ax-glass::before,
+.panel::before,
+.dash-stat::before,
+.recent-card::before,
+.quick-tile::before,
+.plan-card::before,
+.price-card::before,
+.ax-panel::before,
+.ax-side-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .25), transparent);
+  opacity: .6;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hover state — lift + deepen */
+.ax-glass:hover,
+.panel:hover,
+.dash-stat:hover,
+.recent-card:hover,
+.quick-tile:hover,
+.plan-card:hover,
+.price-card:hover,
+.workspace-card:hover,
+.file-card:hover,
+.ax-panel:hover {
+  transform: translateY(-3px);
+  border-color: var(--ax-border-strong);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, .5), inset 0 1px rgba(255, 255, 255, .14);
+  background: var(--ax-glass-bg-hover);
+}
+
+/* ============================================================
+   4. TYPOGRAPHY
+   ============================================================ */
+.ax-eyebrow {
+  font-family: var(--ax-font-mono);
+  font-size: var(--ax-font-size-xs);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ax-text-tertiary);
+}
+
+.ax-title {
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1.08;
+}
+
+.ax-subtitle {
+  color: var(--ax-text-secondary);
+  font-size: var(--ax-font-size-sm);
+  line-height: 1.6;
+}
+
+.ax-label {
+  font-size: var(--ax-font-size-xs);
+  color: var(--ax-text-tertiary);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ============================================================
+   5. BUTTONS — Premium Glass Buttons
+   No solid colors. Transparent glass. Rounded pill. Floating.
+   ============================================================ */
+.ax-btn,
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
+  padding: .75em 1.6em;
+  border-radius: var(--ax-radius-pill);
+  font-family: var(--ax-font);
+  font-weight: 600;
+  font-size: var(--ax-font-size-sm);
+  color: var(--ax-text);
+  background: var(--ax-glass-bg);
+  border: 1px solid var(--ax-border);
+  backdrop-filter: var(--ax-glass-blur-sm);
+  -webkit-backdrop-filter: var(--ax-glass-blur-sm);
+  box-shadow: var(--ax-shadow-xs), var(--ax-glass-inset);
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: transform var(--motion-duration-base) var(--motion-ease-spring),
+              background var(--motion-duration-base) var(--motion-ease-emphasized),
+              border-color var(--motion-duration-base) var(--motion-ease-emphasized),
+              box-shadow var(--motion-duration-base) var(--motion-ease-emphasized),
+              color var(--motion-duration-base) var(--motion-ease-emphasized);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ax-btn:hover,
+.btn:hover {
+  transform: translateY(-2px);
+  background: var(--ax-glass-bg-hover);
+  border-color: var(--ax-border-strong);
+  box-shadow: var(--ax-shadow-sm), var(--ax-glass-inset);
+  color: var(--ax-accent-hover);
+}
+
+.ax-btn:active,
+.btn:active {
+  transform: scale(var(--motion-scale-press-strong));
+  transition-duration: var(--motion-duration-instant);
+}
+
+.ax-btn-solid,
+.btn-solid {
+  background: rgba(255, 255, 255, .10);
+  border-color: rgba(255, 255, 255, .16);
+  box-shadow: var(--ax-shadow-sm), var(--ax-glass-inset);
+  color: var(--ax-text);
+}
+
+.ax-btn-solid:hover,
+.btn-solid:hover {
+  background: rgba(255, 255, 255, .16);
+  border-color: rgba(255, 255, 255, .22);
+  box-shadow: var(--ax-shadow-md), var(--ax-glass-inset);
+  color: var(--ax-accent-hover);
+}
+
+.ax-btn-outline,
+.btn-outline {
+  background: transparent;
+  border-color: var(--ax-border);
+  color: var(--ax-text-secondary);
+}
+
+.ax-btn-outline:hover,
+.btn-outline:hover {
+  border-color: var(--ax-border-strong);
+  color: var(--ax-text);
+  background: var(--ax-glass-bg);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--ax-text-secondary);
+  box-shadow: none;
+}
+
+.btn-ghost:hover {
+  color: var(--ax-text);
+  background: var(--ax-glass-bg);
+  border-color: var(--ax-border-light);
+}
+
+.ax-btn-danger {
+  color: var(--ax-error);
+  border-color: rgba(239, 68, 68, .25);
+  background: rgba(239, 68, 68, .06);
+}
+
+.ax-btn-danger:hover {
+  background: rgba(239, 68, 68, .12);
+  border-color: rgba(239, 68, 68, .4);
+  color: var(--ax-error);
+}
+
+.ax-btn-sm,
+.btn-sm { padding: .5em 1.1em; font-size: var(--ax-font-size-xs); }
+
+.btn-lg { padding: .9em 2em; font-size: var(--ax-font-size-base); }
+
+.ax-btn-full,
+.btn-full { width: 100%; }
+
+.ax-btn-icon,
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: var(--ax-radius-md);
+  color: var(--ax-text-secondary);
+  background: var(--ax-glass-bg);
+  border: 1px solid var(--ax-border);
+  backdrop-filter: var(--ax-glass-blur-sm);
+  -webkit-backdrop-filter: var(--ax-glass-blur-sm);
+  box-shadow: var(--ax-glass-inset);
+  cursor: pointer;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-spring),
+              background var(--motion-duration-fast) var(--motion-ease-emphasized),
+              border-color var(--motion-duration-fast) var(--motion-ease-emphasized),
+              color var(--motion-duration-fast) var(--motion-ease-emphasized);
+}
+
+.ax-btn-icon:hover,
+.icon-btn:hover {
+  transform: translateY(-1px);
+  background: var(--ax-glass-bg-hover);
+  border-color: var(--ax-border-strong);
+  color: var(--ax-text);
+}
+
+.ax-btn-icon:active,
+.icon-btn:active {
+  transform: scale(var(--motion-scale-press-strong));
+}
+
+/* ============================================================
+   6. INPUTS / FIELDS — Premium Glass Inputs
+   ============================================================ */
+.ax-input,
+.field input,
+.field textarea,
+.field select,
+.select-native,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+body.ax-redesign-active textarea,
+body.ax-redesign-active select {
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid var(--ax-border);
+  border-radius: var(--ax-radius-md);
+  color: var(--ax-text);
+  padding: .8em 1em;
+  font-family: var(--ax-font);
+  font-size: var(--ax-font-size-sm);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: border-color var(--motion-duration-base) var(--motion-ease-emphasized),
+              background var(--motion-duration-base) var(--motion-ease-emphasized),
+              box-shadow var(--motion-duration-base) var(--motion-ease-emphasized);
+  outline: none;
+  width: 100%;
+}
+
+.ax-input::placeholder,
+.field input::placeholder,
+textarea::placeholder {
+  color: var(--ax-text-tertiary);
+}
+
+.ax-input:hover,
+.field input:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--ax-border-strong);
+  background: rgba(255, 255, 255, .06);
+}
+
+.ax-input:focus,
+.field input:focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(255, 255, 255, .25);
+  background: rgba(255, 255, 255, .06);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .06);
+}
+
+.field label {
+  color: var(--ax-text-tertiary);
+  font-size: var(--ax-font-size-xs);
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Checkboxes & Radios */
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: rgba(255, 255, 255, .5);
+  width: 18px;
+  height: 18px;
+  border-radius: var(--ax-radius-sm);
+}
+
+/* ============================================================
+   7. SWITCHES — Premium Toggle
+   ============================================================ */
+.switch,
+.ax-switch {
+  --switch-off: rgba(255, 255, 255, .12);
+  --switch-on: rgba(255, 255, 255, .45);
+  position: relative;
+  width: 44px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.ax-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ax-switch .ax-switch-track {
+  position: absolute;
+  inset: 0;
+  background: var(--switch-off);
+  border-radius: var(--ax-radius-pill);
+  cursor: pointer;
+  transition: background var(--motion-duration-base) var(--motion-ease-emphasized);
+}
+
+.ax-switch .ax-switch-track::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 3px;
+  top: 3px;
+  border-radius: 50%;
+  background: var(--ax-text);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .35);
+  transition: transform var(--motion-duration-base) var(--motion-ease-spring);
+}
+
+.ax-switch input:checked + .ax-switch-track {
+  background: var(--switch-on);
+}
+
+.ax-switch input:checked + .ax-switch-track::before {
+  transform: translateX(18px);
+}
+
+/* ============================================================
+   8. TABS — Glass Pill Tabs
+   ============================================================ */
+.ax-tabs {
+  display: inline-flex;
+  gap: var(--ax-sp-1);
+  padding: var(--ax-sp-1);
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid var(--ax-border);
+  border-radius: var(--ax-radius-pill);
+}
+
+.ax-tab,
+.settings-tab {
+  padding: .5em 1.1em;
+  border-radius: var(--ax-radius-pill);
+  font-size: var(--ax-font-size-sm);
+  font-weight: 600;
+  color: var(--ax-text-tertiary);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--motion-duration-base) var(--motion-ease-emphasized),
+              color var(--motion-duration-base) var(--motion-ease-emphasized);
+  white-space: nowrap;
+}
+
+.ax-tab:hover,
+.settings-tab:hover {
+  color: var(--ax-text-secondary);
+}
+
+.ax-tab.active,
+.ax-tab[aria-selected="true"],
+.settings-tab.active {
+  background: rgba(255, 255, 255, .10);
+  color: var(--ax-text);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+}
+
+/* ============================================================
+   9. BADGES / CHIPS / PILLS
+   ============================================================ */
+.ax-badge,
+.badge,
+.chip,
+.price-badge,
+.plan-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .35em;
+  padding: .3em .75em;
+  border-radius: var(--ax-radius-pill);
+  font-size: var(--ax-font-size-xs);
+  font-weight: 600;
+  letter-spacing: .02em;
+  background: rgba(255, 255, 255, .06);
+  color: var(--ax-text);
+  border: 1px solid rgba(255, 255, 255, .10);
+  white-space: nowrap;
+}
+
+.ax-badge-success {
+  background: rgba(110, 231, 183, .1);
+  color: var(--ax-success);
+  border-color: rgba(110, 231, 183, .2);
+}
+
+.ax-badge-warning {
+  background: rgba(251, 191, 36, .1);
+  color: var(--ax-warning);
+  border-color: rgba(251, 191, 36, .2);
+}
+
+.ax-badge-error {
+  background: rgba(239, 68, 68, .1);
+  color: var(--ax-error);
+  border-color: rgba(239, 68, 68, .2);
+}
+
+.ax-badge-info {
+  background: rgba(96, 165, 250, .1);
+  color: var(--ax-info);
+  border-color: rgba(96, 165, 250, .2);
+}
+
+/* ============================================================
+   10. PROGRESS BARS
+   ============================================================ */
+.credit-bar {
+  height: 6px;
+  border-radius: var(--ax-radius-pill);
+  background: rgba(255, 255, 255, .04);
+  overflow: hidden;
+}
+
+.credit-bar-fill {
+  height: 100%;
+  border-radius: var(--ax-radius-pill);
+  background: linear-gradient(90deg, rgba(255, 255, 255, .3), rgba(255, 255, 255, .7));
+  box-shadow: 0 0 12px rgba(255, 255, 255, .1);
+  transition: width var(--motion-duration-slow) var(--motion-ease-emphasized);
+  transform-origin: left center;
+}
+
+/* ============================================================
+   11. SCROLLBARS — Minimal Premium
+   ============================================================ */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .08);
+  border-radius: var(--ax-radius-pill);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, .14);
+  background-clip: padding-box;
+}
+
+/* ============================================================
+   12. TOOLTIPS
+   ============================================================ */
+.ax-tooltip {
+  position: relative;
+}
+
+.ax-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--ax-bg-tertiary);
+  border: 1px solid var(--ax-border);
+  color: var(--ax-text);
+  font-size: var(--ax-font-size-xs);
+  white-space: nowrap;
+  padding: .4em .75em;
+  border-radius: var(--ax-radius-sm);
+  box-shadow: var(--ax-shadow-md);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-duration-base) var(--motion-ease-emphasized),
+              transform var(--motion-duration-base) var(--motion-ease-emphasized);
+  z-index: 100;
+}
+
+.ax-tooltip:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================================
+   13. TOAST NOTIFICATIONS
+   ============================================================ */
+.toast-stack {
+  position: fixed;
+  bottom: var(--ax-sp-5);
+  right: var(--ax-sp-5);
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ax-sp-2);
+}
+
+.toast {
+  background: var(--ax-bg-tertiary);
+  border: 1px solid var(--ax-border);
+  border-radius: var(--ax-radius-md);
+  color: var(--ax-text);
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+  box-shadow: var(--ax-shadow-lg);
+  padding: var(--ax-sp-3) var(--ax-sp-4);
+  animation: axToastIn var(--motion-duration-slow) var(--motion-ease-emphasized);
+}
+
+.toast.success { border-left: 3px solid var(--ax-success); }
+.toast.warning { border-left: 3px solid var(--ax-warning); }
+.toast.error { border-left: 3px solid var(--ax-error); }
+
+@keyframes axToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ============================================================
+   14. TABLES
+   ============================================================ */
+body.ax-redesign-active table {
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--ax-glass-bg);
+  border: 1px solid var(--ax-border);
+  border-radius: var(--ax-radius-lg);
+  overflow: hidden;
+  width: 100%;
+}
+
+body.ax-redesign-active table th {
+  background: rgba(255, 255, 255, .03);
+  color: var(--ax-text-tertiary);
+  font-size: var(--ax-font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-weight: 600;
+  padding: var(--ax-sp-3);
+  text-align: left;
+  border-bottom: 1px solid var(--ax-border);
+}
+
+body.ax-redesign-active table td {
+  padding: var(--ax-sp-3);
+  border-top: 1px solid var(--ax-border-light);
+  color: var(--ax-text-secondary);
+  font-size: var(--ax-font-size-sm);
+}
+
+body.ax-redesign-active table tr:hover td {
+  background: rgba(255, 255, 255, .03);
+}
+
+/* ============================================================
+   15. DROPDOWNS / MENUS
+   ============================================================ */
+.ax-menu,
+.ws-menu {
+  background: var(--ax-bg-tertiary);
+  border: 1px solid var(--ax-border);
+  border-radius: var(--ax-radius-md);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  box-shadow: var(--ax-shadow-lg);
+  padding: var(--ax-sp-2);
+  overflow: hidden;
+  animation: axMenuIn var(--motion-duration-fast) var(--motion-ease-emphasized);
+}
+
+@keyframes axMenuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ax-menu-item,
+.ws-menu-item {
+  display: block;
+  width: 100%;
+  padding: .6em .8em;
+  border-radius: var(--ax-radius-sm);
+  color: var(--ax-text-secondary);
+  font-size: var(--ax-font-size-sm);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-emphasized),
+              color var(--motion-duration-fast) var(--motion-ease-emphasized);
+  text-align: left;
+}
+
+.ax-menu-item:hover,
+.ws-menu-item:hover {
+  background: rgba(255, 255, 255, .06);
+  color: var(--ax-text);
+}
+
+.ax-menu-divider {
+  height: 1px;
+  background: var(--ax-border);
+  margin: var(--ax-sp-1) 0;
+}
+
+/* ============================================================
+   16. MODALS / DIALOGS
+   ============================================================ */
+.ax-modal-overlay,
+.agent-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(5, 5, 5, .75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: axOverlayIn var(--motion-duration-base) var(--motion-ease-emphasized);
+}
+
+@keyframes axOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.ax-modal,
+.agent-modal-panel {
+  background: var(--ax-bg-tertiary);
+  border: 1px solid var(--ax-border);
+  border-radius: var(--ax-radius-xl);
+  box-shadow: var(--ax-shadow-xl);
+  max-width: 90vw;
+  max-height: 85vh;
+  overflow: hidden;
+  animation: axModalIn var(--motion-duration-slow) var(--motion-ease-spring);
+}
+
+@keyframes axModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ax-modal-head,
+.agent-modal-head {
+  padding: var(--ax-sp-4);
+  border-bottom: 1px solid var(--ax-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ax-modal-body,
+.agent-modal-body {
+  padding: var(--ax-sp-4);
+  overflow-y: auto;
+}
+
+.ax-modal-foot,
+.agent-modal-foot {
+  padding: var(--ax-sp-3) var(--ax-sp-4);
+  border-top: 1px solid var(--ax-border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ax-sp-2);
+}
+
+/* ============================================================
+   17. ANIMATIONS & MOTION
+   ============================================================ */
+
+/* — Entrance stagger for cards — */
+.ax-card {
+  animation: axCardIn var(--motion-duration-reveal) var(--motion-ease-emphasized) both;
+}
+
+@keyframes axCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* — Entrance for chat messages — */
+.ax-msg-in {
+  animation: axMsgIn var(--motion-duration-slow) var(--motion-ease-emphasized) both;
+}
+
+@keyframes axMsgIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* — Page transition — */
+.ax-page-in {
+  animation: axPageIn var(--motion-duration-reveal) var(--motion-ease-emphasized) both;
+}
+
+@keyframes axPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* — Shimmer skeleton — */
+.ax-skeleton {
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, .03) 25%,
+    rgba(255, 255, 255, .06) 50%,
+    rgba(255, 255, 255, .03) 75%
+  );
+  background-size: 200% 100%;
+  animation: axShimmer 1.8s var(--motion-ease-standard) infinite;
+  border-radius: var(--ax-radius-sm);
+}
+
+@keyframes axShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* — Breathing pulse for badges — */
+.ax-badge-pulse {
+  animation: axBadgePulse 2.5s var(--motion-ease-standard) infinite;
+}
+
+@keyframes axBadgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, .15); }
+  50% { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+}
+
+/* — Floating animation — */
+.ax-float {
+  animation: axFloat 6s var(--motion-ease-standard) infinite;
+}
+
+@keyframes axFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* — Ripple click effect — */
+.ax-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .3);
+  transform: scale(0);
+  animation: axRipple var(--motion-duration-reveal) var(--motion-ease-linear);
+  pointer-events: none;
+}
+
+@keyframes axRipple {
+  to {
+    transform: scale(12);
+    opacity: 0;
+  }
+}
+
+/* — Glass shine sweep — */
+.ax-shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.ax-shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .06), transparent);
+  transform: rotate(25deg);
+  transition: left var(--motion-duration-slow) var(--motion-ease-emphasized);
+}
+
+.ax-glass:hover .ax-shine::after,
+.panel:hover .ax-shine::after {
+  left: 140%;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   18. PREMIUM BADGE / TAGS
+   ============================================================ */
+.ax-premium-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .3em;
+  padding: .15em .65em;
+  border-radius: var(--ax-radius-pill);
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .10);
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ax-text);
+  box-shadow: 0 0 12px rgba(255, 255, 255, .06);
+}
+
+/* ============================================================
+   19. DANGER ZONE
+   ============================================================ */
+.danger-zone {
+  border: 1px solid rgba(239, 68, 68, .2);
+  background: rgba(239, 68, 68, .04);
+  border-radius: var(--ax-radius-lg);
+  padding: var(--ax-sp-4);
+}
+
+.danger-zone h3 {
+  color: var(--ax-error);
+  font-size: var(--ax-font-size-sm);
+  margin-bottom: var(--ax-sp-1);
+}
+
+.danger-zone p {
+  font-size: var(--ax-font-size-sm);
+  color: var(--ax-text-secondary);
+  margin-bottom: var(--ax-sp-3);
+}
+
+/* ============================================================
+   20. EMPTY STATES
+   ============================================================ */
+.ax-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ax-sp-3);
+  padding: var(--ax-sp-8) var(--ax-sp-4);
+  text-align: center;
+  color: var(--ax-text-tertiary);
+}
+
+.ax-empty svg {
+  opacity: .4;
+}
+
+.ax-empty p {
+  font-size: var(--ax-font-size-sm);
+  max-width: 320px;
+}
+
+.ax-empty strong {
+  color: var(--ax-text-secondary);
+}
+
+/* ============================================================
+   21. UTILITY CLASSES
+   ============================================================ */
+.ax-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ax-flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ax-gap-1 { gap: var(--ax-sp-1); }
+.ax-gap-2 { gap: var(--ax-sp-2); }
+.ax-gap-3 { gap: var(--ax-sp-3); }
+.ax-gap-4 { gap: var(--ax-sp-4); }
+
+.ax-p-3 { padding: var(--ax-sp-3); }
+.ax-p-4 { padding: var(--ax-sp-4); }
+
+.ax-mt-3 { margin-top: var(--ax-sp-3); }
+.ax-mb-3 { margin-bottom: var(--ax-sp-3); }
+
+.ax-text-secondary { color: var(--ax-text-secondary); }
+.ax-text-tertiary { color: var(--ax-text-tertiary); }
+
+.ax-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ax-hidden { display: none; }
+

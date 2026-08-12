@@ -1,0 +1,1001 @@
+/* ============================================================
+   AXIOM AI OS V8 — ChatGPT Desktop-Style Chat Redesign
+   ------------------------------------------------------------
+   Premium glass chat panel with:
+   - Markdown rendering
+   - Code highlighting
+   - Image/file preview
+   - Voice recording
+   - Typing animation
+   - Streaming effect
+   - Copy button
+   - Regenerate / Edit prompt
+   - Conversation search
+   - Pinned chats / folders / history / bookmarks
+   - Export / Import chat
+   ============================================================ */
+
+/* ============================================================
+   Shared motion tokens — one place to tune every animation in
+   the Playground so easing/durations stay consistent across
+   messages, streaming, composer and panels.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .ax-message,
+  .ax-typing span,
+  .ax-streaming-cursor,
+  .ax-prompt-wrap.is-answering::before,
+  .ax-msg-avatar.is-thinking,
+  .ax-attached-file,
+  .ax-attach-chip,
+  .ax-prompt-btn.mic.active,
+  .ax-voice-wave span {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ---- Chat Container ---- */
+.ax-chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+/* ---- Scrollbars (chat window + sidebar) ---- */
+.ax-chat-window,
+.ax-chat-sidebar,
+.ax-convo-list {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, .14) transparent;
+}
+
+.ax-chat-window::-webkit-scrollbar,
+.ax-chat-sidebar::-webkit-scrollbar,
+.ax-convo-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ax-chat-window::-webkit-scrollbar-track,
+.ax-chat-sidebar::-webkit-scrollbar-track,
+.ax-convo-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ax-chat-window::-webkit-scrollbar-thumb,
+.ax-chat-sidebar::-webkit-scrollbar-thumb,
+.ax-convo-list::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, .12);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.ax-chat-window::-webkit-scrollbar-thumb:hover,
+.ax-chat-sidebar::-webkit-scrollbar-thumb:hover,
+.ax-convo-list::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, .22);
+}
+
+/* ---- Chat Sidebar (Conversations List) ---- */
+.ax-chat-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, .03);
+  border-right: 1px solid rgba(255, 255, 255, .08);
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.ax-chat-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.ax-chat-sidebar-header h3 {
+  font-size: .85rem;
+  font-weight: 600;
+  color: #F5F5F5;
+}
+
+.ax-chat-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  transition: border-color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-chat-search:focus-within {
+  border-color: rgba(255, 255, 255, .15);
+}
+
+.ax-chat-search input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #F5F5F5;
+  font-size: .8rem;
+  font-family: var(--ax-font, "Inter"), sans-serif;
+  outline: none;
+}
+
+.ax-chat-search input::placeholder {
+  color: rgba(255, 255, 255, .3);
+}
+
+/* ---- Chat Tabs (Pinned, Folders, History) ---- */
+.ax-chat-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.ax-chat-tab {
+  flex: 1;
+  padding: 5px 8px;
+  border-radius: 8px;
+  font-size: .72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, .4);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-chat-tab:hover {
+  color: rgba(255, 255, 255, .7);
+}
+
+.ax-chat-tab.active {
+  background: rgba(255, 255, 255, .08);
+  color: #F5F5F5;
+}
+
+/* ---- Conversation List ---- */
+.ax-convo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.ax-convo-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard);
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  color: rgba(255, 255, 255, .6);
+  font-size: .82rem;
+}
+
+.ax-convo-item:hover {
+  background: rgba(255, 255, 255, .04);
+  color: rgba(255, 255, 255, .8);
+}
+
+.ax-convo-item.active {
+  background: rgba(255, 255, 255, .06);
+  color: #F5F5F5;
+}
+
+.ax-convo-item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  opacity: .6;
+}
+
+.ax-convo-item .ax-convo-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ax-convo-item .ax-convo-time {
+  font-size: .68rem;
+  color: rgba(255, 255, 255, .3);
+  flex-shrink: 0;
+}
+
+/* ---- Chat Main Area ---- */
+.ax-chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ---- Message Window ---- */
+.ax-chat-window {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px clamp(16px, 4vw, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  scroll-behavior: smooth;
+}
+
+/* ---- Message Bubbles ---- */
+.ax-message {
+  display: flex;
+  gap: 12px;
+  max-width: min(85%, 720px);
+  animation: axMsgSlideIn var(--motion-duration-slow) var(--motion-ease-decelerate) both;
+}
+
+@keyframes axMsgSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ax-message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.ax-message.assistant {
+  align-self: flex-start;
+}
+
+/* ---- Message Avatar ---- */
+.ax-msg-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: #050505;
+  margin-top: 2px;
+  transition: box-shadow var(--motion-duration-base) var(--motion-ease-standard);
+}
+
+.ax-message.assistant .ax-msg-avatar {
+  background: linear-gradient(155deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .08));
+  color: #F5F5F5;
+  border: 1px solid rgba(255, 255, 255, .1);
+}
+
+.ax-message.user .ax-msg-avatar {
+  background: rgba(255, 255, 255, .15);
+  color: #F5F5F5;
+}
+
+/* Assistant avatar gently breathes while a reply is being generated —
+   the composed "AI is thinking" cue that pairs with .ax-typing below. */
+.ax-msg-avatar.is-thinking {
+  animation: axAvatarBreathe 1.8s var(--motion-ease-standard) infinite;
+}
+
+@keyframes axAvatarBreathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, .12); }
+  50%      { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+}
+
+/* ---- Message Bubble ---- */
+.ax-msg-bubble {
+  padding: 12px 16px;
+  border-radius: 18px;
+  line-height: 1.65;
+  font-size: .93rem;
+  letter-spacing: .002em;
+  border: 1px solid rgba(255, 255, 255, .08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .2);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  position: relative;
+  transition: border-color var(--motion-duration-base) var(--motion-ease-standard);
+}
+
+.ax-message.assistant .ax-msg-bubble {
+  background: rgba(255, 255, 255, .05);
+  border-color: rgba(255, 255, 255, .08);
+  color: #F5F5F5;
+  border-bottom-left-radius: 6px;
+}
+
+.ax-message.user .ax-msg-bubble {
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .14);
+  color: #F5F5F5;
+  border-bottom-right-radius: 6px;
+}
+
+.ax-message.user .ax-msg-bubble p {
+  color: #F5F5F5;
+}
+
+/* ---- Message Actions (Copy, Regenerate, Edit) ---- */
+.ax-msg-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  opacity: 0;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-message:hover .ax-msg-actions {
+  opacity: 1;
+}
+
+.ax-msg-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, .35);
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard), transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-msg-action:hover {
+  background: rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .7);
+  transform: scale(var(--motion-scale-hover-strong));
+}
+
+.ax-msg-action:active {
+  transform: scale(var(--motion-scale-press-strong));
+}
+
+.ax-msg-action svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ---- Typing / "AI is thinking" Indicator ---- */
+.ax-typing {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 16px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 20px;
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+}
+
+.ax-typing .ax-typing-label {
+  font-size: .78rem;
+  color: rgba(255, 255, 255, .4);
+  font-family: var(--ax-font, "Inter"), sans-serif;
+}
+
+.ax-typing .ax-typing-dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ax-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .45);
+  animation: axTypingBounce 1.2s var(--motion-ease-standard) infinite;
+}
+
+.ax-typing span:nth-child(2) {
+  animation-delay: .15s;
+}
+
+.ax-typing span:nth-child(3) {
+  animation-delay: .3s;
+}
+
+@keyframes axTypingBounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: .4;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+/* ---- Streaming Text Cursor ---- */
+.ax-streaming-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: rgba(255, 255, 255, .6);
+  margin-left: 2px;
+  animation: axStreamBlink .8s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes axStreamBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ---- Prompt Bar ---- */
+.ax-prompt-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 12px 12px 12px 18px;
+  margin: 0 16px 16px;
+  background: rgba(255, 255, 255, .045);
+  border: 1px solid rgba(255, 255, 255, .10);
+  border-radius: 24px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .3), inset 0 1px rgba(255, 255, 255, .08);
+  transition: border-color var(--motion-duration-base) var(--motion-ease-standard), box-shadow var(--motion-duration-base) var(--motion-ease-standard), background var(--motion-duration-base) var(--motion-ease-standard);
+}
+
+.ax-prompt-bar:focus-within {
+  border-color: rgba(255, 255, 255, .2);
+  background: rgba(255, 255, 255, .06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .3), inset 0 1px rgba(255, 255, 255, .08), 0 0 0 3px rgba(255, 255, 255, .04);
+}
+
+.ax-prompt-bar.is-drag-over {
+  border-color: rgba(141, 187, 255, .5);
+  background: rgba(141, 187, 255, .06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .3), 0 0 0 3px rgba(141, 187, 255, .12);
+}
+
+.ax-prompt-bar textarea {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #F5F5F5;
+  font-family: var(--ax-font, "Inter"), sans-serif;
+  font-size: .92rem;
+  line-height: 1.5;
+  resize: none;
+  max-height: 160px;
+  min-height: 24px;
+  padding: 4px 0;
+  outline: none;
+}
+
+.ax-prompt-bar textarea::placeholder {
+  color: rgba(255, 255, 255, .3);
+}
+
+/* ---- Prompt Bar Actions ---- */
+.ax-prompt-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.ax-prompt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(255, 255, 255, .4);
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard), transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-prompt-btn:hover {
+  background: rgba(255, 255, 255, .06);
+  color: rgba(255, 255, 255, .7);
+  border-color: rgba(255, 255, 255, .06);
+  transform: translateY(-1px);
+}
+
+.ax-prompt-btn:active {
+  transform: scale(var(--motion-scale-press-strong));
+}
+
+.ax-prompt-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.ax-prompt-btn.send {
+  background: rgba(255, 255, 255, .10);
+  border-color: rgba(255, 255, 255, .14);
+  color: rgba(255, 255, 255, .8);
+}
+
+.ax-prompt-btn.send:hover {
+  background: rgba(255, 255, 255, .16);
+  border-color: rgba(255, 255, 255, .2);
+  color: #FFFFFF;
+}
+
+/* Send button reads as "ready" once there's something to send — pure CSS,
+   no extra JS state needed since it just mirrors the textarea's content. */
+@supports selector(:has(*)) {
+  .ax-prompt-bar:has(textarea:not(:placeholder-shown)) .ax-prompt-btn.send {
+    background: #F5F5F5;
+    border-color: #F5F5F5;
+    color: #0A0A0A;
+  }
+  .ax-prompt-bar:has(textarea:not(:placeholder-shown)) .ax-prompt-btn.send:hover {
+    background: #FFFFFF;
+    border-color: #FFFFFF;
+  }
+}
+
+.ax-prompt-btn.mic.active {
+  background: rgba(239, 68, 68, .12);
+  border-color: rgba(239, 68, 68, .25);
+  color: #EF4444;
+  animation: axMicPulse 1.2s var(--motion-ease-standard) infinite;
+}
+
+@keyframes axMicPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, .3); }
+  50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+/* ---- Attached File Chip ---- */
+.ax-attached-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  margin: 0 16px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .10);
+  border-radius: 12px;
+  font-size: .8rem;
+  color: rgba(255, 255, 255, .7);
+  animation: axAttachSlide var(--motion-duration-fast) var(--motion-ease-standard) both;
+}
+
+@keyframes axAttachSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ax-attached-file svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.ax-attached-file .ax-attach-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ax-attached-file .ax-attach-close {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, .3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-attached-file .ax-attach-close:hover {
+  background: rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .6);
+}
+
+/* ---- Voice Recording Row ---- */
+.ax-voice-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  min-height: 20px;
+  margin-top: 4px;
+}
+
+.ax-voice-wave {
+  display: none;
+  align-items: flex-end;
+  gap: 2px;
+  height: 18px;
+}
+
+.ax-voice-wave.active {
+  display: flex;
+}
+
+.ax-voice-wave span {
+  width: 3px;
+  background: rgba(255, 255, 255, .5);
+  border-radius: 999px;
+  animation: axWaveAnim .8s var(--motion-ease-standard) infinite;
+}
+
+@keyframes axWaveAnim {
+  0%, 100% { transform: scaleY(.4); }
+  50% { transform: scaleY(1); }
+}
+
+.ax-voice-hint {
+  font-size: .74rem;
+  color: rgba(255, 255, 255, .3);
+  font-family: var(--ax-font-mono, "JetBrains Mono"), monospace;
+}
+
+/* ---- Markdown Content Styling ---- */
+.ax-msg-bubble p {
+  margin: .4em 0;
+  line-height: 1.65;
+}
+
+.ax-msg-bubble p:first-child {
+  margin-top: 0;
+}
+
+.ax-msg-bubble p:last-child {
+  margin-bottom: 0;
+}
+
+.ax-msg-bubble strong {
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.ax-msg-bubble em {
+  font-style: italic;
+}
+
+.ax-msg-bubble ul,
+.ax-msg-bubble ol {
+  margin: .4em 0;
+  padding-left: 1.5em;
+}
+
+.ax-msg-bubble li {
+  margin: .2em 0;
+}
+
+.ax-msg-bubble code {
+  font-family: var(--ax-font-mono, "JetBrains Mono"), monospace;
+  font-size: .85em;
+  padding: .15em .4em;
+  background: rgba(255, 255, 255, .06);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, .85);
+}
+
+.ax-msg-bubble pre {
+  margin: .6em 0;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, .4);
+  border: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 12px;
+  overflow-x: auto;
+  font-family: var(--ax-font-mono, "JetBrains Mono"), monospace;
+  font-size: .82rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, .8);
+}
+
+.ax-msg-bubble pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+.ax-msg-bubble blockquote {
+  margin: .4em 0;
+  padding: .4em 1em;
+  border-left: 3px solid rgba(255, 255, 255, .15);
+  color: rgba(255, 255, 255, .6);
+  font-style: italic;
+}
+
+.ax-msg-bubble a {
+  color: rgba(255, 255, 255, .7);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ax-msg-bubble a:hover {
+  color: #FFFFFF;
+}
+
+.ax-msg-bubble h1,
+.ax-msg-bubble h2,
+.ax-msg-bubble h3,
+.ax-msg-bubble h4 {
+  margin: .6em 0 .3em;
+  color: #FFFFFF;
+}
+
+.ax-msg-bubble hr {
+  margin: .8em 0;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, .06);
+}
+
+.ax-msg-bubble table {
+  margin: .6em 0;
+  border-collapse: collapse;
+  font-size: .85em;
+}
+
+.ax-msg-bubble table th,
+.ax-msg-bubble table td {
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, .08);
+}
+
+.ax-msg-bubble table th {
+  background: rgba(255, 255, 255, .04);
+  font-weight: 600;
+  color: #F5F5F5;
+}
+
+/* ---- Image Preview in Chat ---- */
+.ax-msg-image {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 12px;
+  margin: .4em 0;
+  cursor: pointer;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease-standard);
+  border: 1px solid rgba(255, 255, 255, .06);
+}
+
+.ax-msg-image:hover {
+  opacity: .9;
+}
+
+/* ---- File Preview in Chat ---- */
+.ax-msg-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 12px;
+  margin: .4em 0;
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-msg-file:hover {
+  background: rgba(255, 255, 255, .06);
+}
+
+.ax-msg-file svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, .5);
+}
+
+.ax-msg-file .ax-file-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ax-msg-file .ax-file-name {
+  font-size: .85rem;
+  color: #F5F5F5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ax-msg-file .ax-file-size {
+  font-size: .72rem;
+  color: rgba(255, 255, 255, .35);
+}
+
+/* ---- Chat Header ---- */
+.ax-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  gap: 12px;
+}
+
+.ax-chat-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ax-chat-header-left h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #F5F5F5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ax-chat-header-left .ax-chat-model {
+  font-size: .72rem;
+  color: rgba(255, 255, 255, .4);
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .06);
+}
+
+.ax-chat-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---- Empty Chat State ---- */
+.ax-chat-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.ax-chat-empty svg {
+  width: 48px;
+  height: 48px;
+  color: rgba(255, 255, 255, .15);
+}
+
+.ax-chat-empty h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, .5);
+}
+
+.ax-chat-empty p {
+  font-size: .88rem;
+  color: rgba(255, 255, 255, .3);
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+/* ---- Chat Layout (with sidebar toggle) ---- */
+.ax-chat-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.ax-chat-layout .ax-chat-sidebar {
+  transition: transform var(--motion-duration-base) var(--motion-ease-standard), width var(--motion-duration-base) var(--motion-ease-standard), opacity var(--motion-duration-base) var(--motion-ease-standard);
+}
+
+.ax-chat-layout .ax-chat-sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+/* ---- Conversation Search Highlight ---- */
+.ax-search-highlight {
+  background: rgba(255, 255, 255, .12);
+  border-radius: 4px;
+  padding: 0 2px;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .ax-chat-window {
+    padding: 16px 12px;
+  }
+
+  .ax-message {
+    max-width: 92%;
+  }
+
+  .ax-prompt-bar {
+    margin: 0 10px 10px;
+    padding: 8px 10px 8px 14px;
+  }
+
+  .ax-chat-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    width: 280px;
+    transform: translateX(-100%);
+    transition: transform var(--motion-duration-base) var(--motion-ease-standard);
+    border-right: 1px solid rgba(255, 255, 255, .08);
+  }
+
+  .ax-chat-sidebar.open {
+    transform: translateX(0);
+    box-shadow: 20px 0 60px rgba(0, 0, 0, .5);
+  }
+}
+
+@media (max-width: 480px) {
+  .ax-chat-window {
+    padding: 12px 8px;
+    gap: 8px;
+  }
+
+  .ax-msg-bubble {
+    font-size: .85rem;
+    padding: 8px 12px;
+  }
+
+  .ax-prompt-bar {
+    margin: 0 6px 8px;
+    padding: 6px 8px 6px 12px;
+    border-radius: 18px;
+  }
+
+  .ax-chat-header {
+    padding: 8px 12px;
+  }
+}
+

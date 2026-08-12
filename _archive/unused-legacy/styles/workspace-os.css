@@ -1,0 +1,239 @@
+/* ============================================================
+   AXIOM — Module 3: Premium Workspace layer
+   Loaded after workspace.css + premium-os.css. Restyles the
+   Workspace-specific components (switcher, dropzone, uploads,
+   file grid, preview modal) to match the AI-OS visual language
+   using the --ax-* tokens already defined in premium-os.css.
+   Pure CSS — no markup, IDs, class names, or behavior changed.
+   ============================================================ */
+
+/* ---- Workspace switcher ---- */
+.ws-switch{
+  background:rgba(9,16,20,.82);
+  border:1px solid var(--ax-border);
+  color:var(--ax-text-2);
+  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
+  transition: transform var(--motion-duration-base) var(--motion-ease-emphasized), border-color var(--motion-duration-base) var(--motion-ease-emphasized), box-shadow var(--motion-duration-base) var(--motion-ease-emphasized);
+}
+.ws-switch:hover{
+  color:var(--ax-text);
+  border-color:var(--ax-border-strong);
+  box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 0 20px rgba(255,255,255,.14);
+}
+.ws-switch .dot{ background:rgba(255,255,255,.6); box-shadow:0 0 10px rgba(255,255,255,.4); }
+.ws-switch b{ color:var(--ax-text); }
+.ws-menu{
+  background:var(--ax-panel);
+  border:1px solid var(--ax-border);
+  box-shadow:var(--ax-stroke), 0 24px 60px rgba(0,0,0,.4);
+  -webkit-backdrop-filter:blur(20px) saturate(130%);
+  backdrop-filter:blur(20px) saturate(130%);
+  animation: axm3PopIn var(--motion-duration-fast) var(--motion-ease-emphasized);
+}
+.ws-menu-item{ color:var(--ax-text-2); }
+.ws-menu-item:hover{ background:rgba(255,255,255,.06); color:var(--ax-text); }
+.ws-menu-item.active{ color:var(--ax-text); border-color:rgba(255,255,255,.12); }
+.ws-select{
+  background:rgba(8,14,18,.86);
+  border:1px solid var(--ax-border);
+  color:var(--ax-text-2);
+  transition: border-color var(--motion-duration-fast), color var(--motion-duration-fast);
+}
+.ws-select:hover{ color:var(--ax-text); border-color:var(--ax-border-strong); }
+
+/* ---- Dropzone ---- */
+.dropzone{
+  position:relative;
+  border:1.5px dashed rgba(255,255,255,.15);
+  border-radius:var(--ax-radius-sm);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,.03), transparent 60%),
+    linear-gradient(180deg, rgba(11,18,23,.7) 0%, rgba(8,13,17,.5) 100%);
+  color:var(--ax-text-2);
+  overflow:hidden;
+  transition: border-color var(--motion-duration-base) var(--motion-ease-emphasized), background var(--motion-duration-base) var(--motion-ease-emphasized), transform var(--motion-duration-base) var(--motion-ease-emphasized);
+}
+.dropzone::before{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background:conic-gradient(from 0deg, transparent 0 82%, rgba(255,255,255,.2) 92%, transparent 100%);
+  opacity:0;
+  transition: opacity var(--motion-duration-base) var(--motion-ease-emphasized);
+  animation: axm3Spin 5s var(--motion-ease-linear) infinite;
+  pointer-events:none;
+}
+.dropzone:hover,
+.dropzone.drag{
+  border-color:rgba(255,255,255,.25);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,.05), transparent 60%),
+    linear-gradient(180deg, rgba(13,22,27,.78) 0%, rgba(9,15,20,.58) 100%);
+}
+.dropzone.drag{ transform:scale(1.004); }
+.dropzone:hover::before,
+.dropzone.drag::before{ opacity:1; }
+.dropzone svg{ color:var(--ax-text); filter:drop-shadow(0 0 10px rgba(255,255,255,.15)); position:relative; z-index:1; }
+.dropzone p{ color:var(--ax-text); position:relative; z-index:1; }
+.dropzone-hint{ color:var(--ax-text-3); position:relative; z-index:1; }
+
+/* ---- Upload queue ---- */
+.upload-item{
+  background:var(--ax-panel);
+  border:1px solid var(--ax-border);
+  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
+  animation: axm3SlideIn var(--motion-duration-base) var(--motion-ease-emphasized) both;
+}
+.upload-item-icon{ color:var(--ax-text); filter:drop-shadow(0 0 6px rgba(255,255,255,.15)); }
+.upload-item-name{ color:var(--ax-text); }
+.upload-item-bar{ background:rgba(255,255,255,.05); }
+.upload-item-bar span{
+  background:rgba(255,255,255,.45);
+  box-shadow:0 0 12px rgba(255,255,255,.2);
+  transition: width var(--motion-duration-slow) var(--motion-ease-emphasized);
+}
+.upload-item-error{ color:var(--ax-text-3, rgba(255,255,255,.35)); }
+.upload-item.error{ border-color:var(--ax-border-strong, rgba(255,255,255,.15)); }
+.upload-item.done .upload-item-icon{ color:var(--ax-success); }
+
+/* ---- Filter chips ---- */
+.chip{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--ax-border);
+  color:var(--ax-text-2);
+  transition: background var(--motion-duration-fast) var(--motion-ease-emphasized), border-color var(--motion-duration-fast) var(--motion-ease-emphasized), color var(--motion-duration-fast) var(--motion-ease-emphasized), transform var(--motion-duration-fast) var(--motion-ease-emphasized);
+}
+.chip:hover{ color:var(--ax-text); transform:translateY(-1px); }
+.chip.active{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.18);
+  color:var(--ax-text);
+}
+
+/* ---- File grid & cards ---- */
+.file-grid{ gap:14px; }
+.file-card{
+  background:var(--ax-panel);
+  border:1px solid var(--ax-border);
+  box-shadow:var(--ax-stroke), 0 14px 36px rgba(0,0,0,.24);
+  -webkit-backdrop-filter:blur(16px) saturate(130%);
+  backdrop-filter:blur(16px) saturate(130%);
+  transition: transform var(--motion-duration-base) var(--motion-ease-emphasized), border-color var(--motion-duration-base) var(--motion-ease-emphasized), box-shadow var(--motion-duration-base) var(--motion-ease-emphasized);
+  animation: axm3CardIn var(--motion-duration-base) var(--motion-ease-emphasized) both;
+}
+.file-grid .file-card:nth-child(1){ animation-delay:.02s; }
+.file-grid .file-card:nth-child(2){ animation-delay:.05s; }
+.file-grid .file-card:nth-child(3){ animation-delay:.08s; }
+.file-grid .file-card:nth-child(4){ animation-delay:.11s; }
+.file-grid .file-card:nth-child(5){ animation-delay:.14s; }
+.file-grid .file-card:nth-child(6){ animation-delay:.17s; }
+.file-grid .file-card:nth-child(n+7){ animation-delay:.2s; }
+.file-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(255,255,255,.14);
+  box-shadow:var(--ax-stroke), 0 20px 44px rgba(0,0,0,.32), 0 0 26px rgba(255,255,255,.06);
+}
+.file-card-thumb{
+  background:rgba(255,255,255,.06);
+  color:var(--ax-text);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.file-card-thumb.kind-image{ background:rgba(255,255,255,.06); color:var(--ax-text); }
+.file-card-thumb.kind-audio{ background:rgba(255,255,255,.06); color:var(--ax-text); }
+.file-card-thumb.kind-video{ background:rgba(255,255,255,.06); color:var(--ax-text); }
+.file-card-thumb.kind-archive{ background:rgba(255,255,255,.06); color:var(--ax-text); }
+.file-card-name{ color:var(--ax-text); }
+.file-card-sub{ color:var(--ax-text-3); }
+.dot-pulse{ background:var(--ax-text); box-shadow:0 0 10px rgba(255,255,255,.4); }
+.file-card-actions .icon-btn{
+  width:28px; height:28px;
+  background:rgba(6,10,13,.78);
+  border:1px solid rgba(255,255,255,.08);
+}
+
+/* ---- Skeleton loading state (Module 3: loading states) ---- */
+.file-grid.is-loading{ pointer-events:none; }
+.file-skeleton-card{
+  border-radius:var(--ax-radius-sm);
+  padding:1rem;
+  background:var(--ax-panel);
+  border:1px solid var(--ax-border);
+  display:flex;
+  flex-direction:column;
+  gap:.7rem;
+  min-height:112px;
+}
+.file-skeleton-thumb,
+.file-skeleton-line{
+  border-radius:10px;
+  background:linear-gradient(90deg, rgba(255,255,255,.03) 0%, rgba(255,255,255,.09) 50%, rgba(255,255,255,.03) 100%);
+  background-size:200% 100%;
+  animation: axm3Shimmer 1.5s var(--motion-ease-standard) infinite;
+}
+.file-skeleton-thumb{ width:40px; height:40px; border-radius:12px; }
+.file-skeleton-line{ height:10px; width:70%; }
+.file-skeleton-line.short{ width:40%; }
+
+/* ---- Preview modal ---- */
+.preview-modal{ background:rgba(3,6,8,.78); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); }
+.preview-panel{
+  background:var(--ax-panel);
+  border:1px solid var(--ax-border);
+  box-shadow:var(--ax-stroke), 0 40px 100px rgba(0,0,0,.55);
+  -webkit-backdrop-filter:blur(24px) saturate(140%);
+  backdrop-filter:blur(24px) saturate(140%);
+  animation: axm3ModalIn var(--motion-duration-base) var(--motion-ease-emphasized);
+}
+.preview-head{ border-bottom:1px solid var(--ax-border); }
+.preview-head h3{ color:var(--ax-text); }
+.preview-text{
+  color:var(--ax-text-2);
+  background:rgba(6,11,14,.6);
+  border:1px solid var(--ax-border);
+}
+.preview-loading{ color:var(--ax-text-3); position:relative; }
+.preview-loading::after{
+  content:"";
+  display:inline-block;
+  width:14px; height:14px;
+  margin-left:8px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.12);
+  border-top-color:var(--ax-text);
+  vertical-align:-2px;
+  animation: axm3Spin .8s var(--motion-ease-linear) infinite;
+}
+.preview-image-wrap{ background:rgba(0,0,0,.35); border:1px solid var(--ax-border); }
+
+.file-empty{ color:var(--ax-text-3); }
+.file-empty svg{ color:var(--ax-text); opacity:.4; }
+
+/* ---- Motion & keyframes (namespaced axm3 to avoid collisions) ---- */
+@keyframes axm3CardIn{ from{ opacity:0; transform:translateY(10px) scale(.98); } to{ opacity:1; transform:translateY(0) scale(1); } }
+@keyframes axm3SlideIn{ from{ opacity:0; transform:translateX(-8px); } to{ opacity:1; transform:translateX(0); } }
+@keyframes axm3PopIn{ from{ opacity:0; transform:translateY(-4px); } to{ opacity:1; transform:translateY(0); } }
+@keyframes axm3ModalIn{ from{ opacity:0; transform:translateY(12px) scale(.98); } to{ opacity:1; transform:translateY(0) scale(1); } }
+@keyframes axm3Spin{ to{ transform:rotate(360deg); } }
+@keyframes axm3Shimmer{ 0%{ background-position:200% 0; } 100%{ background-position:-200% 0; } }
+
+@media (prefers-reduced-motion: reduce){
+  .file-card,
+  .upload-item,
+  .ws-menu,
+  .preview-panel,
+  .file-skeleton-thumb,
+  .file-skeleton-line,
+  .dropzone::before,
+  .preview-loading::after{ animation: none !important; }
+}
+
+/* ---- Responsive polish ---- */
+@media (max-width:900px){
+  .file-grid{ gap:10px; }
+}
+@media (max-width:640px){
+  .dropzone{ padding:2rem 1rem; }
+  .file-card{ padding:.85rem; }
+}

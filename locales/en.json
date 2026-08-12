@@ -1,0 +1,182 @@
+{
+  "common": {
+    "appName": "Axiom AI Studio",
+    "back": "Back",
+    "backToAxiom": "Back to Axiom",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "loading": "Loading…",
+    "pleaseWait": "Please wait…",
+    "saved": "Saved",
+    "search": "Search",
+    "send": "Send",
+    "stop": "Stop",
+    "regenerate": "Regenerate",
+    "upload": "Upload",
+    "thinking": "Thinking…",
+    "typing": "Typing…",
+    "language": "Language",
+    "theme": "Theme",
+    "notifications": "Notifications",
+    "signOut": "Log out"
+  },
+
+  "nav": {
+    "dashboard": "Dashboard",
+    "chats": "Chats",
+    "playground": "Playground",
+    "billing": "Billing",
+    "settings": "Settings",
+    "admin": "Admin",
+    "profile": "Profile",
+    "newChat": "New chat",
+    "history": "History"
+  },
+
+  "auth": {
+    "welcomeBack": "Welcome back",
+    "signInTitle": "Sign in to Axiom",
+    "signInSubtitle": "Pick up right where you left off, across every model.",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "signIn": "Sign in",
+    "noAccount": "Don't have an account?",
+    "createOne": "Create one",
+    "createAccountTitle": "Create your account",
+    "createAccountSubtitle": "Start building with every model, one account.",
+    "fullName": "Full name",
+    "confirmPassword": "Confirm password",
+    "createAccount": "Create account",
+    "haveAccount": "Already have an account?",
+    "signInLink": "Sign in",
+    "logout": "Logout",
+    "errorInvalidCredentials": "Invalid email or password.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "errorPasswordMismatch": "Passwords don't match."
+  },
+
+  "dashboard": {
+    "title": "Dashboard",
+    "creditsRemaining": "Credits remaining",
+    "activeProjects": "Active projects",
+    "generationsThisMonth": "Generations this month",
+    "avgRelayHandoff": "Avg. Relay handoff",
+    "quickActions": "Quick actions",
+    "quickActionsSubtitle": "Jump straight into a model.",
+    "recentGenerations": "Recent generations",
+    "recentGenerationsSubtitle": "Across every tool in the studio.",
+    "viewAll": "View all →",
+    "newGeneration": "New generation"
+  },
+
+  "playground": {
+    "modelLabel": "Model",
+    "searchModels": "Search models…",
+    "placeholder": "Ask JARVIS anything…",
+    "deleteChat": "Delete chat",
+    "renameChat": "Rename chat",
+    "newChat": "New chat",
+    "outOfCredits": "You're out of credits. Top up in Billing.",
+    "chatUnavailable": "Chat is unavailable: OpenRouter failed to load.",
+    "genericError": "Something went wrong talking to the AI.",
+    "generationComplete": "Generation complete"
+  },
+
+  "billing": {
+    "title": "Billing",
+    "currentPlan": "Current plan",
+    "freeForever": "Free forever",
+    "creditPacks": "Credit packs",
+    "subscriptions": "Subscriptions",
+    "buyCredits": "Buy credits",
+    "subscribe": "Subscribe",
+    "currentPlanBtn": "Current plan",
+    "preparingCheckout": "Preparing checkout…",
+    "verifyingPayment": "Verifying payment…",
+    "paymentSuccessful": "Payment successful!",
+    "paymentFailed": "Payment failed: {reason}",
+    "checkoutFailed": "Could not start checkout",
+    "checkoutError": "Something went wrong starting checkout",
+    "verificationFailed": "Payment verification failed",
+    "verificationError": "Could not verify payment — contact support if you were charged",
+    "usageHistory": "Usage history",
+    "model": "Model",
+    "date": "Date",
+    "tokens": "Tokens",
+    "credits": "Credits"
+  },
+
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "account": "Account",
+    "appearance": "Appearance",
+    "languageRegion": "Language & region",
+    "languageRegionSubtitle": "Choose the language for the interface and for JARVIS's replies.",
+    "selectLanguage": "Select a language",
+    "autoDetected": "Auto-detected from your browser",
+    "voice": "Voice",
+    "voiceInput": "Voice input language",
+    "voiceOutput": "Voice output voice",
+    "notifications": "Notifications",
+    "dangerZone": "Danger zone",
+    "deleteAccount": "Delete account"
+  },
+
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Studio-wide usage, users, and system health.",
+    "totalUsers": "Total users",
+    "generations24h": "Generations (24h)",
+    "activeSubscriptions": "Active subscriptions",
+    "mrrComingSoon": "Coming soon",
+    "mrrLabel": "MRR — needs billing analytics",
+    "recentUsers": "Recent users",
+    "recentUsersSubtitle": "Newest signups across the studio.",
+    "modelLoad": "Model load",
+    "modelLoadSubtitle": "Illustrative only — not wired to real per-model usage yet.",
+    "name": "Name",
+    "plan": "Plan",
+    "credits": "Credits",
+    "joined": "Joined",
+    "loadingUsers": "Loading…",
+    "couldNotLoad": "Could not load user data."
+  },
+
+  "jarvis": {
+    "name": "JARVIS",
+    "onlineStatus": "Online · Reactor active",
+    "listeningStatus": "Listening…",
+    "thinkingStatus": "Thinking…",
+    "speakingStatus": "Speaking…",
+    "errorStatus": "Something went wrong",
+    "greeting": "Hey, I'm JARVIS",
+    "greetingSubtitle": "Your intelligent personal assistant.",
+    "tagline": "Think · Create · Automate",
+    "askAnything": "Ask JARVIS anything…",
+    "micUnavailable": "Mic unavailable — voice mode is visual-only for now.",
+    "writeCode": "Write code",
+    "writeCodeSub": "Debug, build, review",
+    "generateImage": "Generate image",
+    "generateImageSub": "Text or image prompt",
+    "analyzeDocument": "Analyze document",
+    "analyzeDocumentSub": "Upload & summarize",
+    "researchWeb": "Research the web",
+    "researchWebSub": "Live, cited answers"
+  },
+
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "network": "Could not connect. Check your internet connection.",
+    "rateLimited": "Too many requests — please slow down.",
+    "unauthorized": "Please sign in to continue.",
+    "notFound": "We couldn't find that."
+  },
+
+  "toasts": {
+    "saved": "Saved",
+    "copied": "Copied to clipboard"
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "common": {
+    "appName": "Axiom AI Studio",
+    "back": "Atrás",
+    "backToAxiom": "Volver a Axiom",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "loading": "Cargando…",
+    "pleaseWait": "Espera un momento…",
+    "saved": "Guardado",
+    "search": "Buscar",
+    "send": "Enviar",
+    "stop": "Detener",
+    "regenerate": "Regenerar",
+    "upload": "Subir",
+    "thinking": "Pensando…",
+    "typing": "Escribiendo…",
+    "language": "Idioma",
+    "theme": "Tema",
+    "notifications": "Notificaciones",
+    "signOut": "Cerrar sesión"
+  },
+
+  "nav": {
+    "dashboard": "Panel",
+    "chats": "Chats",
+    "playground": "Playground",
+    "billing": "Facturación",
+    "settings": "Configuración",
+    "admin": "Admin",
+    "profile": "Perfil",
+    "newChat": "Nuevo chat",
+    "history": "Historial"
+  },
+
+  "auth": {
+    "welcomeBack": "Bienvenido de nuevo",
+    "signInTitle": "Inicia sesión en Axiom",
+    "signInSubtitle": "Continúa donde lo dejaste, en cada modelo.",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "signIn": "Iniciar sesión",
+    "noAccount": "¿No tienes una cuenta?",
+    "createOne": "Crea una",
+    "createAccountTitle": "Crea tu cuenta",
+    "createAccountSubtitle": "Empieza a crear con cada modelo, con una sola cuenta.",
+    "fullName": "Nombre completo",
+    "confirmPassword": "Confirmar contraseña",
+    "createAccount": "Crear cuenta",
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "signInLink": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "errorInvalidCredentials": "Correo electrónico o contraseña no válidos.",
+    "errorGeneric": "Algo salió mal. Inténtalo de nuevo.",
+    "errorPasswordMismatch": "Las contraseñas no coinciden."
+  },
+
+  "dashboard": {
+    "title": "Panel",
+    "creditsRemaining": "Créditos restantes",
+    "activeProjects": "Proyectos activos",
+    "generationsThisMonth": "Generaciones este mes",
+    "avgRelayHandoff": "Traspaso de Relay promedio",
+    "quickActions": "Acciones rápidas",
+    "quickActionsSubtitle": "Ve directo a un modelo.",
+    "recentGenerations": "Generaciones recientes",
+    "recentGenerationsSubtitle": "En todas las herramientas del estudio.",
+    "viewAll": "Ver todo →",
+    "newGeneration": "Nueva generación"
+  },
+
+  "playground": {
+    "modelLabel": "Modelo",
+    "searchModels": "Buscar modelos…",
+    "placeholder": "Pregúntale a JARVIS lo que sea…",
+    "deleteChat": "Eliminar chat",
+    "renameChat": "Renombrar chat",
+    "newChat": "Nuevo chat",
+    "outOfCredits": "Te quedaste sin créditos. Recarga en Facturación.",
+    "chatUnavailable": "Chat no disponible: no se pudo cargar OpenRouter.",
+    "genericError": "Algo salió mal al hablar con la IA.",
+    "generationComplete": "Generación completa"
+  },
+
+  "billing": {
+    "title": "Facturación",
+    "currentPlan": "Plan actual",
+    "freeForever": "Gratis para siempre",
+    "creditPacks": "Paquetes de créditos",
+    "subscriptions": "Suscripciones",
+    "buyCredits": "Comprar créditos",
+    "subscribe": "Suscribirse",
+    "currentPlanBtn": "Plan actual",
+    "preparingCheckout": "Preparando el pago…",
+    "verifyingPayment": "Verificando el pago…",
+    "paymentSuccessful": "¡Pago exitoso!",
+    "paymentFailed": "Pago fallido: {reason}",
+    "checkoutFailed": "No se pudo iniciar el pago",
+    "checkoutError": "Algo salió mal al iniciar el pago",
+    "verificationFailed": "Verificación de pago fallida",
+    "verificationError": "No se pudo verificar el pago — contacta a soporte si se te cobró",
+    "usageHistory": "Historial de uso",
+    "model": "Modelo",
+    "date": "Fecha",
+    "tokens": "Tokens",
+    "credits": "Créditos"
+  },
+
+  "settings": {
+    "title": "Configuración",
+    "profile": "Perfil",
+    "account": "Cuenta",
+    "appearance": "Apariencia",
+    "languageRegion": "Idioma y región",
+    "languageRegionSubtitle": "Elige el idioma de la interfaz y de las respuestas de JARVIS.",
+    "selectLanguage": "Selecciona un idioma",
+    "autoDetected": "Detectado automáticamente desde tu navegador",
+    "voice": "Voz",
+    "voiceInput": "Idioma de entrada de voz",
+    "voiceOutput": "Voz de salida",
+    "notifications": "Notificaciones",
+    "dangerZone": "Zona de peligro",
+    "deleteAccount": "Eliminar cuenta"
+  },
+
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Uso, usuarios y salud del sistema en todo el estudio.",
+    "totalUsers": "Usuarios totales",
+    "generations24h": "Generaciones (24 h)",
+    "activeSubscriptions": "Suscripciones activas",
+    "mrrComingSoon": "Próximamente",
+    "mrrLabel": "MRR — requiere analítica de facturación",
+    "recentUsers": "Usuarios recientes",
+    "recentUsersSubtitle": "Los registros más nuevos en el estudio.",
+    "modelLoad": "Carga por modelo",
+    "modelLoadSubtitle": "Solo ilustrativo — aún no conectado al uso real por modelo.",
+    "name": "Nombre",
+    "plan": "Plan",
+    "credits": "Créditos",
+    "joined": "Se unió",
+    "loadingUsers": "Cargando…",
+    "couldNotLoad": "No se pudieron cargar los datos del usuario."
+  },
+
+  "jarvis": {
+    "name": "JARVIS",
+    "onlineStatus": "En línea · Reactor activo",
+    "listeningStatus": "Escuchando…",
+    "thinkingStatus": "Pensando…",
+    "speakingStatus": "Hablando…",
+    "errorStatus": "Algo salió mal",
+    "greeting": "Hola, soy JARVIS",
+    "greetingSubtitle": "Tu asistente personal inteligente.",
+    "tagline": "Piensa · Crea · Automatiza",
+    "askAnything": "Pregúntale a JARVIS lo que sea…",
+    "micUnavailable": "Micrófono no disponible — el modo de voz es solo visual por ahora.",
+    "writeCode": "Escribir código",
+    "writeCodeSub": "Depura, construye, revisa",
+    "generateImage": "Generar imagen",
+    "generateImageSub": "Texto o imagen como prompt",
+    "analyzeDocument": "Analizar documento",
+    "analyzeDocumentSub": "Sube y resume",
+    "researchWeb": "Investigar en la web",
+    "researchWebSub": "Respuestas en vivo y citadas"
+  },
+
+  "errors": {
+    "generic": "Algo salió mal. Inténtalo de nuevo.",
+    "network": "No se pudo conectar. Revisa tu conexión a internet.",
+    "rateLimited": "Demasiadas solicitudes — reduce la velocidad.",
+    "unauthorized": "Inicia sesión para continuar.",
+    "notFound": "No pudimos encontrar eso."
+  },
+
+  "toasts": {
+    "saved": "Guardado",
+    "copied": "Copiado al portapapeles"
+  }
+}

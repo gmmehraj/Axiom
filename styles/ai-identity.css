@@ -1,0 +1,62 @@
+/* ============================================================
+   AXIOM — AI IDENTITY TOKENS (live)
+   Milestone 14 · Phase 3 · Part 1 — AI Core & AI Avatar Visual
+   Unification.
+   ------------------------------------------------------------
+   Purple Aurora is the one accent that represents AI presence /
+   cognition anywhere in the app (AI Avatar, AI Core, the Brain
+   page, and the AI's dock point in the Shell). This file makes
+   that accent an actual live dependency, not just documentation.
+
+   IMPORTANT CONTEXT: styles/design-tokens.css already defines
+   this exact `--ax-ai-accent` family (see its section 12). At the
+   time this file was written, design-tokens.css was not yet
+   linked from any HTML page, so every `var(--ax-ai-accent...)`
+   reference already written into styles/brain.css and
+   automation.html was silently resolving to nothing — this file
+   was the minimal, low-risk fix for just that slice.
+
+   UPDATED Phase 10 · Part 2 · Block 1 Step 1: verified
+   design-tokens.css is now `@import`ed by base.css (and others)
+   ahead of this file on every page that loads both, so the
+   `--ax-ai-accent*` block that used to live here has been removed
+   as a confirmed-safe duplicate — same six values, same names,
+   already in effect by the time this file's rules apply. Only the
+   per-state accents below (which design-tokens.css does not
+   define) remain here.
+
+   Loaded on every page that mounts the AI Avatar (12 app pages)
+   and on os-shell.html (AI Core), immediately before those
+   components' own stylesheets/scripts.
+   ============================================================ */
+
+:root {
+  /* ---- Per-state accents ------------------------------------
+     One shared vocabulary for anything that visualizes the AI's
+     current activity (AI Avatar face, AI Core orb). All are
+     drawn from the same purple/violet/indigo family so every
+     state still reads as "the same entity," while remaining
+     distinguishable from one another at a glance. `warning` and
+     `error` are intentionally the app's existing semantic status
+     colors (amber / red) rather than identity colors — those two
+     mean something specific everywhere else in AXIOM and must
+     keep meaning that here too. `offline` is intentionally
+     neutral gray: unlike `sleep` (the AI resting), `offline`
+     means the AI isn't there at all, so it doesn't carry the
+     identity color.
+     ------------------------------------------------------------ */
+  --ax-ai-state-idle:        #A855F7;  /* calm resting state — same hue, low energy */
+  --ax-ai-state-thinking:    #9333EA;  /* deep violet — focused processing */
+  --ax-ai-state-speaking:    #D946EF;  /* warm fuchsia — expressive output */
+  --ax-ai-state-listening:   #818CF8;  /* cool indigo — receptive/attentive */
+  --ax-ai-state-researching: #6366F1;  /* deep indigo — searching */
+  --ax-ai-state-coding:      #7C3AED;  /* electric violet — technical */
+  --ax-ai-state-generating:  #E9D5FF;  /* brightest/lightest — creating */
+  --ax-ai-state-automation:  #A855F7;  /* base identity, low energy — steady/mechanical */
+  --ax-ai-state-memory:      #C4B5FD;  /* soft violet — recall (paired with a gold sparkle accent) */
+  --ax-ai-state-learning:    #C084FC;  /* warm violet — growth */
+  --ax-ai-state-sleep:       #A855F7;  /* base identity, near-zero alpha — dormant but still "alive" */
+  --ax-ai-state-warning:     var(--ax-warning, #FBBF24); /* semantic, not identity */
+  --ax-ai-state-error:       var(--ax-error, #EF4444);   /* semantic, not identity */
+  --ax-ai-state-offline:     #9CA3AF;  /* neutral — unavailable, not resting */
+}

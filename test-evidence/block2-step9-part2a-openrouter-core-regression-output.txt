@@ -1,0 +1,76 @@
+AXIOM Block 2 / Step 9 / Part 2A — OpenRouter Core Foundation regression
+
+PASS  errors: installs onto window.AxiomOpenRouter.errors
+PASS  errors: HTTP 401 classifies as "invalid_api_key"
+PASS  errors: HTTP 403 classifies as "forbidden"
+PASS  errors: HTTP 404 classifies as "not_found"
+PASS  errors: HTTP 408 classifies as "request_timeout"
+PASS  errors: HTTP 429 classifies as "rate_limited"
+PASS  errors: HTTP 500 classifies as "server_error"
+PASS  errors: HTTP 502 classifies as "bad_gateway"
+PASS  errors: HTTP 503 classifies as "service_unavailable"
+PASS  errors: HTTP 504 classifies as "gateway_timeout"
+PASS  errors: AbortError classifies as "timeout"
+PASS  errors: fetch-layer TypeError classifies as "network_error"
+PASS  errors: "Invalid API key" message body classifies as "invalid_api_key"
+PASS  errors: model-not-found message classifies as "model_unavailable"
+PASS  errors: unrecognized input classifies as "unknown"
+PASS  errors: retryable set is exactly {timeout,rate_limited,5xx,network,request_timeout}
+PASS  errors: classify() never throws on null/undefined/empty input
+PASS  errors: handle() emits openrouter_error on the shared AxiomOpenRouter bus
+PASS  api-manager: init() with no stored key resolves to NO_KEY and fires openrouter_initialized
+PASS  api-manager: setApiKey() with a key that validates persists it and transitions to CONNECTED, firing openrouter_connected
+PASS  api-manager: setApiKey() with a key OpenRouter rejects (401) does NOT persist it, transitions to INVALID_KEY
+PASS  api-manager: removeApiKey() clears storage and returns to NO_KEY, firing openrouter_disconnected
+PASS  api-manager: checkHealth() reflects a live 500 as ERROR without discarding the stored key
+PASS  api-manager: bus events are forwarded verbatim onto AxiomOrchestrator.emit (Event Bus reuse)
+PASS  api-manager: dispatches namespaced DOM CustomEvents (axiom:openrouter_*)
+PASS  api-manager: forwards to AxiomAnalyticsAutomation.addLog when present (Analytics reuse)
+PASS  api-manager: works standalone with no AxiomOrchestrator/Analytics/Supabase/RuntimeContext loaded
+PASS  api-manager: on/once/off pub-sub contract matches AxiomSupabaseConnection's documented shape
+PASS  api-manager: reuses AxiomSupabaseConnection session to scope key storage per-user without modifying it
+PASS  api-manager: falls back to an anonymous storage namespace when Supabase is absent or has no session
+PASS  api-manager: optionally wraps requests in AxiomRuntimeContext without requiring it
+PASS  model-manager: fetchModels() populates the cache and fires openrouter_models_loaded
+PASS  model-manager: fetchModels() serves from cache on a second call (no duplicate fetch) within the TTL
+PASS  model-manager: refreshModels() always bypasses the cache
+PASS  model-manager: concurrent fetchModels() calls share one in-flight request
+PASS  model-manager: getModelMetadata/getContextSize/getPricing/getCapabilities read the cached catalog
+PASS  model-manager: setDefaultModel() rejects an id outside the loaded catalog, accepts one inside it
+PASS  model-manager: getDefaultModel() falls back to a sane built-in before any catalog is loaded
+PASS  model-manager: default-model storage key never collides with js/core/model-selector.js's key
+PASS  model-manager: a fetch failure classifies through the shared error handler and rejects cleanly
+PASS  token-manager: countPromptTokens() returns a positive, deterministic estimate
+PASS  token-manager: recordUsage() accumulates global and per-model totals
+PASS  token-manager: estimateCost() multiplies real per-token pricing from model-manager.js
+PASS  token-manager: estimateCost() returns null (not 0) when pricing is unknown
+PASS  token-manager: estimateCost() degrades to null without throwing when model-manager.js is not loaded at all
+PASS  token-manager: recordUsage() attaches costUsd once pricing is known
+PASS  token-manager: resetStats() zeroes both global and per-model totals
+PASS  integration: all four files share one AxiomOpenRouter namespace regardless of load order
+PASS  integration: all five documented events exist and are reachable through window.AxiomOpenRouter.on()
+PASS  static: js/core/openrouter-client.js exists and was not touched by Part 2A (byte content unchanged)
+PASS  static: js/core/openrouter-config.js exists and was not touched by Part 2A (byte content unchanged)
+PASS  static: js/core/model-selector.js exists and was not touched by Part 2A (byte content unchanged)
+PASS  static: protected file os/core/browser-engine.js still present on disk
+PASS  static: protected file os/core/browser-manager.js still present on disk
+PASS  static: protected file os/core/browser-sandbox.js still present on disk
+PASS  static: protected file os/core/automation-engine.js still present on disk
+PASS  static: protected file os/core/automation-manager.js still present on disk
+PASS  static: protected file os/core/memory-engine.js still present on disk
+PASS  static: protected file os/core/memory-manager.js still present on disk
+PASS  static: protected file os/core/goal-manager.js still present on disk
+PASS  static: protected file os/core/goal-manager-learning.js still present on disk
+PASS  static: protected file os/core/goal-manager-recovery.js still present on disk
+PASS  static: protected file js/core/voice.js still present on disk
+PASS  static: protected file js/core/voice-controller.js still present on disk
+PASS  static: protected file js/core/supabase/connection-manager.js still present on disk
+PASS  static: protected file js/core/supabase/auth-service.js still present on disk
+PASS  static: protected file js/core/supabase/env.js still present on disk
+PASS  static: os/api/openrouter/ contains the four Part 2A files plus only Part 2B-1/2B-2/2B-3/2B-4's approved siblings, nothing else
+PASS  static: os/api/openrouter/api-manager.js never touches localStorage key axiom_openrouter_selected_model in code (existing UI selector's key)
+PASS  static: os/api/openrouter/model-manager.js never touches localStorage key axiom_openrouter_selected_model in code (existing UI selector's key)
+PASS  static: os/api/openrouter/token-manager.js never touches localStorage key axiom_openrouter_selected_model in code (existing UI selector's key)
+PASS  static: os/api/openrouter/error-handler.js never touches localStorage key axiom_openrouter_selected_model in code (existing UI selector's key)
+
+72 passed, 0 failed.

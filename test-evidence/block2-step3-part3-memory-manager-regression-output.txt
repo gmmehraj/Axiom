@@ -1,0 +1,34 @@
+AXIOM Block 2 / Step 3 / Part 3 — Memory Manager regression suite
+======================================================================
+  PASS  AxiomMemoryEngine loads standalone
+  PASS  AxiomMemoryManager loads and exposes API_VERSION
+  PASS  Manager exposes every documented method
+  PASS  Part 1/Part 2 engine API is untouched (no methods removed)
+  PASS  getConversation returns conversation + messages
+  PASS  getConversation paginates messages
+  PASS  getConversation returns null for unknown id
+  PASS  listConversations includes the created conversation
+  PASS  listConversations titleContains filter narrows results
+  PASS  ensureConversation reuses an existing id (no duplicate)
+  PASS  ensureConversation creates when id is new
+  PASS  findMemories with no filter returns all memories
+  PASS  findMemories filters by project
+  PASS  findMemories filters by agent
+  PASS  findMemories sorts by importance descending
+  PASS  findMemories paginates
+  PASS  registerMemory dedupes an exact repeat
+  PASS  listSessions includes the current live session
+  PASS  listSessions derives status and duration
+  PASS  getSession returns a single session by id
+  PASS  getSession returns null for unknown id
+  PASS  getMetadataSummary counts tags/agents/projects/types
+  PASS  getMetadataSummary buckets importance/confidence
+  PASS  getOverview merges engine stats with top-N roll-ups
+  PASS  runCleanup reports a before/after breakdown
+  PASS  runCleanup actually removed the expired memory
+  PASS  runCleanup is idempotent on a second call (no negative counts)
+  PASS  registerMemory called 50x with identical input creates exactly one record
+  PASS  ensureConversation called 50x with identical id creates exactly one record
+  PASS  findMemories over 2000 records completes quickly (no regression)
+======================================================================
+30 passed, 0 failed

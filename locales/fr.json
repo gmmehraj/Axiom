@@ -1,0 +1,182 @@
+{
+  "common": {
+    "appName": "Axiom AI Studio",
+    "back": "Retour",
+    "backToAxiom": "Retour à Axiom",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "loading": "Chargement…",
+    "pleaseWait": "Veuillez patienter…",
+    "saved": "Enregistré",
+    "search": "Rechercher",
+    "send": "Envoyer",
+    "stop": "Arrêter",
+    "regenerate": "Régénérer",
+    "upload": "Téléverser",
+    "thinking": "Réflexion…",
+    "typing": "En train d'écrire…",
+    "language": "Langue",
+    "theme": "Thème",
+    "notifications": "Notifications",
+    "signOut": "Se déconnecter"
+  },
+
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "chats": "Chats",
+    "playground": "Playground",
+    "billing": "Facturation",
+    "settings": "Paramètres",
+    "admin": "Admin",
+    "profile": "Profil",
+    "newChat": "Nouvelle discussion",
+    "history": "Historique"
+  },
+
+  "auth": {
+    "welcomeBack": "Content de vous revoir",
+    "signInTitle": "Connectez-vous à Axiom",
+    "signInSubtitle": "Reprenez là où vous vous étiez arrêté, sur chaque modèle.",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "signIn": "Se connecter",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "createOne": "Créez-en un",
+    "createAccountTitle": "Créez votre compte",
+    "createAccountSubtitle": "Commencez à créer avec chaque modèle, avec un seul compte.",
+    "fullName": "Nom complet",
+    "confirmPassword": "Confirmer le mot de passe",
+    "createAccount": "Créer un compte",
+    "haveAccount": "Vous avez déjà un compte ?",
+    "signInLink": "Se connecter",
+    "logout": "Déconnexion",
+    "errorInvalidCredentials": "E-mail ou mot de passe invalide.",
+    "errorGeneric": "Une erreur s'est produite. Veuillez réessayer.",
+    "errorPasswordMismatch": "Les mots de passe ne correspondent pas."
+  },
+
+  "dashboard": {
+    "title": "Tableau de bord",
+    "creditsRemaining": "Crédits restants",
+    "activeProjects": "Projets actifs",
+    "generationsThisMonth": "Générations ce mois-ci",
+    "avgRelayHandoff": "Transfert Relay moyen",
+    "quickActions": "Actions rapides",
+    "quickActionsSubtitle": "Accédez directement à un modèle.",
+    "recentGenerations": "Générations récentes",
+    "recentGenerationsSubtitle": "Dans tous les outils du studio.",
+    "viewAll": "Tout voir →",
+    "newGeneration": "Nouvelle génération"
+  },
+
+  "playground": {
+    "modelLabel": "Modèle",
+    "searchModels": "Rechercher des modèles…",
+    "placeholder": "Demandez n'importe quoi à JARVIS…",
+    "deleteChat": "Supprimer la discussion",
+    "renameChat": "Renommer la discussion",
+    "newChat": "Nouvelle discussion",
+    "outOfCredits": "Vous n'avez plus de crédits. Rechargez dans Facturation.",
+    "chatUnavailable": "Discussion indisponible : échec du chargement d'OpenRouter.",
+    "genericError": "Une erreur s'est produite en parlant à l'IA.",
+    "generationComplete": "Génération terminée"
+  },
+
+  "billing": {
+    "title": "Facturation",
+    "currentPlan": "Forfait actuel",
+    "freeForever": "Gratuit pour toujours",
+    "creditPacks": "Packs de crédits",
+    "subscriptions": "Abonnements",
+    "buyCredits": "Acheter des crédits",
+    "subscribe": "S'abonner",
+    "currentPlanBtn": "Forfait actuel",
+    "preparingCheckout": "Préparation du paiement…",
+    "verifyingPayment": "Vérification du paiement…",
+    "paymentSuccessful": "Paiement réussi !",
+    "paymentFailed": "Échec du paiement : {reason}",
+    "checkoutFailed": "Impossible de démarrer le paiement",
+    "checkoutError": "Une erreur s'est produite au démarrage du paiement",
+    "verificationFailed": "Échec de la vérification du paiement",
+    "verificationError": "Impossible de vérifier le paiement — contactez le support si vous avez été débité",
+    "usageHistory": "Historique d'utilisation",
+    "model": "Modèle",
+    "date": "Date",
+    "tokens": "Jetons",
+    "credits": "Crédits"
+  },
+
+  "settings": {
+    "title": "Paramètres",
+    "profile": "Profil",
+    "account": "Compte",
+    "appearance": "Apparence",
+    "languageRegion": "Langue et région",
+    "languageRegionSubtitle": "Choisissez la langue de l'interface et des réponses de JARVIS.",
+    "selectLanguage": "Sélectionnez une langue",
+    "autoDetected": "Détecté automatiquement depuis votre navigateur",
+    "voice": "Voix",
+    "voiceInput": "Langue de saisie vocale",
+    "voiceOutput": "Voix de sortie",
+    "notifications": "Notifications",
+    "dangerZone": "Zone de danger",
+    "deleteAccount": "Supprimer le compte"
+  },
+
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Utilisation, utilisateurs et état du système à l'échelle du studio.",
+    "totalUsers": "Utilisateurs totaux",
+    "generations24h": "Générations (24 h)",
+    "activeSubscriptions": "Abonnements actifs",
+    "mrrComingSoon": "Bientôt disponible",
+    "mrrLabel": "MRR — nécessite une analyse de facturation",
+    "recentUsers": "Utilisateurs récents",
+    "recentUsersSubtitle": "Les inscriptions les plus récentes du studio.",
+    "modelLoad": "Charge par modèle",
+    "modelLoadSubtitle": "À titre indicatif seulement — pas encore relié à l'usage réel par modèle.",
+    "name": "Nom",
+    "plan": "Forfait",
+    "credits": "Crédits",
+    "joined": "Inscrit le",
+    "loadingUsers": "Chargement…",
+    "couldNotLoad": "Impossible de charger les données utilisateur."
+  },
+
+  "jarvis": {
+    "name": "JARVIS",
+    "onlineStatus": "En ligne · Réacteur actif",
+    "listeningStatus": "Écoute…",
+    "thinkingStatus": "Réflexion…",
+    "speakingStatus": "En train de parler…",
+    "errorStatus": "Une erreur s'est produite",
+    "greeting": "Bonjour, je suis JARVIS",
+    "greetingSubtitle": "Votre assistant personnel intelligent.",
+    "tagline": "Penser · Créer · Automatiser",
+    "askAnything": "Demandez n'importe quoi à JARVIS…",
+    "micUnavailable": "Micro indisponible — le mode vocal est visuel uniquement pour l'instant.",
+    "writeCode": "Écrire du code",
+    "writeCodeSub": "Déboguer, construire, réviser",
+    "generateImage": "Générer une image",
+    "generateImageSub": "Invite texte ou image",
+    "analyzeDocument": "Analyser un document",
+    "analyzeDocumentSub": "Téléversez et résumez",
+    "researchWeb": "Rechercher sur le web",
+    "researchWebSub": "Réponses en direct et sourcées"
+  },
+
+  "errors": {
+    "generic": "Une erreur s'est produite. Veuillez réessayer.",
+    "network": "Connexion impossible. Vérifiez votre connexion internet.",
+    "rateLimited": "Trop de requêtes — veuillez ralentir.",
+    "unauthorized": "Veuillez vous connecter pour continuer.",
+    "notFound": "Nous n'avons pas trouvé cela."
+  },
+
+  "toasts": {
+    "saved": "Enregistré",
+    "copied": "Copié dans le presse-papiers"
+  }
+}

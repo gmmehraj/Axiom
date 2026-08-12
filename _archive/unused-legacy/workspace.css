@@ -1,0 +1,145 @@
+/* ============================================================
+   AXIOM AI STUDIO — Phase 4: AI Workspace
+   Every color/spacing value below reuses the tokens already aliased
+   onto .app-body in theme.css (--accent, --card-bg, --border-accent,
+   --text-1/2/muted, --radius-*). No new palette, no new component
+   language — this file only adds layout for upload/library/preview.
+   ============================================================ */
+
+/* ---- Workspace switcher (topbar) ---- */
+.ws-switch{
+  position:relative; display:flex; align-items:center; gap:.5rem;
+  padding:.45rem .8rem; border-radius:999px; border:1px solid var(--border-accent);
+  background:rgba(255,255,255,.02); font-size:.82rem; color:var(--text-2); cursor:pointer;
+  white-space:nowrap;
+}
+.ws-switch:hover{ color:var(--text-1); border-color:var(--accent); }
+.ws-switch .dot{ width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent-glow); }
+.ws-switch b{ color:var(--text-1); font-weight:600; }
+.ws-menu{
+  position:absolute; top:calc(100% + 8px); left:0; min-width:220px;
+  background:var(--card-bg); border:1px solid var(--border-accent); border-radius:var(--radius-m);
+  padding:.4rem; display:none; flex-direction:column; gap:.15rem; z-index:60;
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
+.ws-menu.open{ display:flex; }
+.ws-menu-item{
+  display:flex; align-items:center; justify-content:space-between; gap:.6rem;
+  padding:.55rem .7rem; border-radius:var(--radius-s); border:1px solid transparent;
+  background:transparent; color:var(--text-2); font-size:.85rem; text-align:left; cursor:pointer;
+}
+.ws-menu-item:hover{ background:rgba(255,255,255,.08); color:var(--text-1); }
+.ws-menu-item.active{ color:var(--accent); border-color:var(--border-accent); }
+.ws-select{
+  background:rgba(255,255,255,.03); border:1px solid var(--border-accent); color:var(--text-2);
+  border-radius:var(--radius-s); padding:.45rem .7rem; font-size:.82rem;
+}
+
+/* ---- Dropzone ---- */
+.dropzone{
+  border:1.5px dashed var(--border-accent); border-radius:var(--radius-m);
+  padding:2.4rem 1.5rem; text-align:center; color:var(--text-2); cursor:pointer;
+  transition: border-color var(--motion-duration-fast), background var(--motion-duration-fast);
+}
+.dropzone svg{ color:var(--accent); margin-bottom:.6rem; }
+.dropzone p{ color:var(--text-1); font-size:.95rem; margin-bottom:.3rem; }
+.dropzone-hint{ display:block; font-size:.72rem; color:var(--text-muted); font-family:var(--font-mono); margin-top:.4rem; }
+.dropzone:hover, .dropzone.drag{ border-color:var(--accent); background:rgba(255,255,255,.05); }
+
+/* ---- Upload queue ---- */
+.upload-queue{ display:none; flex-direction:column; gap:.5rem; margin-top:1rem; }
+.upload-item{
+  display:flex; align-items:center; gap:.7rem; padding:.6rem .8rem;
+  border:1px solid var(--border-accent); border-radius:var(--radius-s); background:rgba(255,255,255,.02);
+}
+.upload-item-icon{ color:var(--accent); flex-shrink:0; }
+.upload-item-meta{ flex:1; min-width:0; }
+.upload-item-name{ font-size:.85rem; color:var(--text-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.upload-item-bar{ height:4px; border-radius:2px; background:rgba(255,255,255,.08); margin-top:.35rem; overflow:hidden; }
+.upload-item-bar span{ display:block; height:100%; background:var(--accent); transition: width var(--motion-duration-base); }
+.upload-item-error{ font-size:.78rem; color:var(--a-coral); margin-top:.2rem; }
+.upload-item.error{ border-color:rgba(242,101,122,.4); }
+
+/* ---- Filter chips ---- */
+.filter-bar{ display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1.1rem; }
+.chip{
+  padding:.4rem .85rem; border-radius:999px; border:1px solid var(--border-accent);
+  background:transparent; color:var(--text-2); font-size:.8rem; cursor:pointer; transition: all var(--motion-duration-fast);
+}
+.chip:hover{ color:var(--text-1); }
+.chip.active{ background:rgba(255,255,255,.12); border-color:var(--accent); color:var(--accent); }
+
+/* ---- File grid ---- */
+.file-grid{
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:.9rem;
+}
+.file-card{
+  display:flex; flex-direction:column; gap:.7rem; text-align:left; padding:1rem;
+  background:var(--card-bg); border:1px solid var(--border-accent); border-radius:var(--radius-m);
+  cursor:pointer; transition: transform var(--motion-duration-fast), border-color var(--motion-duration-fast); position:relative;
+}
+.file-card:hover{ transform:translateY(-3px); border-color:var(--accent); }
+.file-card-thumb{
+  width:40px; height:40px; border-radius:var(--radius-s); display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,.08); color:var(--accent);
+}
+.file-card-thumb.kind-image{ background:rgba(246,196,83,.1); color:#F6C453; }
+.file-card-thumb.kind-audio{ background:rgba(79,209,197,.1); color:#4FD1C5; }
+.file-card-thumb.kind-video{ background:rgba(96,165,250,.12); color:#60A5FA; }
+.file-card-thumb.kind-archive{ background:rgba(255,255,255,.06); color:var(--text-2); }
+.file-card-name{ font-size:.88rem; color:var(--text-1); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.file-card-sub{ display:flex; align-items:center; gap:.5rem; font-size:.72rem; color:var(--text-muted); margin-top:.25rem; }
+.file-card-sub .tag{ text-transform:capitalize; font-family:var(--font-mono); }
+.dot-pulse{ width:6px; height:6px; border-radius:50%; background:var(--accent); animation: ws-pulse 1.2s infinite; }
+@keyframes ws-pulse{ 0%,100%{ opacity:.3; } 50%{ opacity:1; } }
+.file-card-actions{
+  position:absolute; top:.6rem; right:.6rem; display:flex; gap:.3rem; opacity:0; transition: opacity var(--motion-duration-fast);
+}
+.file-card:hover .file-card-actions{ opacity:1; }
+.file-card-actions .icon-btn{ width:26px; height:26px; background:rgba(10,10,10,.6); }
+
+.file-empty{
+  display:none; flex-direction:column; align-items:center; gap:.6rem; padding:3rem 1rem; color:var(--text-muted); text-align:center;
+}
+.file-empty svg{ color:var(--text-muted); opacity:.6; }
+
+/* ---- Preview modal ---- */
+.preview-modal{
+  position:fixed; inset:0; background:rgba(6,6,10,.72); backdrop-filter:blur(6px);
+  display:none; align-items:center; justify-content:center; z-index:200; padding:2rem;
+}
+.preview-modal.open{ display:flex; }
+.preview-panel{
+  width:min(760px, 100%); max-height:88vh; display:flex; flex-direction:column;
+  background:var(--card-bg); border:1px solid var(--border-accent); border-radius:var(--radius-l);
+  box-shadow:0 30px 80px rgba(0,0,0,.5); overflow:hidden;
+}
+.preview-head{
+  display:flex; align-items:center; justify-content:space-between; padding:1rem 1.2rem;
+  border-bottom:1px solid var(--border-accent);
+}
+.preview-head h3{ font-size:.95rem; color:var(--text-1); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.preview-body{ padding:1.2rem; overflow-y:auto; display:flex; flex-direction:column; gap:.9rem; }
+.preview-actions{ display:flex; gap:.6rem; flex-wrap:wrap; }
+.preview-doc-tools, .preview-image-tools{ display:flex; gap:.5rem; flex-wrap:wrap; }
+.preview-text{
+  white-space:pre-wrap; font-size:.85rem; line-height:1.6; color:var(--text-2);
+  background:rgba(255,255,255,.02); border:1px solid var(--border-accent); border-radius:var(--radius-s);
+  padding:1rem; max-height:40vh; overflow-y:auto;
+}
+.preview-loading{ color:var(--text-muted); font-size:.85rem; padding:2rem 0; text-align:center; }
+.preview-image-wrap{ display:flex; align-items:center; justify-content:center; max-height:50vh; overflow:auto; background:rgba(0,0,0,.25); border-radius:var(--radius-s); }
+.preview-image-wrap img{ max-width:100%; transition: transform var(--motion-duration-fast); }
+.btn-sm{ padding:.45rem .8rem; font-size:.78rem; }
+
+/* ---- Responsive ---- */
+@media (max-width: 900px){
+  .file-grid{ grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); }
+  .ws-switch b{ max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+}
+@media (max-width: 600px){
+  .preview-modal{ padding:0; }
+  .preview-panel{ width:100%; height:100%; max-height:100%; border-radius:0; }
+  .file-grid{ grid-template-columns:1fr 1fr; }
+  .topbar-search{ display:none; }
+}

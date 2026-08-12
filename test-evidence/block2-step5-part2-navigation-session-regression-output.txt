@@ -1,0 +1,62 @@
+AXIOM Navigation & Session Manager (Part 2) — regression suite
+====================================================
+  PASS  validateUrl() rejects javascript:/data:/vbscript:/file: input outright
+  PASS  normalizeUrl() returns null for blocked protocols (never reaches the iframe)
+  PASS  a blocked-protocol navigate() is refused and does not touch tab state
+  PASS  engine.navigation.navigate() returns a rich {ok,url,reason} result
+  PASS  relative paths resolve against the active tab's current origin
+  PASS  a relative path with NO current page context falls through to a search query (unchanged Part 1 behavior)
+  PASS  plain normalizeUrl(input) with no second argument is byte-identical to Part 1 for ordinary input
+  PASS  a normal navigation walks started -> connecting -> loading -> content-ready -> completed
+  PASS  reportError() and reportBlocked() both land on the "failed" phase
+  PASS  stopLoading() only works mid-flight and sets status/phase to cancelled
+  PASS  reportRedirect() updates the current history entry in place, not a new stack entry
+  PASS  engine.loadingLifecycle exposes the phase list and getPhase()
+  PASS  duplicateTab() copies url/title/history and lands next to the source tab
+  PASS  duplicateTab() across sessions is refused
+  PASS  reorderTabs() moves a tab to a new index and clamps out-of-range indices
+  PASS  active session tracking is independent of each session's own active tab
+  PASS  ending the active session falls back to another non-background session
+  PASS  updateSessionMetadata() merges into a session's metadata without clobbering other keys
+  PASS  serializeSession()/restoreSession() round-trip a session's tabs into a NEW session
+  PASS  restoring a session does not spam global history (no re-visit recorded)
+  PASS  persistSessionSnapshot()/loadSessionSnapshot() round-trip through localStorage, independent of process
+  PASS  nothing is auto-persisted — a session is NOT saved unless persistSessionSnapshot() is explicitly called
+  PASS  getBackStack()/getForwardStack() reflect the real per-tab history position
+  PASS  getHistoryStats() aggregates real visit counts per host
+  PASS  engine.tabs.* / engine.sessions.* / engine.history.* operate on the SAME state as the flat methods
+  PASS  a single navigate() call emits exactly one tab:navigated and one navigation:started event
+  PASS  init() called many times never creates more than one default session (no duplicate session creation)
+  PASS  a realistic multi-feature workflow (validate, navigate, redirect, duplicate, reorder, restore) runs without throwing
+====================================================
+28 passed, 0 failed
+
+Re-running Part 1 suite against the Part 2 engine file for regression...
+AXIOM Browser Engine Foundation — regression suite
+====================================================
+  PASS  init() is idempotent — a second call returns the same default session
+  PASS  init() creates a default session with exactly one starter tab
+  PASS  background (agent) sessions are isolated from the default session
+  PASS  endSession() closes all of its tabs and removes the session
+  PASS  createTab() without a url leaves the tab empty (no navigation)
+  PASS  closing the last tab in a session opens a fresh blank one, never leaves zero tabs
+  PASS  closing a non-active tab keeps the active tab unchanged
+  PASS  switchTab() rejects a tab id from a different session
+  PASS  navigate() normalizes bare domains and search queries correctly
+  PASS  back/forward walk the per-tab history stack correctly, including truncation on new navigation
+  PASS  goBack()/goForward() are no-ops at the ends of the stack
+  PASS  reportLoaded()/reportBlocked()/reportError() drive tab.status and getSnapshot().blocked
+  PASS  getSnapshot() shape matches what the pre-Engine browser-live.js returned
+  PASS  bookmarks: add / toggle / remove / list round-trip correctly
+  PASS  history: navigating records an entry; clearHistory() empties it
+  PASS  downloads: recordDownload()/listDownloads()/clearDownloads() work and are capped
+  PASS  bookmarks/history/downloads persist to a second, independent engine instance
+  PASS  legacy pre-Engine localStorage keys are migrated once, not overwritten on reload
+  PASS  onChange() fires for tab/navigation/bookmark events, and unsubscribe stops it
+  PASS  a single bad listener does not stop other listeners or crash the engine
+  PASS  a full realistic session (multiple tabs, nav, bookmarks, close) runs without throwing
+====================================================
+21 passed, 0 failed
+
+====================================================
+TOTAL: 28 passed, 0 failed

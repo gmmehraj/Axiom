@@ -1,0 +1,103 @@
+PASS  parser: installs window.AxiomOpenRouterToolCallParser
+PASS  parser: exposes parseToolCall/parseToolCalls/validateToolCall/createAccumulator
+PASS  parser: parseToolCall() extracts id
+PASS  parser: parseToolCall() extracts name
+PASS  parser: parseToolCall() parses arguments to an object
+PASS  parser: parseToolCall() carries no parseError on valid JSON
+PASS  parser: parseToolCall() preserves raw
+PASS  parser: parseToolCall() accepts tool_call_id spelling
+PASS  parser: parseToolCall() never throws on undefined input
+PASS  parser: parseToolCall() never throws on null input
+PASS  parser: parseToolCall() never throws on a non-object input
+PASS  parser: parseToolCalls() returns one entry per input, in order
+PASS  parser: parseToolCalls() never discards an entry even when one is malformed
+PASS  parser: parseToolCalls() preserves tool_call ids across entries
+PASS  parser: parseToolCalls() returns [] for non-array input
+PASS  args: valid JSON arguments parsed correctly
+PASS  args: empty-string arguments -> {} with no error
+PASS  args: undefined arguments -> {} with no error
+PASS  args: null arguments -> {} with no error
+PASS  args: malformed JSON produces a controlled parse error (no throw)
+PASS  args: malformed JSON still yields a safe {} arguments default
+PASS  args: pre-parsed object arguments are accepted as-is
+PASS  args: a JSON array (not object) is a controlled parse error
+PASS  args: parseToolCall() never executes/evaluates the arguments string
+PASS  missing name: parseToolCall() defaults name to empty string (no throw)
+PASS  missing name: validateToolCall() reports invalid with a "name" error
+PASS  missing id: parseToolCall() defaults id to null (no throw)
+PASS  missing id: parseToolCall() still parses a usable call
+PASS  unknown tool: validateToolCall() reports invalid
+PASS  unknown tool: validateToolCall() error names the unknown tool
+PASS  streaming: createAccumulator() returns addDeltas/getPartials/finalize/reset
+PASS  streaming: finalizing before arguments JSON is complete still returns the call, with a controlled parse error (not a throw, not silently dropped)
+PASS  streaming: getPartials() reflects accumulated-so-far raw fragments
+PASS  streaming: id is preserved across chunks that omit it
+PASS  streaming: finalize() produces exactly one completed call once sufficient data exists
+PASS  streaming: finalized call has correctly merged id/name
+PASS  streaming: finalized call has correctly assembled + parsed arguments
+PASS  streaming: multiple concurrent indices finalize independently
+PASS  streaming: insufficient data (no function name yet) never finalizes
+PASS  streaming: reset() clears accumulated partials
+PASS  streaming: does not throw on a non-array addDeltas() input
+PASS  events: parseToolCall() alone does not itself emit (only parseToolCalls()/finalize() drive events)
+PASS  events: openrouter_tool_call_detected fires
+PASS  events: openrouter_tool_call_parsed fires on clean parse
+PASS  events: openrouter_tool_call_parse_failed does NOT fire on a clean parse
+PASS  events: openrouter_tool_call_parse_failed fires on malformed JSON
+PASS  events: openrouter_tool_call_parsed does NOT fire on a failed parse
+PASS  events: openrouter_tool_call_parse_failed payload carries id/name/error
+PASS  events: parseToolCall()/parseToolCalls() never throw when AxiomOrchestrator is absent (feature-detected)
+PASS  events: accumulator finalize() also emits detected/parsed events
+PASS  validate: a well-formed, registered call is valid
+PASS  validate: missing required argument is reported invalid
+PASS  validate: wrong argument type is reported invalid
+PASS  validate: an unrecognized extra argument is not itself an error
+PASS  validate: malformed-JSON call is reported invalid
+PASS  validate: never executes the tool (no invocation side effect anywhere in validateToolCall)
+PASS  validate (degraded): reports invalid, not a throw, when ToolManager is not loaded
+PASS  security: tool-call-parser.js contains no eval( in code
+PASS  security: tool-call-parser.js contains no new Function( in code
+PASS  security: tool-call-parser.js never references child_process/exec/spawn
+PASS  security: tool-call-parser.js never touches localStorage
+PASS  security: tool-call-parser.js makes no fetch()/XHR network call
+PASS  security: argument parsing uses JSON.parse exclusively (not eval-based)
+PASS  security: a stray execute() field on the raw call is never callable on the parsed result
+PASS  security: a function-typed value inside object-shaped arguments is dropped, not preserved callable
+PASS  static: tool-call-parser.js does not reimplement JSON Schema definition validation (delegates isValidToolName to AxiomOpenRouterToolSchema)
+PASS  static: tool-call-parser.js does not reimplement the tool registry (delegates hasTool/getTool to AxiomOpenRouterToolManager)
+PASS  static: tool-call-parser.js never creates its own event bus in code (no local listeners map / on() implementation)
+PASS  static: tool-call-parser.js calls AxiomOrchestrator.emit rather than reimplementing pub/sub
+PASS  static: tool-call-parser.js does not read response-parser.js's normalizeToolCalls in code (disjoint concern; comments may name it to explain why)
+PASS  static: tool-call-parser.js does not read stream-manager.js's internal state in code (own, separate accumulator; comments may name it to explain why)
+PASS  static: tool-call-parser.js does not call model-manager.js's getCapabilities in code (no model-awareness in this Part; comments may name it to explain why)
+PASS  static: sibling tool-schema.js untouched by this Part
+PASS  static: sibling tool-manager.js untouched by this Part
+PASS  static: os/api/openrouter/tool-calling/ now contains exactly the three expected files (2C-1A's two + this Part's one), nothing extra
+PASS  static: protected/sibling file os/core/browser-engine.js still present on disk
+PASS  static: protected/sibling file os/core/memory-engine.js still present on disk
+PASS  static: protected/sibling file os/core/goal-manager.js still present on disk
+PASS  static: protected/sibling file js/core/voice.js still present on disk
+PASS  static: protected/sibling file js/core/supabase/auth-service.js still present on disk
+PASS  static: protected/sibling file os/api/openrouter/api-manager.js still present on disk
+PASS  static: protected/sibling file os/api/openrouter/chat-manager.js still present on disk
+PASS  static: protected/sibling file os/api/openrouter/response-parser.js still present on disk
+PASS  static: protected/sibling file os/api/openrouter/stream-manager.js still present on disk
+PASS  regression: Part 2A's own suite still passes in full (72/72) after Part 2C-1B's additive changes
+PASS  regression: Part 2B-1's own suite still passes in full (56/56) after Part 2C-1B's additive changes
+PASS  regression: Part 2B-2's own suite still passes in full (87/87) after Part 2C-1B's additive changes
+PASS  regression: os/api/openrouter/tool-calling/tool-schema.js is byte-for-byte unmodified by Part 2C-1B (sha256 match)
+PASS  regression: os/api/openrouter/tool-calling/tool-manager.js is byte-for-byte unmodified by Part 2C-1B (sha256 match)
+PASS  regression: os/api/openrouter/request-queue.js is byte-for-byte unmodified by Part 2C-1B (sha256 match)
+PASS  regression: os/api/openrouter/usage-tracker.js is byte-for-byte unmodified by Part 2C-1B (sha256 match)
+PASS  regression: os/api/openrouter/response-parser.js is byte-for-byte unmodified by Part 2C-1B (sha256 match)
+PASS  regression: os/api/openrouter/stream-manager.js is byte-for-byte unmodified by Part 2C-1B (sha256 match)
+PASS  regression: os/api/openrouter/chat-manager.js is byte-for-byte unmodified by Part 2C-1B (sha256 match)
+PASS  regression: os/api/openrouter/api-manager.js is byte-for-byte unmodified by Part 2C-1B (sha256 match)
+PASS  regression: os/api/openrouter/error-handler.js is byte-for-byte unmodified by Part 2C-1B (sha256 match)
+PASS  regression: os/api/openrouter/token-manager.js is byte-for-byte unmodified by Part 2C-1B (sha256 match)
+PASS  regression: os/api/openrouter/model-manager.js is byte-for-byte unmodified by Part 2C-1B (sha256 match)
+PASS  regression: test-evidence/block2-step9-part2b3-request-queue-regression-suite.js file itself is unmodified by Part 2C-1B
+PASS  regression: test-evidence/block2-step9-part2b4-usage-tracker-regression-suite.js file itself is unmodified by Part 2C-1B
+PASS  regression: test-evidence/block2-step9-part2c1a-tool-registry-regression-suite.js file itself is unmodified by Part 2C-1B
+
+101 passed, 0 failed.

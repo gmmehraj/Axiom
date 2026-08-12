@@ -1,0 +1,143 @@
+/* ============================================================
+   AXIOM — Module 10: Dashboard Aliveness + Camera
+   ------------------------------------------------------------
+   Loaded after styles/premium-os.css and styles/dashboard-os.css
+   so it layers on top without replacing anything. Two things:
+
+   1. Glass panels "breathe" (a slow, near-imperceptible opacity
+      pulse on their existing ::before layer, which every panel in
+      the shared glass-panel selector list already has but nothing
+      previously painted) and gain a soft cursor-follow sheen (a
+      child .ax-sheen div os-interface.js inserts — kept as a real
+      element rather than another pseudo-element so it never
+      collides with .ax-panel::after, which Module 3 already uses
+      for the rotating conic border).
+
+   2. A tiny camera-like parallax: --ax-parallax-x/-y (set by
+      os-interface.js from pointer position + a slow idle float)
+      nudges a couple of already-decorative layers by a few pixels.
+      Never applied to real content or interactive controls.
+   ============================================================ */
+
+/* ---- 1a. Breathing glass -------------------------------------- */
+
+.app-user-shell,
+.ax-side-card,
+.panel,
+.dash-stat,
+.recent-card,
+.quick-tile,
+.pg-tool-btn,
+.gen-output,
+.plan-card,
+.lang-option,
+.price-card,
+.workspace-card,
+.ax-panel {
+  overflow: hidden;
+}
+.app-user-shell::before,
+.ax-side-card::before,
+.panel::before,
+.dash-stat::before,
+.recent-card::before,
+.quick-tile::before,
+.pg-tool-btn::before,
+.gen-output::before,
+.plan-card::before,
+.lang-option::before,
+.price-card::before,
+.workspace-card::before,
+.ax-panel::before {
+  background: radial-gradient(120% 140% at 50% -10%, rgba(255, 255, 255, .04), transparent 60%);
+  opacity: .35;
+  animation: ax10Breathe 5.6s var(--motion-ease-standard) infinite;
+}
+
+/* ---- 1b. Cursor-follow sheen (JS-injected child, not a pseudo) --- */
+
+.ax-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  background: radial-gradient(220px circle at var(--ax-mx, 50%) var(--ax-my, 50%), rgba(255, 255, 255, .07), transparent 62%);
+  transition: opacity var(--motion-duration-slow) var(--motion-ease-standard);
+}
+.ax-sheen.is-active { opacity: 1; }
+
+/* ---- 1c. Slightly deeper, smoother hover (extends, doesn't replace,
+   the -2px hover already declared in styles/premium-os.css) ------- */
+
+.icon-btn:hover,
+.pg-tool-btn:hover,
+.quick-tile:hover,
+.panel:hover,
+.dash-stat:hover,
+.recent-card:hover,
+.lang-option:hover,
+.price-card:hover,
+.workspace-card:hover {
+  transform: translateY(-4px) scale(var(--motion-scale-hover));
+  transition: transform var(--motion-duration-slow) var(--motion-ease-emphasized), box-shadow var(--motion-duration-slow) var(--motion-ease-standard), border-color var(--motion-duration-slow) var(--motion-ease-standard);
+}
+
+/* ---- 1d. Core stage panel tints subtly with AI state ------------- */
+
+.core-stage-panel {
+  transition: border-color var(--motion-duration-reveal) var(--motion-ease-standard), box-shadow var(--motion-duration-reveal) var(--motion-ease-standard);
+}
+html[data-ai-state="thinking"] .core-stage-panel { border-color: rgba(255, 255, 255, .12); }
+html[data-ai-state="heavy"] .core-stage-panel     { border-color: rgba(255, 255, 255, .16); }
+html[data-ai-state="listening"] .core-stage-panel { border-color: rgba(255, 255, 255, .10); }
+html[data-ai-state="speaking"] .core-stage-panel  { border-color: rgba(255, 255, 255, .08); }
+html[data-ai-state="error"] .core-stage-panel     { border-color: rgba(255, 255, 255, .20); }
+
+/* ---- 2. Camera parallax on decorative layers only ----------------- */
+
+.core-hud-layer {
+  transform: translate3d(calc(var(--ax-parallax-x, 0px) * .3), calc(var(--ax-parallax-y, 0px) * .3), 0);
+}
+
+/* ---- Keyframes (ax10-namespaced, no collisions) -------------------- */
+
+@keyframes ax10Breathe {
+  0%, 100% { opacity: .22; }
+  50%      { opacity: .5; }
+}
+
+/* ---- Accessibility -------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .app-user-shell::before,
+  .ax-side-card::before,
+  .panel::before,
+  .dash-stat::before,
+  .recent-card::before,
+  .quick-tile::before,
+  .pg-tool-btn::before,
+  .gen-output::before,
+  .plan-card::before,
+  .lang-option::before,
+  .price-card::before,
+  .workspace-card::before,
+  .ax-panel::before,
+  .ax-sheen {
+    animation: none !important;
+    transition: none !important;
+  }
+  .icon-btn:hover,
+  .pg-tool-btn:hover,
+  .quick-tile:hover,
+  .panel:hover,
+  .dash-stat:hover,
+  .recent-card:hover,
+  .lang-option:hover,
+  .price-card:hover,
+  .workspace-card:hover,
+  .core-hud-layer {
+    transform: none !important;
+  }
+}

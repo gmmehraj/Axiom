@@ -1,0 +1,7 @@
+﻿
+styles\conversation-bridge.css:19:  
+background:var(--ax-glow, #A855F7);
+styles\conversation-bridge.css:31:  
+background:var(--ax-glow-2, #EC4899);
+
+

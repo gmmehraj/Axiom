@@ -1,0 +1,289 @@
+/* ============================================
+   AXIOM — App shell (Dashboard, Playground, Billing, Settings)
+   Reuses tokens + effects from styles.css. Load this AFTER styles.css.
+   ============================================ */
+
+.app-body{ display:flex; min-height:100vh; min-height:100dvh; position:relative; z-index:1; }
+
+/* ---- Sidebar ---- */
+.app-sidebar{
+  width:260px; flex-shrink:0;
+  background:rgba(255,255,255,.03);
+  border-right:1px solid var(--line);
+  backdrop-filter:blur(20px);
+  display:flex; flex-direction:column;
+  padding:1.4rem 1.1rem;
+  height:100dvh; position:sticky; top:0;
+  overflow-y:auto;
+}
+.app-sidebar .logo{ padding:0.5rem 0.5rem 1.6rem; }
+.app-nav-link{
+  display:flex; align-items:center; gap:0.75rem;
+  padding:0.65rem 0.7rem; border-radius:var(--radius-s);
+  color:var(--text-lo); font-size:0.9rem; font-weight:500;
+  transition: background var(--motion-duration-fast) var(--motion-ease-emphasized), color var(--motion-duration-fast) var(--motion-ease-emphasized);
+}
+.app-nav-link svg{ flex-shrink:0; opacity:.8; }
+.app-nav-link:hover{ background:rgba(255,255,255,.05); color:var(--text-hi); }
+.app-nav-link.active{
+  background:rgba(255,255,255,.10);
+  color:var(--text-hi); border:1px solid rgba(255,255,255,.25);
+}
+.app-nav-link .badge{
+  margin-left:auto; font-family:var(--font-mono); font-size:0.65rem;
+  background:rgba(255,255,255,.08); color:var(--text-faint);
+  padding:0.15em 0.5em; border-radius:999px;
+}
+
+.app-sidebar-foot{
+  border-top:1px solid var(--line); padding-top:1rem; margin-top:0.8rem;
+  display:flex; align-items:center; gap:0.7rem;
+}
+.app-avatar{
+  width:36px; height:36px; border-radius:50%; flex-shrink:0;
+  background:rgba(255,255,255,.15);
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:0.85rem; color:#FFFFFF;
+}
+.app-user-meta{ min-width:0; flex:1; }
+.app-user-name{ font-size:0.85rem; color:var(--text-hi); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.app-user-plan{ font-size:0.74rem; color:var(--text-faint); }
+.app-sidebar-foot .icon-btn{ flex-shrink:0; }
+
+/* ---- Main column ---- */
+.app-main{ flex:1; min-width:0; display:flex; flex-direction:column; }
+.app-topbar{
+  position:sticky; top:0; z-index:20;
+  display:flex; align-items:center; gap:1rem;
+  padding:1.1rem clamp(1.2rem, 3vw, 2.2rem);
+  background:rgba(10,10,10,.7); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+.app-topbar h1{ font-size:1.25rem; color:var(--text-hi); letter-spacing:-0.02em; }
+.icon-btn{
+  width:38px; height:38px; border-radius:var(--radius-s);
+  display:inline-flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,.04); border:1px solid var(--line);
+  color:var(--text-lo); cursor:pointer; transition: background var(--motion-duration-fast), color var(--motion-duration-fast), border-color var(--motion-duration-fast);
+}
+.icon-btn:hover{ background:rgba(255,255,255,.08); color:var(--text-hi); border-color:rgba(255,255,255,.2); }
+.app-menu-toggle{ display:none; }
+
+.app-content{ padding:clamp(1.2rem, 3vw, 2.2rem); flex:1; }
+.app-content-inner{ max-width:1200px; margin:0 auto; display:flex; flex-direction:column; gap:1.6rem; }
+
+/* ---- Generic glass card used across app pages ---- */
+.panel{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius-m);
+  padding:1.6rem;
+}
+.panel-head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.2rem; flex-wrap:wrap; }
+.panel-head h2{ font-size:1.05rem; color:var(--text-hi); }
+.panel-head p{ font-size:0.85rem; color:var(--text-lo); margin-top:0.2rem; }
+
+/* ---- Dashboard stat cards ---- */
+.dash-stat{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius-m);
+  padding:1.3rem 1.4rem; display:flex; flex-direction:column; gap:0.5rem;
+  transition: border-color var(--motion-duration-base) var(--motion-ease-emphasized), transform var(--motion-duration-base) var(--motion-ease-emphasized);
+}
+.dash-stat:hover{ border-color:rgba(255,255,255,.3); transform:translateY(-3px); }
+
+/* ---- Recent generations grid (reuses showcase-card look) ---- */
+.recent-card{
+  border-radius:var(--radius-m); overflow:hidden; border:1px solid var(--line);
+  background:rgba(255,255,255,.03); transition: transform var(--motion-duration-base) var(--motion-ease-emphasized), border-color var(--motion-duration-base) var(--motion-ease-emphasized);
+}
+.recent-card:hover{ transform:translateY(-3px); border-color:rgba(255,255,255,.3); }
+.recent-meta .tag{ font-family:var(--font-mono); font-size:0.65rem; color:var(--text-faint); text-transform:uppercase; }
+
+/* ---- Quick action tiles ---- */
+.quick-tile{
+  display:flex; flex-direction:column; align-items:flex-start; gap:0.6rem;
+  padding:1.1rem; border-radius:var(--radius-m); border:1px solid var(--line);
+  background:var(--card); transition: transform var(--motion-duration-base) var(--motion-ease-emphasized), border-color var(--motion-duration-base) var(--motion-ease-emphasized), background var(--motion-duration-base) var(--motion-ease-emphasized);
+}
+.quick-tile:hover{ transform:translateY(-3px); border-color:rgba(255,255,255,.25); background:var(--ink-3); }
+.quick-tile .tool-icon{ width:36px; height:36px; }
+.quick-tile span{ font-size:0.85rem; font-weight:600; color:var(--text-hi); }
+
+/* ---- Playground: tool switcher tabs ---- */
+.pg-tools{ display:flex; flex-direction:column; gap:0.4rem; position:sticky; top:1.5rem; }
+.pg-tool-btn{
+  display:flex; align-items:center; gap:0.7rem; padding:0.8rem 0.9rem;
+  border-radius:var(--radius-s); border:1px solid var(--line); background:var(--card);
+  color:var(--text-lo); font-size:0.88rem; font-weight:500; cursor:pointer; text-align:left;
+  transition: background var(--motion-duration-fast), color var(--motion-duration-fast), border-color var(--motion-duration-fast);
+}
+.pg-tool-btn:hover{ color:var(--text-hi); border-color:rgba(255,255,255,.2); }
+.pg-tool-btn.active{
+  color:var(--text-hi); border-color:rgba(255,255,255,.35);
+  background:rgba(255,255,255,.10);
+}
+.pg-tool-btn svg{ flex-shrink:0; }
+
+.pg-panel{ display:none; flex-direction:column; gap:1.2rem; }
+.pg-panel.active{ display:flex; }
+
+.api-key-banner{
+  display:flex; align-items:center; justify-content:space-between; gap:0.8rem; flex-wrap:wrap;
+  border:1px solid rgba(246,196,83,.35); border-radius:var(--radius-m); background:rgba(246,196,83,.08);
+  padding:0.7rem 0.9rem; margin-bottom:1rem; font-size:0.85rem; color:var(--text-hi);
+}
+
+/* ---- Voice (Phase 3): mic button + status row shared by the Scribe
+   chat prompt-bar and, via the same classes, other prompt-bars. ---- */
+.icon-btn.mic-toggle.on{ background:rgba(255,255,255,.15); border-color:rgba(255,255,255,.3); color:#FFFFFF; }
+.pg-voice-row{ display:flex; align-items:center; gap:0.6rem; margin-top:0.6rem; min-height:16px; }
+
+/* Phase 4: AI Workspace file handed off into chat (see workspace-chat-bridge.js) */
+.pg-attached-file{
+  display:flex; align-items:center; gap:0.6rem; margin-bottom:0.6rem;
+  padding:0.5rem 0.8rem; border-radius:var(--radius-s, 10px);
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.25);
+  font-size:0.8rem; color:var(--text-lo);
+}
+.pg-attached-file b{ color:var(--text-hi); }
+.pg-attached-file button{
+  margin-left:auto; background:none; border:none; color:var(--text-faint); cursor:pointer; font-size:0.9rem;
+}
+.pg-attached-file button:hover{ color:var(--text-hi); }
+.pg-voice-wave{ display:none; height:16px; gap:2px; }
+.pg-voice-wave.active{ display:flex; }
+.pg-voice-wave span{ width:3px; background:rgba(255,255,255,.70); }
+#pgVoiceHint{ font-size:0.76rem; color:var(--text-faint); font-family:var(--font-mono); }
+#pgVoiceHint.is-error{ color:rgba(255,255,255,.45); font-family:var(--font); }
+
+/* Voice tool panel: still the waveform when nothing is speaking, instead
+   of animating a waveform for audio that isn't actually playing. */
+.wave.is-idle span{ animation-play-state:paused; opacity:.3; }
+.chip[data-preset]{ cursor:pointer; }
+
+/* Generator (image/video/voice/code) tools */
+.select-native, .gen-controls textarea{
+  font-family:var(--font);
+}
+.select-native{
+  background:rgba(255,255,255,.04); border:1px solid var(--line); color:var(--text-hi);
+  border-radius:var(--radius-s); padding:0.6rem 0.8rem; font-size:0.85rem;
+}
+.chip-row{ display:flex; gap:0.5rem; flex-wrap:wrap; }
+.chip{
+  padding:0.4em 0.9em; border-radius:999px; border:1px solid var(--line);
+  background:rgba(255,255,255,.03); color:var(--text-lo); font-size:0.8rem; cursor:pointer;
+  transition: background var(--motion-duration-fast), color var(--motion-duration-fast), border-color var(--motion-duration-fast);
+}
+.chip.active, .chip:hover{ color:var(--text-hi); border-color:rgba(255,255,255,.35); background:rgba(255,255,255,.08); }
+
+.gen-output{
+  aspect-ratio:1/1; border-radius:var(--radius-m); border:1px solid var(--line);
+  display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;
+  background:linear-gradient(155deg, rgba(255,255,255,.08), rgba(0,0,0,.4));
+}
+.gen-output.loading::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(100deg, transparent 30%, rgba(255,255,255,.08) 50%, transparent 70%);
+  background-size:200% 100%; animation: shimmer 1.4s var(--motion-ease-linear) infinite;
+}
+@keyframes shimmer{ from{ background-position:200% 0; } to{ background-position:-200% 0; } }
+.gen-output .placeholder-icon{ color:rgba(255,255,255,.25); }
+
+.credit-bar{ flex:1; height:6px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; max-width:220px; }
+.credit-bar-fill{ height:100%; border-radius:999px; background:rgba(255,255,255,.45); }
+
+/* ---- Billing ---- */
+.plan-card{
+  display:flex; align-items:center; justify-content:space-between; gap:1.5rem; flex-wrap:wrap;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.15); border-radius:var(--radius-l); padding:1.6rem 1.8rem;
+}
+.plan-card h2{ font-size:1.5rem; color:var(--text-hi); margin-top:0.3rem; }
+
+.usage-row{ display:flex; flex-direction:column; gap:0.5rem; }
+.usage-row-top{ display:flex; justify-content:space-between; font-size:0.85rem; color:var(--text-lo); }
+.usage-row-top strong{ color:var(--text-hi); }
+/* ---- Settings ---- */
+.settings-tab{
+  padding:0.7rem 1rem; font-size:0.88rem; color:var(--text-lo); font-weight:500;
+  border-bottom:2px solid transparent; cursor:pointer; white-space:nowrap;
+}
+.settings-tab:hover{ color:var(--text-hi); }
+.settings-tab.active{ color:var(--text-hi); border-bottom-color:rgba(255,255,255,.45); }
+.settings-panel{ display:none; }
+.settings-panel.active{ display:block; }
+
+.lang-grid{
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:0.6rem;
+}
+.lang-option{
+  display:flex; flex-direction:column; align-items:flex-start; gap:0.15rem;
+  padding:0.75rem 0.9rem; border-radius:var(--radius-m); border:1px solid var(--line);
+  background:var(--card); cursor:pointer; transition: border-color var(--motion-duration-fast), transform var(--motion-duration-fast);
+  font-family:var(--font); text-align:left;
+}
+.lang-option:hover{ border-color:rgba(255,255,255,.3); transform:translateY(-1px); }
+.lang-option.selected{ border-color:rgba(255,255,255,.45); background:rgba(255,255,255,.08); }
+.lang-option .lang-native{ font-size:0.9rem; font-weight:600; }
+.lang-option .lang-en{ font-size:0.72rem; color:var(--text-faint); }
+.lang-option .lang-fallback-note{ font-size:0.65rem; color:var(--a-gold); margin-top:0.15rem; }
+body.rtl .lang-option{ text-align:right; }
+
+.form-grid .field.full{ grid-column:1/-1; }
+
+/* ---- Range sliders (Voice Settings: speed / pitch / volume) ---- */
+.field input[type="range"]{
+  width:100%; accent-color:rgba(255,255,255,.45); height:4px; cursor:pointer;
+}
+.field label span{ color:var(--text-hi); font-family:var(--font-mono); font-size:0.78rem; }
+
+/* Plain <select> inside .field (voice language / voice / device pickers)
+   never had a rule in styles.css — this matches the existing text-input
+   treatment exactly so it doesn't read as a different style. */
+.field select{
+  width:100%; padding:0.75em 0.95em; border-radius:var(--radius-s);
+  background:rgba(255,255,255,0.05); border:1px solid var(--line);
+  color:var(--text-hi); font-family:var(--font); font-size:0.9rem;
+  min-height:44px; transition: border-color var(--motion-duration-fast) var(--motion-ease-emphasized), background var(--motion-duration-fast) var(--motion-ease-emphasized);
+}
+.field select:focus{ outline:none; border-color:rgba(255,255,255,.45); background:rgba(255,255,255,0.08); }
+.field select:disabled{ opacity:.5; cursor:not-allowed; }
+
+.danger-zone{ border:1px solid rgba(242,101,122,.3); background:rgba(242,101,122,.05); border-radius:var(--radius-m); padding:1.3rem 1.4rem; }
+.danger-zone h3{ color:var(--a-coral); font-size:0.95rem; margin-bottom:0.4rem; }
+.danger-zone p{ font-size:0.85rem; color:var(--text-lo); margin-bottom:1rem; }
+/* Toast notifications (mock actions feedback) */
+.toast-stack{ position:fixed; bottom:1.5rem; right:1.5rem; z-index:5000; display:flex; flex-direction:column; gap:0.6rem; }
+.toast{
+  display:flex; align-items:center; gap:0.6rem; padding:0.8rem 1.1rem;
+  background:rgba(20,20,20,.95); border:1px solid var(--line); border-radius:var(--radius-s);
+  color:var(--text-hi); font-size:0.85rem; box-shadow:0 15px 40px rgba(0,0,0,.4);
+  animation: toastIn var(--motion-duration-base) var(--motion-ease-emphasized);
+}
+.toast svg{ color:rgba(255,255,255,.70); flex-shrink:0; }
+@keyframes toastIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+
+/* ============================================
+   Responsive — app shell
+   ============================================ */
+@media (max-width:900px){
+  .app-sidebar{
+    position:fixed; left:0; top:0; z-index:1001; height:100dvh;
+    transform:translateX(-100%); transition: transform var(--motion-duration-base) var(--motion-ease-emphasized);
+    width:280px; box-shadow:20px 0 60px rgba(0,0,0,.5);
+  }
+  .app-sidebar.open{ transform:translateX(0); }
+  .app-menu-toggle{ display:inline-flex; }
+  .pg-tools{ position:static; flex-direction:row; flex-wrap:wrap; }
+}
+
+@media (max-width:640px){
+  .plan-card{ flex-direction:column; align-items:flex-start; }
+  .app-content{ padding:1rem; }
+  .toast-stack{ left:1rem; right:1rem; bottom:1rem; }
+  .toast{ width:100%; }
+}
+
+.sidebar-scrim{
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1000;
+}
+.sidebar-scrim.open{ display:block; }

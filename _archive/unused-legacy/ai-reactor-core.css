@@ -1,0 +1,244 @@
+/* ============================================================
+   AXIOM AI OS V8 — AI Reactor Core (Enhanced Visual Effects)
+   ------------------------------------------------------------
+   Enhanced with:
+   - Volumetric glow & bloom (via layered box-shadows)
+   - Better lighting (radial gradients)
+   - Glass reflection effect
+   - Smooth animation
+   - Breathing effect
+   - Energy pulse synchronized with state
+   - Micro particles (via pseudo-elements)
+   - Glass reflections
+   ============================================================ */
+
+.reactor-core {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 50%;
+  overflow: hidden;
+  /* Volumetric glow — layered for depth */
+  box-shadow:
+    inset 0 0 120px rgba(255,255,255,.08),
+    inset 0 0 200px rgba(255,255,255,.04),
+    0 0 80px rgba(255,255,255,.06),
+    0 0 180px rgba(255,255,255,.03),
+    0 0 300px rgba(255,255,255,.02);
+  /* Breathing effect via animation. The base brightness/saturation
+     and the amplitude the breath swings through are custom
+     properties (defaulted below, overridden per data-state further
+     down) so a state change actually changes what's on screen —
+     see the note above the [data-state] rules for why this
+     replaced plain `filter:` overrides. */
+  --core-breathe-base: 1;
+  --core-breathe-sat: 1;
+  --core-breathe-amp: .08;
+  --core-breathe-sat-amp: .1;
+  --core-breathe-scale-amp: .01;
+  animation: axCoreBreathe 4s var(--motion-ease-standard) infinite;
+  /* Glass reflection */
+  isolation: isolate;
+  /* GPU-composited properties only (filter + transform), so the
+     breathing loop doesn't trigger layout/paint on every frame. */
+  will-change: filter, transform;
+}
+
+/* Glass reflection highlight */
+.reactor-core::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: radial-gradient(ellipse 140% 100% at 30% 20%, rgba(255,255,255,.15), transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+  opacity: .7;
+  animation: axCoreReflect 6s var(--motion-ease-standard) infinite;
+}
+
+@keyframes axCoreReflect {
+  0%, 100% { opacity: .5; transform: translateX(0); }
+  50% { opacity: .8; transform: translateX(4px); }
+}
+
+@keyframes axCoreBreathe {
+  0%, 100% {
+    filter: brightness(var(--core-breathe-base)) saturate(var(--core-breathe-sat));
+    transform: scale(1);
+  }
+  50% {
+    filter: brightness(calc(var(--core-breathe-base) + var(--core-breathe-amp)))
+            saturate(calc(var(--core-breathe-sat) + var(--core-breathe-sat-amp)));
+    transform: scale(calc(1 + var(--core-breathe-scale-amp)));
+  }
+}
+
+/* ---- State-reactive breathing ------------------------------
+   Previously these rules set `filter:` directly, but `filter` is
+   also driven by the `axCoreBreathe` keyframes above — a property
+   that's animated always wins over a plain declaration for the
+   whole animation, so the per-state brightness/saturation here
+   was silently never painted; only `animation-duration` was
+   actually taking effect. Routed through the same custom
+   properties the keyframes read (--core-breathe-base/-sat/-amp)
+   so each state's brightness and breathing depth are visible
+   again, layered on the same easing curve instead of fighting it. */
+.reactor-core[data-state="thinking"] {
+  animation-duration: 1.8s;
+  --core-breathe-base: 1;
+  --core-breathe-amp: .1;
+}
+.reactor-core[data-state="heavy"] {
+  animation-duration: 1s;
+  --core-breathe-base: 1.15;
+  --core-breathe-amp: .06;
+  --core-breathe-scale-amp: .015;
+}
+.reactor-core[data-state="error"] {
+  animation-duration: var(--motion-duration-slow);
+  --core-breathe-base: .9;
+  --core-breathe-sat: .8;
+  --core-breathe-amp: .04;
+}
+.reactor-core[data-state="idle"] {
+  animation-duration: 6s;
+  --core-breathe-base: .92;
+  --core-breathe-amp: .05;
+}
+
+.reactor-core-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  position: relative;
+  z-index: 0;
+}
+
+/* ---- Hologram alignment rings ------------------------------
+   Two slow-spinning rings around the core with glow effect */
+.core-hero-canvas-wrap::before,
+.core-hero-canvas-wrap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.core-hero-canvas-wrap::before {
+  width: 130%;
+  height: 130%;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  opacity: 0.35;
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: axRingSpin 80s var(--motion-ease-linear) infinite;
+  box-shadow: 0 0 30px rgba(255,255,255,.02), inset 0 0 30px rgba(255,255,255,.02);
+}
+.core-hero-canvas-wrap::after {
+  width: 116%;
+  height: 116%;
+  border: 1px dashed rgba(255, 255, 255, 0.06);
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: axRingSpin 50s var(--motion-ease-linear) infinite reverse;
+  box-shadow: 0 0 20px rgba(255,255,255,.015);
+}
+
+/* Third ring — micro particle ring */
+.core-hero-canvas-wrap .ax-micro-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 108%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background:
+    repeating-conic-gradient(from 0deg, rgba(255,255,255,.06) 0 1deg, transparent 1deg 6deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 96.5%, #000 97%);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 96.5%, #000 97%);
+  opacity: .4;
+  animation: axRingSpin 30s var(--motion-ease-linear) infinite;
+  pointer-events: none;
+}
+
+@keyframes axRingSpin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* State-reactive ring speed & opacity */
+html[data-ai-state="thinking"] .core-hero-canvas-wrap::before { animation-duration: 20s; opacity: .5; }
+html[data-ai-state="thinking"] .core-hero-canvas-wrap::after { animation-duration: 14s; opacity: .5; }
+html[data-ai-state="heavy"] .core-hero-canvas-wrap::before { animation-duration: 12s; opacity: .6; }
+html[data-ai-state="heavy"] .core-hero-canvas-wrap::after { animation-duration: 8s; opacity: .6; box-shadow: 0 0 40px rgba(255,255,255,.04); }
+html[data-ai-state="error"] .core-hero-canvas-wrap::before,
+html[data-ai-state="error"] .core-hero-canvas-wrap::after { animation-duration: 3s; border-color: rgba(239,68,68,.15); }
+
+@media (prefers-reduced-motion: reduce) {
+  .core-hero-canvas-wrap::before,
+  .core-hero-canvas-wrap::after,
+  .core-hero-canvas-wrap .ax-micro-ring {
+    animation: none;
+  }
+  .reactor-core { animation: none; }
+  .reactor-core::before { animation: none; }
+  /* Was missing from this list — the pulse kept animating (scale
+     .85→1.15, opacity swinging) at full speed regardless of the OS
+     setting. Still shows its state-appropriate peak opacity at
+     rest, just without the loop. */
+  .reactor-core .ax-energy-pulse {
+    animation: none;
+    opacity: calc(var(--core-pulse-peak, .4) * .75);
+  }
+}
+
+/* ---- Energy Pulse (syncs with state) ---- */
+.reactor-core .ax-energy-pulse {
+  position: absolute;
+  inset: -20%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.04), transparent 60%);
+  /* Ceiling for the pulse's peak opacity — the keyframes below read
+     this instead of a plain `opacity:` override, since `opacity` is
+     itself animated and a static per-state value on the same
+     property would just be discarded for the animation's duration
+     (same class of bug as the breathe filter above). */
+  --core-pulse-peak: .4;
+  animation: axEnergyPulse 3s var(--motion-ease-standard) infinite;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.reactor-core[data-state="active"] .ax-energy-pulse { --core-pulse-peak: .4; animation-duration: 3s; }
+.reactor-core[data-state="thinking"] .ax-energy-pulse { --core-pulse-peak: .6; animation-duration: 1.6s; }
+.reactor-core[data-state="heavy"] .ax-energy-pulse { --core-pulse-peak: .8; animation-duration: .8s; }
+.reactor-core[data-state="error"] .ax-energy-pulse { --core-pulse-peak: .5; animation-duration: var(--motion-duration-slow); background: radial-gradient(circle at 50% 50%, rgba(239,68,68,.08), transparent 60%); }
+
+@keyframes axEnergyPulse {
+  0%, 100% { transform: scale(.85); opacity: calc(var(--core-pulse-peak, .4) * .75); }
+  50% { transform: scale(1.15); opacity: var(--core-pulse-peak, .4); }
+}
+
+/* ---- Graceful fallback: canvas 2D unavailable ---------------
+   Pure CSS radial pulse with enhanced glow */
+.reactor-core.is-fallback {
+  background:
+    radial-gradient(circle at 50% 50%, #ffffff 0%, rgba(255,255,255,.60) 20%, rgba(255,255,255,.25) 40%, transparent 70%);
+  animation: reactorFallbackPulse 3.2s var(--motion-ease-standard) infinite;
+  box-shadow:
+    inset 0 0 80px rgba(255,255,255,.08),
+    0 0 100px rgba(255,255,255,.04),
+    0 0 200px rgba(255,255,255,.02);
+}
+
+@keyframes reactorFallbackPulse {
+  0%, 100% { filter: brightness(0.92) saturate(1); transform: scale(0.98); }
+  50%      { filter: brightness(1.12) saturate(1.15); transform: scale(1.02); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reactor-core.is-fallback { animation: none; }
+}

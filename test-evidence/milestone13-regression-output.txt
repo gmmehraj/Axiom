@@ -1,0 +1,180 @@
+[AxiomRuntime] online — 10 agents registered. Run AxiomRuntime.selfTest() to verify.
+[AxiomDynamicWorkflow] dynamic decomposition rule registered.
+[AxiomM8] Milestone 8 intelligence layer online. Run AxiomRuntime.selfTestM8() to verify.
+[AxiomM9] Executive AI online. Run AxiomRuntime.selfTestM9() to verify.
+[AxiomM10] Conversation Manager online. Run AxiomRuntime.selfTestM10() to verify.
+[AxiomM11] Autonomous AI Operating System layer online. Run AxiomRuntime.selfTestM11() to verify.
+[AxiomM12] Executive AI memory recall enhanced with Knowledge Graph expansion.
+[AxiomM12] Knowledge & Memory Intelligence layer online. Run AxiomRuntime.selfTestM12() to verify.
+[AxiomM13] Automation & Skills Engine online. Run AxiomRuntime.selfTestM13() to verify.
+[AxiomRuntime] self-test PASS — 11/11
+  ok   manager started
+  ok   ten core agents registered  (count=10)
+  ok   no duplicate ids
+  ok   all agents idle after boot
+  ok   route "Search the web for AXIOM" -> agent.browser  (agent.browser)
+  ok   route "Summarize this PDF" -> agent.file  (agent.file)
+  ok   route "Generate code for a login form" -> agent.coding  (agent.coding)
+  ok   route "Remember this password preference" -> agent.memory  (agent.memory)
+  ok   route "Create a plan for launch" -> agent.planner  (agent.planner)
+  ok   multi-agent collaboration  (agent.assistant,agent.coding,agent.research)
+  ok   end-to-end task completion  (agent.assistant)
+[AxiomM8] self-test PASS — 8/8
+  ok   decompose produces multiple steps  (3)
+  ok   decompose links dependencies in order
+  ok   orchestrator run completes  (completed)
+  ok   monitor report shape
+  ok   error recovery report available
+  ok   planner estimate returns an ETA
+  ok   planner reprioritize returns a plan
+  ok   job manager creates a job
+[AxiomM9] self-test PASS — 8/8
+  ok   vague request short-circuits to clarification  ("needs-clarification")
+  ok   clarification never produced a jobId
+  ok   resolveClarification re-enters the pipeline  ("running")
+  ok   handle() returns a live executiveId + promise
+  ok   run reaches a terminal status  ("completed")
+  ok   status() reports plan/job linkage  ({"planId":"plan-ms1rgead-o7ssf4","jobId":"job-ms1rgead-p2axdf"})
+  ok   report() returns a learning ledger
+  ok   execution traced through the real Orchestrator  (1)
+[AxiomM10] self-test PASS — 11/11
+  ok   start() returns a conversationId
+  ok   send() returns a live turnId + promise
+  ok   turn 1 reaches a terminal status  ("completed")
+  ok   follow-up with a resolvable reference is NOT sent to clarification  ("running")
+  ok   reference was rewritten before reaching Executive AI  ("save remember: milestone 10 self-test turn one")
+  ok   turn 2 reaches a terminal status  ("completed")
+  ok   bare reference with zero history asks for clarification  ("needs-clarification")
+  ok   conversation stream emitted at least one progressive event  (["thinking","thinking","progress","done"])
+  ok   AxiomConversationContext available
+  ok   context bundle loads all sections
+  ok   conversation history is scoped per conversationId (no cross-talk)
+[AxiomM11] self-test PASS — 27/27
+  ok   AxiomExecutiveAI extended with scheduleAutonomous()
+  ok   scheduler.configure() applies maxConcurrent  ({"maxConcurrent":1})
+  ok   higher priority task is admitted before an earlier-queued lower priority one  ({"low":"queued","critical":"running"})
+  ok   scheduled tasks reach a terminal status  (["completed","completed"])
+  ok   a dependent task stays queued while its dependency is unsettled  ("queued")
+  ok   cancel() on a still-queued task succeeds immediately
+  ok   a queued task cancelled before admission resolves as cancelled  ("cancelled")
+  ok   scheduler.report() exposes counts and maxConcurrent
+  ok   task graph builds nodes + edges from a multi-step plan  ({"nodes":3,"edges":2})
+  ok   task graph computes a valid topological order  (["m8step-1-ms1rgeaz","m8step-2-ms1rgeaz","m8step-3-ms1rgeaz"])
+  ok   sequential ("then") plan is classified sequential or mixed, never parallel  ("sequential")
+  ok   independent multi-agent plan graph builds without throwing
+  ok   event timeline records a newly emitted event with a timestamp  (1785068096364)
+  ok   event timeline query() filters by source
+  ok   resource monitor report includes agent activity, queue depth, task counts, latency, scheduler, browser
+  ok   plugin registry rejects an id in the reserved "agent." namespace
+  ok   plugin registry registers a valid external agent through the real Agent Manager
+  ok   a registered plugin agent actually executes a dispatched task  ({"ok":true,"echoedBy":"plugin.m11-selftest","task":{"intent":"selftest","id":"plugin.m11-selftest:ms1rgeb0pxyy","enqueuedAt":1785068096364}})
+  ok   plugin unregister() removes it from both the registry and the Agent Manager
+  ok   Executive AI derives "sequential" for a dependent, "then"-chained request  ("sequential")
+  ok   Executive AI derives a non-sequential mode for an independent multi-agent request  ("mixed")
+  ok   sequential and independent requests are not collapsed into the same decision  ({"seqMode":"sequential","parMode":"mixed"})
+  ok   scheduleAutonomous() returns a live taskId + promise without blocking
+  ok   autonomous run reaches a terminal status  ("completed")
+  ok   emitting "executive:auto-request" on the bus autonomously triggers Executive AI scheduling — no direct call needed  (1)
+  ok   scheduler task total only grew by exactly the tasks this test created (no phantom duplicates)
+  ok   still exactly 10 core agents after all M11 activity, no duplicates  ("count=10")
+[AxiomM12] self-test PASS — 18/18
+  ok   AxiomMemoryIntelligence.rankedRecall enhanced with knowledge-graph expansion
+  ok   knowledge graph build() resolves with nodes and edges  ({"nodes":31,"edges":7520,"byType":{"agent":10,"memory":19,"tag":2},"builtAt":1785068096442})
+  ok   knowledge graph exposes a memory node for a just-created note
+  ok   semantic search returns results ranked by score  ([0.731,0.313,0,0,0])
+  ok   semantic search surfaces the seeded TypeScript note near the top  (["m17","m18","m19","m16","m15"])
+  ok   auto-tagger classify() suggests at least one tag for an untagged note  ({"tags":["m12","selftest","prefers","typescript","over"],"category":"technical"})
+  ok   auto-tagger fills tags on a previously-untagged note  ({"id":"m18","tags":["m12","selftest","prefers","typescript","over"],"category":"technical","changed":true})
+  ok   auto-tagger never overwrites tags a note already has  ({"id":"m17","tags":["typescript","preference"],"category":"preferences","changed":true})
+  ok   duplicate detector groups the two near-identical TypeScript notes together  ([["m18","m17"],["m14","m13"],["m12","m11"],["m7","m5"],["m9","m6","m4","m2"]])
+  ok   duplicate detector does NOT group the unrelated meeting note with the TypeScript notes
+  ok   importance ranker scores a pinned, tagged note higher than a bare one  ({"pinned":0.88,"bare":0.35})
+  ok   importance-ranked list is still produced by the existing Milestone 8 rank() (rankScore present)
+  ok   summarizer produces a non-empty summary string with the right count  ("19 memories recorded for \"agent.memory\" between 2026-07-26 and 2026-07-26. Most common tags: typescript, m12, selftest, prefers, over. Most common category: technical. 1 pinned as important. Most notable: M12 selftest: prefers TypeScript for backend services | M12 selftest: prefers TypeScript over plain JavaScript for backend work | M12 selftest: meeting with design team scheduled for Thursday")
+  ok   enhanced rankedRecall() still resolves an array (backward compatible with Milestone 9's loadMemory())
+  ok   AxiomExecutiveAI.graphContext() (new Milestone 12 capability) resolves an array
+  ok   AxiomExecutiveAI.knowledgeStats() passes through knowledge-graph stats  ({"nodes":31,"edges":7520,"byType":{"agent":10,"memory":19,"tag":2},"builtAt":1785068096442})
+  ok   Milestone 8 AxiomMemoryIntelligence.rank() still works standalone (regression)
+  ok   still exactly 10 core agents after all Milestone 12 activity, no duplicates  ("count=10")
+[AxiomM13] self-test PASS — 31/31
+  ok   AxiomExecutiveAI extended with runAsAutomation()
+  ok   skill registry rejects an id in the reserved "agent." namespace
+  ok   skill registry rejects a malformed/non-namespaced id
+  ok   skill registry registers a valid function-backed skill
+  ok   skill registry rejects a second registration of the same id
+  ok   a registered skill actually executes and returns its handler result  ({"ok":true,"echoed":{"probe":42}})
+  ok   a skill with a permanently-failing handler is retried up to its configured bound, then fails (reliability)  (3)
+  ok   workflow engine defines a valid multi-step workflow
+  ok   a workflow with chained dependsOn steps is classified sequential and all steps succeed  ({"runId":"wfrun-ms1rgedn-1","workflowId":"workflow.m13-selftest-sequential","ok":true,"mode":"sequential","steps":[{"stepId":"s1","ok":true,"result":{"ok":true,"echoed":{"step":1}}},{"stepId":"s2","ok":true,"result":{"ok":true,"echoed":{"step":2}}}]})
+  ok   workflow engine defines a second, independent-step workflow
+  ok   a workflow with no dependsOn between steps is classified parallel — genuine multi-agent automation  ({"runId":"wfrun-ms1rgedp-2","workflowId":"workflow.m13-selftest-parallel","ok":true,"mode":"parallel","steps":[{"stepId":"p1","ok":true,"result":{"ok":true,"echoed":{"branch":"a"}}},{"stepId":"p2","ok":true,"result":{"ok":true,"echoed":{"branch":"b"}}}]})
+  ok   workflow engine rejects a cyclic-dependency workflow instead of hanging  ({"threw":true,"error":"workflow \"workflow.m13-selftest-cyclic\" has a cyclic step dependency."})
+  ok   trigger scheduler accepts a valid interval schedule
+  ok   an interval trigger fires on its own at least once with no manual call  ({"id":"trigger.m13-selftest-interval","name":"trigger.m13-selftest-interval","type":"interval","workflowId":"workflow.m13-selftest-sequential","skillId":null,"enabled":true,"fireCount":3,"lastFiredAt":1785068096546,"lastResult":{"ok":true,"at":1785068096548}})
+  ok   cancel() removes a trigger from the registry
+  ok   trigger scheduler accepts a valid event-based trigger
+  ok   emitting the watched event fires the trigger with no polling  ({"id":"trigger.m13-selftest-event","name":"trigger.m13-selftest-event","type":"event","workflowId":"workflow.m13-selftest-parallel","skillId":null,"enabled":true,"fireCount":1,"lastFiredAt":1785068096549,"lastResult":{"ok":true,"at":1785068096550}})
+  ok   trigger scheduler rejects an incomplete schedule instead of silently no-op-ing
+  ok   automation engine creates an automation from inline steps + a trigger
+  ok   a disabled automation does not fire when its trigger event occurs  ({"id":"trigger.auto.m13-selftest","name":"trigger.auto.m13-selftest","type":"event","workflowId":"workflow.auto-m13-selftest","skillId":null,"enabled":false,"fireCount":0,"lastFiredAt":null,"lastResult":null})
+  ok   re-enabling the automation lets the same event fire it  ({"id":"trigger.auto.m13-selftest","name":"trigger.auto.m13-selftest","type":"event","workflowId":"workflow.auto-m13-selftest","skillId":null,"enabled":true,"fireCount":1,"lastFiredAt":1785068096611,"lastResult":{"ok":true,"at":1785068096612}})
+  ok   automations can also be run manually on demand, independent of their trigger  ({"runId":"wfrun-ms1rgeip-9","workflowId":"workflow.auto-m13-selftest","ok":true,"mode":"sequential","steps":[{"stepId":"a1","ok":true,"result":{"ok":true,"echoed":{"via":"automation"}}}]})
+  ok   remove() deletes the automation record
+  ok   workflow history recorded the sequential self-test run  ({"runId":"wfrun-ms1rgeg2-6","workflowId":"workflow.m13-selftest-sequential","status":"completed","startedAt":1785068096546,"finishedAt":1785068096548,"mode":"sequential","steps":[{"stepId":"s1","ok":true,"at":1785068096548},{"stepId":"s2","ok":true,"at":1785068096548}]})
+  ok   workflow history recorded trigger firings from this self-test
+  ok   workflow history recorded skill invocations from this self-test
+  ok   Executive AI turns a single-clause request into a completed automation run  ({"executiveId":"exec-auto-ms1rgeir-1","workflowId":"workflow.executive-plan-ms1rgeir-89rglp","runId":"wfrun-ms1rgeir-a","ok":true,"mode":"sequential","steps":[{"stepId":"m8step-1-ms1rgeir","ok":true,"result":{"ok":false,"op":"executive-automation","error":"Unsupported memory op \"executive-automation\"."}}]})
+  ok   Executive AI's automation run exposes a live workflowId + runId without blocking
+  ok   a multi-clause Executive AI automation runs its steps and reaches a terminal outcome  ({"executiveId":"exec-auto-ms1rgeis-2","workflowId":"workflow.executive-plan-ms1rgeis-2fwjwe","runId":"wfrun-ms1rgeit-b","ok":true,"mode":"sequential","steps":[{"stepId":"m8step-1-ms1rgeis","ok":true,"result":{"ok":true,"reply":"Assistant acknowledged: search AI news"}},{"stepId":"m8step-2-ms1rgeis","ok":true,"result":{"ok":false,"op":"executive-automation","error":"Unsupported memory op \"executive-automation\"."}}]})
+  ok   emitting "automation:auto-request" on the bus autonomously triggers Executive AI to define and run an automation — no direct call needed  (1)
+  ok   still exactly 10 core agents after all Milestone 13 activity, no duplicates  ("count=10")
+
+=== MILESTONE 13 VERIFICATION ===
+PASS  Milestone 4/5 self-test still passes (no regression)
+PASS  Milestone 8 self-test still passes (no regression)
+PASS  Milestone 9 self-test still passes (no regression)
+PASS  Milestone 10 self-test still passes (no regression)
+PASS  Milestone 11 self-test still passes (no regression)
+PASS  Milestone 12 self-test still passes (no regression)
+PASS  Still exactly 10 core agents, no duplicates
+PASS  Milestone 13 self-test passes
+PASS    [M13] AxiomExecutiveAI extended with runAsAutomation()
+PASS    [M13] skill registry rejects an id in the reserved "agent." namespace
+PASS    [M13] skill registry rejects a malformed/non-namespaced id
+PASS    [M13] skill registry registers a valid function-backed skill
+PASS    [M13] skill registry rejects a second registration of the same id
+PASS    [M13] a registered skill actually executes and returns its handler result
+PASS    [M13] a skill with a permanently-failing handler is retried up to its configured bound, then fails (reliability)
+PASS    [M13] workflow engine defines a valid multi-step workflow
+PASS    [M13] a workflow with chained dependsOn steps is classified sequential and all steps succeed
+PASS    [M13] workflow engine defines a second, independent-step workflow
+PASS    [M13] a workflow with no dependsOn between steps is classified parallel — genuine multi-agent automation
+PASS    [M13] workflow engine rejects a cyclic-dependency workflow instead of hanging
+PASS    [M13] trigger scheduler accepts a valid interval schedule
+PASS    [M13] an interval trigger fires on its own at least once with no manual call
+PASS    [M13] cancel() removes a trigger from the registry
+PASS    [M13] trigger scheduler accepts a valid event-based trigger
+PASS    [M13] emitting the watched event fires the trigger with no polling
+PASS    [M13] trigger scheduler rejects an incomplete schedule instead of silently no-op-ing
+PASS    [M13] automation engine creates an automation from inline steps + a trigger
+PASS    [M13] a disabled automation does not fire when its trigger event occurs
+PASS    [M13] re-enabling the automation lets the same event fire it
+PASS    [M13] automations can also be run manually on demand, independent of their trigger
+PASS    [M13] remove() deletes the automation record
+PASS    [M13] workflow history recorded the sequential self-test run
+PASS    [M13] workflow history recorded trigger firings from this self-test
+PASS    [M13] workflow history recorded skill invocations from this self-test
+PASS    [M13] Executive AI turns a single-clause request into a completed automation run
+PASS    [M13] Executive AI's automation run exposes a live workflowId + runId without blocking
+PASS    [M13] a multi-clause Executive AI automation runs its steps and reaches a terminal outcome
+PASS    [M13] emitting "automation:auto-request" on the bus autonomously triggers Executive AI to define and run an automation — no direct call needed
+PASS    [M13] still exactly 10 core agents after all Milestone 13 activity, no duplicates
+PASS  a skill invoked purely via the "skill:invoke" bus event (no JS reference) completes
+PASS  a diamond-shaped dependency graph runs every step exactly once (no duplicate execution)
+PASS  a step depending on a failed step is skipped rather than run, and the workflow reports failed
+PASS  a paused trigger does not fire while paused
+PASS  resuming a paused trigger lets it fire again
+PASS  Event Bus, Agent Manager, Job Manager, Orchestrator, Executive AI, and all Milestone 13 modules are still the same singletons after M13 load
+PASS  Milestone 13 introduced no duplicate manager/registry globals
+
+46/46 checks passed.

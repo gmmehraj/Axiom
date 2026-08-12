@@ -1,0 +1,35 @@
+AXIOM Block 2 / Step 6 / Part 1 — Orchestrator Core regression
+
+  PASS  module loads and auto-starts (no DOM branch)
+  PASS  registerAgent() validates and stores a full record
+  PASS  registerAgent() rejects duplicate ids and missing handler
+  PASS  registerAgent() emits agent_registered on the bus
+  PASS  event bus: on/off/once, duplicate subscription ignored
+[AxiomOrchestrator] event-bus-listener Error: listener blew up
+    at Object.fn (/home/claude/work/extracted/test-evidence/block2-step6-part1-orchestrator-regression-suite.js:117:32)
+    at Object.emit (orchestrator.js:105:17)
+    at /home/claude/work/extracted/test-evidence/block2-step6-part1-orchestrator-regression-suite.js:119:33
+    at getActual (node:assert:609:5)
+    at Function.doesNotThrow (node:assert:777:32)
+    at /home/claude/work/extracted/test-evidence/block2-step6-part1-orchestrator-regression-suite.js:119:12
+    at test (/home/claude/work/extracted/test-evidence/block2-step6-part1-orchestrator-regression-suite.js:44:11)
+    at main (/home/claude/work/extracted/test-evidence/block2-step6-part1-orchestrator-regression-suite.js:114:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) { event: 'boom' }
+  PASS  event bus: a throwing listener does not break emit() for others
+  PASS  dispatch() by explicit agentId runs the handler via the scheduler (not synchronously)
+  PASS  dispatch() by capability routes to a healthy matching agent
+  PASS  dispatch() throws when no agent matches and nothing is enqueued
+  PASS  task_started / task_completed lifecycle events fire in order
+  PASS  a rejected/throwing handler produces task_failed, not an unhandled rejection
+  PASS  retries: a failing task retries up to maxRetries before failing for good
+  PASS  timeout: a handler that never resolves is marked timed_out
+  PASS  priority: higher-priority queued task runs before a lower-priority one
+  PASS  cancel(): a queued task is removed and reports cancelled, never runs
+  PASS  unregisterAgent() cancels that agent's pending tasks and emits agent_removed
+  PASS  getHealthyAgents() excludes disabled/unhealthy agents
+  PASS  listAgents()/getAgent() never leak the raw handler function
+  PASS  dispatch() throws once the runtime has been shut down
+  PASS  shutdown() cancels in-flight/queued tasks and startup() can resume it
+  PASS  getStats() reflects agent and task counts accurately
+
+21/21 assertions passing

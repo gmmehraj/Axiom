@@ -1,0 +1,231 @@
+[AxiomRuntime] online — 10 agents registered. Run AxiomRuntime.selfTest() to verify.
+[AxiomDynamicWorkflow] dynamic decomposition rule registered.
+[AxiomM8] Milestone 8 intelligence layer online. Run AxiomRuntime.selfTestM8() to verify.
+[AxiomM9] Executive AI online. Run AxiomRuntime.selfTestM9() to verify.
+[AxiomM10] Conversation Manager online. Run AxiomRuntime.selfTestM10() to verify.
+[AxiomM11] Autonomous AI Operating System layer online. Run AxiomRuntime.selfTestM11() to verify.
+[AxiomM12] Executive AI memory recall enhanced with Knowledge Graph expansion.
+[AxiomM12] Knowledge & Memory Intelligence layer online. Run AxiomRuntime.selfTestM12() to verify.
+[AxiomM13] Automation & Skills Engine online. Run AxiomRuntime.selfTestM13() to verify.
+[AxiomM14] Plugin Foundation online. Run AxiomRuntime.selfTestM14() to verify.
+[AxiomRuntime] self-test PASS — 11/11
+  ok   manager started
+  ok   ten core agents registered  (count=10)
+  ok   no duplicate ids
+  ok   all agents idle after boot
+  ok   route "Search the web for AXIOM" -> agent.browser  (agent.browser)
+  ok   route "Summarize this PDF" -> agent.file  (agent.file)
+  ok   route "Generate code for a login form" -> agent.coding  (agent.coding)
+  ok   route "Remember this password preference" -> agent.memory  (agent.memory)
+  ok   route "Create a plan for launch" -> agent.planner  (agent.planner)
+  ok   multi-agent collaboration  (agent.assistant,agent.coding,agent.research)
+  ok   end-to-end task completion  (agent.assistant)
+[AxiomM8] self-test PASS — 8/8
+  ok   decompose produces multiple steps  (3)
+  ok   decompose links dependencies in order
+  ok   orchestrator run completes  (completed)
+  ok   monitor report shape
+  ok   error recovery report available
+  ok   planner estimate returns an ETA
+  ok   planner reprioritize returns a plan
+  ok   job manager creates a job
+[AxiomM9] self-test PASS — 8/8
+  ok   vague request short-circuits to clarification  ("needs-clarification")
+  ok   clarification never produced a jobId
+  ok   resolveClarification re-enters the pipeline  ("running")
+  ok   handle() returns a live executiveId + promise
+  ok   run reaches a terminal status  ("completed")
+  ok   status() reports plan/job linkage  ({"planId":"plan-ms73b05y-wstwab","jobId":"job-ms73b05y-uo6q1p"})
+  ok   report() returns a learning ledger
+  ok   execution traced through the real Orchestrator  (1)
+[AxiomM10] self-test PASS — 11/11
+  ok   start() returns a conversationId
+  ok   send() returns a live turnId + promise
+  ok   turn 1 reaches a terminal status  ("completed")
+  ok   follow-up with a resolvable reference is NOT sent to clarification  ("running")
+  ok   reference was rewritten before reaching Executive AI  ("save remember: milestone 10 self-test turn one")
+  ok   turn 2 reaches a terminal status  ("completed")
+  ok   bare reference with zero history asks for clarification  ("needs-clarification")
+  ok   conversation stream emitted at least one progressive event  (["thinking","thinking","progress","done"])
+  ok   AxiomConversationContext available
+  ok   context bundle loads all sections
+  ok   conversation history is scoped per conversationId (no cross-talk)
+[AxiomM11] self-test PASS — 27/27
+  ok   AxiomExecutiveAI extended with scheduleAutonomous()
+  ok   scheduler.configure() applies maxConcurrent  ({"maxConcurrent":1})
+  ok   higher priority task is admitted before an earlier-queued lower priority one  ({"low":"queued","critical":"running"})
+  ok   scheduled tasks reach a terminal status  (["completed","completed"])
+  ok   a dependent task stays queued while its dependency is unsettled  ("queued")
+  ok   cancel() on a still-queued task succeeds immediately
+  ok   a queued task cancelled before admission resolves as cancelled  ("cancelled")
+  ok   scheduler.report() exposes counts and maxConcurrent
+  ok   task graph builds nodes + edges from a multi-step plan  ({"nodes":3,"edges":2})
+  ok   task graph computes a valid topological order  (["m8step-1-ms73b06h","m8step-2-ms73b06h","m8step-3-ms73b06h"])
+  ok   sequential ("then") plan is classified sequential or mixed, never parallel  ("sequential")
+  ok   independent multi-agent plan graph builds without throwing
+  ok   event timeline records a newly emitted event with a timestamp  (1785390331050)
+  ok   event timeline query() filters by source
+  ok   resource monitor report includes agent activity, queue depth, task counts, latency, scheduler, browser
+  ok   plugin registry rejects an id in the reserved "agent." namespace
+  ok   plugin registry registers a valid external agent through the real Agent Manager
+  ok   a registered plugin agent actually executes a dispatched task  ({"ok":true,"echoedBy":"plugin.m11-selftest","task":{"intent":"selftest","id":"plugin.m11-selftest:ms73b06jy2mp","enqueuedAt":1785390331051}})
+  ok   plugin unregister() removes it from both the registry and the Agent Manager
+  ok   Executive AI derives "sequential" for a dependent, "then"-chained request  ("sequential")
+  ok   Executive AI derives a non-sequential mode for an independent multi-agent request  ("mixed")
+  ok   sequential and independent requests are not collapsed into the same decision  ({"seqMode":"sequential","parMode":"mixed"})
+  ok   scheduleAutonomous() returns a live taskId + promise without blocking
+  ok   autonomous run reaches a terminal status  ("completed")
+  ok   emitting "executive:auto-request" on the bus autonomously triggers Executive AI scheduling — no direct call needed  (1)
+  ok   scheduler task total only grew by exactly the tasks this test created (no phantom duplicates)
+  ok   still exactly 10 core agents after all M11 activity, no duplicates  ("count=10")
+[AxiomM12] self-test PASS — 18/18
+  ok   AxiomMemoryIntelligence.rankedRecall enhanced with knowledge-graph expansion
+  ok   knowledge graph build() resolves with nodes and edges  ({"nodes":31,"edges":7520,"byType":{"agent":10,"memory":19,"tag":2},"builtAt":1785390331128})
+  ok   knowledge graph exposes a memory node for a just-created note
+  ok   semantic search returns results ranked by score  ([0.731,0.313,0,0,0])
+  ok   semantic search surfaces the seeded TypeScript note near the top  (["m17","m18","m19","m16","m15"])
+  ok   auto-tagger classify() suggests at least one tag for an untagged note  ({"tags":["m12","selftest","prefers","typescript","over"],"category":"technical"})
+  ok   auto-tagger fills tags on a previously-untagged note  ({"id":"m18","tags":["m12","selftest","prefers","typescript","over"],"category":"technical","changed":true})
+  ok   auto-tagger never overwrites tags a note already has  ({"id":"m17","tags":["typescript","preference"],"category":"preferences","changed":true})
+  ok   duplicate detector groups the two near-identical TypeScript notes together  ([["m18","m17"],["m14","m13"],["m12","m11"],["m7","m5"],["m9","m6","m4","m2"]])
+  ok   duplicate detector does NOT group the unrelated meeting note with the TypeScript notes
+  ok   importance ranker scores a pinned, tagged note higher than a bare one  ({"pinned":0.88,"bare":0.35})
+  ok   importance-ranked list is still produced by the existing Milestone 8 rank() (rankScore present)
+  ok   summarizer produces a non-empty summary string with the right count  ("19 memories recorded for \"agent.memory\" between 2026-07-30 and 2026-07-30. Most common tags: typescript, m12, selftest, prefers, over. Most common category: technical. 1 pinned as important. Most notable: M12 selftest: prefers TypeScript for backend services | M12 selftest: prefers TypeScript over plain JavaScript for backend work | M12 selftest: meeting with design team scheduled for Thursday")
+  ok   enhanced rankedRecall() still resolves an array (backward compatible with Milestone 9's loadMemory())
+  ok   AxiomExecutiveAI.graphContext() (new Milestone 12 capability) resolves an array
+  ok   AxiomExecutiveAI.knowledgeStats() passes through knowledge-graph stats  ({"nodes":31,"edges":7520,"byType":{"agent":10,"memory":19,"tag":2},"builtAt":1785390331128})
+  ok   Milestone 8 AxiomMemoryIntelligence.rank() still works standalone (regression)
+  ok   still exactly 10 core agents after all Milestone 12 activity, no duplicates  ("count=10")
+[AxiomM13] self-test PASS — 31/31
+  ok   AxiomExecutiveAI extended with runAsAutomation()
+  ok   skill registry rejects an id in the reserved "agent." namespace
+  ok   skill registry rejects a malformed/non-namespaced id
+  ok   skill registry registers a valid function-backed skill
+  ok   skill registry rejects a second registration of the same id
+  ok   a registered skill actually executes and returns its handler result  ({"ok":true,"echoed":{"probe":42}})
+  ok   a skill with a permanently-failing handler is retried up to its configured bound, then fails (reliability)  (3)
+  ok   workflow engine defines a valid multi-step workflow
+  ok   a workflow with chained dependsOn steps is classified sequential and all steps succeed  ({"runId":"wfrun-ms73b097-1","workflowId":"workflow.m13-selftest-sequential","ok":true,"mode":"sequential","steps":[{"stepId":"s1","ok":true,"result":{"ok":true,"echoed":{"step":1}}},{"stepId":"s2","ok":true,"result":{"ok":true,"echoed":{"step":2}}}]})
+  ok   workflow engine defines a second, independent-step workflow
+  ok   a workflow with no dependsOn between steps is classified parallel — genuine multi-agent automation  ({"runId":"wfrun-ms73b099-2","workflowId":"workflow.m13-selftest-parallel","ok":true,"mode":"parallel","steps":[{"stepId":"p1","ok":true,"result":{"ok":true,"echoed":{"branch":"a"}}},{"stepId":"p2","ok":true,"result":{"ok":true,"echoed":{"branch":"b"}}}]})
+  ok   workflow engine rejects a cyclic-dependency workflow instead of hanging  ({"threw":true,"error":"workflow \"workflow.m13-selftest-cyclic\" has a cyclic step dependency."})
+  ok   trigger scheduler accepts a valid interval schedule
+  ok   an interval trigger fires on its own at least once with no manual call  ({"id":"trigger.m13-selftest-interval","name":"trigger.m13-selftest-interval","type":"interval","workflowId":"workflow.m13-selftest-sequential","skillId":null,"enabled":true,"fireCount":3,"lastFiredAt":1785390331196,"lastResult":{"ok":true,"at":1785390331198}})
+  ok   cancel() removes a trigger from the registry
+  ok   trigger scheduler accepts a valid event-based trigger
+  ok   emitting the watched event fires the trigger with no polling  ({"id":"trigger.m13-selftest-event","name":"trigger.m13-selftest-event","type":"event","workflowId":"workflow.m13-selftest-parallel","skillId":null,"enabled":true,"fireCount":1,"lastFiredAt":1785390331211,"lastResult":{"ok":true,"at":1785390331213}})
+  ok   trigger scheduler rejects an incomplete schedule instead of silently no-op-ing
+  ok   automation engine creates an automation from inline steps + a trigger
+  ok   a disabled automation does not fire when its trigger event occurs  ({"id":"trigger.auto.m13-selftest","name":"trigger.auto.m13-selftest","type":"event","workflowId":"workflow.auto-m13-selftest","skillId":null,"enabled":false,"fireCount":0,"lastFiredAt":null,"lastResult":null})
+  ok   re-enabling the automation lets the same event fire it  ({"id":"trigger.auto.m13-selftest","name":"trigger.auto.m13-selftest","type":"event","workflowId":"workflow.auto-m13-selftest","skillId":null,"enabled":true,"fireCount":1,"lastFiredAt":1785390331274,"lastResult":{"ok":true,"at":1785390331275}})
+  ok   automations can also be run manually on demand, independent of their trigger  ({"runId":"wfrun-ms73b0dk-9","workflowId":"workflow.auto-m13-selftest","ok":true,"mode":"sequential","steps":[{"stepId":"a1","ok":true,"result":{"ok":true,"echoed":{"via":"automation"}}}]})
+  ok   remove() deletes the automation record
+  ok   workflow history recorded the sequential self-test run  ({"runId":"wfrun-ms73b0ak-6","workflowId":"workflow.m13-selftest-sequential","status":"completed","startedAt":1785390331196,"finishedAt":1785390331198,"mode":"sequential","steps":[{"stepId":"s1","ok":true,"at":1785390331198},{"stepId":"s2","ok":true,"at":1785390331198}]})
+  ok   workflow history recorded trigger firings from this self-test
+  ok   workflow history recorded skill invocations from this self-test
+  ok   Executive AI turns a single-clause request into a completed automation run  ({"executiveId":"exec-auto-ms73b0dl-1","workflowId":"workflow.executive-plan-ms73b0dl-ri091i","runId":"wfrun-ms73b0dm-a","ok":true,"mode":"sequential","steps":[{"stepId":"m8step-1-ms73b0dl","ok":true,"result":{"ok":false,"op":"executive-automation","error":"Unsupported memory op \"executive-automation\"."}}]})
+  ok   Executive AI's automation run exposes a live workflowId + runId without blocking
+  ok   a multi-clause Executive AI automation runs its steps and reaches a terminal outcome  ({"executiveId":"exec-auto-ms73b0dn-2","workflowId":"workflow.executive-plan-ms73b0dn-09fd72","runId":"wfrun-ms73b0dn-b","ok":true,"mode":"sequential","steps":[{"stepId":"m8step-1-ms73b0dn","ok":true,"result":{"ok":true,"reply":"Assistant acknowledged: search AI news"}},{"stepId":"m8step-2-ms73b0dn","ok":true,"result":{"ok":false,"op":"executive-automation","error":"Unsupported memory op \"executive-automation\"."}}]})
+  ok   emitting "automation:auto-request" on the bus autonomously triggers Executive AI to define and run an automation — no direct call needed  (1)
+  ok   still exactly 10 core agents after all Milestone 13 activity, no duplicates  ("count=10")
+[AxiomM14] self-test PASS — 37/37
+  ok   rejects a manifest id in the reserved "agent." namespace
+  ok   rejects a malformed/non-namespaced manifest
+  ok   rejects a non-semver version string
+  ok   rejects an unknown/undeclared permission
+  ok   rejects a manifest depending on a plugin that is not installed
+  ok   install() accepts a valid manifest + factory and returns state "disabled"  ({"ok":true,"plugin":{"id":"plugin.m14-selftest-base","name":"M14 Selftest Base","version":"1.0.0","author":"AXIOM QA","description":"Ephemeral plugin used only by the Milestone 14 self-test.","permissions":["bus.emit"],"dependencies":[],"capabilities":["selftest.echo"],"state":"disabled","error":null,"installedAt":1785390331560,"loadedAt":null}})
+  ok   install() rejects a second install of the same id
+  ok   install() accepts a plugin whose dependency is already installed  ({"ok":true,"plugin":{"id":"plugin.m14-selftest-dependent","name":"M14 Selftest Dependent","version":"1.0.0","author":"AXIOM QA","description":"Depends on plugin.m14-selftest-base.","permissions":[],"dependencies":["plugin.m14-selftest-base"],"capabilities":[],"state":"disabled","error":null,"installedAt":1785390331560,"loadedAt":null}})
+  ok   load() refuses when a declared dependency is installed but not yet enabled
+  ok   a failed dependency-gated load leaves the plugin in state "failed"
+  ok   enable() loads and runs a disabled plugin, reaching state "running"  ({"ok":true,"plugin":{"id":"plugin.m14-selftest-base","name":"M14 Selftest Base","version":"1.0.0","author":"AXIOM QA","description":"Ephemeral plugin used only by the Milestone 14 self-test.","permissions":["bus.emit"],"dependencies":[],"capabilities":["selftest.echo"],"state":"running","error":null,"installedAt":1785390331560,"loadedAt":1785390331560}})
+  ok   enabling a plugin invoked its module onEnable() hook
+  ok   loading a plugin ran its factory exactly once
+  ok   enable() on an already-running plugin is a no-op success (idempotent, no duplicate load)
+  ok   load() on an already-running plugin does not re-invoke the factory (duplicate loading prevented)
+  ok   load() succeeds once its dependency is enabled  ({"ok":true,"plugin":{"id":"plugin.m14-selftest-dependent","name":"M14 Selftest Dependent","version":"1.0.0","author":"AXIOM QA","description":"Depends on plugin.m14-selftest-base.","permissions":[],"dependencies":["plugin.m14-selftest-base"],"capabilities":[],"state":"running","error":null,"installedAt":1785390331560,"loadedAt":1785390331560}})
+  ok   pause() moves a running plugin to state "paused"  ({"ok":true,"plugin":{"id":"plugin.m14-selftest-base","name":"M14 Selftest Base","version":"1.0.0","author":"AXIOM QA","description":"Ephemeral plugin used only by the Milestone 14 self-test.","permissions":["bus.emit"],"dependencies":[],"capabilities":["selftest.echo"],"state":"paused","error":null,"installedAt":1785390331560,"loadedAt":1785390331560}})
+  ok   pausing invoked the module onPause() hook
+  ok   pause() on an already-paused plugin is rejected (not running)
+  ok   resume() moves a paused plugin back to state "running"  ({"ok":true,"plugin":{"id":"plugin.m14-selftest-base","name":"M14 Selftest Base","version":"1.0.0","author":"AXIOM QA","description":"Ephemeral plugin used only by the Milestone 14 self-test.","permissions":["bus.emit"],"dependencies":[],"capabilities":["selftest.echo"],"state":"running","error":null,"installedAt":1785390331560,"loadedAt":1785390331560}})
+  ok   resuming invoked the module onResume() hook
+  ok   uninstall() is refused while an active dependent plugin still needs it  ("Cannot uninstall \"plugin.m14-selftest-base\": still depended on by active plugin(s): plugin.m14-selftest-dependent.")
+  ok   disable() moves a running plugin to state "disabled" and frees it (unloaded)
+  ok   disable() on the base plugin succeeds once nothing depends on it anymore
+  ok   disabling invoked the module onDisable() hook
+  ok   after disable(), the loader no longer reports the plugin as loaded
+  ok   unload() on a not-loaded plugin reports a clear error rather than throwing
+  ok   load() after a full disable/unload cycle re-invokes the factory (lazy reload works)  (2)
+  ok   uninstall() removes a disabled plugin from the registry
+  ok   uninstall() removes the base plugin once no dependents remain
+  ok   uninstall() on an unknown id reports a clear error
+  ok   install() accepts a plugin that declares a skill extension point
+  ok   enabling a plugin registers its declared skill in the real Skill Registry
+  ok   the plugin-provided skill is genuinely invocable through Skill Registry .invoke()  ({"via":"plugin"})
+  ok   disabling the plugin unregisters its skill from the Skill Registry
+  ok   still exactly 10 core agents after all Milestone 14 activity, no duplicates  ("count=10")
+  ok   event-driven lifecycle events actually fired on the shared bus for this run  (39)
+
+=== MILESTONE 14 PART 1 VERIFICATION ===
+PASS  Milestone 4/5 self-test still passes (no regression)
+PASS  Milestone 8 self-test still passes (no regression)
+PASS  Milestone 9 self-test still passes (no regression)
+PASS  Milestone 10 self-test still passes (no regression)
+PASS  Milestone 11 self-test still passes (no regression)
+PASS  Milestone 12 self-test still passes (no regression)
+PASS  Milestone 13 self-test still passes (no regression)
+PASS  Still exactly 10 core agents, no duplicates
+PASS  Milestone 14 Part 1 self-test passes
+PASS    [M14] rejects a manifest id in the reserved "agent." namespace
+PASS    [M14] rejects a malformed/non-namespaced manifest
+PASS    [M14] rejects a non-semver version string
+PASS    [M14] rejects an unknown/undeclared permission
+PASS    [M14] rejects a manifest depending on a plugin that is not installed
+PASS    [M14] install() accepts a valid manifest + factory and returns state "disabled"
+PASS    [M14] install() rejects a second install of the same id
+PASS    [M14] install() accepts a plugin whose dependency is already installed
+PASS    [M14] load() refuses when a declared dependency is installed but not yet enabled
+PASS    [M14] a failed dependency-gated load leaves the plugin in state "failed"
+PASS    [M14] enable() loads and runs a disabled plugin, reaching state "running"
+PASS    [M14] enabling a plugin invoked its module onEnable() hook
+PASS    [M14] loading a plugin ran its factory exactly once
+PASS    [M14] enable() on an already-running plugin is a no-op success (idempotent, no duplicate load)
+PASS    [M14] load() on an already-running plugin does not re-invoke the factory (duplicate loading prevented)
+PASS    [M14] load() succeeds once its dependency is enabled
+PASS    [M14] pause() moves a running plugin to state "paused"
+PASS    [M14] pausing invoked the module onPause() hook
+PASS    [M14] pause() on an already-paused plugin is rejected (not running)
+PASS    [M14] resume() moves a paused plugin back to state "running"
+PASS    [M14] resuming invoked the module onResume() hook
+PASS    [M14] uninstall() is refused while an active dependent plugin still needs it
+PASS    [M14] disable() moves a running plugin to state "disabled" and frees it (unloaded)
+PASS    [M14] disable() on the base plugin succeeds once nothing depends on it anymore
+PASS    [M14] disabling invoked the module onDisable() hook
+PASS    [M14] after disable(), the loader no longer reports the plugin as loaded
+PASS    [M14] unload() on a not-loaded plugin reports a clear error rather than throwing
+PASS    [M14] load() after a full disable/unload cycle re-invokes the factory (lazy reload works)
+PASS    [M14] uninstall() removes a disabled plugin from the registry
+PASS    [M14] uninstall() removes the base plugin once no dependents remain
+PASS    [M14] uninstall() on an unknown id reports a clear error
+PASS    [M14] install() accepts a plugin that declares a skill extension point
+PASS    [M14] enabling a plugin registers its declared skill in the real Skill Registry
+PASS    [M14] the plugin-provided skill is genuinely invocable through Skill Registry .invoke()
+PASS    [M14] disabling the plugin unregisters its skill from the Skill Registry
+PASS    [M14] still exactly 10 core agents after all Milestone 14 activity, no duplicates
+PASS    [M14] event-driven lifecycle events actually fired on the shared bus for this run
+PASS  a plugin installed purely via "pluginmgr:install-request" (no JS reference) registers
+PASS  the same plugin reaches "running" purely via "pluginmgr:enable-request"
+PASS  the plugin returns to "disabled" purely via "pluginmgr:disable-request"
+PASS  a plugin declaring an "agent" extension point installs cleanly
+PASS  enabling the plugin registers its agent via the real, unmodified AxiomPluginRegistry
+PASS  the registered agent is a genuine AxiomAgentManager agent too
+PASS  disabling the plugin unregisters its agent from the Plugin Registry
+PASS  the agent is also gone from AxiomAgentManager
+PASS  three concurrent load()/enable() calls on the same plugin run the factory exactly once
+PASS  Event Bus, Agent Manager, Skill Registry, Plugin Registry, and all Milestone 14 modules are still the same singletons after M14 load
+PASS  Milestone 14 introduced no duplicate manager/registry globals
+PASS  Still exactly 10 core agents after all Milestone 14 activity, no duplicates
+
+58/58 checks passed.

@@ -1,0 +1,182 @@
+{
+  "common": {
+    "appName": "Axiom AI Studio",
+    "back": "Zurück",
+    "backToAxiom": "Zurück zu Axiom",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "loading": "Wird geladen…",
+    "pleaseWait": "Bitte warten…",
+    "saved": "Gespeichert",
+    "search": "Suchen",
+    "send": "Senden",
+    "stop": "Stopp",
+    "regenerate": "Neu generieren",
+    "upload": "Hochladen",
+    "thinking": "Denkt nach…",
+    "typing": "Tippt…",
+    "language": "Sprache",
+    "theme": "Design",
+    "notifications": "Benachrichtigungen",
+    "signOut": "Abmelden"
+  },
+
+  "nav": {
+    "dashboard": "Dashboard",
+    "chats": "Chats",
+    "playground": "Playground",
+    "billing": "Abrechnung",
+    "settings": "Einstellungen",
+    "admin": "Admin",
+    "profile": "Profil",
+    "newChat": "Neuer Chat",
+    "history": "Verlauf"
+  },
+
+  "auth": {
+    "welcomeBack": "Willkommen zurück",
+    "signInTitle": "Bei Axiom anmelden",
+    "signInSubtitle": "Mach dort weiter, wo du aufgehört hast — bei jedem Modell.",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "forgotPassword": "Passwort vergessen?",
+    "signIn": "Anmelden",
+    "noAccount": "Noch kein Konto?",
+    "createOne": "Jetzt erstellen",
+    "createAccountTitle": "Erstelle dein Konto",
+    "createAccountSubtitle": "Starte mit jedem Modell — mit einem einzigen Konto.",
+    "fullName": "Vollständiger Name",
+    "confirmPassword": "Passwort bestätigen",
+    "createAccount": "Konto erstellen",
+    "haveAccount": "Bereits ein Konto?",
+    "signInLink": "Anmelden",
+    "logout": "Abmelden",
+    "errorInvalidCredentials": "Ungültige E-Mail-Adresse oder ungültiges Passwort.",
+    "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+    "errorPasswordMismatch": "Die Passwörter stimmen nicht überein."
+  },
+
+  "dashboard": {
+    "title": "Dashboard",
+    "creditsRemaining": "Verbleibende Credits",
+    "activeProjects": "Aktive Projekte",
+    "generationsThisMonth": "Generierungen diesen Monat",
+    "avgRelayHandoff": "Durchschn. Relay-Übergabe",
+    "quickActions": "Schnellzugriffe",
+    "quickActionsSubtitle": "Direkt zu einem Modell springen.",
+    "recentGenerations": "Letzte Generierungen",
+    "recentGenerationsSubtitle": "Über alle Tools im Studio hinweg.",
+    "viewAll": "Alle anzeigen →",
+    "newGeneration": "Neue Generierung"
+  },
+
+  "playground": {
+    "modelLabel": "Modell",
+    "searchModels": "Modelle suchen…",
+    "placeholder": "Frag JARVIS irgendetwas…",
+    "deleteChat": "Chat löschen",
+    "renameChat": "Chat umbenennen",
+    "newChat": "Neuer Chat",
+    "outOfCredits": "Deine Credits sind aufgebraucht. Lade in der Abrechnung auf.",
+    "chatUnavailable": "Chat nicht verfügbar: OpenRouter konnte nicht geladen werden.",
+    "genericError": "Beim Gespräch mit der KI ist etwas schiefgelaufen.",
+    "generationComplete": "Generierung abgeschlossen"
+  },
+
+  "billing": {
+    "title": "Abrechnung",
+    "currentPlan": "Aktueller Plan",
+    "freeForever": "Für immer kostenlos",
+    "creditPacks": "Credit-Pakete",
+    "subscriptions": "Abonnements",
+    "buyCredits": "Credits kaufen",
+    "subscribe": "Abonnieren",
+    "currentPlanBtn": "Aktueller Plan",
+    "preparingCheckout": "Checkout wird vorbereitet…",
+    "verifyingPayment": "Zahlung wird überprüft…",
+    "paymentSuccessful": "Zahlung erfolgreich!",
+    "paymentFailed": "Zahlung fehlgeschlagen: {reason}",
+    "checkoutFailed": "Checkout konnte nicht gestartet werden",
+    "checkoutError": "Beim Starten des Checkouts ist etwas schiefgelaufen",
+    "verificationFailed": "Zahlungsüberprüfung fehlgeschlagen",
+    "verificationError": "Zahlung konnte nicht überprüft werden — kontaktiere den Support, falls dir ein Betrag berechnet wurde",
+    "usageHistory": "Nutzungsverlauf",
+    "model": "Modell",
+    "date": "Datum",
+    "tokens": "Tokens",
+    "credits": "Credits"
+  },
+
+  "settings": {
+    "title": "Einstellungen",
+    "profile": "Profil",
+    "account": "Konto",
+    "appearance": "Erscheinungsbild",
+    "languageRegion": "Sprache & Region",
+    "languageRegionSubtitle": "Wähle die Sprache für die Oberfläche und JARVIS' Antworten.",
+    "selectLanguage": "Sprache auswählen",
+    "autoDetected": "Automatisch von deinem Browser erkannt",
+    "voice": "Stimme",
+    "voiceInput": "Spracheingabe-Sprache",
+    "voiceOutput": "Sprachausgabe-Stimme",
+    "notifications": "Benachrichtigungen",
+    "dangerZone": "Gefahrenzone",
+    "deleteAccount": "Konto löschen"
+  },
+
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Nutzung, Nutzer und Systemzustand im gesamten Studio.",
+    "totalUsers": "Nutzer insgesamt",
+    "generations24h": "Generierungen (24 Std.)",
+    "activeSubscriptions": "Aktive Abonnements",
+    "mrrComingSoon": "Demnächst verfügbar",
+    "mrrLabel": "MRR — benötigt Abrechnungsanalyse",
+    "recentUsers": "Neueste Nutzer",
+    "recentUsersSubtitle": "Die neuesten Anmeldungen im Studio.",
+    "modelLoad": "Modellauslastung",
+    "modelLoadSubtitle": "Nur zur Veranschaulichung — noch nicht mit echter Nutzung pro Modell verknüpft.",
+    "name": "Name",
+    "plan": "Plan",
+    "credits": "Credits",
+    "joined": "Beigetreten am",
+    "loadingUsers": "Wird geladen…",
+    "couldNotLoad": "Nutzerdaten konnten nicht geladen werden."
+  },
+
+  "jarvis": {
+    "name": "JARVIS",
+    "onlineStatus": "Online · Reaktor aktiv",
+    "listeningStatus": "Hört zu…",
+    "thinkingStatus": "Denkt nach…",
+    "speakingStatus": "Spricht…",
+    "errorStatus": "Etwas ist schiefgelaufen",
+    "greeting": "Hallo, ich bin JARVIS",
+    "greetingSubtitle": "Dein intelligenter persönlicher Assistent.",
+    "tagline": "Denken · Erschaffen · Automatisieren",
+    "askAnything": "Frag JARVIS irgendetwas…",
+    "micUnavailable": "Mikrofon nicht verfügbar — der Sprachmodus ist derzeit nur visuell.",
+    "writeCode": "Code schreiben",
+    "writeCodeSub": "Debuggen, bauen, überprüfen",
+    "generateImage": "Bild generieren",
+    "generateImageSub": "Text- oder Bild-Prompt",
+    "analyzeDocument": "Dokument analysieren",
+    "analyzeDocumentSub": "Hochladen und zusammenfassen",
+    "researchWeb": "Im Web recherchieren",
+    "researchWebSub": "Live-Antworten mit Quellenangabe"
+  },
+
+  "errors": {
+    "generic": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+    "network": "Verbindung fehlgeschlagen. Überprüfe deine Internetverbindung.",
+    "rateLimited": "Zu viele Anfragen — bitte verlangsame dein Tempo.",
+    "unauthorized": "Bitte melde dich an, um fortzufahren.",
+    "notFound": "Wir konnten das nicht finden."
+  },
+
+  "toasts": {
+    "saved": "Gespeichert",
+    "copied": "In die Zwischenablage kopiert"
+  }
+}

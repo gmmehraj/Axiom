@@ -1,0 +1,87 @@
+/* ==========================================================
+   AXIOM — Motion Tokens (Phase 5, Part 1)
+   ------------------------------------------------------------
+   Single source of truth for every CSS-driven animation,
+   transition, hover effect, and micro-interaction in the app.
+
+   Before this pass, duration/easing values were defined
+   independently in at least five places (design-tokens.css,
+   os-shell.css, ax-redesign.css, ax-chat.css, styles.css) under
+   different names (--ax-dur-*, --ax-duration-*, --ax-ease-*,
+   --ease) and, in several cases, different values for the same
+   name (e.g. three different --ax-ease-smooth definitions).
+   All of that has been consolidated into the tokens below.
+   Every legacy variable has been removed and every call site
+   repointed here — see CHANGELOG.md for the full mapping.
+
+   This file must be loaded before any other stylesheet that
+   references --motion-* custom properties.
+
+   JS-driven interactions (drag, magnetic cursor, elastic dock,
+   inertia) use real spring physics — see os/core/motion-system.js
+   — rather than fixed durations, since springs are interruptible
+   and velocity-aware in a way CSS transitions can't be. The
+   --motion-duration-* tokens below are tuned to feel like a
+   continuation of that same system for the plain-CSS cases
+   (hover states, dialogs, menus, panels) where a spring isn't
+   warranted. --motion-ease-spring approximates the "snappy"
+   spring preset for CSS transitions that want that same
+   slight-overshoot character.
+   ========================================================== */
+
+:root {
+  /* ---- Duration ----------------------------------------- */
+  /* Micro feedback: active/pressed states, tiny toggles */
+  --motion-duration-instant: 100ms;
+  /* Small elements: buttons, chips, tooltips, icon states */
+  --motion-duration-fast: 150ms;
+  /* Default: hover states, color/opacity/border changes */
+  --motion-duration-base: 250ms;
+  /* Medium surfaces: cards, dropdowns, panels, toasts */
+  --motion-duration-slow: 400ms;
+  /* Large reveals: modals, page transitions, onboarding */
+  --motion-duration-reveal: 600ms;
+
+  /* ---- Easing --------------------------------------------
+     Named by intent, not by curve shape, so call sites read
+     as "why", not "how". */
+  /* Default curve for most transitions */
+  --motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Entrances — starts fast, settles gently */
+  --motion-ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  /* Exits — starts gently, leaves fast */
+  --motion-ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  /* Premium expo-out feel for hero reveals, modals, big surfaces */
+  --motion-ease-emphasized: cubic-bezier(0.19, 1, 0.22, 1);
+  /* Slight overshoot — buttons, dock, anything that should feel
+     alive; mirrors the JS "snappy" spring preset */
+  --motion-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Constant rate — spinners, marquees, progress bars */
+  --motion-ease-linear: linear;
+
+  /* ---- Delay ---------------------------------------------- */
+  --motion-delay-none: 0ms;
+  --motion-delay-short: 50ms;
+  /* Per-item step for JS-driven staggerIn() sequences */
+  --motion-delay-stagger: 40ms;
+
+  /* ---- Scale (hover / press micro-interactions) ----------- */
+  --motion-scale-press-strong: 0.95;
+  --motion-scale-press: 0.97;
+  --motion-scale-hover: 1.02;
+  --motion-scale-hover-strong: 1.05;
+}
+
+/* ---- Reduced motion --------------------------------------
+   Respect the user's OS-level preference globally, in one
+   place, instead of leaving it to individual components. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-instant: 0ms;
+    --motion-duration-fast: 0ms;
+    --motion-duration-base: 0ms;
+    --motion-duration-slow: 0ms;
+    --motion-duration-reveal: 0ms;
+    --motion-delay-stagger: 0ms;
+  }
+}

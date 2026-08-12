@@ -1,0 +1,40 @@
+[AxiomRuntime] online — 10 agents registered. Run AxiomRuntime.selfTest() to verify.
+[AxiomRuntime] self-test PASS — 11/11
+  ok   manager started
+  ok   ten core agents registered  (count=10)
+  ok   no duplicate ids
+  ok   all agents idle after boot
+  ok   route "Search the web for AXIOM" -> agent.browser  (agent.browser)
+  ok   route "Summarize this PDF" -> agent.file  (agent.file)
+  ok   route "Generate code for a login form" -> agent.coding  (agent.coding)
+  ok   route "Remember this password preference" -> agent.memory  (agent.memory)
+  ok   route "Create a plan for launch" -> agent.planner  (agent.planner)
+  ok   multi-agent collaboration  (agent.coding,agent.research)
+  ok   end-to-end task completion  (agent.assistant)
+
+=== MILESTONE 5 VERIFICATION ===
+PASS  Milestone 4 self-test still passes
+PASS  Browser Agent navigate()
+PASS  Browser Agent search()
+PASS  Memory Agent remember()
+PASS  Memory Agent recall()
+PASS  Memory Agent search()
+PASS  Memory Agent tag()
+PASS  Memory Agent update()
+PASS  Memory Agent delete()
+PASS  Planner Agent create-plan()
+PASS  Planner Agent add-step()
+PASS  Planner Agent complete()
+PASS  Planner Agent progress()
+PASS  File Agent summarize()
+PASS  File Agent search()
+PASS  File Agent organize()
+PASS  File Agent pass() hands off
+PASS  Unsupported op fails gracefully (no crash)
+PASS  Manager can cancel a queued task
+PASS  Router flags research as a workflow hop
+PASS  Collaboration workflow completes end-to-end
+PASS  Workflow stored a memory about the topic
+PASS  Compound request still multi-dispatches (no workflow regression)
+
+23/23 checks passed.

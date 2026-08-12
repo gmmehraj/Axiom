@@ -1,0 +1,38 @@
+PASS  AxiomMemoryEngine loaded
+PASS  init() returns stats
+PASS  a session exists after init
+PASS  calling init() twice does not create a second session
+PASS  touchSession() refreshes lastActiveAt
+PASS  startConversation returns an id
+PASS  conversation history has 2 messages in order
+PASS  conversation messageCount tracks history length
+PASS  conversation history is capped at 500 messages
+PASS  capping keeps the MOST RECENT messages
+PASS  addMemory assigns an id
+PASS  addMemory sets lifecycle timestamps
+PASS  addMemory starts with accessCount 0
+PASS  touchMemory increments accessCount
+PASS  updateMemory applies the patch
+PASS  updateMemory bumps updatedAt
+PASS  queryMemories by tag returns only matching items
+PASS  queryMemories by agent narrows correctly
+PASS  queryMemories by project + pinned intersects indices
+PASS  queryMemories with an unindexed tag value returns empty, not everything
+PASS  queryMemories text search matches on content
+PASS  listTags/listAgents/listProjects reflect stored memories
+PASS  deleteMemory removes the record
+PASS  deleteMemory removes it from the tag index too
+PASS  working memory round-trips
+PASS  stats.memoryCount matches queryMemories({}).length
+PASS  stats.shortTermCacheLoad is a number between 0 and 1
+PASS  cleanup() runs without throwing and returns a result object
+PASS  cleanup() does not delete live, non-expired memories
+PASS  cleanup() expires ephemeral memories past their ttl
+PASS  onChange fires on memory:added
+PASS  unsubscribe stops further notifications
+PASS  exportAll includes sessions, conversations, messages, memories
+PASS  importAll succeeds
+PASS  importAll restores the same memory count
+PASS  a fresh engine instance reads back persisted memories from localStorage
+
+ALL CHECKS PASSED

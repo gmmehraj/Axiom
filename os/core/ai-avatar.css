@@ -1,0 +1,221 @@
+/* AXIOM — Holographic AI Avatar + Dynamic Core Evolution (Part 10)
+   ------------------------------------------------------------
+   Milestone 14 · Phase 3 · Part 1 — AI Core & AI Avatar Visual
+   Unification. Recolored from the old ad hoc teal (#6EE7B7) to
+   the Purple Aurora AI-identity accent (styles/ai-identity.css),
+   the same accent used on the Brain page and the AI Core. The
+   default resting state is now deliberately calm/low-glow (see
+   ".axiom-avatar-face" base rule) so the avatar doesn't compete
+   for attention while someone is working; each mood state below
+   still gets its own distinct hue + animation within the same
+   purple family, so states stay tellable apart.
+   No markup, class names, or JS behavior changed — only color,
+   glow, and the calmer resting-state values below.
+
+   Phase 3 · Part 2 — added a second, wide/low-alpha glow layer
+   behind the existing tight glow on idle + every mood state (a
+   standard two-layer "bloom": one sharp near light, one soft far
+   light) for more depth/premium feel, without changing the tight
+   glow's own radius/alpha that states are actually told apart by.
+   Also added an explicit prefers-reduced-motion block and swapped
+   the mood-transition easing for a smoother decelerate curve.
+   ============================================================ */
+
+.axiom-avatar {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  width: 64px;
+  height: 64px;
+  z-index: 9990;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
+}
+
+.axiom-avatar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(168, 85, 247, .18);
+  animation: axiomRingSpin var(--motion-ease-linear) infinite;
+  pointer-events: none;
+  /* These rings never stop rotating, so hint the compositor once
+     instead of letting each frame's transform trigger a fresh
+     layer promotion decision. */
+  will-change: transform;
+}
+.axiom-avatar-ring.r1 { animation-duration: 10s; }
+.axiom-avatar-ring.r2 { inset: -8px; animation-duration: 16s; animation-direction: reverse; border-color: rgba(129, 140, 248, .14); }
+.axiom-avatar-ring.r3 { inset: -16px; animation-duration: 24s; border-color: rgba(217, 70, 239, .10); }
+.axiom-avatar-ring.r4 { inset: -24px; animation-duration: 32s; animation-direction: reverse; border-color: rgba(196, 181, 253, .10); }
+
+@keyframes axiomRingSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.axiom-avatar-particle {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--ax-ai-accent-soft, #E9D5FF);
+  opacity: .6;
+  animation: axiomParticleOrbit var(--motion-ease-linear) infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+@keyframes axiomParticleOrbit {
+  from { transform: rotate(0deg) translateX(var(--orbit, 34px)) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(var(--orbit, 34px)) rotate(-360deg); }
+}
+
+/* ---- Calm resting/idle face --------------------------------
+   Deliberately quiet: a soft, slow-breathing purple glow rather
+   than a bright active one. This is what's on screen the vast
+   majority of the time (whenever the AI isn't actively doing
+   something), so it's tuned to sit in a peripheral corner
+   without pulling focus. */
+.axiom-avatar-face {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(168, 85, 247, .18), rgba(20, 20, 26, .92) 70%);
+  border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 0 14px rgba(168, 85, 247, .14), 0 0 36px rgba(168, 85, 247, .05), inset 0 0 18px rgba(0, 0, 0, .4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Phase 3 · Part 2: swapped the generic `ease` for the same
+     decelerate-style curve used for premium enter/exit motion
+     elsewhere (see motion-system.js's spring-based easing) so a
+     mood change settles instead of just linearly fading. */
+  transition: box-shadow var(--motion-duration-reveal) var(--motion-ease-emphasized), background .8s var(--motion-ease-emphasized);
+  overflow: hidden;
+  animation: axiomIdleBreathe 6s var(--motion-ease-standard) infinite;
+}
+
+@keyframes axiomIdleBreathe {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.06); }
+}
+
+.axiom-avatar .axiom-eyes { display: flex; gap: 9px; }
+.axiom-avatar .axiom-eye {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--ax-ai-accent-soft, #E9D5FF);
+  box-shadow: 0 0 6px rgba(168, 85, 247, .8);
+  transition: transform var(--motion-duration-instant) var(--motion-ease-standard), height var(--motion-duration-instant) var(--motion-ease-standard), background var(--motion-duration-base) var(--motion-ease-standard), box-shadow var(--motion-duration-base) var(--motion-ease-standard);
+}
+.axiom-avatar.blinking .axiom-eye { height: 1px; }
+
+.axiom-avatar .axiom-mouth {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(168, 85, 247, .55);
+  transition: height var(--motion-duration-instant) var(--motion-ease-standard), width var(--motion-duration-instant) var(--motion-ease-standard), background var(--motion-duration-base) var(--motion-ease-standard);
+}
+
+/* ---- Expression states --------------------------------------
+   Each mood is a distinct hue within the purple/violet/indigo
+   family (see styles/ai-identity.css for the shared vocabulary),
+   so the avatar reads as one entity with different moods, not
+   unrelated colors bolted on. Idle intentionally has no override
+   here — it uses the calm base rule above. */
+/* Thinking gets its own quicker pulse (rather than the static
+   `animation: none` the other moods use) — a processing state reads
+   as more legible when it visibly breathes faster than idle, not
+   just a different hue at the same stillness. Kept small enough
+   (brightness only, no scale/transform) that it doesn't compete
+   with the eyes/mouth for attention. */
+.axiom-avatar.mood-thinking .axiom-avatar-face {
+  animation: axiomThinkPulse 1.1s var(--motion-ease-standard) infinite;
+  box-shadow: 0 0 26px rgba(147, 51, 234, .4), 0 0 52px rgba(147, 51, 234, .14), inset 0 0 18px rgba(0, 0, 0, .4);
+}
+.axiom-avatar.mood-thinking .axiom-eye { background: #C4B5FD; box-shadow: 0 0 6px rgba(147, 51, 234, .9); }
+
+@keyframes axiomThinkPulse {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.16); }
+}
+
+.axiom-avatar.mood-listening .axiom-avatar-face {
+  animation: none;
+  box-shadow: 0 0 28px rgba(129, 140, 248, .4), 0 0 54px rgba(129, 140, 248, .14), inset 0 0 18px rgba(0, 0, 0, .4);
+}
+.axiom-avatar.mood-listening .axiom-eye { background: #A5B4FC; box-shadow: 0 0 6px rgba(129, 140, 248, .9); }
+
+.axiom-avatar.mood-speaking .axiom-avatar-face {
+  animation: none;
+  box-shadow: 0 0 28px rgba(217, 70, 239, .45), 0 0 54px rgba(217, 70, 239, .16), inset 0 0 18px rgba(0, 0, 0, .4);
+}
+.axiom-avatar.mood-speaking .axiom-eye { background: #F0ABFC; box-shadow: 0 0 6px rgba(217, 70, 239, .9); }
+
+.axiom-avatar.mood-learning .axiom-avatar-face {
+  animation: none;
+  box-shadow: 0 0 26px rgba(192, 132, 252, .4), 0 0 52px rgba(192, 132, 252, .14), inset 0 0 18px rgba(0, 0, 0, .4);
+}
+.axiom-avatar.mood-learning .axiom-eye { background: #D8B4FE; box-shadow: 0 0 6px rgba(192, 132, 252, .9); }
+
+.axiom-avatar.mood-happy .axiom-eye { border-radius: 50% 50% 0 0; transform: scaleY(.6) translateY(2px); }
+
+.axiom-avatar-panel {
+  position: fixed;
+  right: 22px;
+  bottom: 100px;
+  width: 260px;
+  padding: 16px;
+  border-radius: 20px;
+  background: var(--ax-glass-bg, rgba(18, 18, 22, .88));
+  border: 1px solid var(--ax-ai-accent-border, rgba(255, 255, 255, .1));
+  box-shadow: var(--ax-glass-shadow, 0 25px 60px rgba(0, 0, 0, .5)), 0 0 0 1px var(--ax-ai-accent-glow, transparent);
+  backdrop-filter: var(--ax-glass-blur, blur(24px));
+  -webkit-backdrop-filter: var(--ax-glass-blur, blur(24px));
+  color: #F5F5F5;
+  font-size: .78rem;
+  z-index: 9991;
+  opacity: 0;
+  transform: translateY(10px) scale(.97);
+  pointer-events: none;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease-standard), transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+.axiom-avatar-panel.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.axiom-avatar-panel h4 { margin: 0 0 8px; font-size: .82rem; color: var(--ax-ai-accent-soft, #E9D5FF); }
+.axiom-avatar-panel .row { display: flex; justify-content: space-between; padding: 4px 0; color: rgba(255,255,255,.55); }
+.axiom-avatar-panel .row b { color: #F5F5F5; font-weight: 600; }
+
+@media (max-width: 640px) {
+  .axiom-avatar { right: 14px; bottom: 84px; width: 52px; height: 52px; }
+  .axiom-avatar-panel { right: 14px; bottom: 148px; width: calc(100vw - 28px); }
+}
+
+/* ---- Reduced Motion (Phase 3 · Part 2) ------------------------
+   The app-wide wildcard rules (styles.css / ax-redesign.css /
+   os-shell.css) already collapse every `animation`/`transition`
+   duration to ~0 under prefers-reduced-motion, which is enough to
+   stop these from visibly playing. This block is the explicit,
+   component-owned version of the same intent: it turns the three
+   continuous decorative loops fully off (ring spin, particle
+   orbit, idle breathing) rather than just running them at zero
+   speed, so nothing here depends on load order or another
+   stylesheet being present. Mood states are untouched below — they
+   were already static (`animation: none`) even at full motion, so
+   every AI state stays identifiable by color/glow alone, same as
+   always. The cursor-follow eye parallax and talking-mouth flicker
+   are JS-driven and handled in ai-avatar.js instead, since CSS
+   can't reach them. */
+@media (prefers-reduced-motion: reduce) {
+  .axiom-avatar-ring,
+  .axiom-avatar-particle {
+    animation: none;
+  }
+  .axiom-avatar-face,
+  .axiom-avatar.mood-thinking .axiom-avatar-face {
+    animation: none;
+    filter: brightness(1.03);
+  }
+}

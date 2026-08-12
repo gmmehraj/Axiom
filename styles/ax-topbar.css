@@ -1,0 +1,390 @@
+/* ============================================================
+   AXIOM AI OS V8 — Floating Top Bar
+   ------------------------------------------------------------
+   VisionOS-style floating glass bar.
+   Search Bar (⌘K), Current AI Model, Voice Status, Internet,
+   Notifications, Profile, Quick Command, Workspace Switcher, Time
+   ============================================================ */
+
+/* ---- Top Bar Container ---- */
+.ax-topbar {
+  position: sticky;
+  top: 16px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  margin: 0 16px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .10);
+  border-radius: 28px;
+  backdrop-filter: blur(40px) saturate(120%);
+  -webkit-backdrop-filter: blur(40px) saturate(120%);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .5), inset 0 1px rgba(255, 255, 255, .10);
+  transition: transform var(--motion-duration-base) var(--motion-ease-standard), opacity var(--motion-duration-base) var(--motion-ease-standard);
+  will-change: transform;
+  min-height: 52px;
+}
+
+.ax-topbar:hover {
+  transform: translateY(-1px);
+}
+
+/* ---- Top Bar Groups ---- */
+.ax-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ax-topbar-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ax-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ---- Search Bar ---- */
+.ax-topbar-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 1 320px;
+  min-width: 0;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, .35);
+  transition: border-color var(--motion-duration-fast) var(--motion-ease-standard), background var(--motion-duration-fast) var(--motion-ease-standard), box-shadow var(--motion-duration-fast) var(--motion-ease-standard);
+  cursor: text;
+}
+
+.ax-topbar-search:hover {
+  border-color: rgba(255, 255, 255, .12);
+  background: rgba(255, 255, 255, .06);
+}
+
+.ax-topbar-search:focus-within,
+.ax-topbar-search.is-active {
+  border-color: rgba(255, 255, 255, .2);
+  background: rgba(255, 255, 255, .06);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .06);
+}
+
+.ax-topbar-search svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.ax-topbar-search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: #F5F5F5;
+  font-family: var(--ax-font, "Inter"), sans-serif;
+  font-size: .85rem;
+  font-weight: 500;
+  outline: none;
+}
+
+.ax-topbar-search input::placeholder {
+  color: rgba(255, 255, 255, .35);
+}
+
+.ax-topbar-search kbd {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .06);
+  font-size: .68rem;
+  color: rgba(255, 255, 255, .3);
+  font-family: var(--ax-font-mono, "JetBrains Mono"), monospace;
+  flex-shrink: 0;
+}
+
+/* ---- Top Bar Items ---- */
+.ax-topbar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, .55);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard), transform var(--motion-duration-fast) var(--motion-ease-standard);
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ax-topbar-item:hover {
+  background: rgba(255, 255, 255, .06);
+  color: rgba(255, 255, 255, .85);
+  border-color: rgba(255, 255, 255, .06);
+  transform: translateY(-1px);
+}
+
+.ax-topbar-item:active {
+  transform: scale(var(--motion-scale-press-strong));
+}
+
+.ax-topbar-item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ---- Model Badge ---- */
+.ax-topbar-model {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .08);
+  font-size: .75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, .7);
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-topbar-model:hover {
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .14);
+  color: #F5F5F5;
+}
+
+.ax-topbar-model .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6EE7B7;
+  box-shadow: 0 0 8px rgba(110, 231, 183, .4);
+}
+
+/* ---- Status Indicators ---- */
+.ax-topbar-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: .72rem;
+  color: rgba(255, 255, 255, .4);
+  border: 1px solid transparent;
+  transition: color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-topbar-status .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.ax-topbar-status .dot.online {
+  background: #6EE7B7;
+  box-shadow: 0 0 8px rgba(110, 231, 183, .4);
+}
+
+.ax-topbar-status .dot.offline {
+  background: rgba(255, 255, 255, .2);
+}
+
+.ax-topbar-status .dot.busy {
+  background: #FBBF24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, .4);
+}
+
+/* ---- Notification Bell ---- */
+.ax-topbar-notif {
+  position: relative;
+}
+
+.ax-topbar-notif .ping {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #EF4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, .5);
+  animation: axNotifPulse 2s var(--motion-ease-standard) infinite;
+}
+
+@keyframes axNotifPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .7; transform: scale(1.15); }
+}
+
+/* ---- Profile Avatar ---- */
+.ax-topbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .1);
+  color: #F5F5F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: .75rem;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, .08);
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard), transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-topbar-avatar:hover {
+  background: rgba(255, 255, 255, .16);
+  border-color: rgba(255, 255, 255, .15);
+  transform: translateY(-1px);
+}
+
+/* ---- Workspace Switcher ---- */
+.ax-topbar-workspace {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .08);
+  font-size: .78rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, .7);
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-topbar-workspace:hover {
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .14);
+  color: #F5F5F5;
+}
+
+.ax-topbar-workspace .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .4);
+  box-shadow: 0 0 8px rgba(255, 255, 255, .15);
+}
+
+/* ---- Time Display ---- */
+.ax-topbar-time {
+  font-size: .78rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, .45);
+  font-variant-numeric: tabular-nums;
+  padding: 4px 6px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ---- Quick Command Button ---- */
+.ax-topbar-cmd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, .5);
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .06);
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard), transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-topbar-cmd:hover {
+  background: rgba(255, 255, 255, .08);
+  color: #F5F5F5;
+  border-color: rgba(255, 255, 255, .12);
+  transform: translateY(-1px);
+}
+
+.ax-topbar-cmd kbd {
+  font-size: .6rem;
+  font-family: var(--ax-font-mono, "JetBrains Mono"), monospace;
+  color: rgba(255, 255, 255, .3);
+}
+
+/* ---- Hide default topbar when ax-topbar is used ---- */
+.ax-topbar-active .app-topbar {
+  display: none;
+}
+
+.ax-topbar-active .app-content {
+  padding-top: 0;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .ax-topbar {
+    margin: 0 10px;
+    top: 10px;
+    padding: 6px 10px;
+    gap: 6px;
+    min-height: 48px;
+  }
+
+  .ax-topbar-search {
+    flex: 1;
+    min-width: 60px;
+  }
+
+  .ax-topbar-search kbd {
+    display: none;
+  }
+
+  .ax-topbar-center,
+  .ax-topbar-right .ax-topbar-item:not(.ax-topbar-notif):not(.ax-topbar-avatar) {
+    display: none;
+  }
+
+  .ax-topbar-time {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .ax-topbar {
+    margin: 0 6px;
+    top: 6px;
+    padding: 4px 8px;
+    border-radius: 20px;
+    min-height: 44px;
+  }
+
+  .ax-topbar-search {
+    padding: 4px 10px;
+  }
+
+  .ax-topbar-search input {
+    font-size: .8rem;
+  }
+
+  .ax-topbar-model {
+    display: none;
+  }
+}
+

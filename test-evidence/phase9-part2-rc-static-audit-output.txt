@@ -1,0 +1,1304 @@
+PASS  JS syntax valid: components/app-init.js
+PASS  JS syntax valid: components/ax-dialogs.js
+PASS  JS syntax valid: components/notifications-center.js
+PASS  JS syntax valid: components/premium-shell.js
+PASS  JS syntax valid: components/quick-command.js
+PASS  JS syntax valid: components/universal-search.js
+PASS  JS syntax valid: js/bridges/agent-chat-bridge.js
+PASS  JS syntax valid: js/bridges/conversation-bridge.js
+PASS  JS syntax valid: js/bridges/workspace-chat-bridge.js
+PASS  JS syntax valid: js/core/accessibility.js
+PASS  JS syntax valid: js/core/agents-catalog.js
+PASS  JS syntax valid: js/core/ai-state-manager.js
+PASS  JS syntax valid: js/core/app.js
+PASS  JS syntax valid: js/core/auth.js
+PASS  JS syntax valid: js/core/core-ui.js
+PASS  JS syntax valid: js/core/dev-config.js
+PASS  JS syntax valid: js/core/i18n.js
+PASS  JS syntax valid: js/core/model-selector.js
+PASS  JS syntax valid: js/core/openrouter-client.js
+PASS  JS syntax valid: js/core/openrouter-config.js
+PASS  JS syntax valid: js/core/os-environment.js
+PASS  JS syntax valid: js/core/os-interface.js
+PASS  JS syntax valid: js/core/os-shell.js
+PASS  JS syntax valid: js/core/os-state-engine.js
+PASS  JS syntax valid: js/core/premium-polish.js
+PASS  JS syntax valid: js/core/razorpay-config.js
+PASS  JS syntax valid: js/core/script.js
+PASS  JS syntax valid: js/core/supabase-config.js
+PASS  JS syntax valid: js/core/voice-controller.js
+PASS  JS syntax valid: js/core/voice.js
+PASS  JS syntax valid: js/pages/admin.js
+PASS  JS syntax valid: js/pages/agent-library.js
+PASS  JS syntax valid: js/pages/agents-ultimate.js
+PASS  JS syntax valid: js/pages/agents.js
+PASS  JS syntax valid: js/pages/ai-workspace-ultimate.js
+PASS  JS syntax valid: js/pages/analytics-automation-ultimate.js
+PASS  JS syntax valid: js/pages/automation-part9.js
+PASS  JS syntax valid: js/pages/ax-chat-core.js
+PASS  JS syntax valid: js/pages/billing-checkout.js
+PASS  JS syntax valid: js/pages/brain-ultimate.js
+PASS  JS syntax valid: js/pages/browser-live.js
+PASS  JS syntax valid: js/pages/browser-studio-ultimate.js
+PASS  JS syntax valid: js/pages/file-processing.js
+PASS  JS syntax valid: js/pages/memory-ultimate.js
+PASS  JS syntax valid: js/pages/settings-billing-ultimate.js
+PASS  JS syntax valid: js/pages/settings-i18n.js
+PASS  JS syntax valid: js/pages/workspace-os.js
+PASS  JS syntax valid: js/pages/workspace-ultimate.js
+PASS  JS syntax valid: js/pages/workspace.js
+PASS  JS syntax valid: locales/_registry.js
+PASS  JS syntax valid: os/core/ai-avatar.js
+PASS  JS syntax valid: os/core/ai-core.js
+PASS  JS syntax valid: os/core/app-manifest.js
+PASS  JS syntax valid: os/core/axiom-brain.js
+PASS  JS syntax valid: os/core/living-environment.js
+PASS  JS syntax valid: os/core/memory-world.js
+PASS  JS syntax valid: os/core/mission-control.js
+PASS  JS syntax valid: os/core/motion-system.js
+PASS  JS syntax valid: os/core/part6-bootstrap.js
+PASS  JS syntax valid: os/core/snap-zones.js
+PASS  JS syntax valid: os/core/theme-engine.js
+PASS  JS syntax valid: os/core/window-manager.js
+PASS  JS syntax valid: os/core/workspace-manager.js
+PASS  JS syntax valid: os/desktop/desktop-manager.js
+PASS  JS syntax valid: os/runtime/agent-definitions/_assemble.js
+PASS  JS syntax valid: os/runtime/agent-definitions/_shared.js
+PASS  JS syntax valid: os/runtime/agent-definitions/assistant-agent.js
+PASS  JS syntax valid: os/runtime/agent-definitions/automation-agent.js
+PASS  JS syntax valid: os/runtime/agent-definitions/browser-agent.js
+PASS  JS syntax valid: os/runtime/agent-definitions/coding-agent.js
+PASS  JS syntax valid: os/runtime/agent-definitions/file-agent.js
+PASS  JS syntax valid: os/runtime/agent-definitions/memory-agent.js
+PASS  JS syntax valid: os/runtime/agent-definitions/planner-agent.js
+PASS  JS syntax valid: os/runtime/agent-definitions/research-agent.js
+PASS  JS syntax valid: os/runtime/agent-definitions/vision-agent.js
+PASS  JS syntax valid: os/runtime/agent-definitions/voice-agent.js
+PASS  JS syntax valid: os/runtime/agent-manager.js
+PASS  JS syntax valid: os/runtime/agent-runtime.js
+PASS  JS syntax valid: os/runtime/automation/automation-engine.js
+PASS  JS syntax valid: os/runtime/automation/executive-automation-extension.js
+PASS  JS syntax valid: os/runtime/automation/m13-bootstrap.js
+PASS  JS syntax valid: os/runtime/automation/skill-registry.js
+PASS  JS syntax valid: os/runtime/automation/trigger-scheduler.js
+PASS  JS syntax valid: os/runtime/automation/workflow-engine.js
+PASS  JS syntax valid: os/runtime/automation/workflow-history.js
+PASS  JS syntax valid: os/runtime/capabilities/browser-bridge.js
+PASS  JS syntax valid: os/runtime/capabilities/capability-kit.js
+PASS  JS syntax valid: os/runtime/capabilities/coding-toolkit.js
+PASS  JS syntax valid: os/runtime/capabilities/planner-store.js
+PASS  JS syntax valid: os/runtime/capabilities/research-toolkit.js
+PASS  JS syntax valid: os/runtime/capabilities/vision-adapter-kit.js
+PASS  JS syntax valid: os/runtime/capabilities/voice-adapter-kit.js
+PASS  JS syntax valid: os/runtime/capabilities/workflows.js
+PASS  JS syntax valid: os/runtime/conversation/conversation-context.js
+PASS  JS syntax valid: os/runtime/conversation/conversation-manager.js
+PASS  JS syntax valid: os/runtime/conversation/conversation-memory.js
+PASS  JS syntax valid: os/runtime/conversation/conversation-stream.js
+PASS  JS syntax valid: os/runtime/conversation/m10-bootstrap.js
+PASS  JS syntax valid: os/runtime/conversation/nlu-resolver.js
+PASS  JS syntax valid: os/runtime/executive/executive-ai.js
+PASS  JS syntax valid: os/runtime/executive/m9-bootstrap.js
+PASS  JS syntax valid: os/runtime/intelligence/browser-intelligence.js
+PASS  JS syntax valid: os/runtime/intelligence/context-store.js
+PASS  JS syntax valid: os/runtime/intelligence/dynamic-workflow.js
+PASS  JS syntax valid: os/runtime/intelligence/error-recovery.js
+PASS  JS syntax valid: os/runtime/intelligence/job-manager.js
+PASS  JS syntax valid: os/runtime/intelligence/m8-bootstrap.js
+PASS  JS syntax valid: os/runtime/intelligence/memory-intelligence.js
+PASS  JS syntax valid: os/runtime/intelligence/orchestrator.js
+PASS  JS syntax valid: os/runtime/intelligence/planner-intelligence.js
+PASS  JS syntax valid: os/runtime/intelligence/runtime-monitor.js
+PASS  JS syntax valid: os/runtime/intelligence/task-planner.js
+PASS  JS syntax valid: os/runtime/knowledge/auto-tagger.js
+PASS  JS syntax valid: os/runtime/knowledge/duplicate-detector.js
+PASS  JS syntax valid: os/runtime/knowledge/executive-knowledge-extension.js
+PASS  JS syntax valid: os/runtime/knowledge/importance-ranker.js
+PASS  JS syntax valid: os/runtime/knowledge/knowledge-graph.js
+PASS  JS syntax valid: os/runtime/knowledge/m12-bootstrap.js
+PASS  JS syntax valid: os/runtime/knowledge/memory-summarizer.js
+PASS  JS syntax valid: os/runtime/knowledge/semantic-search.js
+PASS  JS syntax valid: os/runtime/plugins/m14-bootstrap.js
+PASS  JS syntax valid: os/runtime/plugins/plugin-loader.js
+PASS  JS syntax valid: os/runtime/plugins/plugin-manager.js
+PASS  JS syntax valid: os/runtime/plugins/plugin-manifest.js
+PASS  JS syntax valid: os/runtime/runtime-bootstrap.js
+PASS  JS syntax valid: os/runtime/scheduler/autonomous-executive.js
+PASS  JS syntax valid: os/runtime/scheduler/event-timeline.js
+PASS  JS syntax valid: os/runtime/scheduler/m11-bootstrap.js
+PASS  JS syntax valid: os/runtime/scheduler/plugin-registry.js
+PASS  JS syntax valid: os/runtime/scheduler/resource-monitor.js
+PASS  JS syntax valid: os/runtime/scheduler/task-graph.js
+PASS  JS syntax valid: os/runtime/scheduler/task-scheduler.js
+PASS  JS syntax valid: os/runtime/task-router.js
+PASS  JS syntax valid: os/shared/icons.js
+PASS  JS syntax valid: os/shared/id-factory.js
+PASS  JS syntax valid: os/shared/logger.js
+PASS  JS syntax valid: os/wallpapers/wallpaper-engine.js
+PASS  JS syntax valid: os/workspaces/agents.js
+PASS  JS syntax valid: os/workspaces/analytics.js
+PASS  JS syntax valid: os/workspaces/automation.js
+PASS  JS syntax valid: os/workspaces/brain.js
+PASS  JS syntax valid: os/workspaces/browser.js
+PASS  JS syntax valid: os/workspaces/chat.js
+PASS  JS syntax valid: os/workspaces/memory.js
+PASS  JS syntax valid: os/workspaces/settings.js
+PASS  Inline script valid: brain.html block 0
+PASS  Inline script valid: login.html block 0
+PASS  Inline script valid: memory.html block 0
+PASS  Inline script valid: settings.html block 0
+PASS  Asset resolves: admin.html -> styles/motion-tokens.css
+PASS  Asset resolves: admin.html -> styles/base.css
+PASS  Asset resolves: admin.html -> styles/app.css
+PASS  Asset resolves: admin.html -> styles/rtl.css
+PASS  Asset resolves: admin.html -> styles/ax-pages.css
+PASS  Asset resolves: admin.html -> styles/ax-dock.css
+PASS  Asset resolves: admin.html -> styles/ax-topbar.css
+PASS  Asset resolves: admin.html -> styles/ax-redesign.css
+PASS  Asset resolves: admin.html -> styles/ax-premium-polish.css
+PASS  Asset resolves: admin.html -> styles/ai-identity.css
+PASS  Asset resolves: admin.html -> os/core/ai-avatar.css
+PASS  Asset resolves: admin.html -> styles/accessibility.css
+PASS  Asset resolves: admin.html -> os-shell.html
+PASS  Asset resolves: admin.html -> playground.html
+PASS  Asset resolves: admin.html -> workspace.html
+PASS  Asset resolves: admin.html -> agent-library.html
+PASS  Asset resolves: admin.html -> studios.html
+PASS  Asset resolves: admin.html -> brain.html
+PASS  Asset resolves: admin.html -> browser.html
+PASS  Asset resolves: admin.html -> memory.html
+PASS  Asset resolves: admin.html -> analytics.html
+PASS  Asset resolves: admin.html -> automation.html
+PASS  Asset resolves: admin.html -> settings.html
+PASS  Asset resolves: admin.html -> billing.html
+PASS  Asset resolves: admin.html -> admin.html
+PASS  Asset resolves: admin.html -> js/core/supabase-config.js
+PASS  Asset resolves: admin.html -> js/core/dev-config.js
+PASS  Asset resolves: admin.html -> locales/_registry.js
+PASS  Asset resolves: admin.html -> js/core/i18n.js
+PASS  Asset resolves: admin.html -> js/core/auth.js
+PASS  Asset resolves: admin.html -> js/pages/admin.js
+PASS  Asset resolves: admin.html -> js/core/script.js
+PASS  Asset resolves: admin.html -> js/core/openrouter-config.js
+PASS  Asset resolves: admin.html -> js/core/openrouter-client.js
+PASS  Asset resolves: admin.html -> js/core/core-ui.js
+PASS  Asset resolves: admin.html -> components/premium-shell.js
+PASS  Asset resolves: admin.html -> js/core/os-state-engine.js
+PASS  Asset resolves: admin.html -> js/core/os-environment.js
+PASS  Asset resolves: admin.html -> os/core/axiom-brain.js
+PASS  Asset resolves: admin.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: admin.html -> os/shared/logger.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: admin.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: admin.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: admin.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: admin.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: admin.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: admin.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: admin.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: admin.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: admin.html -> os/runtime/task-router.js
+PASS  Asset resolves: admin.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: admin.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: admin.html -> os/core/living-environment.js
+PASS  Asset resolves: admin.html -> os/core/ai-avatar.js
+PASS  Asset resolves: admin.html -> js/core/os-interface.js
+PASS  Asset resolves: admin.html -> components/universal-search.js
+PASS  Asset resolves: admin.html -> components/quick-command.js
+PASS  Asset resolves: admin.html -> components/notifications-center.js
+PASS  Asset resolves: admin.html -> js/core/premium-polish.js
+PASS  Asset resolves: admin.html -> components/app-init.js
+PASS  Asset resolves: admin.html -> js/core/accessibility.js
+PASS  Asset resolves: agent-library.html -> styles/motion-tokens.css
+PASS  Asset resolves: agent-library.html -> styles/base.css
+PASS  Asset resolves: agent-library.html -> styles/app.css
+PASS  Asset resolves: agent-library.html -> styles/rtl.css
+PASS  Asset resolves: agent-library.html -> styles/ax-dock.css
+PASS  Asset resolves: agent-library.html -> styles/ax-topbar.css
+PASS  Asset resolves: agent-library.html -> styles/ax-redesign.css
+PASS  Asset resolves: agent-library.html -> styles/ax-premium-polish.css
+PASS  Asset resolves: agent-library.html -> styles/ai-identity.css
+PASS  Asset resolves: agent-library.html -> os/core/ai-avatar.css
+PASS  Asset resolves: agent-library.html -> styles/accessibility.css
+PASS  Asset resolves: agent-library.html -> os-shell.html
+PASS  Asset resolves: agent-library.html -> playground.html
+PASS  Asset resolves: agent-library.html -> workspace.html
+PASS  Asset resolves: agent-library.html -> agent-library.html
+PASS  Asset resolves: agent-library.html -> studios.html
+PASS  Asset resolves: agent-library.html -> brain.html
+PASS  Asset resolves: agent-library.html -> browser.html
+PASS  Asset resolves: agent-library.html -> memory.html
+PASS  Asset resolves: agent-library.html -> analytics.html
+PASS  Asset resolves: agent-library.html -> automation.html
+PASS  Asset resolves: agent-library.html -> settings.html
+PASS  Asset resolves: agent-library.html -> billing.html
+PASS  Asset resolves: agent-library.html -> js/core/supabase-config.js
+PASS  Asset resolves: agent-library.html -> js/core/dev-config.js
+PASS  Asset resolves: agent-library.html -> locales/_registry.js
+PASS  Asset resolves: agent-library.html -> js/core/i18n.js
+PASS  Asset resolves: agent-library.html -> js/core/auth.js
+PASS  Asset resolves: agent-library.html -> components/ax-dialogs.js
+PASS  Asset resolves: agent-library.html -> js/core/script.js
+PASS  Asset resolves: agent-library.html -> js/core/openrouter-config.js
+PASS  Asset resolves: agent-library.html -> js/core/openrouter-client.js
+PASS  Asset resolves: agent-library.html -> js/core/core-ui.js
+PASS  Asset resolves: agent-library.html -> js/core/agents-catalog.js
+PASS  Asset resolves: agent-library.html -> js/pages/agents.js
+PASS  Asset resolves: agent-library.html -> js/pages/agent-library.js
+PASS  Asset resolves: agent-library.html -> components/premium-shell.js
+PASS  Asset resolves: agent-library.html -> js/core/os-state-engine.js
+PASS  Asset resolves: agent-library.html -> js/core/os-environment.js
+PASS  Asset resolves: agent-library.html -> os/core/axiom-brain.js
+PASS  Asset resolves: agent-library.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: agent-library.html -> os/shared/logger.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: agent-library.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: agent-library.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: agent-library.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: agent-library.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: agent-library.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: agent-library.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: agent-library.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: agent-library.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: agent-library.html -> os/runtime/task-router.js
+PASS  Asset resolves: agent-library.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: agent-library.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: agent-library.html -> os/core/living-environment.js
+PASS  Asset resolves: agent-library.html -> os/core/ai-avatar.js
+PASS  Asset resolves: agent-library.html -> js/core/os-interface.js
+PASS  Asset resolves: agent-library.html -> components/universal-search.js
+PASS  Asset resolves: agent-library.html -> components/quick-command.js
+PASS  Asset resolves: agent-library.html -> components/notifications-center.js
+PASS  Asset resolves: agent-library.html -> js/pages/agents-ultimate.js
+PASS  Asset resolves: agent-library.html -> js/core/premium-polish.js
+PASS  Asset resolves: agent-library.html -> components/app-init.js
+PASS  Asset resolves: agent-library.html -> js/core/accessibility.js
+PASS  Asset resolves: analytics.html -> styles/motion-tokens.css
+PASS  Asset resolves: analytics.html -> styles/base.css
+PASS  Asset resolves: analytics.html -> styles/app.css
+PASS  Asset resolves: analytics.html -> styles/rtl.css
+PASS  Asset resolves: analytics.html -> styles/ax-pages.css
+PASS  Asset resolves: analytics.html -> styles/ax-dock.css
+PASS  Asset resolves: analytics.html -> styles/ax-topbar.css
+PASS  Asset resolves: analytics.html -> styles/ax-redesign.css
+PASS  Asset resolves: analytics.html -> styles/ax-premium-polish.css
+PASS  Asset resolves: analytics.html -> styles/ai-identity.css
+PASS  Asset resolves: analytics.html -> os/core/ai-avatar.css
+PASS  Asset resolves: analytics.html -> styles/accessibility.css
+PASS  Asset resolves: analytics.html -> os-shell.html
+PASS  Asset resolves: analytics.html -> playground.html
+PASS  Asset resolves: analytics.html -> workspace.html
+PASS  Asset resolves: analytics.html -> agent-library.html
+PASS  Asset resolves: analytics.html -> studios.html
+PASS  Asset resolves: analytics.html -> brain.html
+PASS  Asset resolves: analytics.html -> browser.html
+PASS  Asset resolves: analytics.html -> memory.html
+PASS  Asset resolves: analytics.html -> analytics.html
+PASS  Asset resolves: analytics.html -> automation.html
+PASS  Asset resolves: analytics.html -> settings.html
+PASS  Asset resolves: analytics.html -> billing.html
+PASS  Asset resolves: analytics.html -> js/core/supabase-config.js
+PASS  Asset resolves: analytics.html -> js/core/dev-config.js
+PASS  Asset resolves: analytics.html -> locales/_registry.js
+PASS  Asset resolves: analytics.html -> js/core/i18n.js
+PASS  Asset resolves: analytics.html -> js/core/auth.js
+PASS  Asset resolves: analytics.html -> js/core/script.js
+PASS  Asset resolves: analytics.html -> js/core/core-ui.js
+PASS  Asset resolves: analytics.html -> components/premium-shell.js
+PASS  Asset resolves: analytics.html -> js/core/os-state-engine.js
+PASS  Asset resolves: analytics.html -> js/core/os-environment.js
+PASS  Asset resolves: analytics.html -> os/core/axiom-brain.js
+PASS  Asset resolves: analytics.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: analytics.html -> os/shared/logger.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: analytics.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: analytics.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: analytics.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: analytics.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: analytics.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: analytics.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: analytics.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: analytics.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: analytics.html -> os/runtime/task-router.js
+PASS  Asset resolves: analytics.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: analytics.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: analytics.html -> os/core/living-environment.js
+PASS  Asset resolves: analytics.html -> os/core/ai-avatar.js
+PASS  Asset resolves: analytics.html -> js/core/os-interface.js
+PASS  Asset resolves: analytics.html -> components/universal-search.js
+PASS  Asset resolves: analytics.html -> components/quick-command.js
+PASS  Asset resolves: analytics.html -> components/notifications-center.js
+PASS  Asset resolves: analytics.html -> js/pages/analytics-automation-ultimate.js
+PASS  Asset resolves: analytics.html -> js/core/premium-polish.js
+PASS  Asset resolves: analytics.html -> components/app-init.js
+PASS  Asset resolves: analytics.html -> js/core/accessibility.js
+PASS  Asset resolves: automation.html -> styles/motion-tokens.css
+PASS  Asset resolves: automation.html -> styles/base.css
+PASS  Asset resolves: automation.html -> styles/app.css
+PASS  Asset resolves: automation.html -> styles/rtl.css
+PASS  Asset resolves: automation.html -> styles/ax-pages.css
+PASS  Asset resolves: automation.html -> styles/ax-redesign.css
+PASS  Asset resolves: automation.html -> styles/ax-premium-polish.css
+PASS  Asset resolves: automation.html -> styles/ax-topbar.css
+PASS  Asset resolves: automation.html -> styles/ax-dock.css
+PASS  Asset resolves: automation.html -> styles/ai-identity.css
+PASS  Asset resolves: automation.html -> os/core/ai-avatar.css
+PASS  Asset resolves: automation.html -> styles/accessibility.css
+PASS  Asset resolves: automation.html -> os-shell.html
+PASS  Asset resolves: automation.html -> playground.html
+PASS  Asset resolves: automation.html -> workspace.html
+PASS  Asset resolves: automation.html -> agent-library.html
+PASS  Asset resolves: automation.html -> studios.html
+PASS  Asset resolves: automation.html -> brain.html
+PASS  Asset resolves: automation.html -> browser.html
+PASS  Asset resolves: automation.html -> analytics.html
+PASS  Asset resolves: automation.html -> memory.html
+PASS  Asset resolves: automation.html -> automation.html
+PASS  Asset resolves: automation.html -> settings.html
+PASS  Asset resolves: automation.html -> agent-library.html
+PASS  Asset resolves: automation.html -> js/core/supabase-config.js
+PASS  Asset resolves: automation.html -> js/core/dev-config.js
+PASS  Asset resolves: automation.html -> locales/_registry.js
+PASS  Asset resolves: automation.html -> js/core/i18n.js
+PASS  Asset resolves: automation.html -> js/core/auth.js
+PASS  Asset resolves: automation.html -> js/core/script.js
+PASS  Asset resolves: automation.html -> js/core/core-ui.js
+PASS  Asset resolves: automation.html -> components/premium-shell.js
+PASS  Asset resolves: automation.html -> js/core/os-state-engine.js
+PASS  Asset resolves: automation.html -> js/core/os-environment.js
+PASS  Asset resolves: automation.html -> os/core/axiom-brain.js
+PASS  Asset resolves: automation.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: automation.html -> os/shared/logger.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: automation.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: automation.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: automation.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: automation.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: automation.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: automation.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: automation.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: automation.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: automation.html -> os/runtime/task-router.js
+PASS  Asset resolves: automation.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: automation.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: automation.html -> os/core/living-environment.js
+PASS  Asset resolves: automation.html -> os/core/ai-avatar.js
+PASS  Asset resolves: automation.html -> js/core/os-interface.js
+PASS  Asset resolves: automation.html -> components/universal-search.js
+PASS  Asset resolves: automation.html -> components/quick-command.js
+PASS  Asset resolves: automation.html -> components/notifications-center.js
+PASS  Asset resolves: automation.html -> js/pages/automation-part9.js
+PASS  Asset resolves: automation.html -> js/pages/analytics-automation-ultimate.js
+PASS  Asset resolves: automation.html -> js/core/premium-polish.js
+PASS  Asset resolves: automation.html -> components/app-init.js
+PASS  Asset resolves: automation.html -> js/core/accessibility.js
+PASS  Asset resolves: billing.html -> styles/motion-tokens.css
+PASS  Asset resolves: billing.html -> styles/base.css
+PASS  Asset resolves: billing.html -> styles/app.css
+PASS  Asset resolves: billing.html -> styles/rtl.css
+PASS  Asset resolves: billing.html -> styles/ax-pages.css
+PASS  Asset resolves: billing.html -> styles/ax-dock.css
+PASS  Asset resolves: billing.html -> styles/ax-topbar.css
+PASS  Asset resolves: billing.html -> styles/ax-redesign.css
+PASS  Asset resolves: billing.html -> styles/ax-premium-polish.css
+PASS  Asset resolves: billing.html -> styles/ai-identity.css
+PASS  Asset resolves: billing.html -> os/core/ai-avatar.css
+PASS  Asset resolves: billing.html -> styles/accessibility.css
+PASS  Asset resolves: billing.html -> os-shell.html
+PASS  Asset resolves: billing.html -> playground.html
+PASS  Asset resolves: billing.html -> workspace.html
+PASS  Asset resolves: billing.html -> agent-library.html
+PASS  Asset resolves: billing.html -> studios.html
+PASS  Asset resolves: billing.html -> brain.html
+PASS  Asset resolves: billing.html -> browser.html
+PASS  Asset resolves: billing.html -> memory.html
+PASS  Asset resolves: billing.html -> analytics.html
+PASS  Asset resolves: billing.html -> automation.html
+PASS  Asset resolves: billing.html -> settings.html
+PASS  Asset resolves: billing.html -> billing.html
+PASS  Asset resolves: billing.html -> js/core/supabase-config.js
+PASS  Asset resolves: billing.html -> js/core/dev-config.js
+PASS  Asset resolves: billing.html -> js/core/razorpay-config.js
+PASS  Asset resolves: billing.html -> locales/_registry.js
+PASS  Asset resolves: billing.html -> js/core/i18n.js
+PASS  Asset resolves: billing.html -> js/core/voice.js
+PASS  Asset resolves: billing.html -> js/core/voice-controller.js
+PASS  Asset resolves: billing.html -> js/core/auth.js
+PASS  Asset resolves: billing.html -> js/core/script.js
+PASS  Asset resolves: billing.html -> js/core/app.js
+PASS  Asset resolves: billing.html -> js/pages/billing-checkout.js
+PASS  Asset resolves: billing.html -> js/core/openrouter-config.js
+PASS  Asset resolves: billing.html -> js/core/openrouter-client.js
+PASS  Asset resolves: billing.html -> js/core/core-ui.js
+PASS  Asset resolves: billing.html -> components/premium-shell.js
+PASS  Asset resolves: billing.html -> js/core/os-state-engine.js
+PASS  Asset resolves: billing.html -> js/core/os-environment.js
+PASS  Asset resolves: billing.html -> js/core/os-interface.js
+PASS  Asset resolves: billing.html -> components/universal-search.js
+PASS  Asset resolves: billing.html -> components/quick-command.js
+PASS  Asset resolves: billing.html -> components/notifications-center.js
+PASS  Asset resolves: billing.html -> js/pages/settings-billing-ultimate.js
+PASS  Asset resolves: billing.html -> os/core/axiom-brain.js
+PASS  Asset resolves: billing.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: billing.html -> os/shared/logger.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: billing.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: billing.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: billing.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: billing.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: billing.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: billing.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: billing.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: billing.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: billing.html -> os/runtime/task-router.js
+PASS  Asset resolves: billing.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: billing.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: billing.html -> os/core/living-environment.js
+PASS  Asset resolves: billing.html -> os/core/ai-avatar.js
+PASS  Asset resolves: billing.html -> js/core/premium-polish.js
+PASS  Asset resolves: billing.html -> components/app-init.js
+PASS  Asset resolves: billing.html -> js/core/accessibility.js
+PASS  Asset resolves: brain.html -> styles/motion-tokens.css
+PASS  Asset resolves: brain.html -> styles/base.css
+PASS  Asset resolves: brain.html -> styles/app.css
+PASS  Asset resolves: brain.html -> styles/rtl.css
+PASS  Asset resolves: brain.html -> styles/ax-dock.css
+PASS  Asset resolves: brain.html -> styles/ax-topbar.css
+PASS  Asset resolves: brain.html -> styles/ax-redesign.css
+PASS  Asset resolves: brain.html -> styles/ax-premium-polish.css
+PASS  Asset resolves: brain.html -> styles/brain.css
+PASS  Asset resolves: brain.html -> styles/ai-identity.css
+PASS  Asset resolves: brain.html -> os/core/ai-avatar.css
+PASS  Asset resolves: brain.html -> styles/accessibility.css
+PASS  Asset resolves: brain.html -> os-shell.html
+PASS  Asset resolves: brain.html -> playground.html
+PASS  Asset resolves: brain.html -> workspace.html
+PASS  Asset resolves: brain.html -> agent-library.html
+PASS  Asset resolves: brain.html -> studios.html
+PASS  Asset resolves: brain.html -> brain.html
+PASS  Asset resolves: brain.html -> browser.html
+PASS  Asset resolves: brain.html -> memory.html
+PASS  Asset resolves: brain.html -> analytics.html
+PASS  Asset resolves: brain.html -> automation.html
+PASS  Asset resolves: brain.html -> settings.html
+PASS  Asset resolves: brain.html -> billing.html
+PASS  Asset resolves: brain.html -> js/core/supabase-config.js
+PASS  Asset resolves: brain.html -> js/core/dev-config.js
+PASS  Asset resolves: brain.html -> locales/_registry.js
+PASS  Asset resolves: brain.html -> js/core/i18n.js
+PASS  Asset resolves: brain.html -> js/core/auth.js
+PASS  Asset resolves: brain.html -> js/core/script.js
+PASS  Asset resolves: brain.html -> js/core/app.js
+PASS  Asset resolves: brain.html -> js/core/openrouter-config.js
+PASS  Asset resolves: brain.html -> js/core/openrouter-client.js
+PASS  Asset resolves: brain.html -> js/core/core-ui.js
+PASS  Asset resolves: brain.html -> components/premium-shell.js
+PASS  Asset resolves: brain.html -> js/core/os-state-engine.js
+PASS  Asset resolves: brain.html -> js/core/os-environment.js
+PASS  Asset resolves: brain.html -> os/core/axiom-brain.js
+PASS  Asset resolves: brain.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: brain.html -> os/shared/logger.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: brain.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: brain.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: brain.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: brain.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: brain.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: brain.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: brain.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: brain.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: brain.html -> os/runtime/task-router.js
+PASS  Asset resolves: brain.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: brain.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: brain.html -> os/core/living-environment.js
+PASS  Asset resolves: brain.html -> os/core/ai-avatar.js
+PASS  Asset resolves: brain.html -> js/core/os-interface.js
+PASS  Asset resolves: brain.html -> components/universal-search.js
+PASS  Asset resolves: brain.html -> components/quick-command.js
+PASS  Asset resolves: brain.html -> components/notifications-center.js
+PASS  Asset resolves: brain.html -> components/app-init.js
+PASS  Asset resolves: brain.html -> js/pages/brain-ultimate.js
+PASS  Asset resolves: brain.html -> js/core/premium-polish.js
+PASS  Asset resolves: brain.html -> js/core/accessibility.js
+PASS  Asset resolves: browser.html -> styles/motion-tokens.css
+PASS  Asset resolves: browser.html -> styles/base.css
+PASS  Asset resolves: browser.html -> styles/app.css
+PASS  Asset resolves: browser.html -> styles/rtl.css
+PASS  Asset resolves: browser.html -> styles/ax-pages.css
+PASS  Asset resolves: browser.html -> styles/ax-redesign.css
+PASS  Asset resolves: browser.html -> styles/ax-premium-polish.css
+PASS  Asset resolves: browser.html -> styles/ax-topbar.css
+PASS  Asset resolves: browser.html -> styles/ax-dock.css
+PASS  Asset resolves: browser.html -> styles/ai-identity.css
+PASS  Asset resolves: browser.html -> os/core/ai-avatar.css
+PASS  Asset resolves: browser.html -> styles/accessibility.css
+PASS  Asset resolves: browser.html -> os-shell.html
+PASS  Asset resolves: browser.html -> playground.html
+PASS  Asset resolves: browser.html -> workspace.html
+PASS  Asset resolves: browser.html -> agent-library.html
+PASS  Asset resolves: browser.html -> studios.html
+PASS  Asset resolves: browser.html -> brain.html
+PASS  Asset resolves: browser.html -> browser.html
+PASS  Asset resolves: browser.html -> analytics.html
+PASS  Asset resolves: browser.html -> memory.html
+PASS  Asset resolves: browser.html -> automation.html
+PASS  Asset resolves: browser.html -> settings.html
+PASS  Asset resolves: browser.html -> js/core/supabase-config.js
+PASS  Asset resolves: browser.html -> js/core/dev-config.js
+PASS  Asset resolves: browser.html -> locales/_registry.js
+PASS  Asset resolves: browser.html -> js/core/i18n.js
+PASS  Asset resolves: browser.html -> js/core/auth.js
+PASS  Asset resolves: browser.html -> components/ax-dialogs.js
+PASS  Asset resolves: browser.html -> js/core/script.js
+PASS  Asset resolves: browser.html -> js/core/core-ui.js
+PASS  Asset resolves: browser.html -> components/premium-shell.js
+PASS  Asset resolves: browser.html -> js/core/os-state-engine.js
+PASS  Asset resolves: browser.html -> js/core/os-environment.js
+PASS  Asset resolves: browser.html -> os/core/axiom-brain.js
+PASS  Asset resolves: browser.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: browser.html -> os/shared/logger.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: browser.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: browser.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: browser.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: browser.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: browser.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: browser.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: browser.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: browser.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: browser.html -> os/runtime/task-router.js
+PASS  Asset resolves: browser.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: browser.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: browser.html -> os/core/living-environment.js
+PASS  Asset resolves: browser.html -> os/core/ai-avatar.js
+PASS  Asset resolves: browser.html -> js/core/os-interface.js
+PASS  Asset resolves: browser.html -> components/universal-search.js
+PASS  Asset resolves: browser.html -> components/quick-command.js
+PASS  Asset resolves: browser.html -> components/notifications-center.js
+PASS  Asset resolves: browser.html -> js/pages/browser-studio-ultimate.js
+PASS  Asset resolves: browser.html -> js/pages/browser-live.js
+PASS  Asset resolves: browser.html -> js/core/premium-polish.js
+PASS  Asset resolves: browser.html -> components/app-init.js
+PASS  Asset resolves: browser.html -> js/core/accessibility.js
+PASS  Asset resolves: index.html -> styles/motion-tokens.css
+PASS  Asset resolves: index.html -> styles/base.css
+PASS  Asset resolves: index.html -> styles/rtl.css
+PASS  Asset resolves: index.html -> styles/vision-glass-theme.css
+PASS  Asset resolves: index.html -> styles/accessibility.css
+PASS  Asset resolves: index.html -> login.html
+PASS  Asset resolves: index.html -> register.html
+PASS  Asset resolves: index.html -> assets/hero-bg.mp4
+PASS  Asset resolves: index.html -> register.html
+PASS  Asset resolves: index.html -> register.html
+PASS  Asset resolves: index.html -> register.html
+PASS  Asset resolves: index.html -> register.html
+PASS  Asset resolves: index.html -> login.html
+PASS  Asset resolves: index.html -> register.html
+PASS  Asset resolves: index.html -> js/core/supabase-config.js
+PASS  Asset resolves: index.html -> locales/_registry.js
+PASS  Asset resolves: index.html -> js/core/i18n.js
+PASS  Asset resolves: index.html -> js/core/auth.js
+PASS  Asset resolves: index.html -> js/core/script.js
+PASS  Asset resolves: index.html -> js/core/accessibility.js
+PASS  Asset resolves: login.html -> styles/motion-tokens.css
+PASS  Asset resolves: login.html -> styles/base.css
+PASS  Asset resolves: login.html -> styles/rtl.css
+PASS  Asset resolves: login.html -> styles/vision-glass-theme.css
+PASS  Asset resolves: login.html -> styles/accessibility.css
+PASS  Asset resolves: login.html -> index.html
+PASS  Asset resolves: login.html -> register.html
+PASS  Asset resolves: login.html -> js/core/supabase-config.js
+PASS  Asset resolves: login.html -> locales/_registry.js
+PASS  Asset resolves: login.html -> js/core/i18n.js
+PASS  Asset resolves: login.html -> js/core/auth.js
+PASS  Asset resolves: login.html -> components/ax-dialogs.js
+PASS  Asset resolves: login.html -> js/core/script.js
+PASS  Asset resolves: login.html -> js/core/accessibility.js
+PASS  Asset resolves: memory.html -> styles/motion-tokens.css
+PASS  Asset resolves: memory.html -> styles/base.css
+PASS  Asset resolves: memory.html -> styles/app.css
+PASS  Asset resolves: memory.html -> styles/rtl.css
+PASS  Asset resolves: memory.html -> styles/ax-pages.css
+PASS  Asset resolves: memory.html -> styles/ax-dock.css
+PASS  Asset resolves: memory.html -> styles/ax-topbar.css
+PASS  Asset resolves: memory.html -> styles/ax-redesign.css
+PASS  Asset resolves: memory.html -> styles/ax-premium-polish.css
+PASS  Asset resolves: memory.html -> styles/ai-identity.css
+PASS  Asset resolves: memory.html -> os/core/ai-avatar.css
+PASS  Asset resolves: memory.html -> os/core/memory-world.css
+PASS  Asset resolves: memory.html -> styles/accessibility.css
+PASS  Asset resolves: memory.html -> os-shell.html
+PASS  Asset resolves: memory.html -> playground.html
+PASS  Asset resolves: memory.html -> workspace.html
+PASS  Asset resolves: memory.html -> agent-library.html
+PASS  Asset resolves: memory.html -> studios.html
+PASS  Asset resolves: memory.html -> brain.html
+PASS  Asset resolves: memory.html -> browser.html
+PASS  Asset resolves: memory.html -> memory.html
+PASS  Asset resolves: memory.html -> analytics.html
+PASS  Asset resolves: memory.html -> automation.html
+PASS  Asset resolves: memory.html -> settings.html
+PASS  Asset resolves: memory.html -> billing.html
+PASS  Asset resolves: memory.html -> js/core/supabase-config.js
+PASS  Asset resolves: memory.html -> js/core/dev-config.js
+PASS  Asset resolves: memory.html -> locales/_registry.js
+PASS  Asset resolves: memory.html -> js/core/i18n.js
+PASS  Asset resolves: memory.html -> js/core/auth.js
+PASS  Asset resolves: memory.html -> components/ax-dialogs.js
+PASS  Asset resolves: memory.html -> js/core/script.js
+PASS  Asset resolves: memory.html -> js/core/core-ui.js
+PASS  Asset resolves: memory.html -> components/premium-shell.js
+PASS  Asset resolves: memory.html -> js/core/os-state-engine.js
+PASS  Asset resolves: memory.html -> js/core/os-environment.js
+PASS  Asset resolves: memory.html -> os/core/axiom-brain.js
+PASS  Asset resolves: memory.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: memory.html -> os/shared/logger.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: memory.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: memory.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: memory.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: memory.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: memory.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: memory.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: memory.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: memory.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: memory.html -> os/runtime/task-router.js
+PASS  Asset resolves: memory.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: memory.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: memory.html -> os/core/living-environment.js
+PASS  Asset resolves: memory.html -> os/core/ai-avatar.js
+PASS  Asset resolves: memory.html -> os/core/memory-world.js
+PASS  Asset resolves: memory.html -> js/pages/memory-ultimate.js
+PASS  Asset resolves: memory.html -> js/core/os-interface.js
+PASS  Asset resolves: memory.html -> components/universal-search.js
+PASS  Asset resolves: memory.html -> components/quick-command.js
+PASS  Asset resolves: memory.html -> components/notifications-center.js
+PASS  Asset resolves: memory.html -> js/core/premium-polish.js
+PASS  Asset resolves: memory.html -> components/app-init.js
+PASS  Asset resolves: memory.html -> js/core/accessibility.js
+PASS  Asset resolves: os-shell.html -> styles/motion-tokens.css
+PASS  Asset resolves: os-shell.html -> styles/ax-design-system.css
+PASS  Asset resolves: os-shell.html -> styles/ai-identity.css
+PASS  Asset resolves: os-shell.html -> styles/os-shell.css
+PASS  Asset resolves: os-shell.html -> os/windows/window-manager.css
+PASS  Asset resolves: os-shell.html -> os/core/snap-zones.css
+PASS  Asset resolves: os-shell.html -> os/core/mission-control.css
+PASS  Asset resolves: os-shell.html -> os/desktop/desktop-manager.css
+PASS  Asset resolves: os-shell.html -> os/wallpapers/wallpaper-engine.css
+PASS  Asset resolves: os-shell.html -> styles/accessibility.css
+PASS  Asset resolves: os-shell.html -> js/core/supabase-config.js
+PASS  Asset resolves: os-shell.html -> js/core/dev-config.js
+PASS  Asset resolves: os-shell.html -> locales/_registry.js
+PASS  Asset resolves: os-shell.html -> js/core/i18n.js
+PASS  Asset resolves: os-shell.html -> os/shared/icons.js
+PASS  Asset resolves: os-shell.html -> os/core/app-manifest.js
+PASS  Asset resolves: os-shell.html -> os/core/theme-engine.js
+PASS  Asset resolves: os-shell.html -> os/core/motion-system.js
+PASS  Asset resolves: os-shell.html -> os/core/ai-core.js
+PASS  Asset resolves: os-shell.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: os-shell.html -> os/shared/logger.js
+PASS  Asset resolves: os-shell.html -> os/shared/id-factory.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: os-shell.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: os-shell.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: os-shell.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: os-shell.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: os-shell.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: os-shell.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: os-shell.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: os-shell.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: os-shell.html -> os/runtime/task-router.js
+PASS  Asset resolves: os-shell.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: os-shell.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: os-shell.html -> os/runtime/intelligence/context-store.js
+PASS  Asset resolves: os-shell.html -> os/runtime/intelligence/task-planner.js
+PASS  Asset resolves: os-shell.html -> os/runtime/intelligence/orchestrator.js
+PASS  Asset resolves: os-shell.html -> os/runtime/intelligence/job-manager.js
+PASS  Asset resolves: os-shell.html -> os/runtime/intelligence/error-recovery.js
+PASS  Asset resolves: os-shell.html -> os/runtime/intelligence/runtime-monitor.js
+PASS  Asset resolves: os-shell.html -> os/runtime/intelligence/planner-intelligence.js
+PASS  Asset resolves: os-shell.html -> os/runtime/intelligence/browser-intelligence.js
+PASS  Asset resolves: os-shell.html -> os/runtime/intelligence/memory-intelligence.js
+PASS  Asset resolves: os-shell.html -> os/runtime/intelligence/dynamic-workflow.js
+PASS  Asset resolves: os-shell.html -> os/runtime/intelligence/m8-bootstrap.js
+PASS  Asset resolves: os-shell.html -> os/runtime/executive/executive-ai.js
+PASS  Asset resolves: os-shell.html -> os/runtime/executive/m9-bootstrap.js
+PASS  Asset resolves: os-shell.html -> os/runtime/conversation/nlu-resolver.js
+PASS  Asset resolves: os-shell.html -> os/runtime/conversation/conversation-stream.js
+PASS  Asset resolves: os-shell.html -> os/runtime/conversation/conversation-memory.js
+PASS  Asset resolves: os-shell.html -> os/runtime/conversation/conversation-manager.js
+PASS  Asset resolves: os-shell.html -> os/runtime/conversation/conversation-context.js
+PASS  Asset resolves: os-shell.html -> os/runtime/conversation/m10-bootstrap.js
+PASS  Asset resolves: os-shell.html -> os/runtime/scheduler/event-timeline.js
+PASS  Asset resolves: os-shell.html -> os/runtime/scheduler/task-graph.js
+PASS  Asset resolves: os-shell.html -> os/runtime/scheduler/task-scheduler.js
+PASS  Asset resolves: os-shell.html -> os/runtime/scheduler/resource-monitor.js
+PASS  Asset resolves: os-shell.html -> os/runtime/scheduler/plugin-registry.js
+PASS  Asset resolves: os-shell.html -> os/runtime/scheduler/autonomous-executive.js
+PASS  Asset resolves: os-shell.html -> os/runtime/scheduler/m11-bootstrap.js
+PASS  Asset resolves: os-shell.html -> os/runtime/knowledge/knowledge-graph.js
+PASS  Asset resolves: os-shell.html -> os/runtime/knowledge/semantic-search.js
+PASS  Asset resolves: os-shell.html -> os/runtime/knowledge/auto-tagger.js
+PASS  Asset resolves: os-shell.html -> os/runtime/knowledge/duplicate-detector.js
+PASS  Asset resolves: os-shell.html -> os/runtime/knowledge/importance-ranker.js
+PASS  Asset resolves: os-shell.html -> os/runtime/knowledge/memory-summarizer.js
+PASS  Asset resolves: os-shell.html -> os/runtime/knowledge/executive-knowledge-extension.js
+PASS  Asset resolves: os-shell.html -> os/runtime/knowledge/m12-bootstrap.js
+PASS  Asset resolves: os-shell.html -> os/runtime/automation/skill-registry.js
+PASS  Asset resolves: os-shell.html -> os/runtime/automation/workflow-engine.js
+PASS  Asset resolves: os-shell.html -> os/runtime/automation/trigger-scheduler.js
+PASS  Asset resolves: os-shell.html -> os/runtime/automation/automation-engine.js
+PASS  Asset resolves: os-shell.html -> os/runtime/automation/workflow-history.js
+PASS  Asset resolves: os-shell.html -> os/runtime/automation/executive-automation-extension.js
+PASS  Asset resolves: os-shell.html -> os/runtime/automation/m13-bootstrap.js
+PASS  Asset resolves: os-shell.html -> os/runtime/plugins/plugin-manifest.js
+PASS  Asset resolves: os-shell.html -> os/runtime/plugins/plugin-loader.js
+PASS  Asset resolves: os-shell.html -> os/runtime/plugins/plugin-manager.js
+PASS  Asset resolves: os-shell.html -> os/runtime/plugins/m14-bootstrap.js
+PASS  Asset resolves: os-shell.html -> os/core/window-manager.js
+PASS  Asset resolves: os-shell.html -> os/core/workspace-manager.js
+PASS  Asset resolves: os-shell.html -> os/wallpapers/wallpaper-engine.js
+PASS  Asset resolves: os-shell.html -> os/desktop/desktop-manager.js
+PASS  Asset resolves: os-shell.html -> os/core/snap-zones.js
+PASS  Asset resolves: os-shell.html -> os/core/mission-control.js
+PASS  Asset resolves: os-shell.html -> os/core/part6-bootstrap.js
+PASS  Asset resolves: os-shell.html -> js/core/os-shell.js
+PASS  Asset resolves: os-shell.html -> js/core/auth.js
+PASS  Asset resolves: os-shell.html -> js/core/script.js
+PASS  Asset resolves: os-shell.html -> js/core/openrouter-config.js
+PASS  Asset resolves: os-shell.html -> js/core/openrouter-client.js
+PASS  Asset resolves: os-shell.html -> js/core/core-ui.js
+PASS  Asset resolves: os-shell.html -> js/core/voice.js
+PASS  Asset resolves: os-shell.html -> js/core/voice-controller.js
+PASS  Asset resolves: os-shell.html -> js/core/accessibility.js
+PASS  Asset resolves: playground.html -> styles/motion-tokens.css
+PASS  Asset resolves: playground.html -> styles/base.css
+PASS  Asset resolves: playground.html -> styles/app.css
+PASS  Asset resolves: playground.html -> styles/rtl.css
+PASS  Asset resolves: playground.html -> styles/ax-chat.css
+PASS  Asset resolves: playground.html -> styles/ax-chat-sidebar.css
+PASS  Asset resolves: playground.html -> styles/ax-dock.css
+PASS  Asset resolves: playground.html -> styles/ax-topbar.css
+PASS  Asset resolves: playground.html -> styles/ax-redesign.css
+PASS  Asset resolves: playground.html -> styles/ax-premium-polish.css
+PASS  Asset resolves: playground.html -> styles/ax-workspace-ultimate.css
+PASS  Asset resolves: playground.html -> styles/ax-playground-composer.css
+PASS  Asset resolves: playground.html -> styles/ai-identity.css
+PASS  Asset resolves: playground.html -> os/core/ai-avatar.css
+PASS  Asset resolves: playground.html -> styles/accessibility.css
+PASS  Asset resolves: playground.html -> os-shell.html
+PASS  Asset resolves: playground.html -> playground.html
+PASS  Asset resolves: playground.html -> workspace.html
+PASS  Asset resolves: playground.html -> agent-library.html
+PASS  Asset resolves: playground.html -> studios.html
+PASS  Asset resolves: playground.html -> brain.html
+PASS  Asset resolves: playground.html -> browser.html
+PASS  Asset resolves: playground.html -> memory.html
+PASS  Asset resolves: playground.html -> analytics.html
+PASS  Asset resolves: playground.html -> automation.html
+PASS  Asset resolves: playground.html -> settings.html
+PASS  Asset resolves: playground.html -> billing.html
+PASS  Asset resolves: playground.html -> billing.html
+PASS  Asset resolves: playground.html -> js/core/supabase-config.js
+PASS  Asset resolves: playground.html -> js/core/dev-config.js
+PASS  Asset resolves: playground.html -> locales/_registry.js
+PASS  Asset resolves: playground.html -> js/core/i18n.js
+PASS  Asset resolves: playground.html -> js/core/voice.js
+PASS  Asset resolves: playground.html -> js/core/voice-controller.js
+PASS  Asset resolves: playground.html -> js/core/auth.js
+PASS  Asset resolves: playground.html -> components/ax-dialogs.js
+PASS  Asset resolves: playground.html -> js/core/script.js
+PASS  Asset resolves: playground.html -> js/core/openrouter-config.js
+PASS  Asset resolves: playground.html -> js/core/openrouter-client.js
+PASS  Asset resolves: playground.html -> js/core/model-selector.js
+PASS  Asset resolves: playground.html -> js/core/agents-catalog.js
+PASS  Asset resolves: playground.html -> js/pages/agents.js
+PASS  Asset resolves: playground.html -> js/core/app.js
+PASS  Asset resolves: playground.html -> js/pages/ai-workspace-ultimate.js
+PASS  Asset resolves: playground.html -> js/bridges/conversation-bridge.js
+PASS  Asset resolves: playground.html -> js/bridges/agent-chat-bridge.js
+PASS  Asset resolves: playground.html -> js/bridges/workspace-chat-bridge.js
+PASS  Asset resolves: playground.html -> js/core/core-ui.js
+PASS  Asset resolves: playground.html -> components/premium-shell.js
+PASS  Asset resolves: playground.html -> js/core/os-state-engine.js
+PASS  Asset resolves: playground.html -> js/core/os-environment.js
+PASS  Asset resolves: playground.html -> js/core/os-interface.js
+PASS  Asset resolves: playground.html -> components/universal-search.js
+PASS  Asset resolves: playground.html -> components/quick-command.js
+PASS  Asset resolves: playground.html -> components/notifications-center.js
+PASS  Asset resolves: playground.html -> os/core/axiom-brain.js
+PASS  Asset resolves: playground.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: playground.html -> os/shared/logger.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: playground.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: playground.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: playground.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: playground.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: playground.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: playground.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: playground.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: playground.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: playground.html -> os/runtime/task-router.js
+PASS  Asset resolves: playground.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: playground.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: playground.html -> os/core/living-environment.js
+PASS  Asset resolves: playground.html -> os/core/ai-avatar.js
+PASS  Asset resolves: playground.html -> js/core/premium-polish.js
+PASS  Asset resolves: playground.html -> components/app-init.js
+PASS  Asset resolves: playground.html -> js/pages/ax-chat-core.js
+PASS  Asset resolves: playground.html -> js/core/accessibility.js
+PASS  Asset resolves: register.html -> styles/motion-tokens.css
+PASS  Asset resolves: register.html -> styles/base.css
+PASS  Asset resolves: register.html -> styles/rtl.css
+PASS  Asset resolves: register.html -> styles/vision-glass-theme.css
+PASS  Asset resolves: register.html -> styles/accessibility.css
+PASS  Asset resolves: register.html -> index.html
+PASS  Asset resolves: register.html -> login.html
+PASS  Asset resolves: register.html -> js/core/supabase-config.js
+PASS  Asset resolves: register.html -> locales/_registry.js
+PASS  Asset resolves: register.html -> js/core/i18n.js
+PASS  Asset resolves: register.html -> js/core/voice.js
+PASS  Asset resolves: register.html -> js/core/auth.js
+PASS  Asset resolves: register.html -> components/ax-dialogs.js
+PASS  Asset resolves: register.html -> js/core/script.js
+PASS  Asset resolves: register.html -> js/core/accessibility.js
+PASS  Asset resolves: settings.html -> styles/motion-tokens.css
+PASS  Asset resolves: settings.html -> styles/base.css
+PASS  Asset resolves: settings.html -> styles/app.css
+PASS  Asset resolves: settings.html -> styles/rtl.css
+PASS  Asset resolves: settings.html -> styles/ax-pages.css
+PASS  Asset resolves: settings.html -> styles/ax-dock.css
+PASS  Asset resolves: settings.html -> styles/ax-topbar.css
+PASS  Asset resolves: settings.html -> styles/ax-redesign.css
+PASS  Asset resolves: settings.html -> styles/ax-premium-polish.css
+PASS  Asset resolves: settings.html -> styles/ai-identity.css
+PASS  Asset resolves: settings.html -> os/core/ai-avatar.css
+PASS  Asset resolves: settings.html -> styles/accessibility.css
+PASS  Asset resolves: settings.html -> os-shell.html
+PASS  Asset resolves: settings.html -> playground.html
+PASS  Asset resolves: settings.html -> workspace.html
+PASS  Asset resolves: settings.html -> agent-library.html
+PASS  Asset resolves: settings.html -> studios.html
+PASS  Asset resolves: settings.html -> brain.html
+PASS  Asset resolves: settings.html -> browser.html
+PASS  Asset resolves: settings.html -> memory.html
+PASS  Asset resolves: settings.html -> analytics.html
+PASS  Asset resolves: settings.html -> automation.html
+PASS  Asset resolves: settings.html -> settings.html
+PASS  Asset resolves: settings.html -> billing.html
+PASS  Asset resolves: settings.html -> js/core/supabase-config.js
+PASS  Asset resolves: settings.html -> js/core/dev-config.js
+PASS  Asset resolves: settings.html -> locales/_registry.js
+PASS  Asset resolves: settings.html -> js/core/i18n.js
+PASS  Asset resolves: settings.html -> js/core/voice.js
+PASS  Asset resolves: settings.html -> js/core/voice-controller.js
+PASS  Asset resolves: settings.html -> js/core/auth.js
+PASS  Asset resolves: settings.html -> js/core/script.js
+PASS  Asset resolves: settings.html -> js/core/app.js
+PASS  Asset resolves: settings.html -> js/core/openrouter-config.js
+PASS  Asset resolves: settings.html -> js/core/openrouter-client.js
+PASS  Asset resolves: settings.html -> js/core/core-ui.js
+PASS  Asset resolves: settings.html -> js/pages/settings-i18n.js
+PASS  Asset resolves: settings.html -> components/premium-shell.js
+PASS  Asset resolves: settings.html -> js/core/os-state-engine.js
+PASS  Asset resolves: settings.html -> js/core/os-environment.js
+PASS  Asset resolves: settings.html -> os/core/axiom-brain.js
+PASS  Asset resolves: settings.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: settings.html -> os/shared/logger.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: settings.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: settings.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: settings.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: settings.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: settings.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: settings.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: settings.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: settings.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: settings.html -> os/runtime/task-router.js
+PASS  Asset resolves: settings.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: settings.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: settings.html -> os/core/living-environment.js
+PASS  Asset resolves: settings.html -> os/core/ai-avatar.js
+PASS  Asset resolves: settings.html -> js/core/os-interface.js
+PASS  Asset resolves: settings.html -> components/universal-search.js
+PASS  Asset resolves: settings.html -> components/quick-command.js
+PASS  Asset resolves: settings.html -> components/notifications-center.js
+PASS  Asset resolves: settings.html -> js/pages/settings-billing-ultimate.js
+PASS  Asset resolves: settings.html -> js/core/premium-polish.js
+PASS  Asset resolves: settings.html -> components/app-init.js
+PASS  Asset resolves: settings.html -> js/core/accessibility.js
+PASS  Asset resolves: studios.html -> styles/motion-tokens.css
+PASS  Asset resolves: studios.html -> styles/base.css
+PASS  Asset resolves: studios.html -> styles/app.css
+PASS  Asset resolves: studios.html -> styles/rtl.css
+PASS  Asset resolves: studios.html -> styles/ax-dock.css
+PASS  Asset resolves: studios.html -> styles/ax-topbar.css
+PASS  Asset resolves: studios.html -> styles/ax-redesign.css
+PASS  Asset resolves: studios.html -> styles/ax-premium-polish.css
+PASS  Asset resolves: studios.html -> styles/ai-identity.css
+PASS  Asset resolves: studios.html -> os/core/ai-avatar.css
+PASS  Asset resolves: studios.html -> styles/accessibility.css
+PASS  Asset resolves: studios.html -> os-shell.html
+PASS  Asset resolves: studios.html -> playground.html
+PASS  Asset resolves: studios.html -> workspace.html
+PASS  Asset resolves: studios.html -> agent-library.html
+PASS  Asset resolves: studios.html -> studios.html
+PASS  Asset resolves: studios.html -> brain.html
+PASS  Asset resolves: studios.html -> browser.html
+PASS  Asset resolves: studios.html -> memory.html
+PASS  Asset resolves: studios.html -> analytics.html
+PASS  Asset resolves: studios.html -> automation.html
+PASS  Asset resolves: studios.html -> settings.html
+PASS  Asset resolves: studios.html -> billing.html
+PASS  Asset resolves: studios.html -> js/core/supabase-config.js
+PASS  Asset resolves: studios.html -> js/core/dev-config.js
+PASS  Asset resolves: studios.html -> locales/_registry.js
+PASS  Asset resolves: studios.html -> js/core/i18n.js
+PASS  Asset resolves: studios.html -> js/core/auth.js
+PASS  Asset resolves: studios.html -> js/core/script.js
+PASS  Asset resolves: studios.html -> js/core/app.js
+PASS  Asset resolves: studios.html -> js/core/openrouter-config.js
+PASS  Asset resolves: studios.html -> js/core/openrouter-client.js
+PASS  Asset resolves: studios.html -> js/core/core-ui.js
+PASS  Asset resolves: studios.html -> components/premium-shell.js
+PASS  Asset resolves: studios.html -> js/core/os-state-engine.js
+PASS  Asset resolves: studios.html -> js/core/os-environment.js
+PASS  Asset resolves: studios.html -> os/core/axiom-brain.js
+PASS  Asset resolves: studios.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: studios.html -> os/shared/logger.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: studios.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: studios.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: studios.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: studios.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: studios.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: studios.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: studios.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: studios.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: studios.html -> os/runtime/task-router.js
+PASS  Asset resolves: studios.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: studios.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: studios.html -> os/core/living-environment.js
+PASS  Asset resolves: studios.html -> os/core/ai-avatar.js
+PASS  Asset resolves: studios.html -> js/core/os-interface.js
+PASS  Asset resolves: studios.html -> components/universal-search.js
+PASS  Asset resolves: studios.html -> components/quick-command.js
+PASS  Asset resolves: studios.html -> components/notifications-center.js
+PASS  Asset resolves: studios.html -> js/pages/browser-studio-ultimate.js
+PASS  Asset resolves: studios.html -> js/core/premium-polish.js
+PASS  Asset resolves: studios.html -> components/app-init.js
+PASS  Asset resolves: studios.html -> js/core/accessibility.js
+PASS  Asset resolves: workspace.html -> styles/motion-tokens.css
+PASS  Asset resolves: workspace.html -> styles/base.css
+PASS  Asset resolves: workspace.html -> styles/app.css
+PASS  Asset resolves: workspace.html -> styles/rtl.css
+PASS  Asset resolves: workspace.html -> styles/ax-workspace.css
+PASS  Asset resolves: workspace.html -> styles/ax-workspace-ultimate.css
+PASS  Asset resolves: workspace.html -> styles/ax-dock.css
+PASS  Asset resolves: workspace.html -> styles/ax-topbar.css
+PASS  Asset resolves: workspace.html -> styles/ax-redesign.css
+PASS  Asset resolves: workspace.html -> styles/ax-premium-polish.css
+PASS  Asset resolves: workspace.html -> styles/ai-identity.css
+PASS  Asset resolves: workspace.html -> os/core/ai-avatar.css
+PASS  Asset resolves: workspace.html -> styles/accessibility.css
+PASS  Asset resolves: workspace.html -> os-shell.html
+PASS  Asset resolves: workspace.html -> playground.html
+PASS  Asset resolves: workspace.html -> workspace.html
+PASS  Asset resolves: workspace.html -> agent-library.html
+PASS  Asset resolves: workspace.html -> studios.html
+PASS  Asset resolves: workspace.html -> brain.html
+PASS  Asset resolves: workspace.html -> browser.html
+PASS  Asset resolves: workspace.html -> analytics.html
+PASS  Asset resolves: workspace.html -> memory.html
+PASS  Asset resolves: workspace.html -> automation.html
+PASS  Asset resolves: workspace.html -> settings.html
+PASS  Asset resolves: workspace.html -> js/core/supabase-config.js
+PASS  Asset resolves: workspace.html -> js/core/dev-config.js
+PASS  Asset resolves: workspace.html -> locales/_registry.js
+PASS  Asset resolves: workspace.html -> js/core/i18n.js
+PASS  Asset resolves: workspace.html -> js/core/auth.js
+PASS  Asset resolves: workspace.html -> components/ax-dialogs.js
+PASS  Asset resolves: workspace.html -> js/core/script.js
+PASS  Asset resolves: workspace.html -> js/core/openrouter-config.js
+PASS  Asset resolves: workspace.html -> js/core/core-ui.js
+PASS  Asset resolves: workspace.html -> js/pages/file-processing.js
+PASS  Asset resolves: workspace.html -> js/pages/workspace-os.js
+PASS  Asset resolves: workspace.html -> js/pages/workspace.js
+PASS  Asset resolves: workspace.html -> js/bridges/conversation-bridge.js
+PASS  Asset resolves: workspace.html -> components/premium-shell.js
+PASS  Asset resolves: workspace.html -> js/core/os-state-engine.js
+PASS  Asset resolves: workspace.html -> js/core/os-environment.js
+PASS  Asset resolves: workspace.html -> os/core/axiom-brain.js
+PASS  Asset resolves: workspace.html -> js/core/ai-state-manager.js
+PASS  Asset resolves: workspace.html -> os/shared/logger.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-runtime.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-definitions/_shared.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-definitions/assistant-agent.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-definitions/browser-agent.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-definitions/memory-agent.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-definitions/planner-agent.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-definitions/research-agent.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-definitions/coding-agent.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-definitions/vision-agent.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-definitions/voice-agent.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-definitions/automation-agent.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-definitions/file-agent.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-definitions/_assemble.js
+PASS  Asset resolves: workspace.html -> os/runtime/capabilities/capability-kit.js
+PASS  Asset resolves: workspace.html -> os/runtime/capabilities/browser-bridge.js
+PASS  Asset resolves: workspace.html -> os/runtime/capabilities/planner-store.js
+PASS  Asset resolves: workspace.html -> os/runtime/capabilities/research-toolkit.js
+PASS  Asset resolves: workspace.html -> os/runtime/capabilities/voice-adapter-kit.js
+PASS  Asset resolves: workspace.html -> os/runtime/capabilities/vision-adapter-kit.js
+PASS  Asset resolves: workspace.html -> os/runtime/capabilities/coding-toolkit.js
+PASS  Asset resolves: workspace.html -> os/runtime/capabilities/workflows.js
+PASS  Asset resolves: workspace.html -> os/runtime/task-router.js
+PASS  Asset resolves: workspace.html -> os/runtime/agent-manager.js
+PASS  Asset resolves: workspace.html -> os/runtime/runtime-bootstrap.js
+PASS  Asset resolves: workspace.html -> os/core/living-environment.js
+PASS  Asset resolves: workspace.html -> os/core/ai-avatar.js
+PASS  Asset resolves: workspace.html -> js/core/os-interface.js
+PASS  Asset resolves: workspace.html -> components/universal-search.js
+PASS  Asset resolves: workspace.html -> components/quick-command.js
+PASS  Asset resolves: workspace.html -> components/notifications-center.js
+PASS  Asset resolves: workspace.html -> js/core/premium-polish.js
+PASS  Asset resolves: workspace.html -> components/app-init.js
+PASS  Asset resolves: workspace.html -> js/pages/workspace-ultimate.js
+PASS  Asset resolves: workspace.html -> js/core/accessibility.js
+PASS  No duplicate IDs: admin.html
+PASS  No duplicate IDs: agent-library.html
+PASS  No duplicate IDs: analytics.html
+PASS  No duplicate IDs: automation.html
+PASS  No duplicate IDs: billing.html
+PASS  No duplicate IDs: brain.html
+PASS  No duplicate IDs: browser.html
+PASS  No duplicate IDs: index.html
+PASS  No duplicate IDs: login.html
+PASS  No duplicate IDs: memory.html
+PASS  No duplicate IDs: os-shell.html
+PASS  No duplicate IDs: playground.html
+PASS  No duplicate IDs: register.html
+PASS  No duplicate IDs: settings.html
+PASS  No duplicate IDs: studios.html
+PASS  No duplicate IDs: workspace.html
+PASS  Balanced tags: admin.html
+PASS  Balanced tags: agent-library.html
+PASS  Balanced tags: analytics.html
+PASS  Balanced tags: automation.html
+PASS  Balanced tags: billing.html
+PASS  Balanced tags: brain.html
+PASS  Balanced tags: browser.html
+PASS  Balanced tags: index.html
+PASS  Balanced tags: login.html
+PASS  Balanced tags: memory.html
+PASS  Balanced tags: os-shell.html
+PASS  Balanced tags: playground.html
+PASS  Balanced tags: register.html
+PASS  Balanced tags: settings.html
+PASS  Balanced tags: studios.html
+PASS  Balanced tags: workspace.html
+PASS  CSS braces balanced: os/core/ai-avatar.css
+PASS  CSS braces balanced: os/core/memory-world.css
+PASS  CSS braces balanced: os/core/mission-control.css
+PASS  CSS braces balanced: os/core/snap-zones.css
+PASS  CSS braces balanced: os/desktop/desktop-manager.css
+PASS  CSS braces balanced: os/wallpapers/wallpaper-engine.css
+PASS  CSS braces balanced: os/windows/window-manager.css
+PASS  CSS braces balanced: styles/accessibility.css
+PASS  CSS braces balanced: styles/ai-identity.css
+PASS  CSS braces balanced: styles/app.css
+PASS  CSS braces balanced: styles/ax-chat-sidebar.css
+PASS  CSS braces balanced: styles/ax-chat.css
+PASS  CSS braces balanced: styles/ax-design-system.css
+PASS  CSS braces balanced: styles/ax-dock.css
+PASS  CSS braces balanced: styles/ax-pages.css
+PASS  CSS braces balanced: styles/ax-playground-composer.css
+PASS  CSS braces balanced: styles/ax-premium-polish.css
+PASS  CSS braces balanced: styles/ax-redesign.css
+PASS  CSS braces balanced: styles/ax-topbar.css
+PASS  CSS braces balanced: styles/ax-workspace-ultimate.css
+PASS  CSS braces balanced: styles/ax-workspace.css
+PASS  CSS braces balanced: styles/base.css
+PASS  CSS braces balanced: styles/brain.css
+PASS  CSS braces balanced: styles/design-tokens.css
+PASS  CSS braces balanced: styles/motion-tokens.css
+PASS  CSS braces balanced: styles/os-environment.css
+PASS  CSS braces balanced: styles/os-shell.css
+PASS  CSS braces balanced: styles/premium-os.css
+PASS  CSS braces balanced: styles/rtl.css
+PASS  CSS braces balanced: styles/vision-glass-theme.css
+PASS  JSON valid: locales/ar.json
+PASS  JSON valid: locales/de.json
+PASS  JSON valid: locales/en.json
+PASS  JSON valid: locales/es.json
+PASS  JSON valid: locales/fr.json
+PASS  JSON valid: locales/hi.json
+PASS  JSON valid: locales/ja.json
+PASS  JSON valid: locales/ta.json
+PASS  JSON valid: locales/ur.json
+PASS  JSON valid: locales/zh-Hans.json
+PASS  JSON valid: package.json
+PASS  Viewport meta present: admin.html
+PASS  Viewport meta present: agent-library.html
+PASS  Viewport meta present: analytics.html
+PASS  Viewport meta present: automation.html
+PASS  Viewport meta present: billing.html
+PASS  Viewport meta present: brain.html
+PASS  Viewport meta present: browser.html
+PASS  Viewport meta present: index.html
+PASS  Viewport meta present: login.html
+PASS  Viewport meta present: memory.html
+PASS  Viewport meta present: os-shell.html
+PASS  Viewport meta present: playground.html
+PASS  Viewport meta present: register.html
+PASS  Viewport meta present: settings.html
+PASS  Viewport meta present: studios.html
+PASS  Viewport meta present: workspace.html
+PASS  No hardcoded plaintext API keys/secrets in JS
+PASS  No insecure http:// hardcoded external URLs
+
+1302/1302 checks passed.

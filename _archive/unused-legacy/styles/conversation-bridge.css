@@ -1,0 +1,59 @@
+/* ============================================================
+   AXIOM — Module 4: Conversation Bridge status styling
+   Purely cosmetic: colors/animates the *existing* .core-hero-status
+   dot + label (already present in dashboard.html) based on the
+   data-bridge-state attribute conversation-bridge.js sets on it.
+   No markup added, no layout changed.
+   ============================================================ */
+
+.core-hero-status[data-bridge-state]{
+  transition: color var(--motion-duration-base) var(--motion-ease-standard);
+}
+
+.core-hero-status[data-bridge-state="idle"] .dot{
+  background:rgba(255,255,255,.5);
+  box-shadow:0 0 12px rgba(255,255,255,.3);
+}
+
+.core-hero-status[data-bridge-state="listening"] .dot{
+  background:rgba(255,255,255,.6);
+  box-shadow:0 0 14px rgba(255,255,255,.35);
+  animation: axmBridgePulse 1.1s var(--motion-ease-standard) infinite;
+}
+
+.core-hero-status[data-bridge-state="thinking"] .dot{
+  background:rgba(255,255,255,.45);
+  box-shadow:0 0 14px rgba(255,255,255,.25);
+  animation: axmBridgePulse .85s var(--motion-ease-standard) infinite;
+}
+
+.core-hero-status[data-bridge-state="speaking"] .dot{
+  background:rgba(255,255,255,.65);
+  box-shadow:0 0 16px rgba(255,255,255,.4);
+  animation: axmBridgePulse var(--motion-duration-reveal) var(--motion-ease-standard) infinite;
+}
+
+.core-hero-status[data-bridge-state="heavy"] .dot{
+  background:rgba(255,255,255,.55);
+  box-shadow:0 0 16px rgba(255,255,255,.3);
+  animation: axmBridgeHeavy 1.4s var(--motion-ease-standard) infinite;
+}
+
+.core-hero-status[data-bridge-state="error"] .dot{
+  background:rgba(255,255,255,.35);
+  box-shadow:0 0 16px rgba(255,255,255,.15);
+}
+
+@keyframes axmBridgePulse{
+  0%,100%{ transform:scale(1); opacity:1; }
+  50%{ transform:scale(1.35); opacity:.62; }
+}
+
+@keyframes axmBridgeHeavy{
+  0%,100%{ transform:scale(1) rotate(0deg); }
+  50%{ transform:scale(1.2) rotate(180deg); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .core-hero-status .dot{ animation: none !important; }
+}

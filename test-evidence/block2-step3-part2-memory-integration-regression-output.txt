@@ -1,0 +1,32 @@
+PASS  AxiomBrain loaded
+PASS  AxiomAIState loaded
+PASS  AxiomMemoryEngine loaded
+PASS  AxiomBrainMemoryBridge loaded
+PASS  Memory was auto-initialized by the bridge
+PASS  Brain reflects the active conversation id
+PASS  Memory created the conversation record
+PASS  conversation createdAt is a real, recent timestamp
+PASS  Brain reflects the active model
+PASS  both the user prompt and the AI response were recorded
+PASS  user prompt content matches exactly what was rendered
+PASS  AI response content matches exactly what was rendered
+PASS  the AI response is tagged with the real active model
+PASS  re-firing the same message id does not duplicate it
+PASS  conversation meta reflects live toolActive
+PASS  conversation meta reflects the live active tool
+PASS  conversation meta reflects the live active model
+PASS  conversation meta clears toolActive once the tool finishes
+PASS  a Brain change refreshes the Memory session heartbeat
+PASS  three genuine transitions -> exactly three new lifecycle entries (no dup on repeat)
+PASS  lifecycle entries are ttl-bearing (not permanent long-term memories)
+PASS  Brain switches to the new active conversation
+PASS  the new message went to the new conversation, not the old one
+PASS  the original conversation history is untouched by the switch
+PASS  conversation:done ends the conversation with a real endedAt timestamp
+PASS  a full burst settles into a coherent, correctly-ordered history
+PASS  the burst conversation ended cleanly
+PASS  bridge reports messagesRecorded > 0
+PASS  bridge reports conversationsSeen for all three conversations
+PASS  destroy() stops the bridge from recording further messages
+
+ALL CHECKS PASSED

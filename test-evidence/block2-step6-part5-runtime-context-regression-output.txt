@@ -1,0 +1,55 @@
+AXIOM Block 2 / Step 6 / Part 5 — Runtime Context Engine regression
+
+  PASS  works standalone without AxiomOrchestrator loaded (window.AxiomRuntimeContext only)
+  PASS  installs a context API onto AxiomOrchestrator without editing Part 1 behavior
+  PASS  createContext() populates all required identity fields
+  PASS  getContext() returns a frozen, immutable snapshot — never the live object
+  PASS  updateContext() merges state/metadata/temporaryData without clobbering untouched keys
+  PASS  clearContext() wipes state/temporaryData but preserves identity and status
+  PASS  cloneContext() deep-clones state into a brand-new, independent contextId
+  PASS  legal lifecycle transitions succeed in order: created -> ready -> running -> completed
+[AxiomRuntimeContext] illegal transition created -> completed for ctx_msa81u4k_1 
+  PASS  illegal transitions fail safely (no throw) and leave status unchanged
+  PASS  DESTROYED is terminal — no transition is legal out of it
+[AxiomRuntimeContext] illegal transition created -> completed for ctx_msa81u4n_1 
+[AxiomRuntimeContext] updateContext: ignored illegal status transition {
+  success: false,
+  error: 'illegal_transition',
+  contextId: 'ctx_msa81u4n_1',
+  from: 'created',
+  to: 'completed'
+}
+  PASS  updateContext({status}) routes through validated transitions rather than a raw write
+  PASS  each createContext() call is fully isolated — no shared state between contexts
+  PASS  createChildContext() links parent/child without sharing state by reference
+  PASS  createChildContext() rejects a parent that does not exist
+  PASS  getContextsByWorkflow() scopes lookups to a single workflow
+  PASS  reaching a terminal status auto-archives the context out of getActiveContexts()
+  PASS  recoverContext() brings an archived context back into READY for reuse
+  PASS  recoverContext() returns null for a context that was never archived
+  PASS  cleanupExpiredContexts() destroys only archived contexts past their TTL, never active ones
+  PASS  createContext({timeoutMs}) auto-fails and archives a context that overstays its budget
+  PASS  destroyContext() force-terminates a live context and removes it from every store
+  PASS  destroyContext() of one context never disturbs a sibling context
+  PASS  getContextMetrics() tracks creation/completion/failure/cancellation/destruction counts
+  PASS  listContexts() filters by status and workflowId
+  PASS  getContextHistory() returns a bounded, most-recent-first audit trail
+  PASS  getContextStatus() gives a lightweight lookup distinct from the full snapshot
+  PASS  context_* events fire on the shared AxiomOrchestrator event bus
+  PASS  module does not throw or require Orchestrator to be present (unlike workflow-planner.js)
+  PASS  FIX 1: destroyContext() removes the destroyed id from its parent childIndex
+  PASS  FIX 1: destroying a context with children prunes its own orphaned childIndex entry
+  PASS  FIX 1: repeated create/destroy cycles never grow childIndex without bound
+  PASS  FIX 1: destroying one child never disturbs its siblings' visibility under the parent
+  PASS  FIX 2: automatic cleanup starts as soon as the module loads
+  PASS  FIX 2: automatic cleanup interval is configurable at load time
+  PASS  FIX 2: automatic cleanup never removes an active (non-terminal) context
+  PASS  FIX 2: startAutoCleanup() never leaves more than one timer running (no duplicate timers)
+  PASS  FIX 2: stopAutoCleanup() is a safe no-op when nothing is running
+  PASS  FIX 2: recovery still works normally after an automatic cleanup sweep has run
+  PASS  FIX 5: createContext() fails safely (throws) on a non-JSON-safe state payload instead of corrupting it
+  PASS  FIX 5: updateContext() fails safely (throws) on a circular payload instead of a silent shallow copy
+  PASS  FIX 5: an illegal clone payload never produces a partially-cloned or unfrozen snapshot
+  PASS  FIX 5: createChildContext() propagates the same JSON-safe validation, and a rejected child is never linked into the parent
+
+42 passed, 0 failed.

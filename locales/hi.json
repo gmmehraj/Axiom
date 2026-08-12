@@ -1,0 +1,182 @@
+{
+  "common": {
+    "appName": "एक्सिओम एआई स्टूडियो",
+    "back": "वापस",
+    "backToAxiom": "एक्सिओम पर वापस जाएं",
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "close": "बंद करें",
+    "loading": "लोड हो रहा है…",
+    "pleaseWait": "कृपया प्रतीक्षा करें…",
+    "saved": "सहेजा गया",
+    "search": "खोजें",
+    "send": "भेजें",
+    "stop": "रोकें",
+    "regenerate": "फिर से बनाएं",
+    "upload": "अपलोड करें",
+    "thinking": "सोच रहा है…",
+    "typing": "टाइप कर रहा है…",
+    "language": "भाषा",
+    "theme": "थीम",
+    "notifications": "सूचनाएं",
+    "signOut": "लॉग आउट करें"
+  },
+
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "chats": "Chats",
+    "playground": "प्लेग्राउंड",
+    "billing": "बिलिंग",
+    "settings": "सेटिंग्स",
+    "admin": "एडमिन",
+    "profile": "प्रोफ़ाइल",
+    "newChat": "नई चैट",
+    "history": "इतिहास"
+  },
+
+  "auth": {
+    "welcomeBack": "वापसी पर स्वागत है",
+    "signInTitle": "एक्सिओम में साइन इन करें",
+    "signInSubtitle": "हर मॉडल में, वहीं से जारी रखें जहां आपने छोड़ा था।",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "signIn": "साइन इन करें",
+    "noAccount": "खाता नहीं है?",
+    "createOne": "एक बनाएं",
+    "createAccountTitle": "अपना खाता बनाएं",
+    "createAccountSubtitle": "एक ही खाते से हर मॉडल के साथ बनाना शुरू करें।",
+    "fullName": "पूरा नाम",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "createAccount": "खाता बनाएं",
+    "haveAccount": "पहले से खाता है?",
+    "signInLink": "साइन इन करें",
+    "logout": "लॉगआउट",
+    "errorInvalidCredentials": "अमान्य ईमेल या पासवर्ड।",
+    "errorGeneric": "कुछ गलत हो गया। कृपया फिर से प्रयास करें।",
+    "errorPasswordMismatch": "पासवर्ड मेल नहीं खाते।"
+  },
+
+  "dashboard": {
+    "title": "डैशबोर्ड",
+    "creditsRemaining": "शेष क्रेडिट",
+    "activeProjects": "सक्रिय प्रोजेक्ट",
+    "generationsThisMonth": "इस महीने की जनरेशन",
+    "avgRelayHandoff": "औसत रिले हैंडऑफ़",
+    "quickActions": "त्वरित कार्रवाइयां",
+    "quickActionsSubtitle": "सीधे किसी मॉडल पर जाएं।",
+    "recentGenerations": "हाल की जनरेशन",
+    "recentGenerationsSubtitle": "स्टूडियो के हर टूल में।",
+    "viewAll": "सभी देखें →",
+    "newGeneration": "नई जनरेशन"
+  },
+
+  "playground": {
+    "modelLabel": "मॉडल",
+    "searchModels": "मॉडल खोजें…",
+    "placeholder": "JARVIS से कुछ भी पूछें…",
+    "deleteChat": "चैट हटाएं",
+    "renameChat": "चैट का नाम बदलें",
+    "newChat": "नई चैट",
+    "outOfCredits": "आपके क्रेडिट समाप्त हो गए हैं। बिलिंग में टॉप अप करें।",
+    "chatUnavailable": "चैट उपलब्ध नहीं है: OpenRouter लोड नहीं हो सका।",
+    "genericError": "AI से बात करने में कुछ गलत हो गया।",
+    "generationComplete": "जनरेशन पूर्ण हुई"
+  },
+
+  "billing": {
+    "title": "बिलिंग",
+    "currentPlan": "वर्तमान प्लान",
+    "freeForever": "हमेशा के लिए मुफ़्त",
+    "creditPacks": "क्रेडिट पैक",
+    "subscriptions": "सदस्यताएं",
+    "buyCredits": "क्रेडिट खरीदें",
+    "subscribe": "सदस्यता लें",
+    "currentPlanBtn": "वर्तमान प्लान",
+    "preparingCheckout": "चेकआउट तैयार हो रहा है…",
+    "verifyingPayment": "भुगतान सत्यापित हो रहा है…",
+    "paymentSuccessful": "भुगतान सफल रहा!",
+    "paymentFailed": "भुगतान विफल: {reason}",
+    "checkoutFailed": "चेकआउट शुरू नहीं हो सका",
+    "checkoutError": "चेकआउट शुरू करने में कुछ गलत हो गया",
+    "verificationFailed": "भुगतान सत्यापन विफल रहा",
+    "verificationError": "भुगतान सत्यापित नहीं हो सका — यदि आपसे शुल्क लिया गया है तो सहायता से संपर्क करें",
+    "usageHistory": "उपयोग इतिहास",
+    "model": "मॉडल",
+    "date": "तारीख",
+    "tokens": "टोकन",
+    "credits": "क्रेडिट"
+  },
+
+  "settings": {
+    "title": "सेटिंग्स",
+    "profile": "प्रोफ़ाइल",
+    "account": "खाता",
+    "appearance": "दिखावट",
+    "languageRegion": "भाषा और क्षेत्र",
+    "languageRegionSubtitle": "इंटरफ़ेस और JARVIS के जवाबों के लिए भाषा चुनें।",
+    "selectLanguage": "एक भाषा चुनें",
+    "autoDetected": "आपके ब्राउज़र से स्वतः पहचाना गया",
+    "voice": "आवाज़",
+    "voiceInput": "आवाज़ इनपुट भाषा",
+    "voiceOutput": "आवाज़ आउटपुट वॉइस",
+    "notifications": "सूचनाएं",
+    "dangerZone": "खतरे का क्षेत्र",
+    "deleteAccount": "खाता हटाएं"
+  },
+
+  "admin": {
+    "title": "एडमिन",
+    "subtitle": "स्टूडियो-व्यापी उपयोग, उपयोगकर्ता, और सिस्टम स्वास्थ्य।",
+    "totalUsers": "कुल उपयोगकर्ता",
+    "generations24h": "जनरेशन (24 घंटे)",
+    "activeSubscriptions": "सक्रिय सदस्यताएं",
+    "mrrComingSoon": "जल्द आ रहा है",
+    "mrrLabel": "MRR — बिलिंग एनालिटिक्स की आवश्यकता है",
+    "recentUsers": "हाल के उपयोगकर्ता",
+    "recentUsersSubtitle": "स्टूडियो में सबसे नए साइनअप।",
+    "modelLoad": "मॉडल लोड",
+    "modelLoadSubtitle": "केवल उदाहरण के लिए — अभी वास्तविक प्रति-मॉडल उपयोग से जुड़ा नहीं है।",
+    "name": "नाम",
+    "plan": "प्लान",
+    "credits": "क्रेडिट",
+    "joined": "शामिल हुए",
+    "loadingUsers": "लोड हो रहा है…",
+    "couldNotLoad": "उपयोगकर्ता डेटा लोड नहीं हो सका।"
+  },
+
+  "jarvis": {
+    "name": "JARVIS",
+    "onlineStatus": "ऑनलाइन · रिएक्टर सक्रिय",
+    "listeningStatus": "सुन रहा है…",
+    "thinkingStatus": "सोच रहा है…",
+    "speakingStatus": "बोल रहा है…",
+    "errorStatus": "कुछ गलत हो गया",
+    "greeting": "नमस्ते, मैं JARVIS हूं",
+    "greetingSubtitle": "आपका बुद्धिमान व्यक्तिगत सहायक।",
+    "tagline": "सोचें · बनाएं · स्वचालित करें",
+    "askAnything": "JARVIS से कुछ भी पूछें…",
+    "micUnavailable": "माइक उपलब्ध नहीं है — वॉइस मोड अभी केवल दृश्य है।",
+    "writeCode": "कोड लिखें",
+    "writeCodeSub": "डीबग करें, बनाएं, समीक्षा करें",
+    "generateImage": "छवि बनाएं",
+    "generateImageSub": "टेक्स्ट या इमेज प्रॉम्प्ट",
+    "analyzeDocument": "दस्तावेज़ का विश्लेषण करें",
+    "analyzeDocumentSub": "अपलोड करें और सारांश पाएं",
+    "researchWeb": "वेब पर शोध करें",
+    "researchWebSub": "लाइव, उद्धृत जवाब"
+  },
+
+  "errors": {
+    "generic": "कुछ गलत हो गया। कृपया फिर से प्रयास करें।",
+    "network": "कनेक्ट नहीं हो सका। अपना इंटरनेट कनेक्शन जांचें।",
+    "rateLimited": "बहुत सारे अनुरोध — कृपया धीमे करें।",
+    "unauthorized": "जारी रखने के लिए कृपया साइन इन करें।",
+    "notFound": "हमें वह नहीं मिला।"
+  },
+
+  "toasts": {
+    "saved": "सहेजा गया",
+    "copied": "क्लिपबोर्ड पर कॉपी किया गया"
+  }
+}

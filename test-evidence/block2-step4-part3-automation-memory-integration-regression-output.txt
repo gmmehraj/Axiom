@@ -1,0 +1,34 @@
+PASS  AxiomMemoryEngine loaded
+PASS  AxiomAutomationBuilderEngine loaded
+PASS  AxiomAutomationMemoryBridge loaded
+PASS  run actually completed per the engine
+PASS  Memory has a run-history record for the real run id
+PASS  record reflects the real workflow id/name
+PASS  record reflects the real terminal status
+PASS  record has a real, non-fabricated runtime
+PASS  record captures both real steps with their own success status
+PASS  run-history record is durable (no ttl)
+PASS  run genuinely failed per the engine
+PASS  failed run has a Memory record
+PASS  record carries the real run-level error message
+PASS  record carries the real failing step's own error
+PASS  failed runs are recorded with higher importance than success
+PASS  run3 actually reached paused before inspecting Memory
+PASS  a real pause produced exactly one action record
+PASS  the pause action record names the real step it paused at
+PASS  a real resume produced exactly one action record
+PASS  run3 actually ended up cancelled per the engine
+PASS  cancellation is captured in the run's own terminal history record
+PASS  no fabricated standalone "cancelled" action record was invented
+PASS  listExecutionHistory filters by real workflow id
+PASS  listExecutionHistory includes both the success and the cancelled run for this workflow
+PASS  listExecutionHistory filters by real terminal status
+PASS  listExecutionHistory paginates (limit respected)
+PASS  writing the same stable id again overwrites in place, never duplicates
+PASS  getMemory still resolves the single record by its stable id
+PASS  a freshly-loaded bridge instance backfills existing terminal runs on seed
+PASS  bridge reports runsRecorded > 0
+PASS  bridge reports actionsRecorded > 0
+PASS  destroy() stops the bridge from recording further runs
+
+ALL CHECKS PASSED

@@ -1,0 +1,740 @@
+/* ============================================================
+   AXIOM AI OS V13 — Phase 10: Global Premium Polish
+   ------------------------------------------------------------
+   Cursor Physics · Spring Animations · Mobile/Tablet Layout
+   Floating Cards · Ambient Motion · Performance Optimizations
+   
+   Load this LAST after all other CSS files on every page.
+   ============================================================ */
+
+/* ============================================================
+   1. CURSOR HOVER PHYSICS — Glass-reactive mouse tracking
+   ============================================================ */
+.ax-cursor-track {
+  --ax-cursor-x: 0.5;
+  --ax-cursor-y: 0.5;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-spring);
+}
+
+.ax-cursor-track:hover {
+  transform: perspective(800px) 
+    rotateX(calc((var(--ax-cursor-y) - 0.5) * -6deg)) 
+    rotateY(calc((var(--ax-cursor-x) - 0.5) * 6deg))
+    translateZ(10px);
+}
+
+/* Cursor glass shimmer — follows mouse on glass cards */
+.ax-cursor-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.ax-cursor-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: -100%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(
+    circle at var(--ax-cursor-x-percent, 50%) var(--ax-cursor-y-percent, 50%),
+    rgba(255, 255, 255, 0.04) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity var(--motion-duration-base);
+  opacity: 0;
+}
+
+.ax-cursor-shimmer:hover::after {
+  opacity: 1;
+}
+
+/* ============================================================
+   2. SPRING ANIMATIONS — Apple-style spring physics
+   ============================================================ */
+.ax-spring-enter {
+  animation: axSpringEnter var(--motion-duration-reveal) var(--motion-ease-spring) both;
+}
+
+.ax-spring-up {
+  animation: axSpringUp var(--motion-duration-slow) var(--motion-ease-spring) both;
+}
+
+.ax-spring-scale {
+  animation: axSpringScale var(--motion-duration-slow) var(--motion-ease-spring) both;
+}
+
+@keyframes axSpringEnter {
+  0% { opacity: 0; transform: translateY(20px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes axSpringUp {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes axSpringScale {
+  0% { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Stagger children */
+.ax-stagger > * {
+  animation: axSpringUp var(--motion-duration-slow) var(--motion-ease-spring) both;
+}
+
+.ax-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.ax-stagger > *:nth-child(2) { animation-delay: 40ms; }
+.ax-stagger > *:nth-child(3) { animation-delay: 80ms; }
+.ax-stagger > *:nth-child(4) { animation-delay: 120ms; }
+.ax-stagger > *:nth-child(5) { animation-delay: 160ms; }
+.ax-stagger > *:nth-child(6) { animation-delay: 200ms; }
+.ax-stagger > *:nth-child(7) { animation-delay: 240ms; }
+.ax-stagger > *:nth-child(8) { animation-delay: 280ms; }
+.ax-stagger > *:nth-child(9) { animation-delay: 320ms; }
+.ax-stagger > *:nth-child(10) { animation-delay: 360ms; }
+
+/* Spring hover lift */
+.ax-spring-lift {
+  transition: transform var(--motion-duration-slow) var(--motion-ease-spring),
+              box-shadow var(--motion-duration-slow) var(--motion-ease-spring);
+}
+
+.ax-spring-lift:hover {
+  transform: translateY(-4px) scale(var(--motion-scale-hover));
+}
+
+/* ============================================================
+   3. FLOATING CARDS — Ambient float animation
+   ============================================================ */
+.ax-float-slow {
+  animation: axFloatSlow 6s var(--motion-ease-standard) infinite;
+}
+
+.ax-float-medium {
+  animation: axFloatMedium 4.5s var(--motion-ease-standard) infinite;
+}
+
+.ax-float-fast {
+  animation: axFloatFast 3s var(--motion-ease-standard) infinite;
+}
+
+@keyframes axFloatSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes axFloatMedium {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes axFloatFast {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* ============================================================
+   4. SOFT REFLECTIONS — Glass edge reflections
+   ============================================================ */
+.ax-reflection {
+  position: relative;
+}
+
+.ax-reflection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 40%,
+    transparent 60%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ============================================================
+   5. DYNAMIC SHADOWS — Variable intensity by elevation
+   ============================================================ */
+.ax-shadow-elevated {
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.45),
+    0 8px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.ax-shadow-float {
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    0 12px 30px rgba(0, 0, 0, 0.35),
+    inset 0 1px rgba(255, 255, 255, 0.10);
+}
+
+.ax-shadow-deep {
+  box-shadow: 
+    0 40px 100px rgba(0, 0, 0, 0.55),
+    0 16px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px rgba(255, 255, 255, 0.10);
+}
+
+/* ============================================================
+   6. MOBILE & TABLET RESPONSIVE — App Shell
+   ------------------------------------------------------------
+   Dock, Topbar, Content area responsive breakpoints
+   ============================================================ */
+
+/* ---- Tablet (768-1023px) ---- */
+@media (max-width: 1023px) and (min-width: 768px) {
+  /* Compact dock */
+  .ax-dock {
+    padding: 6px 8px !important;
+    gap: 2px !important;
+  }
+
+  .ax-dock-item {
+    padding: 8px 10px !important;
+    font-size: 0.72rem !important;
+  }
+
+  .ax-dock-item .ax-dock-label {
+    display: none !important;
+  }
+
+  .ax-dock-item svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  /* Compact topbar */
+  .ax-topbar {
+    padding: 6px 12px !important;
+    min-height: 44px !important;
+  }
+
+  .ax-topbar-center {
+    display: none !important;
+  }
+
+  .ax-topbar-search input {
+    width: 140px !important;
+    font-size: 0.78rem !important;
+  }
+
+  /* Two-column page layout for tablet */
+  .ax-page-grid-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .ax-page-grid-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .ax-chart-card {
+    grid-column: span 2 !important;
+  }
+
+  .ax-metric-card .ax-metric-value {
+    font-size: 1.5rem !important;
+  }
+
+  .app-content-inner {
+    padding: 16px !important;
+  }
+}
+
+/* ---- Mobile (<768px) ---- */
+@media (max-width: 767px) {
+  /* Hide default dock, show bottom dock */
+  .ax-dock {
+    position: fixed !important;
+    bottom: 0 !important;
+    top: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 6px 10px !important;
+    gap: 0 !important;
+    background: rgba(5, 5, 5, 0.92) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-radius: 0 !important;
+    justify-content: space-around !important;
+    z-index: 1000 !important;
+    padding-bottom: calc(6px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .ax-dock-item {
+    padding: 8px !important;
+    border-radius: 12px !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .ax-dock-item .ax-dock-label {
+    display: none !important;
+  }
+
+  .ax-dock-item svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .ax-dock-divider {
+    display: none !important;
+  }
+
+  /* Topbar mobile */
+  .ax-topbar {
+    padding: 4px 10px !important;
+    min-height: 40px !important;
+  }
+
+  .ax-topbar-center {
+    display: none !important;
+  }
+
+  .ax-topbar-left .ax-topbar-model {
+    display: none !important;
+  }
+
+  .ax-topbar-search input {
+    width: 100px !important;
+    font-size: 0.75rem !important;
+  }
+
+  .ax-topbar-search kbd {
+    display: none !important;
+  }
+
+  .ax-topbar-right .ax-topbar-item.ax-topbar-cmd {
+    display: none !important;
+  }
+
+  .ax-topbar-right .ax-topbar-time {
+    display: none !important;
+  }
+
+  .ax-topbar-right .ax-topbar-avatar {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.7rem !important;
+  }
+
+  /* Page layout mobile */
+  .app-body {
+    padding-bottom: 60px !important;
+  }
+
+  .app-content-inner {
+    padding: 12px !important;
+  }
+
+  .ax-page-header h1 {
+    font-size: 1.2rem !important;
+  }
+
+  /* Single column on mobile */
+  .ax-page-grid-2,
+  .ax-page-grid-3,
+  .ax-page-grid-4 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ax-chart-card {
+    grid-column: span 1 !important;
+  }
+
+  .ax-metric-card {
+    padding: 14px !important;
+  }
+
+  .ax-metric-card .ax-metric-value {
+    font-size: 1.3rem !important;
+  }
+
+  .ax-chart-card {
+    padding: 14px !important;
+  }
+
+  /* Condense tables */
+  .ax-table th,
+  .ax-table td {
+    padding: 8px 10px !important;
+    font-size: 0.74rem !important;
+  }
+
+  /* Settings sidebar mobile */
+  .ax-settings-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ax-settings-nav {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    gap: 4px !important;
+    padding: 6px !important;
+  }
+
+  .ax-settings-nav-item {
+    font-size: 0.7rem !important;
+    padding: 6px 10px !important;
+    white-space: nowrap !important;
+  }
+
+  .ax-settings-nav-item .ico {
+    font-size: 12px !important;
+  }
+
+  /* Analytics mobile */
+  .ax-analytics-grid-6 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .ax-analytics-grid-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .ax-analytics-grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ax-analytics-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Brain mobile */
+  .brain-metrics-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Automation mobile */
+  .ax-workflow-canvas {
+    min-height: 200px !important;
+  }
+
+  .ax-palette {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    gap: 6px !important;
+  }
+
+  /* Browser mobile */
+  .ax-browser-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Chat mobile */
+  .ax-chat-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ax-chat-sidebar {
+    position: fixed !important;
+    left: -280px !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 280px !important;
+    z-index: 2000 !important;
+    transition: left var(--motion-duration-base) var(--motion-ease-emphasized) !important;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .ax-chat-sidebar.open {
+    left: 0 !important;
+  }
+
+  /* Workspace mobile */
+  .ws-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ws-toolbar {
+    overflow-x: auto !important;
+  }
+
+  /* Studios mobile */
+  .studio-nav-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px !important;
+  }
+
+  .studio-tools-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Agent library mobile */
+  .agent-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  /* Hide scrollbar labels */
+  .ax-dock-item .ax-dock-label {
+    display: none !important;
+  }
+
+  /* Floating voice button for mobile */
+  .ax-voice-fab {
+    display: flex !important;
+    position: fixed !important;
+    right: 20px !important;
+    bottom: 80px !important;
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+    z-index: 999 !important;
+    cursor: pointer !important;
+    color: #F5F5F5 !important;
+  }
+
+  .ax-voice-fab:active {
+    transform: scale(var(--motion-scale-press-strong)) !important;
+  }
+}
+
+/* ============================================================
+   7. PREMIUM TYPOGRAPHY — Enhanced readability
+   ============================================================ */
+.ax-premium-text {
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'ss01' 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mono numbers for metrics */
+.ax-mono-nums {
+  font-family: 'JetBrains Mono', 'SF Mono', monospace;
+  font-feature-settings: 'tnum' 1, 'zero' 1;
+}
+
+/* ============================================================
+   8. PERFORMANCE — GPU acceleration hints
+   ============================================================ */
+.ax-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+}
+
+/* Contain rendering where possible */
+.ax-contain {
+  contain: content;
+}
+
+.ax-contain-layout {
+  contain: layout;
+}
+
+.ax-contain-paint {
+  contain: paint;
+}
+
+/* Reduce paint areas */
+.ax-composite {
+  isolation: isolate;
+}
+
+/* ============================================================
+   9. REDUCED MOTION SUPPORT
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .ax-spring-enter,
+  .ax-spring-up,
+  .ax-spring-scale,
+  .ax-stagger > *,
+  .ax-float-slow,
+  .ax-float-medium,
+  .ax-float-fast {
+    animation: none !important;
+  }
+
+  .ax-spring-lift {
+    transition: none !important;
+  }
+
+  .ax-spring-lift:hover {
+    transform: none !important;
+  }
+
+  .ax-cursor-track:hover {
+    transform: none !important;
+  }
+
+  .ax-cursor-shimmer::after {
+    display: none !important;
+  }
+}
+
+/* Manual override class */
+.ax-reduced-motion .ax-spring-enter,
+.ax-reduced-motion .ax-spring-up,
+.ax-reduced-motion .ax-spring-scale,
+.ax-reduced-motion .ax-stagger > *,
+.ax-reduced-motion .ax-float-slow,
+.ax-reduced-motion .ax-float-medium,
+.ax-reduced-motion .ax-float-fast {
+  animation: none !important;
+}
+
+.ax-reduced-motion .ax-spring-lift {
+  transition: none !important;
+}
+
+.ax-reduced-motion .ax-spring-lift:hover {
+  transform: none !important;
+}
+
+/* ============================================================
+   10. DOCK MAGNIFICATION HOVER EFFECT
+   ============================================================ */
+.ax-dock-magnify .ax-dock-item {
+  /* Previously written as an inline style string on every item on
+     every mousemove from premium-polish.js (same value, rewritten
+     dozens of times a second for nothing). Same curve/duration as
+     before — --motion-duration-instant is 100ms, matching the old
+     literal 0.1s, and --motion-ease-spring is the same
+     cubic-bezier(.34,1.56,.64,1) — just declared once, here. */
+  transition: transform var(--motion-duration-instant) var(--motion-ease-spring);
+}
+
+.ax-dock-magnify .ax-dock-item:hover {
+  transform: scale(var(--motion-scale-hover-strong)) translateY(-2px) !important;
+}
+
+.ax-dock-magnify .ax-dock-item:hover ~ .ax-dock-item {
+  transform: translateX(4px) !important;
+}
+
+/* Defense-in-depth: premium-polish.js already checks its own
+   reduced-motion flag before writing to these elements' inline
+   transform, but that flag is only current once initReducedMotion()
+   has run once on load. This closes the gap for the first paint /
+   any race — scoped to the two purely decorative, non-interactive
+   layers (parallax background depth, glass cursor-tilt), not
+   .ax-dock-item, since dock items also carry a normal :hover
+   lift/scale that reduced-motion guidance doesn't ask to remove. */
+.ax-reduced-motion [data-parallax],
+.ax-reduced-motion .ax-cursor-track {
+  transform: none !important;
+}
+
+/* ============================================================
+   11. CARD DIMMING — Non-interactive cards fade
+   ============================================================ */
+.ax-dimmable {
+  transition: opacity var(--motion-duration-base) var(--motion-ease-standard), filter var(--motion-duration-base) var(--motion-ease-standard);
+}
+
+.ax-dimmable-container:hover .ax-dimmable:not(:hover) {
+  opacity: 0.6;
+  filter: saturate(0.5);
+}
+
+/* ============================================================
+   12. GLASS BORDER ANIMATION — Sweep border highlight
+   ============================================================ */
+.ax-border-sweep {
+  position: relative;
+}
+
+.ax-border-sweep::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 60%,
+    transparent 100%
+  );
+  background-size: 200% 200%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: axBorderSweep 4s var(--motion-ease-standard) infinite;
+  pointer-events: none;
+}
+
+@keyframes axBorderSweep {
+  0% { background-position: 200% 200%; }
+  50% { background-position: 0% 0%; }
+  100% { background-position: 200% 200%; }
+}
+
+/* ============================================================
+   13. PAGE ENTRANCE
+   ============================================================ */
+.ax-page-entrance {
+  animation: axPageEntrance 0.8s var(--motion-ease-emphasized) both;
+}
+
+@keyframes axPageEntrance {
+  0% { opacity: 0; transform: translateY(16px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* App content entrance */
+.app-content {
+  animation: axContentIn var(--motion-duration-reveal) var(--motion-ease-emphasized) both;
+}
+
+@keyframes axContentIn {
+  0% { opacity: 0; transform: translateY(8px) scale(0.99); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+/* ============================================================
+   PHASE 2 · PART 2 — CALMER AMBIENT BACKGROUND
+   ------------------------------------------------------------
+   Billing and Settings are utility/transactional pages. Rather
+   than a page-specific redesign, the shared aurora/grain/glow
+   system is scoped down under body.ax-calm — same animations,
+   same tokens, lower amplitude. Loaded after ax-pages.css /
+   ax-redesign.css, so plain selectors win the cascade here
+   without any !important.
+   ============================================================ */
+body.ax-calm .grain { opacity: 0.012; }
+body.ax-calm .aurora span { opacity: 0.16; }
+body.ax-calm .particle { opacity: 0.15; }
+body.ax-calm .ax-chart-card,
+body.ax-calm .ax-metric-card {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .32), inset 0 1px rgba(255, 255, 255, .06);
+}
+body.ax-calm .ax-chart-card:hover,
+body.ax-calm .ax-metric-card:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .36), inset 0 1px rgba(255, 255, 255, .08);
+}

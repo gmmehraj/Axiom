@@ -1,0 +1,182 @@
+{
+  "common": {
+    "appName": "ایکسیئم AI اسٹوڈیو",
+    "back": "واپس",
+    "backToAxiom": "ایکسیئم پر واپس جائیں",
+    "save": "محفوظ کریں",
+    "cancel": "منسوخ کریں",
+    "close": "بند کریں",
+    "loading": "لوڈ ہو رہا ہے…",
+    "pleaseWait": "براہ کرم انتظار کریں…",
+    "saved": "محفوظ ہو گیا",
+    "search": "تلاش کریں",
+    "send": "بھیجیں",
+    "stop": "روکیں",
+    "regenerate": "دوبارہ بنائیں",
+    "upload": "اپ لوڈ کریں",
+    "thinking": "سوچ رہا ہے…",
+    "typing": "ٹائپ کر رہا ہے…",
+    "language": "زبان",
+    "theme": "تھیم",
+    "notifications": "اطلاعات",
+    "signOut": "لاگ آؤٹ"
+  },
+
+  "nav": {
+    "dashboard": "ڈیش بورڈ",
+    "chats": "Chats",
+    "playground": "پلے گراؤنڈ",
+    "billing": "بلنگ",
+    "settings": "ترتیبات",
+    "admin": "ایڈمن",
+    "profile": "پروفائل",
+    "newChat": "نئی چیٹ",
+    "history": "تاریخ"
+  },
+
+  "auth": {
+    "welcomeBack": "خوش آمدید",
+    "signInTitle": "ایکسیئم میں سائن ان کریں",
+    "signInSubtitle": "ہر ماڈل میں، وہیں سے جاری رکھیں جہاں آپ نے چھوڑا تھا۔",
+    "email": "ای میل",
+    "password": "پاس ورڈ",
+    "forgotPassword": "پاس ورڈ بھول گئے؟",
+    "signIn": "سائن ان کریں",
+    "noAccount": "اکاؤنٹ نہیں ہے؟",
+    "createOne": "ایک بنائیں",
+    "createAccountTitle": "اپنا اکاؤنٹ بنائیں",
+    "createAccountSubtitle": "ایک ہی اکاؤنٹ کے ساتھ ہر ماڈل کے ساتھ بنانا شروع کریں۔",
+    "fullName": "پورا نام",
+    "confirmPassword": "پاس ورڈ کی تصدیق کریں",
+    "createAccount": "اکاؤنٹ بنائیں",
+    "haveAccount": "پہلے سے اکاؤنٹ ہے؟",
+    "signInLink": "سائن ان کریں",
+    "logout": "لاگ آؤٹ",
+    "errorInvalidCredentials": "غلط ای میل یا پاس ورڈ۔",
+    "errorGeneric": "کچھ غلط ہو گیا۔ براہ کرم دوبارہ کوشش کریں۔",
+    "errorPasswordMismatch": "پاس ورڈ میل نہیں کھاتے۔"
+  },
+
+  "dashboard": {
+    "title": "ڈیش بورڈ",
+    "creditsRemaining": "بقیہ کریڈٹس",
+    "activeProjects": "فعال منصوبے",
+    "generationsThisMonth": "اس ماہ کی جنریشنز",
+    "avgRelayHandoff": "اوسط ریلے ہینڈ آف",
+    "quickActions": "فوری اقدامات",
+    "quickActionsSubtitle": "براہ راست کسی ماڈل پر جائیں۔",
+    "recentGenerations": "حالیہ جنریشنز",
+    "recentGenerationsSubtitle": "اسٹوڈیو کے ہر ٹول میں۔",
+    "viewAll": "سب دیکھیں ←",
+    "newGeneration": "نئی جنریشن"
+  },
+
+  "playground": {
+    "modelLabel": "ماڈل",
+    "searchModels": "ماڈلز تلاش کریں…",
+    "placeholder": "JARVIS سے کچھ بھی پوچھیں…",
+    "deleteChat": "چیٹ حذف کریں",
+    "renameChat": "چیٹ کا نام تبدیل کریں",
+    "newChat": "نئی چیٹ",
+    "outOfCredits": "آپ کے کریڈٹس ختم ہو گئے ہیں۔ بلنگ میں ٹاپ اپ کریں۔",
+    "chatUnavailable": "چیٹ دستیاب نہیں: OpenRouter لوڈ نہیں ہو سکا۔",
+    "genericError": "AI سے بات کرنے میں کچھ غلط ہو گیا۔",
+    "generationComplete": "جنریشن مکمل ہوئی"
+  },
+
+  "billing": {
+    "title": "بلنگ",
+    "currentPlan": "موجودہ پلان",
+    "freeForever": "ہمیشہ کے لیے مفت",
+    "creditPacks": "کریڈٹ پیکس",
+    "subscriptions": "سبسکرپشنز",
+    "buyCredits": "کریڈٹس خریدیں",
+    "subscribe": "سبسکرائب کریں",
+    "currentPlanBtn": "موجودہ پلان",
+    "preparingCheckout": "چیک آؤٹ تیار ہو رہا ہے…",
+    "verifyingPayment": "ادائیگی کی تصدیق ہو رہی ہے…",
+    "paymentSuccessful": "ادائیگی کامیاب رہی!",
+    "paymentFailed": "ادائیگی ناکام: {reason}",
+    "checkoutFailed": "چیک آؤٹ شروع نہیں ہو سکا",
+    "checkoutError": "چیک آؤٹ شروع کرنے میں کچھ غلط ہو گیا",
+    "verificationFailed": "ادائیگی کی تصدیق ناکام ہوئی",
+    "verificationError": "ادائیگی کی تصدیق نہیں ہو سکی — اگر آپ سے چارج کیا گیا تو سپورٹ سے رابطہ کریں",
+    "usageHistory": "استعمال کی تاریخ",
+    "model": "ماڈل",
+    "date": "تاریخ",
+    "tokens": "ٹوکنز",
+    "credits": "کریڈٹس"
+  },
+
+  "settings": {
+    "title": "ترتیبات",
+    "profile": "پروفائل",
+    "account": "اکاؤنٹ",
+    "appearance": "ظاہری شکل",
+    "languageRegion": "زبان اور علاقہ",
+    "languageRegionSubtitle": "انٹرفیس اور JARVIS کے جوابات کے لیے زبان منتخب کریں۔",
+    "selectLanguage": "ایک زبان منتخب کریں",
+    "autoDetected": "آپ کے براؤزر سے خود بخود پہچانا گیا",
+    "voice": "آواز",
+    "voiceInput": "صوتی ان پٹ زبان",
+    "voiceOutput": "صوتی آؤٹ پٹ آواز",
+    "notifications": "اطلاعات",
+    "dangerZone": "خطرناک زون",
+    "deleteAccount": "اکاؤنٹ حذف کریں"
+  },
+
+  "admin": {
+    "title": "ایڈمن",
+    "subtitle": "اسٹوڈیو بھر میں استعمال، صارفین، اور سسٹم کی صحت۔",
+    "totalUsers": "کل صارفین",
+    "generations24h": "جنریشنز (24 گھنٹے)",
+    "activeSubscriptions": "فعال سبسکرپشنز",
+    "mrrComingSoon": "جلد آ رہا ہے",
+    "mrrLabel": "MRR — بلنگ اینالیٹکس درکار ہے",
+    "recentUsers": "حالیہ صارفین",
+    "recentUsersSubtitle": "اسٹوڈیو میں تازہ ترین سائن اپس۔",
+    "modelLoad": "ماڈل لوڈ",
+    "modelLoadSubtitle": "صرف مثال کے طور پر — ابھی حقیقی فی ماڈل استعمال سے منسلک نہیں۔",
+    "name": "نام",
+    "plan": "پلان",
+    "credits": "کریڈٹس",
+    "joined": "شمولیت کی تاریخ",
+    "loadingUsers": "لوڈ ہو رہا ہے…",
+    "couldNotLoad": "صارف کا ڈیٹا لوڈ نہیں ہو سکا۔"
+  },
+
+  "jarvis": {
+    "name": "JARVIS",
+    "onlineStatus": "آن لائن · ری ایکٹر فعال",
+    "listeningStatus": "سن رہا ہے…",
+    "thinkingStatus": "سوچ رہا ہے…",
+    "speakingStatus": "بول رہا ہے…",
+    "errorStatus": "کچھ غلط ہو گیا",
+    "greeting": "ہیلو، میں JARVIS ہوں",
+    "greetingSubtitle": "آپ کا ذہین ذاتی اسسٹنٹ۔",
+    "tagline": "سوچیں · بنائیں · خودکار بنائیں",
+    "askAnything": "JARVIS سے کچھ بھی پوچھیں…",
+    "micUnavailable": "مائیک دستیاب نہیں — صوتی موڈ فی الحال صرف بصری ہے۔",
+    "writeCode": "کوڈ لکھیں",
+    "writeCodeSub": "ڈیبگ کریں، بنائیں، جائزہ لیں",
+    "generateImage": "تصویر بنائیں",
+    "generateImageSub": "متن یا تصویر پرامپٹ",
+    "analyzeDocument": "دستاویز کا تجزیہ کریں",
+    "analyzeDocumentSub": "اپ لوڈ کریں اور خلاصہ حاصل کریں",
+    "researchWeb": "ویب پر تحقیق کریں",
+    "researchWebSub": "براہ راست، حوالہ شدہ جوابات"
+  },
+
+  "errors": {
+    "generic": "کچھ غلط ہو گیا۔ براہ کرم دوبارہ کوشش کریں۔",
+    "network": "رابطہ نہیں ہو سکا۔ اپنا انٹرنیٹ کنکشن چیک کریں۔",
+    "rateLimited": "بہت زیادہ درخواستیں — براہ کرم آہستہ کریں۔",
+    "unauthorized": "جاری رکھنے کے لیے براہ کرم سائن ان کریں۔",
+    "notFound": "ہمیں وہ نہیں ملا۔"
+  },
+
+  "toasts": {
+    "saved": "محفوظ ہو گیا",
+    "copied": "کلپ بورڈ پر کاپی ہو گیا"
+  }
+}

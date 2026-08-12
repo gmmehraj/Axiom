@@ -1,0 +1,74 @@
+/* ============================================
+   AXIOM / JARVIS — RTL overrides
+   Applied automatically via body.rtl, toggled by i18n.js based on the
+   active language's registry entry (currently: Arabic, Urdu; Hebrew and
+   Persian are registered as rtl:true too and will pick this up the moment
+   their locale files are added — no CSS changes needed for future RTL
+   languages).
+
+   Scope: this covers the shared app shell (sidebar, topbar, chat bubbles,
+   forms, toasts) since those are used on every page. Page-specific one-off
+   layouts may need additional [dir="rtl"] rules as they're audited —
+   treat this as the base, not a claim that every pixel everywhere has been
+   RTL-reviewed.
+   ============================================ */
+
+body.rtl {
+  direction: rtl;
+}
+
+/* Sidebar flips to the right edge of the viewport */
+body.rtl .app-body { flex-direction: row-reverse; }
+body.rtl .app-sidebar { border-right: none; border-left: 1px solid var(--line); }
+body.rtl .app-nav-link { flex-direction: row-reverse; text-align: right; }
+body.rtl .app-sidebar-foot { flex-direction: row-reverse; }
+
+/* Topbar */
+body.rtl .app-topbar { flex-direction: row-reverse; }
+
+/* Icons that imply direction (back arrows, chevrons) mirror horizontally */
+body.rtl .auth-back svg,
+body.rtl .app-nav-link svg,
+body.rtl [data-mirror-rtl] {
+  transform: scaleX(-1);
+}
+
+/* Forms: labels/inputs stay logically left-to-right internally for latin
+   placeholders like emails, but align text to the reading direction */
+body.rtl .field label,
+body.rtl .field-row {
+  text-align: right;
+}
+body.rtl .field-row { flex-direction: row-reverse; }
+
+/* Chat bubbles: user messages align to the visual right in LTR, which is
+   the *start* side in RTL — flip the alignment so "your own messages" stay
+   consistently on the reading-start side */
+body.rtl .msg.user,
+body.rtl .jarvis-msg.user {
+  align-self: flex-start;
+}
+body.rtl .msg.assistant,
+body.rtl .jarvis-msg.jarvis {
+  align-self: flex-end;
+}
+
+/* Toasts slide in from the logical start side instead of a hardcoded edge */
+body.rtl .toast-stack {
+  right: auto;
+  left: 1.5rem;
+}
+
+/* Dropdowns / menus that are absolutely positioned off one edge */
+body.rtl .dropdown-menu,
+body.rtl .app-search {
+  text-align: right;
+}
+
+/* Number/credit displays and code blocks stay LTR even inside an RTL page —
+   digits, token counts, and code should not be mirrored */
+body.rtl code,
+body.rtl pre {
+  direction: ltr;
+  unicode-bidi: isolate;
+}

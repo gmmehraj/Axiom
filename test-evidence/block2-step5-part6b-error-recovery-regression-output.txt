@@ -1,0 +1,19 @@
+AXIOM Block 2 / Step 5 / Part 6B — Browser Error Recovery Regression Suite
+====================================================
+  PASS  navigate() against a throwing Engine returns a safe { ok:false } envelope, never throws
+  PASS  back/forward/refresh/stop/redirect against a throwing Engine return false, never throw
+  PASS  getCurrentUrl()/getNavigationStatus() against a throwing Engine degrade instead of throwing
+  PASS  session lifecycle (create/close/switch/getActive/getMetadata) survives a throwing Engine
+  PASS  restoreSession() with a malformed snapshot fails safe (null), never throws
+  PASS  history API (read/clear) survives a throwing Engine with safe fallbacks
+  PASS  tab API (create/close/switch/getActive/list/duplicate/reorder) survives a throwing Engine
+  PASS  diagnostics()/getMetrics() never throw even when every Engine call underneath does
+  PASS  a navigation that never settles is swept as stale after the timeout, not reported forever
+  PASS  executeBrowserOp() with an unknown op resolves a standardized error envelope, does not reject
+  PASS  BrowserToolRegistry.executeTool() never rejects for an unregistered tool
+  PASS  BrowserToolRegistry.executeTool() never rejects when a tool handler throws synchronously
+  PASS  BrowserToolRegistry.executeTool() never rejects when a tool handler returns a rejected promise
+  PASS  BrowserToolRegistry.executeTool() never rejects when the underlying handler resolves a BrowserManager failure envelope
+  PASS  executeBrowserOp() resolves a standardized envelope instead of rejecting, for every op
+====================================================
+15 passed, 0 failed

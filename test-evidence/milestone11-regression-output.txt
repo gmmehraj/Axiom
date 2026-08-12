@@ -1,0 +1,121 @@
+[AxiomRuntime] online — 10 agents registered. Run AxiomRuntime.selfTest() to verify.
+[AxiomDynamicWorkflow] dynamic decomposition rule registered.
+[AxiomM8] Milestone 8 intelligence layer online. Run AxiomRuntime.selfTestM8() to verify.
+[AxiomM9] Executive AI online. Run AxiomRuntime.selfTestM9() to verify.
+[AxiomM10] Conversation Manager online. Run AxiomRuntime.selfTestM10() to verify.
+[AxiomM11] Autonomous AI Operating System layer online. Run AxiomRuntime.selfTestM11() to verify.
+[AxiomRuntime] self-test PASS — 11/11
+  ok   manager started
+  ok   ten core agents registered  (count=10)
+  ok   no duplicate ids
+  ok   all agents idle after boot
+  ok   route "Search the web for AXIOM" -> agent.browser  (agent.browser)
+  ok   route "Summarize this PDF" -> agent.file  (agent.file)
+  ok   route "Generate code for a login form" -> agent.coding  (agent.coding)
+  ok   route "Remember this password preference" -> agent.memory  (agent.memory)
+  ok   route "Create a plan for launch" -> agent.planner  (agent.planner)
+  ok   multi-agent collaboration  (agent.assistant,agent.coding,agent.research)
+  ok   end-to-end task completion  (agent.assistant)
+[AxiomM8] self-test PASS — 8/8
+  ok   decompose produces multiple steps  (3)
+  ok   decompose links dependencies in order
+  ok   orchestrator run completes  (completed)
+  ok   monitor report shape
+  ok   error recovery report available
+  ok   planner estimate returns an ETA
+  ok   planner reprioritize returns a plan
+  ok   job manager creates a job
+[AxiomM9] self-test PASS — 8/8
+  ok   vague request short-circuits to clarification  ("needs-clarification")
+  ok   clarification never produced a jobId
+  ok   resolveClarification re-enters the pipeline  ("running")
+  ok   handle() returns a live executiveId + promise
+  ok   run reaches a terminal status  ("completed")
+  ok   status() reports plan/job linkage  ({"planId":"plan-ms1f40z3-k7fh7t","jobId":"job-ms1f40z3-g1nsur"})
+  ok   report() returns a learning ledger
+  ok   execution traced through the real Orchestrator  (1)
+[AxiomM10] self-test PASS — 11/11
+  ok   start() returns a conversationId
+  ok   send() returns a live turnId + promise
+  ok   turn 1 reaches a terminal status  ("completed")
+  ok   follow-up with a resolvable reference is NOT sent to clarification  ("running")
+  ok   reference was rewritten before reaching Executive AI  ("save remember: milestone 10 self-test turn one")
+  ok   turn 2 reaches a terminal status  ("completed")
+  ok   bare reference with zero history asks for clarification  ("needs-clarification")
+  ok   conversation stream emitted at least one progressive event  (["thinking","thinking","progress","done"])
+  ok   AxiomConversationContext available
+  ok   context bundle loads all sections
+  ok   conversation history is scoped per conversationId (no cross-talk)
+[AxiomM11] self-test PASS — 27/27
+  ok   AxiomExecutiveAI extended with scheduleAutonomous()
+  ok   scheduler.configure() applies maxConcurrent  ({"maxConcurrent":1})
+  ok   higher priority task is admitted before an earlier-queued lower priority one  ({"low":"queued","critical":"running"})
+  ok   scheduled tasks reach a terminal status  (["completed","completed"])
+  ok   a dependent task stays queued while its dependency is unsettled  ("queued")
+  ok   cancel() on a still-queued task succeeds immediately
+  ok   a queued task cancelled before admission resolves as cancelled  ("cancelled")
+  ok   scheduler.report() exposes counts and maxConcurrent
+  ok   task graph builds nodes + edges from a multi-step plan  ({"nodes":3,"edges":2})
+  ok   task graph computes a valid topological order  (["m8step-1-ms1f40zq","m8step-2-ms1f40zq","m8step-3-ms1f40zq"])
+  ok   sequential ("then") plan is classified sequential or mixed, never parallel  ("sequential")
+  ok   independent multi-agent plan graph builds without throwing
+  ok   event timeline records a newly emitted event with a timestamp  (1785047363847)
+  ok   event timeline query() filters by source
+  ok   resource monitor report includes agent activity, queue depth, task counts, latency, scheduler, browser
+  ok   plugin registry rejects an id in the reserved "agent." namespace
+  ok   plugin registry registers a valid external agent through the real Agent Manager
+  ok   a registered plugin agent actually executes a dispatched task  ({"ok":true,"echoedBy":"plugin.m11-selftest","task":{"intent":"selftest","id":"plugin.m11-selftest:ms1f40zsam1y","enqueuedAt":1785047363848}})
+  ok   plugin unregister() removes it from both the registry and the Agent Manager
+  ok   Executive AI derives "sequential" for a dependent, "then"-chained request  ("sequential")
+  ok   Executive AI derives a non-sequential mode for an independent multi-agent request  ("mixed")
+  ok   sequential and independent requests are not collapsed into the same decision  ({"seqMode":"sequential","parMode":"mixed"})
+  ok   scheduleAutonomous() returns a live taskId + promise without blocking
+  ok   autonomous run reaches a terminal status  ("completed")
+  ok   emitting "executive:auto-request" on the bus autonomously triggers Executive AI scheduling — no direct call needed  (1)
+  ok   scheduler task total only grew by exactly the tasks this test created (no phantom duplicates)
+  ok   still exactly 10 core agents after all M11 activity, no duplicates  ("count=10")
+
+=== MILESTONE 11 VERIFICATION ===
+PASS  Milestone 4/5 self-test still passes (no regression)
+PASS  Milestone 8 self-test still passes (no regression)
+PASS  Milestone 9 self-test still passes (no regression)
+PASS  Milestone 10 self-test still passes (no regression)
+PASS  Still exactly 10 core agents, no duplicates
+PASS  Milestone 11 self-test passes
+PASS    [M11] AxiomExecutiveAI extended with scheduleAutonomous()
+PASS    [M11] scheduler.configure() applies maxConcurrent
+PASS    [M11] higher priority task is admitted before an earlier-queued lower priority one
+PASS    [M11] scheduled tasks reach a terminal status
+PASS    [M11] a dependent task stays queued while its dependency is unsettled
+PASS    [M11] cancel() on a still-queued task succeeds immediately
+PASS    [M11] a queued task cancelled before admission resolves as cancelled
+PASS    [M11] scheduler.report() exposes counts and maxConcurrent
+PASS    [M11] task graph builds nodes + edges from a multi-step plan
+PASS    [M11] task graph computes a valid topological order
+PASS    [M11] sequential ("then") plan is classified sequential or mixed, never parallel
+PASS    [M11] independent multi-agent plan graph builds without throwing
+PASS    [M11] event timeline records a newly emitted event with a timestamp
+PASS    [M11] event timeline query() filters by source
+PASS    [M11] resource monitor report includes agent activity, queue depth, task counts, latency, scheduler, browser
+PASS    [M11] plugin registry rejects an id in the reserved "agent." namespace
+PASS    [M11] plugin registry registers a valid external agent through the real Agent Manager
+PASS    [M11] a registered plugin agent actually executes a dispatched task
+PASS    [M11] plugin unregister() removes it from both the registry and the Agent Manager
+PASS    [M11] Executive AI derives "sequential" for a dependent, "then"-chained request
+PASS    [M11] Executive AI derives a non-sequential mode for an independent multi-agent request
+PASS    [M11] sequential and independent requests are not collapsed into the same decision
+PASS    [M11] scheduleAutonomous() returns a live taskId + promise without blocking
+PASS    [M11] autonomous run reaches a terminal status
+PASS    [M11] emitting "executive:auto-request" on the bus autonomously triggers Executive AI scheduling — no direct call needed
+PASS    [M11] scheduler task total only grew by exactly the tasks this test created (no phantom duplicates)
+PASS    [M11] still exactly 10 core agents after all M11 activity, no duplicates
+PASS  scheduler admits a task into the Job Manager exactly once (no duplicate execution)
+PASS  plugin registry rejects a second registration of the same id
+PASS  plugin registry rejects a non-namespaced id
+PASS  task graph returns null topological order for a cyclic graph instead of throwing
+PASS  event timeline .recent() returns newest-first entries
+PASS  resource monitor browser metrics never throw even without full browser APIs
+PASS  Event Bus, Agent Manager, Job Manager, Orchestrator, Executive AI are still the same singletons after M11 load
+PASS  Milestone 11 introduced no window.AxiomJobManager2 / duplicate manager globals
+
+41/41 checks passed.

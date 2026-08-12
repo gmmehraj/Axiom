@@ -1,0 +1,29 @@
+[AxiomRuntime] online — 10 agents registered. Run AxiomRuntime.selfTest() to verify.
+
+> Open YouTube
+  routed to: agent.browser
+  agent.browser -> OK  {"ok":true,"op":"navigate","live":true,"snapshot":{"url":"https://youtube.com","blocked":false,"tabs":[]}}
+
+> Open GitHub
+  routed to: agent.browser
+  agent.browser -> OK  {"ok":true,"op":"navigate","live":true,"snapshot":{"url":"https://github.com","blocked":false,"tabs":[]}}
+
+> Remember: Buy milk tomorrow
+  routed to: agent.memory
+  agent.memory -> OK  {"ok":true,"op":"remember","result":{"id":"m1","note":"Buy milk tomorrow","tags":[],"created_at":"2026-07-25T07:53:50.592Z"}}
+
+> Show my memories
+  routed to: agent.memory
+  agent.memory -> OK  {"ok":true,"op":"recall","result":[{"id":"m1","note":"Buy milk tomorrow","tags":[],"created_at":"2026-07-25T07:53:50.592Z"}]}
+
+> Create a plan for learning React
+  routed to: agent.planner
+  agent.planner -> OK  {"ok":true,"op":"create-plan","result":{"id":"plan-7fb5e4a8-87f8-4ffc-9e50-a43791f82051","goal":"Create a plan for learning React","status":"active","createdAt":1784966030604,"updatedAt":1784966030604
+
+> Open Browser
+  AxiomOS.openWorkspace called with: browser -> OK (opens the Browser Workspace directly, not an agent task)
+
+> Open Settings
+  AxiomOS.openWorkspace called with: settings -> OK (opens the Settings Workspace directly, not an agent task)
+
+Final memory store: [{"id":"m1","note":"Buy milk tomorrow","tags":[],"created_at":"2026-07-25T07:53:50.592Z"}]

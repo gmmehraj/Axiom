@@ -1,0 +1,35 @@
+AXIOM Block 2 / Step 6 / Part 4 — Multi-Agent Collaboration & Workflow Orchestration regression
+
+  PASS  module requires AxiomOrchestrator to already be loaded
+  PASS  installs a workflow API onto the existing AxiomOrchestrator without editing Part 1/Part 3 behavior
+  PASS  createWorkflow() rejects empty stage lists and duplicate stage ids
+  PASS  createWorkflow() detects circular dependencies at creation time
+  PASS  createWorkflow() rejects a stage that depends on an unknown stage id
+  PASS  validateWorkflow() flags a stage whose capability has no eligible agent
+  PASS  optimizeWorkflow() groups independent stages into the same wave
+[AxiomWorkflowPlanner] sync-runtime-context: Runtime Context payload at "$.summarize.saw" is not JSON-safe (circular reference). Runtime Context only supports plain objects/arrays/strings/numbers/booleans/null — see RUNTIME_CONTEXT.md "Supported payloads". { contextId: 'ctx_msa81uix_1' }
+[AxiomWorkflowPlanner] sync-runtime-context: Runtime Context payload at "$.summarize.saw" is not JSON-safe (circular reference). Runtime Context only supports plain objects/arrays/strings/numbers/booleans/null — see RUNTIME_CONTEXT.md "Supported payloads". { contextId: 'ctx_msa81uix_1' }
+  PASS  executeWorkflow() runs a full sequential collaboration chain and propagates context between stages
+  PASS  a stage only receives the payload its own input() selects — not the whole shared context object
+  PASS  dependency resolution: a stage never starts before all of its dependsOn stages have finished
+  PASS  optional stage that exhausts recovery is skipped, and the workflow still completes
+  PASS  a required (non-optional) stage failure fails the workflow gracefully and skips downstream stages
+  PASS  retry recovery: a stage that fails once and succeeds on retry completes without failing the workflow
+  PASS  alternate-agent recovery: an explicit-agent stage fails over to alternateAgentIds
+  PASS  a failing stage never crashes the Orchestrator — subsequent dispatch()/route() calls keep working
+  PASS  pauseWorkflow()/resumeWorkflow() park and resume execution between stage boundaries
+  PASS  cancelWorkflow() on a not-yet-started workflow resolves synchronously to cancelled
+  PASS  cancelWorkflow() on a paused workflow wakes it up and marks it cancelled without running remaining stages
+  PASS  getWorkflow()/listWorkflows()/getWorkflowStatus()/getActiveWorkflows() report accurate live state
+  PASS  getWorkflowMetrics() aggregates workflow and stage counts across every created workflow
+  PASS  works without capability-router.js loaded, falling back to raw AxiomOrchestrator.dispatch()
+  PASS  workflow lifecycle events fire in the expected order for a two-stage happy path
+  PASS  FIX 3/4: module requires runtime-context.js to be loaded first
+  PASS  FIX 3/4: workflow-planner.js no longer defines its own createContext (no naming collision)
+  PASS  FIX 3: executeWorkflow() creates a real Runtime Context for the run and it is visible mid-flight
+  PASS  FIX 3: a completed workflow's Runtime Context is destroyed (create -> update -> destroy lifecycle)
+  PASS  FIX 3: a failed workflow's Runtime Context is finalized as failed, then destroyed
+  PASS  FIX 3: a cancelled-before-start workflow never leaks an orphaned Runtime Context
+  PASS  FIX 3: exactly one Runtime Context exists at a time per in-flight workflow run
+
+29 passed, 0 failed.

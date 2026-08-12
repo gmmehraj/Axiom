@@ -1,0 +1,31 @@
+PASS  AxiomBrain loaded
+PASS  AxiomAIState loaded
+PASS  initial activeModel is null
+PASS  initial activeConversationId is null
+PASS  initial toolActive is false
+PASS  initial activeTool is null
+PASS  capability:loading sets toolActive
+PASS  capability:loading sets activeTool
+PASS  capability:success clears toolActive
+PASS  capability:success clears activeTool
+PASS  retry-sequence: loading sets toolActive
+PASS  capability:retry does not clear toolActive (still in flight)
+PASS  exhausted retries -> toolActive clears
+PASS  exhausted retries -> activeTool clears
+PASS  capability:cancelled clears toolActive
+PASS  capability:timeout clears toolActive
+PASS  conversation:thinking sets activeConversationId
+PASS  conversation:progress keeps the same activeConversationId
+PASS  conversation:done clears activeConversationId
+PASS  axiom:model-changed sets activeModel
+PASS  a second axiom:model-changed updates activeModel
+PASS  AxiomAIState error now reaches Brain as activity:"error" (was forced to "idle")
+PASS  AxiomAIState thinking still reaches Brain as activity:"thinking" (unchanged behavior)
+PASS  AxiomAIState idle still reaches Brain as activity:"idle" (unchanged behavior)
+PASS  burst settles: toolActive back to false
+PASS  burst settles: activeTool back to null
+PASS  burst settles: activeConversationId back to null
+PASS  unrelated bus events do not touch toolActive
+PASS  unrelated bus events do not touch activeModel
+
+ALL CHECKS PASSED

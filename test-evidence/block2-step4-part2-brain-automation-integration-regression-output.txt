@@ -1,0 +1,33 @@
+PASS  AxiomBrain loaded
+PASS  AxiomAutomationBuilderEngine loaded
+PASS  AxiomBrainAutomationBridge loaded
+PASS  Brain has a default idle automation state before any run
+PASS  Brain reflects the run that was actually just created
+PASS  Brain reflects the real workflow id
+PASS  Brain reflects the real workflow name
+PASS  Brain status is 'queued' immediately after enqueueRun (before it starts running)
+PASS  Brain transitions to 'running' once the engine actually starts the run
+PASS  run really is running per the engine itself (not just Brain saying so)
+PASS  engine run actually reached 'paused' (not just requested)
+PASS  Brain reflects the real 'paused' status
+PASS  a paused run does not silently keep advancing steps
+PASS  Brain reflects 'running' again immediately after resume
+PASS  run completed for real (engine says 'success')
+PASS  Brain reflects 'success' from the same real completion
+PASS  every step actually ran (no step skipped by the pause/resume path)
+PASS  run whose condition genuinely failed actually failed per the engine
+PASS  Brain reflects 'failed' for the run that actually failed
+PASS  cancelled run actually stopped per the engine
+PASS  Brain reflects 'cancelled' for the run that was actually cancelled
+PASS  run4 actually reached paused before being cancelled
+PASS  cancelling a paused run actually unparks and cancels it (not stuck)
+PASS  Brain reflects 'cancelled' for the paused-then-cancelled run
+PASS  Brain queue.running matches the real engine queue state
+PASS  Brain queue.pending reflects a genuine backlog under concurrency 1
+PASS  queue drains back to 0 pending / 0 running once the burst settles
+PASS  pauseRun() on an already-settled run returns false (no fake pause)
+PASS  bridge reports runEventsObserved > 0
+PASS  bridge reports queueEventsObserved > 0
+PASS  destroy() stops the bridge from writing further Brain updates
+
+ALL CHECKS PASSED

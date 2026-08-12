@@ -1,0 +1,68 @@
+# ============================================================
+# AXIOM — Supabase project configuration
+# ------------------------------------------------------------
+# Minimal config for local development (`supabase start`) and Edge
+# Function deployment (`supabase functions deploy`). This project does
+# not use local Postgres migrations from this file's [db] block for
+# schema management — db/schema.sql and db/agents-schema.sql (run
+# manually against the linked project, see README) are the source of
+# truth for tables/RPCs. This file only needs to exist so the CLI knows
+# the project's function layout and local ports.
+#
+# project_id is a local/dev placeholder — replace it (or just rely on
+# `supabase link`) when you connect this to a real Supabase project.
+# ============================================================
+
+project_id = "axiom-ai-studio"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+# Local dev only — set to your real deployed URL when linked to a
+# hosted project; the CLI overrides this from project settings there.
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000"]
+jwt_expiry = 3600
+enable_signup = true
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+
+# ---- Edge Functions ----
+# verify_jwt = false because these functions do their OWN auth check
+# (see supabase/functions/_shared/auth.ts) against the bearer token,
+# so they can return a clean { error, code: "UNAUTHENTICATED" } JSON
+# body instead of the platform's generic 401 HTML page — the frontend
+# (openrouter-client.js) expects to parse a JSON error either way.
+
+[functions.openrouter-chat]
+verify_jwt = false
+
+[functions.openrouter-models]
+verify_jwt = false
+
+[functions.analyze-file]
+verify_jwt = false
+
+[functions.owner-api-status]
+# Same reasoning as the three functions above: this function does its
+# own bearer-token check (_shared/auth.ts) AND an additional
+# profiles.role === 'admin' check before returning anything, so a
+# platform-level verify_jwt=false + a clean JSON 401/403 body is
+# consistent with the rest of this project's Edge Functions.
+verify_jwt = false

@@ -1,0 +1,70 @@
+[AxiomRuntime] online — 10 agents registered. Run AxiomRuntime.selfTest() to verify.
+[AxiomRuntime] self-test PASS — 11/11
+  ok   manager started
+  ok   ten core agents registered  (count=10)
+  ok   no duplicate ids
+  ok   all agents idle after boot
+  ok   route "Search the web for AXIOM" -> agent.browser  (agent.browser)
+  ok   route "Summarize this PDF" -> agent.file  (agent.file)
+  ok   route "Generate code for a login form" -> agent.coding  (agent.coding)
+  ok   route "Remember this password preference" -> agent.memory  (agent.memory)
+  ok   route "Create a plan for launch" -> agent.planner  (agent.planner)
+  ok   multi-agent collaboration  (agent.coding,agent.research)
+  ok   end-to-end task completion  (agent.assistant)
+[AxiomAgentManager] duplicate registration ignored for "agent.memory".
+
+=== MILESTONE 6 VERIFICATION ===
+PASS  Milestone 4/5 self-test still passes (no regression)
+PASS  Still exactly 10 core agents, no duplicates
+PASS  Re-registering an existing agent id is ignored (no duplicate)
+PASS  Browser Agent navigate() still works
+PASS  Browser Agent bookmark()
+PASS  Browser Agent bookmarks-list()
+PASS  Browser Agent history-list()
+PASS  Browser Agent reading-mode()
+PASS  Browser Agent summarize-page()
+PASS  Browser Agent extract-links()
+PASS  Browser Agent extract-images()
+PASS  Memory Agent remember() still works
+PASS  Memory Agent pin()
+PASS  Memory Agent list-pinned()
+PASS  Memory Agent categorize()
+PASS  Memory Agent list-categories()
+PASS  Memory Agent semantic-recall()
+PASS  Memory Agent short-term-remember()
+PASS  Memory Agent short-term-recall()
+PASS  Planner Agent create-plan() still works
+PASS  Planner Agent add-subtask()
+PASS  Planner Agent set-deadline()
+PASS  Planner Agent add-dependency()
+PASS  Planner Agent complete-checked() blocks on open dependency
+PASS  Planner Agent complete() dependency step
+PASS  Planner Agent complete-checked() proceeds once unblocked
+PASS  Planner Agent execution-log() recorded status changes
+PASS  Planner Agent create-goal()
+PASS  Planner Agent daily-plan()
+PASS  Planner Agent weekly-plan()
+PASS  File Agent summarize() still works
+PASS  File Agent pass() hands off (agent collaboration intact)
+PASS  File Agent format support includes JSON (Step 4)
+PASS  Research Agent collect-sources()
+PASS  Research Agent store-findings() writes to Memory (reuse, not duplication)
+PASS  Research Agent action-items() writes to Planner (reuse, not duplication)
+PASS  Voice adapter kit registered a default STT + TTS adapter
+PASS  Voice Agent route-voice-command() reuses the Task Router
+PASS  Vision adapter kit registered the file-processing OCR adapter
+PASS  Vision Agent ocr() via adapter kit reuses FileProcessing
+PASS  Vision Agent send-to-file-agent() collaborates via structured dispatch
+PASS  Coding Agent project-search()
+PASS  Coding Agent project-analysis()
+PASS  Coding Agent refactor() never auto-applies
+PASS  Coding Agent bug-investigation() is read-only (candidate files only)
+PASS  Router still flags "research X" as the researchAndRemember workflow
+PASS  Router flags bug investigation as the developmentWorkflow
+PASS  Router flags document processing as the documentWorkflow
+PASS  Development workflow completes end-to-end (Coding -> Browser -> Planner -> Assistant)
+PASS  Document workflow completes end-to-end (File -> Memory -> Assistant)
+PASS  Compound multi-agent request still dispatches to several agents (no regression)
+PASS  Unsupported op still fails gracefully (no crash)
+
+52/52 checks passed.

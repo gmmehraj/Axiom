@@ -1,0 +1,37 @@
+/* ============================================================
+   AXIOM AI OS X — Part 6: Split Screen / Snap Assist styles
+   ============================================================ */
+.ax-snap-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease-standard);
+}
+.ax-snap-overlay.active { opacity: 1; }
+
+.ax-snap-zone { position: absolute; }
+.ax-snap-zone[data-zone="left"]   { left: 0; top: 8%; width: 4%; height: 84%; }
+.ax-snap-zone[data-zone="right"]  { right: 0; top: 8%; width: 4%; height: 84%; }
+.ax-snap-zone[data-zone="top"]    { left: 8%; top: 0; width: 84%; height: 4%; }
+.ax-snap-zone[data-zone="bottom"] { left: 8%; bottom: 0; width: 84%; height: 4%; }
+.ax-snap-zone[data-zone="tl"]     { left: 0; top: 0; width: 8%; height: 8%; }
+.ax-snap-zone[data-zone="tr"]     { right: 0; top: 0; width: 8%; height: 8%; }
+.ax-snap-zone[data-zone="bl"]     { left: 0; bottom: 0; width: 8%; height: 8%; }
+.ax-snap-zone[data-zone="br"]     { right: 0; bottom: 0; width: 8%; height: 8%; }
+
+.ax-snap-highlight {
+  position: absolute;
+  background: var(--ax-glass, rgba(255,255,255,.06));
+  border: 1.5px solid var(--ax-border-strong, rgba(255,255,255,.18));
+  backdrop-filter: blur(18px);
+  border-radius: 14px;
+  box-shadow: var(--ax-shadow, 0 20px 60px rgba(0,0,0,.5)), inset 0 0 0 1px rgba(255,255,255,.03);
+  opacity: 0;
+  transition: left var(--motion-duration-instant) var(--motion-ease-standard), top var(--motion-duration-instant) var(--motion-ease-standard), width var(--motion-duration-instant) var(--motion-ease-standard), height var(--motion-duration-instant) var(--motion-ease-standard), opacity var(--motion-duration-instant) var(--motion-ease-standard);
+}
+
+/* Topbar: virtual-desktop pill (Part 6 bootstrap) */
+.ax-topbar-spaces { display: flex; align-items: center; gap: 6px; padding: 0 10px; }
+.ax-topbar-spaces span { font-size: 12px; }

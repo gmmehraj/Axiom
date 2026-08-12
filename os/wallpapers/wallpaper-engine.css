@@ -1,0 +1,63 @@
+/* ============================================================
+   AXIOM AI OS X — Part 6: Wallpaper Engine picker styles
+   ============================================================ */
+.ax-wp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9750;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6,6,8,.55);
+  backdrop-filter: blur(24px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease-standard);
+}
+.ax-wp-overlay.active { opacity: 1; pointer-events: all; }
+
+.ax-wp-panel {
+  width: 620px;
+  max-height: 78vh;
+  overflow-y: auto;
+  background: var(--ax-surface, #1c1c1e);
+  border: 1px solid var(--ax-border-strong, rgba(255,255,255,.12));
+  border-radius: 16px;
+  box-shadow: var(--ax-shadow, 0 20px 60px rgba(0,0,0,.55));
+  padding: 20px;
+}
+.ax-wp-header {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; color: var(--ax-text, #fff); font-weight: 600;
+  margin-bottom: 16px;
+}
+.ax-wp-close {
+  margin-left: auto; width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--ax-glass, rgba(255,255,255,.06));
+  color: var(--ax-text-2, rgba(255,255,255,.6));
+  cursor: pointer; transform: rotate(45deg);
+}
+.ax-wp-close:hover { background: var(--ax-glass-hover, rgba(255,255,255,.1)); }
+.ax-wp-section-title {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--ax-text-3, rgba(255,255,255,.4)); margin: 18px 0 10px;
+}
+.ax-wp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.ax-wp-card {
+  cursor: pointer; display: flex; flex-direction: column; gap: 6px;
+  border-radius: 10px; padding: 6px; border: 1.5px solid transparent;
+}
+.ax-wp-card:hover { background: var(--ax-glass, rgba(255,255,255,.05)); }
+.ax-wp-card.active { border-color: var(--ax-accent, #fff); }
+.ax-wp-thumb {
+  width: 100%; aspect-ratio: 16/10; border-radius: 8px;
+  border: 1px solid var(--ax-border, rgba(255,255,255,.08));
+  background-size: cover;
+}
+.ax-wp-card span { font-size: 12px; color: var(--ax-text-2, rgba(255,255,255,.7)); }
+
+.ax-wp-thumb-aurora-flow { background: radial-gradient(circle at 30% 30%, #6a3fb0, transparent 60%), radial-gradient(circle at 70% 70%, #2a7f9f, transparent 55%), #0a0a0d; }
+.ax-wp-thumb-particles { background: radial-gradient(circle, rgba(255,255,255,.5) 1px, transparent 1.5px) 0 0/14px 14px, #0a0a0d; }
+.ax-wp-thumb-gradient-mesh { background: linear-gradient(135deg,#2a2450,#153244,#0a0a12); }
+.ax-wp-thumb-time-of-day { background: linear-gradient(180deg,#3a1c2c,#12141c); }

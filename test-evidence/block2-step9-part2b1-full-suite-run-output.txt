@@ -1,0 +1,2174 @@
+=== block2-step1-coding-agent-regression-suite.js ===
+node:internal/modules/cjs/loader:1386
+  throw err;
+  ^
+
+Error: Cannot find module 'jsdom'
+Require stack:
+- /home/claude/work/part2a/axiom/test-evidence/block2-step1-coding-agent-regression-suite.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+    at Function._load (node:internal/modules/cjs/loader:1192:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/claude/work/part2a/axiom/test-evidence/block2-step1-coding-agent-regression-suite.js:18:19)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/claude/work/part2a/axiom/test-evidence/block2-step1-coding-agent-regression-suite.js'
+  ]
+}
+
+Node.js v22.22.2
+
+=== block2-step1-part2-pipeline-regression-suite.js ===
+node:internal/modules/cjs/loader:1386
+  throw err;
+  ^
+
+Error: Cannot find module 'jsdom'
+Require stack:
+- /home/claude/work/part2a/axiom/test-evidence/block2-step1-part2-pipeline-regression-suite.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+    at Function._load (node:internal/modules/cjs/loader:1192:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/claude/work/part2a/axiom/test-evidence/block2-step1-part2-pipeline-regression-suite.js:17:19)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/claude/work/part2a/axiom/test-evidence/block2-step1-part2-pipeline-regression-suite.js'
+  ]
+}
+
+Node.js v22.22.2
+
+=== block2-step2-part2-brain-integration-regression-suite.js ===
+PASS  AxiomBrain loaded
+PASS  AxiomAIState loaded
+PASS  initial activeModel is null
+PASS  initial activeConversationId is null
+PASS  initial toolActive is false
+PASS  initial activeTool is null
+PASS  capability:loading sets toolActive
+PASS  capability:loading sets activeTool
+PASS  capability:success clears toolActive
+PASS  capability:success clears activeTool
+PASS  retry-sequence: loading sets toolActive
+PASS  capability:retry does not clear toolActive (still in flight)
+PASS  exhausted retries -> toolActive clears
+PASS  exhausted retries -> activeTool clears
+PASS  capability:cancelled clears toolActive
+PASS  capability:timeout clears toolActive
+PASS  conversation:thinking sets activeConversationId
+PASS  conversation:progress keeps the same activeConversationId
+PASS  conversation:done clears activeConversationId
+PASS  axiom:model-changed sets activeModel
+PASS  a second axiom:model-changed updates activeModel
+PASS  AxiomAIState error now reaches Brain as activity:"error" (was forced to "idle")
+PASS  AxiomAIState thinking still reaches Brain as activity:"thinking" (unchanged behavior)
+PASS  AxiomAIState idle still reaches Brain as activity:"idle" (unchanged behavior)
+PASS  burst settles: toolActive back to false
+PASS  burst settles: activeTool back to null
+PASS  burst settles: activeConversationId back to null
+PASS  unrelated bus events do not touch toolActive
+PASS  unrelated bus events do not touch activeModel
+
+ALL CHECKS PASSED
+
+=== block2-step3-part1-memory-foundation-regression-suite.js ===
+PASS  AxiomMemoryEngine loaded
+PASS  init() returns stats
+PASS  a session exists after init
+PASS  calling init() twice does not create a second session
+PASS  touchSession() refreshes lastActiveAt
+PASS  startConversation returns an id
+PASS  conversation history has 2 messages in order
+PASS  conversation messageCount tracks history length
+PASS  conversation history is capped at 500 messages
+PASS  capping keeps the MOST RECENT messages
+PASS  addMemory assigns an id
+PASS  addMemory sets lifecycle timestamps
+PASS  addMemory starts with accessCount 0
+PASS  touchMemory increments accessCount
+PASS  updateMemory applies the patch
+PASS  updateMemory bumps updatedAt
+PASS  queryMemories by tag returns only matching items
+PASS  queryMemories by agent narrows correctly
+PASS  queryMemories by project + pinned intersects indices
+PASS  queryMemories with an unindexed tag value returns empty, not everything
+PASS  queryMemories text search matches on content
+PASS  listTags/listAgents/listProjects reflect stored memories
+PASS  deleteMemory removes the record
+PASS  deleteMemory removes it from the tag index too
+PASS  working memory round-trips
+PASS  stats.memoryCount matches queryMemories({}).length
+PASS  stats.shortTermCacheLoad is a number between 0 and 1
+PASS  cleanup() runs without throwing and returns a result object
+PASS  cleanup() does not delete live, non-expired memories
+PASS  cleanup() expires ephemeral memories past their ttl
+PASS  onChange fires on memory:added
+PASS  unsubscribe stops further notifications
+PASS  exportAll includes sessions, conversations, messages, memories
+PASS  importAll succeeds
+PASS  importAll restores the same memory count
+PASS  a fresh engine instance reads back persisted memories from localStorage
+
+ALL CHECKS PASSED
+
+=== block2-step3-part2-memory-integration-regression-suite.js ===
+PASS  AxiomBrain loaded
+PASS  AxiomAIState loaded
+PASS  AxiomMemoryEngine loaded
+PASS  AxiomBrainMemoryBridge loaded
+PASS  Memory was auto-initialized by the bridge
+PASS  Brain reflects the active conversation id
+PASS  Memory created the conversation record
+PASS  conversation createdAt is a real, recent timestamp
+PASS  Brain reflects the active model
+PASS  both the user prompt and the AI response were recorded
+PASS  user prompt content matches exactly what was rendered
+PASS  AI response content matches exactly what was rendered
+PASS  the AI response is tagged with the real active model
+PASS  re-firing the same message id does not duplicate it
+PASS  conversation meta reflects live toolActive
+PASS  conversation meta reflects the live active tool
+PASS  conversation meta reflects the live active model
+PASS  conversation meta clears toolActive once the tool finishes
+PASS  a Brain change refreshes the Memory session heartbeat
+PASS  three genuine transitions -> exactly three new lifecycle entries (no dup on repeat)
+PASS  lifecycle entries are ttl-bearing (not permanent long-term memories)
+PASS  Brain switches to the new active conversation
+PASS  the new message went to the new conversation, not the old one
+PASS  the original conversation history is untouched by the switch
+PASS  conversation:done ends the conversation with a real endedAt timestamp
+PASS  a full burst settles into a coherent, correctly-ordered history
+PASS  the burst conversation ended cleanly
+PASS  bridge reports messagesRecorded > 0
+PASS  bridge reports conversationsSeen for all three conversations
+PASS  destroy() stops the bridge from recording further messages
+
+ALL CHECKS PASSED
+
+=== block2-step3-part3-memory-manager-regression-suite.js ===
+AXIOM Block 2 / Step 3 / Part 3 — Memory Manager regression suite
+======================================================================
+  PASS  AxiomMemoryEngine loads standalone
+  PASS  AxiomMemoryManager loads and exposes API_VERSION
+  PASS  Manager exposes every documented method
+  PASS  Part 1/Part 2 engine API is untouched (no methods removed)
+  PASS  getConversation returns conversation + messages
+  PASS  getConversation paginates messages
+  PASS  getConversation returns null for unknown id
+  PASS  listConversations includes the created conversation
+  PASS  listConversations titleContains filter narrows results
+  PASS  ensureConversation reuses an existing id (no duplicate)
+  PASS  ensureConversation creates when id is new
+  PASS  findMemories with no filter returns all memories
+  PASS  findMemories filters by project
+  PASS  findMemories filters by agent
+  PASS  findMemories sorts by importance descending
+  PASS  findMemories paginates
+  PASS  registerMemory dedupes an exact repeat
+  PASS  listSessions includes the current live session
+  PASS  listSessions derives status and duration
+  PASS  getSession returns a single session by id
+  PASS  getSession returns null for unknown id
+  PASS  getMetadataSummary counts tags/agents/projects/types
+  PASS  getMetadataSummary buckets importance/confidence
+  PASS  getOverview merges engine stats with top-N roll-ups
+  PASS  runCleanup reports a before/after breakdown
+  PASS  runCleanup actually removed the expired memory
+  PASS  runCleanup is idempotent on a second call (no negative counts)
+  PASS  registerMemory called 50x with identical input creates exactly one record
+  PASS  ensureConversation called 50x with identical id creates exactly one record
+  PASS  findMemories over 2000 records completes quickly (no regression)
+======================================================================
+30 passed, 0 failed
+
+=== block2-step4-part1-automation-foundation-regression-suite.js ===
+AXIOM Block 2 / Step 4 / Part 1 — Automation Foundation regression
+
+  PASS  engine exposes the documented public API
+  PASS  init() starts with a clean, empty state
+  PASS  createWorkflow persists a draft workflow
+  PASS  updateWorkflow merges a patch without clobbering other fields
+  PASS  publishWorkflow flips status to active
+  PASS  enqueueRun rejects a workflow with no steps
+  PASS  a queued run genuinely transitions queued -> running -> success
+  PASS  a step that fails all retry attempts genuinely fails the run (no fake success)
+  PASS  a condition that is not met fails the run honestly
+  PASS  cancelRun stops a queued run before it ever executes
+  PASS  cancelRun stops an in-flight run cooperatively
+  PASS  retryRun enqueues a fresh run cloned from a failed one
+  PASS  getQueueState reports real pending/running counts, not fixed numbers
+  PASS  deleteWorkflow removes it from listWorkflows
+  PASS  exportAll/importAll round-trip workflow + run state
+  PASS  workflows and run history survive a simulated page reload
+  PASS  a run left queued/running across a reload is recovered honestly as failed, never as a fake success
+
+17 passed, 0 failed
+
+=== block2-step4-part2-brain-automation-integration-regression-suite.js ===
+PASS  AxiomBrain loaded
+PASS  AxiomAutomationBuilderEngine loaded
+PASS  AxiomBrainAutomationBridge loaded
+PASS  Brain has a default idle automation state before any run
+PASS  Brain reflects the run that was actually just created
+PASS  Brain reflects the real workflow id
+PASS  Brain reflects the real workflow name
+PASS  Brain status is 'queued' immediately after enqueueRun (before it starts running)
+PASS  Brain transitions to 'running' once the engine actually starts the run
+PASS  run really is running per the engine itself (not just Brain saying so)
+PASS  engine run actually reached 'paused' (not just requested)
+PASS  Brain reflects the real 'paused' status
+PASS  a paused run does not silently keep advancing steps
+PASS  Brain reflects 'running' again immediately after resume
+PASS  run completed for real (engine says 'success')
+PASS  Brain reflects 'success' from the same real completion
+PASS  every step actually ran (no step skipped by the pause/resume path)
+PASS  run whose condition genuinely failed actually failed per the engine
+PASS  Brain reflects 'failed' for the run that actually failed
+PASS  cancelled run actually stopped per the engine
+PASS  Brain reflects 'cancelled' for the run that was actually cancelled
+PASS  run4 actually reached paused before being cancelled
+PASS  cancelling a paused run actually unparks and cancels it (not stuck)
+PASS  Brain reflects 'cancelled' for the paused-then-cancelled run
+PASS  Brain queue.running matches the real engine queue state
+PASS  Brain queue.pending reflects a genuine backlog under concurrency 1
+PASS  queue drains back to 0 pending / 0 running once the burst settles
+PASS  pauseRun() on an already-settled run returns false (no fake pause)
+PASS  bridge reports runEventsObserved > 0
+PASS  bridge reports queueEventsObserved > 0
+PASS  destroy() stops the bridge from writing further Brain updates
+
+ALL CHECKS PASSED
+
+=== block2-step4-part3-automation-memory-integration-regression-suite.js ===
+PASS  AxiomMemoryEngine loaded
+PASS  AxiomAutomationBuilderEngine loaded
+PASS  AxiomAutomationMemoryBridge loaded
+PASS  run actually completed per the engine
+PASS  Memory has a run-history record for the real run id
+PASS  record reflects the real workflow id/name
+PASS  record reflects the real terminal status
+PASS  record has a real, non-fabricated runtime
+PASS  record captures both real steps with their own success status
+PASS  run-history record is durable (no ttl)
+PASS  run genuinely failed per the engine
+PASS  failed run has a Memory record
+PASS  record carries the real run-level error message
+PASS  record carries the real failing step's own error
+PASS  failed runs are recorded with higher importance than success
+PASS  run3 actually reached paused before inspecting Memory
+PASS  a real pause produced exactly one action record
+PASS  the pause action record names the real step it paused at
+PASS  a real resume produced exactly one action record
+PASS  run3 actually ended up cancelled per the engine
+PASS  cancellation is captured in the run's own terminal history record
+PASS  no fabricated standalone "cancelled" action record was invented
+PASS  listExecutionHistory filters by real workflow id
+PASS  listExecutionHistory includes both the success and the cancelled run for this workflow
+PASS  listExecutionHistory filters by real terminal status
+PASS  listExecutionHistory paginates (limit respected)
+PASS  writing the same stable id again overwrites in place, never duplicates
+PASS  getMemory still resolves the single record by its stable id
+PASS  a freshly-loaded bridge instance backfills existing terminal runs on seed
+PASS  bridge reports runsRecorded > 0
+PASS  bridge reports actionsRecorded > 0
+PASS  destroy() stops the bridge from recording further runs
+
+ALL CHECKS PASSED
+
+=== block2-step4-part4-automation-manager-regression-suite.js ===
+PASS  AxiomMemoryEngine loaded
+PASS  AxiomAutomationBuilderEngine loaded
+PASS  AxiomAutomationMemoryBridge loaded
+PASS  AxiomAutomationManager loaded
+PASS  workflows.create returns a real stored workflow
+PASS  new workflow starts as draft (not runnable yet)
+PASS  run.start refuses to start a draft (unpublished) workflow
+PASS  workflows.publish activates the real workflow
+PASS  run.start reports unknown-workflow for a bogus id
+PASS  run.start actually starts a run through the real engine
+PASS  the run manager started genuinely reached a terminal status per the engine
+PASS  first "click" genuinely starts a run
+PASS  second "click" while the first run is still in flight is refused
+PASS  the refused call reports the REAL in-flight run, not a fabricated one
+PASS  the engine itself shows only ONE in-flight run for this workflow (no duplicate was ever enqueued)
+PASS  opts.force explicitly bypasses the duplicate guard when the caller really wants a second run
+PASS  the seeded run genuinely failed per the engine
+PASS  run.retry starts a genuine new run cloned from the failed one
+PASS  retrying again while the retried run is still in flight is refused for the same reason
+PASS  run.pause reaches the real engine
+PASS  the run genuinely reached paused
+PASS  run.resume reaches the real engine
+PASS  run.cancel reaches the real engine
+PASS  the run genuinely ended up cancelled
+PASS  getRunProgress reports the real step count from the engine
+PASS  getRunProgress reports a real, non-negative elapsed time
+PASS  getActiveRuns includes the run actually in flight
+PASS  getRunProgress returns null once the run is no longer in flight (not a stale snapshot)
+PASS  getErrorRecoveryStats returns real, non-negative derived counters
+PASS  getStatus reports the real queue state
+PASS  getStatus reports the real engine stats
+PASS  getStatus reports this manager's own duplicate-guard counter, which is > 0 after the double-click test above
+PASS  getWorkflowStatus reports no in-flight run once everything for that workflow has settled
+PASS  getWorkflowStatus reports the real last run for that workflow
+PASS  getStatus returns null for an unknown workflow rather than throwing
+PASS  history.listExecutionHistory matches the Bridge's own real record for this workflow
+PASS  history.getExecutionHistory returns the Bridge's real stored record
+PASS  getStats reports runsStarted > 0
+PASS  getStats reports duplicatesBlocked > 0
+PASS  getStats reports retryCalls > 0
+PASS  onChange passes through the real engine pub/sub
+PASS  destroy() does not throw and Manager remains usable afterward
+
+ALL CHECKS PASSED
+
+=== block2-step5-part1-browser-foundation-regression-suite.js ===
+AXIOM Browser Engine Foundation — regression suite
+====================================================
+  PASS  init() is idempotent — a second call returns the same default session
+  PASS  init() creates a default session with exactly one starter tab
+  PASS  background (agent) sessions are isolated from the default session
+  PASS  endSession() closes all of its tabs and removes the session
+  PASS  createTab() without a url leaves the tab empty (no navigation)
+  PASS  closing the last tab in a session opens a fresh blank one, never leaves zero tabs
+  PASS  closing a non-active tab keeps the active tab unchanged
+  PASS  switchTab() rejects a tab id from a different session
+  PASS  navigate() normalizes bare domains and search queries correctly
+  PASS  back/forward walk the per-tab history stack correctly, including truncation on new navigation
+  PASS  goBack()/goForward() are no-ops at the ends of the stack
+  PASS  reportLoaded()/reportBlocked()/reportError() drive tab.status and getSnapshot().blocked
+  PASS  getSnapshot() shape matches what the pre-Engine browser-live.js returned
+  PASS  bookmarks: add / toggle / remove / list round-trip correctly
+  PASS  history: navigating records an entry; clearHistory() empties it
+  PASS  downloads: recordDownload()/listDownloads()/clearDownloads() work and are capped
+  PASS  bookmarks/history/downloads persist to a second, independent engine instance
+  PASS  legacy pre-Engine localStorage keys are migrated once, not overwritten on reload
+  PASS  onChange() fires for tab/navigation/bookmark events, and unsubscribe stops it
+  PASS  a single bad listener does not stop other listeners or crash the engine
+  PASS  a full realistic session (multiple tabs, nav, bookmarks, close) runs without throwing
+====================================================
+21 passed, 0 failed
+
+=== block2-step5-part2-navigation-session-regression-suite.js ===
+AXIOM Navigation & Session Manager (Part 2) — regression suite
+====================================================
+  PASS  validateUrl() rejects javascript:/data:/vbscript:/file: input outright
+  PASS  normalizeUrl() returns null for blocked protocols (never reaches the iframe)
+  PASS  a blocked-protocol navigate() is refused and does not touch tab state
+  PASS  engine.navigation.navigate() returns a rich {ok,url,reason} result
+  PASS  relative paths resolve against the active tab's current origin
+  PASS  a relative path with NO current page context falls through to a search query (unchanged Part 1 behavior)
+  PASS  plain normalizeUrl(input) with no second argument is byte-identical to Part 1 for ordinary input
+  PASS  a normal navigation walks started -> connecting -> loading -> content-ready -> completed
+  PASS  reportError() and reportBlocked() both land on the "failed" phase
+  PASS  stopLoading() only works mid-flight and sets status/phase to cancelled
+  PASS  reportRedirect() updates the current history entry in place, not a new stack entry
+  PASS  engine.loadingLifecycle exposes the phase list and getPhase()
+  PASS  duplicateTab() copies url/title/history and lands next to the source tab
+  PASS  duplicateTab() across sessions is refused
+  PASS  reorderTabs() moves a tab to a new index and clamps out-of-range indices
+  PASS  active session tracking is independent of each session's own active tab
+  PASS  ending the active session falls back to another non-background session
+  PASS  updateSessionMetadata() merges into a session's metadata without clobbering other keys
+  PASS  serializeSession()/restoreSession() round-trip a session's tabs into a NEW session
+  PASS  restoring a session does not spam global history (no re-visit recorded)
+  PASS  persistSessionSnapshot()/loadSessionSnapshot() round-trip through localStorage, independent of process
+  PASS  nothing is auto-persisted — a session is NOT saved unless persistSessionSnapshot() is explicitly called
+  PASS  getBackStack()/getForwardStack() reflect the real per-tab history position
+  PASS  getHistoryStats() aggregates real visit counts per host
+  PASS  engine.tabs.* / engine.sessions.* / engine.history.* operate on the SAME state as the flat methods
+  PASS  a single navigate() call emits exactly one tab:navigated and one navigation:started event
+  PASS  init() called many times never creates more than one default session (no duplicate session creation)
+  PASS  a realistic multi-feature workflow (validate, navigate, redirect, duplicate, reorder, restore) runs without throwing
+====================================================
+28 passed, 0 failed
+
+Re-running Part 1 suite against the Part 2 engine file for regression...
+AXIOM Browser Engine Foundation — regression suite
+====================================================
+  PASS  init() is idempotent — a second call returns the same default session
+  PASS  init() creates a default session with exactly one starter tab
+  PASS  background (agent) sessions are isolated from the default session
+  PASS  endSession() closes all of its tabs and removes the session
+  PASS  createTab() without a url leaves the tab empty (no navigation)
+  PASS  closing the last tab in a session opens a fresh blank one, never leaves zero tabs
+  PASS  closing a non-active tab keeps the active tab unchanged
+  PASS  switchTab() rejects a tab id from a different session
+  PASS  navigate() normalizes bare domains and search queries correctly
+  PASS  back/forward walk the per-tab history stack correctly, including truncation on new navigation
+  PASS  goBack()/goForward() are no-ops at the ends of the stack
+  PASS  reportLoaded()/reportBlocked()/reportError() drive tab.status and getSnapshot().blocked
+  PASS  getSnapshot() shape matches what the pre-Engine browser-live.js returned
+  PASS  bookmarks: add / toggle / remove / list round-trip correctly
+  PASS  history: navigating records an entry; clearHistory() empties it
+  PASS  downloads: recordDownload()/listDownloads()/clearDownloads() work and are capped
+  PASS  bookmarks/history/downloads persist to a second, independent engine instance
+  PASS  legacy pre-Engine localStorage keys are migrated once, not overwritten on reload
+  PASS  onChange() fires for tab/navigation/bookmark events, and unsubscribe stops it
+  PASS  a single bad listener does not stop other listeners or crash the engine
+  PASS  a full realistic session (multiple tabs, nav, bookmarks, close) runs without throwing
+====================================================
+21 passed, 0 failed
+
+====================================================
+TOTAL: 28 passed, 0 failed
+
+=== block2-step5-part6a-browser-audit-regression-suite.js ===
+  PASS  health() reports healthy when Engine + Sandbox are present, degraded when Sandbox is missing
+  PASS  getRuntimeInfo() reports the bumped API version and engine/sandbox load state
+  PASS  diagnostics() reflects real active session/tab counts and zero in-flight navigations at rest
+  PASS  getPerformance() records a navigation duration sample on navigation:completed
+  PASS  getPerformance() navigation sample buffer is capped and never grows unbounded
+  PASS  closing a tab mid-navigation clears its in-flight timing entry (no leak)
+  PASS  existing navigate/back/forward/metrics behavior is unchanged by the audit pass
+
+====================================================
+7 passed, 0 failed
+
+=== block2-step5-part6b-error-recovery-regression-suite.js ===
+AXIOM Block 2 / Step 5 / Part 6B — Browser Error Recovery Regression Suite
+====================================================
+  PASS  navigate() against a throwing Engine returns a safe { ok:false } envelope, never throws
+  PASS  back/forward/refresh/stop/redirect against a throwing Engine return false, never throw
+  PASS  getCurrentUrl()/getNavigationStatus() against a throwing Engine degrade instead of throwing
+  PASS  session lifecycle (create/close/switch/getActive/getMetadata) survives a throwing Engine
+  PASS  restoreSession() with a malformed snapshot fails safe (null), never throws
+  PASS  history API (read/clear) survives a throwing Engine with safe fallbacks
+  PASS  tab API (create/close/switch/getActive/list/duplicate/reorder) survives a throwing Engine
+  PASS  diagnostics()/getMetrics() never throw even when every Engine call underneath does
+  PASS  a navigation that never settles is swept as stale after the timeout, not reported forever
+  PASS  executeBrowserOp() with an unknown op resolves a standardized error envelope, does not reject
+  PASS  BrowserToolRegistry.executeTool() never rejects for an unregistered tool
+  PASS  BrowserToolRegistry.executeTool() never rejects when a tool handler throws synchronously
+  PASS  BrowserToolRegistry.executeTool() never rejects when a tool handler returns a rejected promise
+  PASS  BrowserToolRegistry.executeTool() never rejects when the underlying handler resolves a BrowserManager failure envelope
+  PASS  executeBrowserOp() resolves a standardized envelope instead of rejecting, for every op
+====================================================
+15 passed, 0 failed
+
+=== block2-step6-part1-orchestrator-regression-suite.js ===
+AXIOM Block 2 / Step 6 / Part 1 — Orchestrator Core regression
+
+  PASS  module loads and auto-starts (no DOM branch)
+  PASS  registerAgent() validates and stores a full record
+  PASS  registerAgent() rejects duplicate ids and missing handler
+  PASS  registerAgent() emits agent_registered on the bus
+  PASS  event bus: on/off/once, duplicate subscription ignored
+[AxiomOrchestrator] event-bus-listener Error: listener blew up
+    at Object.fn (/home/claude/work/part2a/axiom/test-evidence/block2-step6-part1-orchestrator-regression-suite.js:117:32)
+    at Object.emit (orchestrator.js:105:17)
+    at /home/claude/work/part2a/axiom/test-evidence/block2-step6-part1-orchestrator-regression-suite.js:119:33
+    at getActual (node:assert:609:5)
+    at Function.doesNotThrow (node:assert:777:32)
+    at /home/claude/work/part2a/axiom/test-evidence/block2-step6-part1-orchestrator-regression-suite.js:119:12
+    at test (/home/claude/work/part2a/axiom/test-evidence/block2-step6-part1-orchestrator-regression-suite.js:44:11)
+    at main (/home/claude/work/part2a/axiom/test-evidence/block2-step6-part1-orchestrator-regression-suite.js:114:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) { event: 'boom' }
+  PASS  event bus: a throwing listener does not break emit() for others
+  PASS  dispatch() by explicit agentId runs the handler via the scheduler (not synchronously)
+  PASS  dispatch() by capability routes to a healthy matching agent
+  PASS  dispatch() throws when no agent matches and nothing is enqueued
+  PASS  task_started / task_completed lifecycle events fire in order
+  PASS  a rejected/throwing handler produces task_failed, not an unhandled rejection
+  PASS  retries: a failing task retries up to maxRetries before failing for good
+  PASS  timeout: a handler that never resolves is marked timed_out
+  PASS  priority: higher-priority queued task runs before a lower-priority one
+  PASS  cancel(): a queued task is removed and reports cancelled, never runs
+  PASS  unregisterAgent() cancels that agent's pending tasks and emits agent_removed
+  PASS  getHealthyAgents() excludes disabled/unhealthy agents
+  PASS  listAgents()/getAgent() never leak the raw handler function
+  PASS  dispatch() throws once the runtime has been shut down
+  PASS  shutdown() cancels in-flight/queued tasks and startup() can resume it
+  PASS  getStats() reflects agent and task counts accurately
+
+21/21 assertions passing
+
+=== block2-step6-part2-agent-registry-integration-regression-suite.js ===
+AXIOM Block 2 / Step 6 / Part 2 — Agent Registry Integration regression
+
+[AgentRegistryIntegration] AxiomOrchestrator (os/core/orchestrator.js) not found — load it before agent-registry-integration.js. 
+  PASS  module loads and requires AxiomOrchestrator to be present first
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  auto-registration on load registers every present subsystem
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  missing subsystem globals are skipped, not fabricated
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  Browser Agent is registered with real tools/capabilities and healthy status
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a degraded subsystem health() maps to a degraded registry health at registration time
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  an unavailable subsystem health() maps to unhealthy
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+[AgentRegistryIntegration] Agent "browser" already registered — skipping. 
+[AgentRegistryIntegration] Agent "brain" already registered — skipping. 
+[AgentRegistryIntegration] Agent "memory" already registered — skipping. 
+[AgentRegistryIntegration] Agent "automation" already registered — skipping. 
+[AgentRegistryIntegration] Agent "analytics" already registered — skipping. 
+[AgentRegistryIntegration] Agent "system" already registered — skipping. 
+  PASS  registration is idempotent — calling registerAll() again does not throw or duplicate
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  registered handlers are never invoked by registration itself (no execution-flow change)
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a registered handler forwards a real dispatch() to the underlying subsystem (dormant, not auto-run)
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  discoverAgents() supports capability/health/status filters
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  discoverCapabilities() returns a deduplicated, sorted list across all agents
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  findAgentByCapability() matches the same agents as discoverAgents({capability})
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getAgentHealth() returns a focused snapshot, null for unknown id
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getSystemHealth() aggregates counts and overall status correctly
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  listAvailableTools() maps every tool to its owning agent, deduplicated
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  syncHealth() re-probes and updates health after a subsystem degrades post-registration
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  discovery API additions never expose the raw handler function
+[AgentRegistryIntegration] Registered agent "browser". 
+[AgentRegistryIntegration] Registered agent "brain". 
+[AgentRegistryIntegration] Registered agent "memory". 
+[AgentRegistryIntegration] Registered agent "automation". 
+[AgentRegistryIntegration] Registered agent "analytics". 
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  Part 1 Orchestrator behavior is completely unmodified: manual registerAgent() still works
+
+18/18 assertions passing
+
+=== block2-step6-part3-capability-routing-regression-suite.js ===
+AXIOM Block 2 / Step 6 / Part 3 — Capability Routing & Intelligent Task Dispatch regression
+
+[CapabilityRouter] AxiomOrchestrator (os/core/orchestrator.js) not found — load it before capability-router.js. 
+  PASS  module loads and requires AxiomOrchestrator to be present first
+  PASS  installs a routing API onto the existing AxiomOrchestrator without editing orchestrator.js behavior
+  PASS  resolveExecutionPlan() produces an immutable plan with required fields
+  PASS  resolveCapability() infers capability from a type that matches a known capability
+  PASS  resolveCapability() throws a clear error when nothing can be resolved
+  PASS  selectAgent() excludes agents lacking the required permission
+  PASS  selectAgent() is deterministic: fewer-workload agent wins, then lexical agent id
+  PASS  selectAgent() falls back to lexical agent id ordering when everything else ties
+  PASS  setAgentPriority()/getAgentPriority() let a higher-priority agent win a tie
+  PASS  route() dispatches through the real Scheduler and completes successfully
+  PASS  route() with an explicit agentId never fails over on failure
+[CapabilityRouter] Failing over request "req-msh2g19z-1" from agent unavailability (agent-a is broken) to alternate agent "agent-b". 
+  PASS  route() fails over to an alternate healthy agent when the chosen agent errors out
+  PASS  route() returns a standardized graceful failure when no eligible agent exists at all — never throws
+  PASS  route() malformed input throws synchronously, same posture as dispatch()
+  PASS  cancelRequest() cancels the underlying task through the real Scheduler
+  PASS  retryRequest() re-plans a failed capability-based request and can land on a different agent
+  PASS  getTaskMetrics() aggregates completed/failed/failedOver counts across routed requests
+  PASS  getExecutionHistory() returns finished requests, most recent first, bounded by limit
+  PASS  getQueueStatus() reports per-agent queued/running counts using only public listTasks()
+  PASS  a misbehaving handler never crashes the Orchestrator — synchronous throw is contained
+
+20/20 assertions passing
+
+=== block2-step6-part4-workflow-planner-regression-suite.js ===
+AXIOM Block 2 / Step 6 / Part 4 — Multi-Agent Collaboration & Workflow Orchestration regression
+
+  PASS  module requires AxiomOrchestrator to already be loaded
+  PASS  installs a workflow API onto the existing AxiomOrchestrator without editing Part 1/Part 3 behavior
+  PASS  createWorkflow() rejects empty stage lists and duplicate stage ids
+  PASS  createWorkflow() detects circular dependencies at creation time
+  PASS  createWorkflow() rejects a stage that depends on an unknown stage id
+  PASS  validateWorkflow() flags a stage whose capability has no eligible agent
+  PASS  optimizeWorkflow() groups independent stages into the same wave
+[AxiomWorkflowPlanner] sync-runtime-context: Runtime Context payload at "$.summarize.saw" is not JSON-safe (circular reference). Runtime Context only supports plain objects/arrays/strings/numbers/booleans/null — see RUNTIME_CONTEXT.md "Supported payloads". { contextId: 'ctx_msh2g1sh_1' }
+[AxiomWorkflowPlanner] sync-runtime-context: Runtime Context payload at "$.summarize.saw" is not JSON-safe (circular reference). Runtime Context only supports plain objects/arrays/strings/numbers/booleans/null — see RUNTIME_CONTEXT.md "Supported payloads". { contextId: 'ctx_msh2g1sh_1' }
+  PASS  executeWorkflow() runs a full sequential collaboration chain and propagates context between stages
+  PASS  a stage only receives the payload its own input() selects — not the whole shared context object
+  PASS  dependency resolution: a stage never starts before all of its dependsOn stages have finished
+  PASS  optional stage that exhausts recovery is skipped, and the workflow still completes
+  PASS  a required (non-optional) stage failure fails the workflow gracefully and skips downstream stages
+  PASS  retry recovery: a stage that fails once and succeeds on retry completes without failing the workflow
+  PASS  alternate-agent recovery: an explicit-agent stage fails over to alternateAgentIds
+  PASS  a failing stage never crashes the Orchestrator — subsequent dispatch()/route() calls keep working
+  PASS  pauseWorkflow()/resumeWorkflow() park and resume execution between stage boundaries
+  PASS  cancelWorkflow() on a not-yet-started workflow resolves synchronously to cancelled
+  PASS  cancelWorkflow() on a paused workflow wakes it up and marks it cancelled without running remaining stages
+  PASS  getWorkflow()/listWorkflows()/getWorkflowStatus()/getActiveWorkflows() report accurate live state
+  PASS  getWorkflowMetrics() aggregates workflow and stage counts across every created workflow
+  PASS  works without capability-router.js loaded, falling back to raw AxiomOrchestrator.dispatch()
+  PASS  workflow lifecycle events fire in the expected order for a two-stage happy path
+  PASS  FIX 3/4: module requires runtime-context.js to be loaded first
+  PASS  FIX 3/4: workflow-planner.js no longer defines its own createContext (no naming collision)
+  PASS  FIX 3: executeWorkflow() creates a real Runtime Context for the run and it is visible mid-flight
+  PASS  FIX 3: a completed workflow's Runtime Context is destroyed (create -> update -> destroy lifecycle)
+  PASS  FIX 3: a failed workflow's Runtime Context is finalized as failed, then destroyed
+  PASS  FIX 3: a cancelled-before-start workflow never leaks an orphaned Runtime Context
+  PASS  FIX 3: exactly one Runtime Context exists at a time per in-flight workflow run
+
+29 passed, 0 failed.
+
+=== block2-step6-part5-runtime-context-regression-suite.js ===
+AXIOM Block 2 / Step 6 / Part 5 — Runtime Context Engine regression
+
+  PASS  works standalone without AxiomOrchestrator loaded (window.AxiomRuntimeContext only)
+  PASS  installs a context API onto AxiomOrchestrator without editing Part 1 behavior
+  PASS  createContext() populates all required identity fields
+  PASS  getContext() returns a frozen, immutable snapshot — never the live object
+  PASS  updateContext() merges state/metadata/temporaryData without clobbering untouched keys
+  PASS  clearContext() wipes state/temporaryData but preserves identity and status
+  PASS  cloneContext() deep-clones state into a brand-new, independent contextId
+  PASS  legal lifecycle transitions succeed in order: created -> ready -> running -> completed
+[AxiomRuntimeContext] illegal transition created -> completed for ctx_msh2g20e_1 
+  PASS  illegal transitions fail safely (no throw) and leave status unchanged
+  PASS  DESTROYED is terminal — no transition is legal out of it
+[AxiomRuntimeContext] illegal transition created -> completed for ctx_msh2g20h_1 
+[AxiomRuntimeContext] updateContext: ignored illegal status transition {
+  success: false,
+  error: 'illegal_transition',
+  contextId: 'ctx_msh2g20h_1',
+  from: 'created',
+  to: 'completed'
+}
+  PASS  updateContext({status}) routes through validated transitions rather than a raw write
+  PASS  each createContext() call is fully isolated — no shared state between contexts
+  PASS  createChildContext() links parent/child without sharing state by reference
+  PASS  createChildContext() rejects a parent that does not exist
+  PASS  getContextsByWorkflow() scopes lookups to a single workflow
+  PASS  reaching a terminal status auto-archives the context out of getActiveContexts()
+  PASS  recoverContext() brings an archived context back into READY for reuse
+  PASS  recoverContext() returns null for a context that was never archived
+  PASS  cleanupExpiredContexts() destroys only archived contexts past their TTL, never active ones
+  PASS  createContext({timeoutMs}) auto-fails and archives a context that overstays its budget
+  PASS  destroyContext() force-terminates a live context and removes it from every store
+  PASS  destroyContext() of one context never disturbs a sibling context
+  PASS  getContextMetrics() tracks creation/completion/failure/cancellation/destruction counts
+  PASS  listContexts() filters by status and workflowId
+  PASS  getContextHistory() returns a bounded, most-recent-first audit trail
+  PASS  getContextStatus() gives a lightweight lookup distinct from the full snapshot
+  PASS  context_* events fire on the shared AxiomOrchestrator event bus
+  PASS  module does not throw or require Orchestrator to be present (unlike workflow-planner.js)
+  PASS  FIX 1: destroyContext() removes the destroyed id from its parent childIndex
+  PASS  FIX 1: destroying a context with children prunes its own orphaned childIndex entry
+  PASS  FIX 1: repeated create/destroy cycles never grow childIndex without bound
+  PASS  FIX 1: destroying one child never disturbs its siblings' visibility under the parent
+  PASS  FIX 2: automatic cleanup starts as soon as the module loads
+  PASS  FIX 2: automatic cleanup interval is configurable at load time
+  PASS  FIX 2: automatic cleanup never removes an active (non-terminal) context
+  PASS  FIX 2: startAutoCleanup() never leaves more than one timer running (no duplicate timers)
+  PASS  FIX 2: stopAutoCleanup() is a safe no-op when nothing is running
+  PASS  FIX 2: recovery still works normally after an automatic cleanup sweep has run
+  PASS  FIX 5: createContext() fails safely (throws) on a non-JSON-safe state payload instead of corrupting it
+  PASS  FIX 5: updateContext() fails safely (throws) on a circular payload instead of a silent shallow copy
+  PASS  FIX 5: an illegal clone payload never produces a partially-cloned or unfrozen snapshot
+  PASS  FIX 5: createChildContext() propagates the same JSON-safe validation, and a rejected child is never linked into the parent
+
+42 passed, 0 failed.
+
+=== block2-step7-part2-task-planner-regression-suite.js ===
+AXIOM Block 2 / Step 7 / Part 2 — Autonomous AI Task Planning & Execution regression
+
+[AutonomousTaskPlanner] requires os/core/orchestrator.js, capability-router.js, and agent-registry-integration.js loaded first. 
+  PASS  module refuses to install without AxiomOrchestrator.route (capability-router.js) present
+[AgentRegistryIntegration] Registered agent "system". 
+[AutonomousTaskPlanner] requires os/core/runtime-context.js loaded first. 
+  PASS  module refuses to install without AxiomRuntimeContext present
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  module installs onto AxiomOrchestrator and exposes a standalone global once all dependencies are present
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decomposeGoal(): "then" splits a goal into ordered, dependency-chained clauses
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decomposeGoal(): "and"/comma splits into INDEPENDENT clauses (no forced sequencing)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decomposeGoal(): capability matching is derived live from discoverCapabilities(), never hardcoded
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decomposeGoal(): a clause with no matching live capability is marked unresolvable, not guessed
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  planGoal(): builds a task per clause and wires sequential dependsOn correctly
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  executeGoal(): sequential clauses run in order — second task never dispatches before the first completes
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  executeGoal(): independent clauses ("and") run truly in parallel, not one-at-a-time
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  task states progress Pending -> Queued -> Running -> Completed, observed via emitted events
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a task blocked on an unfinished dependency is reported Waiting before it is dispatched
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a task with no resolvable capability fails the goal gracefully (no crash, no dispatch)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a downstream task is Cancelled (not silently skipped) when its dependency fails, and the flaky agent is never re-run beyond its own retry budget
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  cancelGoal(): a running task is cancelled through capability-router.js (not force-killed), queued/waiting tasks cancel immediately
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  retryGoal(): re-executes only the clause that failed, not the clause that already succeeded
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getGoalStatus()/getGoalTasks()/listGoals() reflect the same state executeGoal() resolves with
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  Runtime Context: exactly one real context exists per in-flight goal, and it is destroyed (not leaked) once the goal settles
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  no duplicate listeners: two concurrent goals each invoke their agents exactly once (single shared route_completed/route_failed listener)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  executeGoal() rejects a plan that decomposed into zero tasks instead of hanging forever
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  existing Part 1/3/5 regression posture: task-planner.js never edits orchestrator.js, capability-router.js, or runtime-context.js at runtime
+
+21/21 assertions passing
+
+=== block2-step7-part3a-goal-manager-regression-suite.js ===
+AXIOM Block 2 / Step 7 / Part 3A — Autonomous Goal Management System (Foundation) regression
+
+[AxiomGoalManager] requires os/core/orchestrator.js (Event Bus) loaded first. 
+  PASS  module refuses to install without AxiomOrchestrator (Event Bus) present
+[AxiomGoalManager] requires os/core/runtime-context.js loaded first. 
+  PASS  module refuses to install without AxiomRuntimeContext present
+  PASS  module exposes a standalone global and installs NOTHING onto AxiomOrchestrator
+  PASS  createGoal(): returns a unique goal id and defaults status to Pending
+  PASS  createGoal(): falls back to a default title, and stores metadata verbatim
+  PASS  createGoal(): snapshot is immutable (deep frozen)
+  PASS  createChildGoal(): links parent and child both directions
+  PASS  createGoal(): rejects a parentId that does not exist
+  PASS  getParentGoal(): returns null for a root goal
+  PASS  listGoals({ rootOnly:true }): excludes child goals
+  PASS  updateGoalMetadata(): merges into existing metadata without dropping other keys
+  PASS  updateGoalMetadata(): rejects non-JSON-safe metadata instead of silently corrupting it
+  PASS  full happy-path lifecycle: Pending -> Queued -> Running -> Completed
+  PASS  Waiting round-trip: Running -> Waiting -> Queued -> Running -> Completed
+  PASS  failGoal(): Running -> Failed records the error and finishedAt
+  PASS  cancelGoal(): Pending -> Cancelled is legal directly (never queued/started)
+  PASS  illegal transitions are refused, not silently coerced (Completed -> Running)
+  PASS  illegal transitions are refused (Pending -> Running, skipping Queued)
+  PASS  transitionGoal(): unknown goal id throws; unknown status string throws
+  PASS  Goal Registry: listGoals({status}) filters correctly across many goals
+  PASS  Goal Registry: terminal goals stay queryable (never evicted by this Part)
+  PASS  Goal History: records created + every transition, most-recent first
+  PASS  Goal History: getGoalHistory(filter, limit) applies both filter and limit
+  PASS  Runtime Context: exactly one context is created per goal and is reachable via contextId
+  PASS  Runtime Context: sync mirrors goal status/metadata into the context on every change
+  PASS  Runtime Context: the context is finalized and destroyed once the goal reaches Completed
+  PASS  Runtime Context: the context is finalized and destroyed once the goal reaches Cancelled
+  PASS  Runtime Context: parent and child goals get their own independent contexts
+  PASS  Event Bus: goalmgr_created and goalmgr_child_created fire on creation
+  PASS  Event Bus: goalmgr_<status> fires exactly once per transition, in order
+  PASS  Event Bus: a refused/illegal transition does NOT emit a goalmgr_<status> event
+  PASS  getGoalMetrics(): totals and byStatus counts stay accurate across a mixed batch
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  loaded alongside task-planner.js: neither module clobbers the other's Orchestrator surface
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  loaded alongside task-planner.js: goalmgr_* and task-planner's goal_* events never cross-fire
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  loaded alongside task-planner.js: task-planner.js's own regression posture is unaffected (route/scheduler still work)
+
+35/35 assertions passing
+
+=== block2-step7-part3b-goal-scheduling-regression-suite.js ===
+AXIOM Block 2 / Step 7 / Part 3B — Autonomous Goal Management System (Scheduling & Prioritization) regression
+
+  PASS  GOAL_PRIORITY: createGoal() defaults to NORMAL priority
+  PASS  GOAL_PRIORITY: createGoal() accepts an explicit valid priority
+  PASS  GOAL_PRIORITY: createGoal() rejects an unknown priority value
+  PASS  setGoalPriority(): changes priority and is reflected on the goal
+  PASS  setGoalPriority(): rejects a terminal goal
+  PASS  setGoalPriority(): rejects an unknown priority value
+  PASS  getGoalQueue(): orders queued goals by priority (desc), then createdAt (asc)
+  PASS  getGoalQueue(): excludes non-Queued goals
+  PASS  enqueueGoal(): moves a Pending goal to Queued and is idempotent when already Queued
+  PASS  dequeueNextGoal(): pops the highest-priority queued goal and transitions it to Running
+  PASS  dequeueNextGoal(): returns a failure result (not a throw) on an empty queue
+  PASS  addGoalDependency(): records the edge in both directions
+  PASS  addGoalDependency(): is idempotent for the same edge added twice
+  PASS  addGoalDependency(): rejects a goal depending on itself
+  PASS  addGoalDependency(): rejects an unknown goal on either side
+  PASS  removeGoalDependency(): removes the edge in both directions
+  PASS  getGoalDependencies(): satisfied flips to true once the prerequisite completes
+  PASS  isGoalBlocked(): true while any dependency is unresolved, false once all are Completed
+  PASS  addGoalDependency(): rejects a direct circular dependency (A<->B)
+  PASS  addGoalDependency(): rejects a transitive circular dependency (A->B->C->A)
+  PASS  getGoalExecutionOrder(): a dependency is always ordered before its dependent
+  PASS  getGoalExecutionOrder(): a satisfied (Completed) dependency does not hold up its dependent's position
+  PASS  getGoalExecutionOrder(): independent goals with no dependencies fall back to priority ordering
+  PASS  getGoalExecutionOrder(): respects a diamond dependency graph (A -> {B,C} -> D)
+  PASS  scheduleGoal(): an unblocked Pending goal is admitted to Queued
+  PASS  scheduleGoal(): a goal with an unresolved dependency is parked in Waiting, not Queued
+  PASS  scheduleGoal(): once the dependency completes, re-scheduling admits the waiting goal
+  PASS  runGoalScheduler(): admits every unblocked goal and parks every blocked one, in dependency order
+  PASS  pauseGoal(): Running -> Waiting, flagged isPaused, resumeGoal(): Waiting -> Queued
+  PASS  pauseGoal(): rejects a goal that is not Running or Queued
+  PASS  resumeGoal(): rejects a Waiting goal that is blocked on a dependency, not paused
+  PASS  resumeGoal(): rejects a goal that is not Waiting at all
+  PASS  cancelGoal(): still works exactly as Part 3A left it
+  PASS  retryGoal(): a Failed goal produces a fresh goal carrying title/metadata/priority/parent forward
+  PASS  retryGoal(): a Cancelled goal can also be retried
+  PASS  retryGoal(): rejects a goal that is not yet terminal
+  PASS  retryGoal(): carries the original's dependency edges forward onto the new goal
+  PASS  retryGoal(): repeated retries chain retryCount upward
+  PASS  createGoal({dedupeKey}): a second create with the same key returns the existing (non-terminal) goal
+  PASS  createGoal({dedupeKey}): scoped per parentId — same key under a different parent is not a duplicate
+  PASS  createGoal({dedupeKey}): once the original reaches a terminal status, the key is free again
+  PASS  createGoal(): omitting dedupeKey never triggers duplicate prevention (default, backward-compatible)
+  PASS  every new Part 3B read returns a deep-frozen snapshot, same discipline as Part 3A
+  PASS  Part 3B installs nothing onto AxiomOrchestrator either (same posture as Part 3A)
+  PASS  Event Bus: goalmgr_priority_changed, goalmgr_dependency_added, goalmgr_paused, goalmgr_resumed, goalmgr_retried all fire
+
+45/45 assertions passing
+
+=== block2-step7-part3c-decision-engine-regression-suite.js ===
+AXIOM Block 2 / Step 7 / Part 3C — Autonomous Decision Engine regression
+
+[AxiomDecisionEngine] requires os/core/orchestrator.js (Event Bus) loaded first. 
+  PASS  module does not install itself without AxiomOrchestrator present
+[AxiomDecisionEngine] requires os/core/goal-manager.js (Step 7 Part 3A/3B) loaded first. 
+  PASS  module does not install itself without AxiomGoalManager present
+[AxiomDecisionEngine] requires os/core/capability-router.js loaded first. 
+  PASS  module does not install itself without AxiomCapabilityRouter present
+  PASS  installs nothing onto AxiomOrchestrator (same standalone posture as goal-manager.js)
+  PASS  evaluateGoal(): a goal with no capability requirement is eligible with no agents registered at all
+  PASS  evaluateGoal(): a goal requiring an unregistered capability is ineligible with a clear reason
+  PASS  evaluateGoal(): a goal becomes eligible the moment a matching agent is registered at runtime (no code change)
+  PASS  evaluateGoal(): capability metadata alias "requiredCapability" is honored identically to "capability"
+  PASS  evaluateGoal(): distinguishes "no agent for capability" from "agent exists but ineligible" (disabled)
+  PASS  evaluateGoal(): honors a goal-specified requiredPermission via the real capability-router selectAgent()
+  PASS  evaluateGoal(): honors a goal-specified excludeAgents list
+  PASS  evaluateGoal(): a goal blocked by an unresolved dependency is ineligible
+  PASS  evaluateGoal(): a dependency completing makes the dependent eligible on the next evaluation
+  PASS  evaluateGoal(): a terminal goal is never eligible
+  PASS  evaluateGoal(): a paused (Waiting, isPaused) goal is ineligible with a distinct reason from dependency-blocked
+  PASS  evaluateGoal(): a Running goal is not (re-)eligible
+  PASS  evaluateGoal(): throws a clear error for an unknown goal id
+  PASS  getSystemLoad(): reflects the real, live AxiomRuntimeContext active-context count
+  PASS  getSystemLoad(): runningGoals matches AxiomGoalManager.listGoals({status: RUNNING}) exactly
+  PASS  setMaxConcurrentGoals()/getMaxConcurrentGoals(): defaults to unbounded (null), is settable and clamped to non-negative integers
+  PASS  evaluateGoal(): a goal is ineligible once running-goal count reaches the configured capacity
+  PASS  rankCandidateGoals(): follows the same dependency/priority ordering as getGoalExecutionOrder()
+  PASS  selectNextGoal(): picks the highest-priority fully-eligible candidate, skipping capability-blocked higher priority ones
+  PASS  selectNextGoal(): returns null when no candidate is eligible
+  PASS  selectNextGoal(): an independent branch behind a blocked dependency is still considered (diamond-safe)
+  PASS  admitGoal(): drives an eligible Pending goal through Queued into Running via the real status machine
+  PASS  admitGoal(): refuses (does not force) an ineligible goal, no status change occurs
+  PASS  admitGoal(): a goal already Queued is admitted straight to Running (scheduleGoal is a no-op for it)
+  PASS  runDecisionCycle(): admits scheduler-eligible Pending goals and reuses Part 3B runGoalScheduler() for Waiting/blocked ones
+  PASS  runDecisionCycle(): emits decisionengine_idle and returns admitted:null when nothing is eligible
+  PASS  runDecisionCycle(): repeated calls drain the queue one eligible goal at a time, highest priority first
+  PASS  runDecisionCycle(): a goal blocked purely by capacity becomes admittable once capacity frees up
+  PASS  getDecisionHistory(): records admitted/deferred/idle outcomes, most recent first, bounded
+  PASS  getDecisionMetrics(): counts cycles/admitted/deferred/idle accurately
+  PASS  every evaluateGoal()/getSystemLoad()/runDecisionCycle() read returns a deep-frozen snapshot
+  PASS  does not duplicate agent selection logic: evaluateGoal() agentId always matches AxiomCapabilityRouter.selectAgent() directly
+  PASS  does not duplicate ordering logic: admitting the selected goal never bypasses transitionGoal()'s validated state machine
+
+37/37 assertions passing
+
+=== block2-step7-part3d-execution-bridge-regression-suite.js ===
+AXIOM Block 2 / Step 7 / Part 3D — Decision Engine / Task Planner Execution Bridge regression
+
+[AxiomDecisionEngineExecutionBridge] requires os/core/orchestrator.js (Event Bus) loaded first. 
+  PASS  module does not install itself without AxiomOrchestrator present
+[AgentRegistryIntegration] Registered agent "system". 
+[AxiomDecisionEngineExecutionBridge] requires os/core/task-planner.js (Step 7 Part 2 — installs AxiomOrchestrator.executeGoal/getGoalStatus/cancelGoal/retryGoal) loaded first. 
+  PASS  module does not install itself without AxiomOrchestrator.executeGoal (task-planner.js) present
+[AgentRegistryIntegration] Registered agent "system". 
+[AxiomDecisionEngineExecutionBridge] requires os/core/goal-manager.js (Step 7 Part 3A/3B) loaded first. 
+  PASS  module does not install itself without AxiomGoalManager present
+[AgentRegistryIntegration] Registered agent "system". 
+[AxiomDecisionEngineExecutionBridge] requires os/core/autonomous-decision-engine.js (Step 7 Part 3C) loaded first. 
+  PASS  module does not install itself without AxiomDecisionEngine present
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  module installs cleanly once all dependencies are present, without editing any of them
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a goal admitted by the Decision Engine is automatically dispatched to the Task Planner
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a goal never admitted by the Decision Engine is never dispatched
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  multi-clause goal decomposes and executes sequentially through the real Task Planner
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  never double-dispatches the same admitted goal
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  progress is mirrored onto the Goal Record's own metadata as tasks complete
+  PASS  updateGoalMetadata()'s own side effect keeps the Goal Record's Runtime Context synced — no direct AxiomRuntimeContext calls in the bridge
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  execution progress events are published on the shared Event Bus
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a started execution publishes decisionengine_execution_started with the plan id
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a failed plan fails the Goal Record and publishes decisionengine_execution_failed
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  retries the whole goal as a fresh Goal Record, bounded by setMaxExecutionRetries()
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a goal's own metadata.maxRetries overrides the module default for just that goal
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  retries are re-admitted through AxiomDecisionEngine.admitGoal() — never AxiomGoalManager.markGoalRunning() directly
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  cancelExecution() cancels the in-flight plan and the Goal Record ends up Cancelled exactly once
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  cancelExecution() on a goal with no in-flight execution is a safe no-op
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  does not duplicate goal decomposition: dispatched plan's clauses match AxiomOrchestrator.decomposeGoal() directly
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  does not duplicate admission logic: dispatchGoal() never runs for a goal the Decision Engine has not admitted
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getExecutionForPlan() resolves the same execution record as getExecution()
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  execution + history snapshots are frozen (no accidental external mutation)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getExecutionMetrics() reports accurate dispatched/completed/failed/retried/exhausted counters
+
+24/24 assertions passing
+
+=== block2-step7-part3e-goal-manager-learning-regression-suite.js ===
+AXIOM Block 2 / Step 7 / Part 3E — Goal Manager Learning Layer regression
+
+[AxiomGoalManagerLearning] requires os/core/orchestrator.js (Event Bus) loaded first. 
+  PASS  module does not install itself without AxiomOrchestrator present
+[AxiomGoalManager] requires os/core/runtime-context.js loaded first. 
+[AxiomGoalManagerLearning] requires os/core/runtime-context.js loaded first. 
+  PASS  module does not install itself without AxiomRuntimeContext present
+[AgentRegistryIntegration] Registered agent "system". 
+[AxiomGoalManagerLearning] requires os/core/goal-manager.js (Step 7 Part 3A/3B) loaded first. 
+  PASS  module does not install itself without AxiomGoalManager present
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  module installs cleanly with the FULL stack present, without editing any dependency
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  module installs cleanly with ONLY goal-manager.js present (no Part 3C/3D)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a manually-completed goal (no Decision Engine/Bridge loaded) is recorded in execution history
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a goal with no capability metadata is grouped under the fixed "general" strategy
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a manually-failed goal increments failure stats for its strategy
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a manually-cancelled goal is recorded as a cancellation, not a failure
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a manual retry is recorded against the ORIGINAL goal's strategy
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  an autonomously-executed successful goal is recorded via goal-manager.js's own events
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  an autonomously-executed, exhausted-retry goal increments the "exhausted" counter (Part 3D enrichment)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  exhausted-retry tracking is simply absent (no throw) when Part 3D is not loaded
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getStrategyStats() for a never-seen strategy returns a neutral, zero-sample snapshot
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  score is a deterministic Laplace-smoothed statistic, not a black-box model
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  listStrategyStats() sorts most-successful-first
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  listFailingStrategies() only returns strategies at/above the failure threshold
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  recommendGoalOrder() reorders two independent, same-priority goals toward the historically stronger strategy
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  recommendGoalOrder() never reorders across different priority tiers
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  recommendGoalOrder() never violates a real dependency edge
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a swap threshold below the score gap is a no-op (churn control)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  optimizeGoalScheduling() queues goals in the learned order and returns the runGoalScheduler() shape
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  optimizeGoalScheduling() reports blocked goals exactly like runGoalScheduler()
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getRecommendedPriority() declines to recommend with too little history
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getRecommendedPriority() suggests HIGH for a strategy with a strong track record
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getRecommendedPriority() suggests LOW for a strategy with a poor track record
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  applyRecommendedPriority() actually calls setGoalPriority() and emits an event
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  applyRecommendedPriority() is a no-op when already at the recommended priority
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getRecommendedPriority() throws for an unknown goal id (same posture as the rest of the stack)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getLearningMetrics() folds in existing Goal Manager + Runtime Context metrics without re-deriving them
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getLearningMetrics() includes decisions/execution when Parts 3C/3D are loaded
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  every read-path result is frozen (no accidental external mutation)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  setSwapThreshold() rejects out-of-range values
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  setMinSamplesForRecommendation() rejects non-integers and negatives
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getExecutionHistory() supports goalId/strategy/outcome filters and a limit, most-recent-first
+
+35/35 assertions passing
+
+=== block2-step7-part3f-goal-manager-recovery-regression-suite.js ===
+AXIOM Block 2 / Step 7 / Part 3F — Adaptive Execution & Recovery Layer regression
+
+[AxiomGoalManagerRecovery] requires os/core/orchestrator.js (Event Bus) loaded first. 
+  PASS  module does not install itself without AxiomOrchestrator present
+[AxiomGoalManagerRecovery] requires os/core/runtime-context.js loaded first. 
+  PASS  module does not install itself without AxiomRuntimeContext present
+[AgentRegistryIntegration] Registered agent "system". 
+[AxiomGoalManagerRecovery] requires os/core/goal-manager.js (Step 7 Parts 3A/3B) loaded first. 
+  PASS  module does not install itself without AxiomGoalManager present
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  module installs cleanly with the FULL stack present, without editing any dependency
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  module installs cleanly with ONLY goal-manager.js present (no Part 3C/3D/3E)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  setStallThresholdMs()/getStallThresholdMs() round-trip and reject bad input
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  setMaxRecoveryAttempts()/getMaxRecoveryAttempts() round-trip and reject bad input
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  checkGoalHealth() returns a frozen diagnostic snapshot for a Pending goal
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  checkGoalHealth() marks a long-idle RUNNING goal as stalled once idle time exceeds the threshold
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  checkGoalHealth() does not mark a freshly-started RUNNING goal as stalled
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  checkGoalHealth() reports blocked=true by reusing isGoalBlocked() verbatim
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  checkGoalHealth() reports impossible=true when Part 3C is loaded and no agent advertises the required capability
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  checkGoalHealth().impossible is always false without Part 3C loaded (graceful degrade)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  monitorActiveGoals() returns a diagnostic per non-terminal goal and skips terminal ones
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  monitorActiveGoals() emits goal_blocked exactly once per blocked-state entry (de-duped across sweeps)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  monitorActiveGoals() cancels and emits goal_skipped for a permanently-impossible goal
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  startMonitoring()/stopMonitoring()/isMonitoring() drive monitorActiveGoals() on an interval and can be stopped
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a stalled RUNNING goal (no Bridge) is paused then resumed automatically, emitting goal_blocked then goal_resumed
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a stalled RUNNING goal (Bridge + Decision Engine loaded) has its stuck execution cancelled and is recovered as a fresh attempt once cancellation settles
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  attemptRecovery() mints a retry via the existing retry system and enqueues it (no Decision Engine)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  attemptRecovery() re-admits the retry through AxiomDecisionEngine.admitGoal() when Part 3C is loaded
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  attemptRecovery() relinks a dependent from the dead original onto the fresh retry
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  attemptRecovery() declines (returns null) for a goal that is not Failed
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  attemptRecovery() escalates to skipGoal() once retryCount reaches the configured ceiling
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  attemptRecovery() honours a per-goal metadata.maxRecoveryAttempts override
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  attemptRecovery() skips immediately (no endless retries) when the fresh retry candidate is itself permanently impossible
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decisionengine_execution_exhausted (Part 3D) automatically triggers attemptRecovery()
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  goalmgr_failed does NOT trigger automatic recovery when the Execution Bridge is loaded (avoids double-retry with the Bridge's own attemptRetry)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decisionengine_execution_exhausted is the ONLY trigger this module reacts to per exhaustion (no duplicate goal_recovered for the same event)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  goalmgr_failed DOES trigger automatic recovery for a manually-driven goal when no Execution Bridge is loaded
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  skipGoal() cancels the goal and releases ONLY dependents that opted in via metadata.optionalDependencies
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  skipGoal() calls the existing scheduler/reorder path as a side effect (condition change)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  reorderRemainingGoals() calls AxiomGoalManagerLearning.optimizeGoalScheduling() when Part 3E is loaded
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  reorderRemainingGoals() falls back to AxiomGoalManager.runGoalScheduler() when Part 3E is not loaded
+  PASS  goal_recovered/goal_resumed/goal_skipped/goal_blocked never collide with an existing emit('...') anywhere else in os/core
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  every read-path result (checkGoalHealth, getRecoveryHistory, getRecoveryMetrics) is frozen
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getRecoveryMetrics() accurately tracks counts across a stall + recover + skip scenario
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getRecoveryHistory() supports a limit and is most-recent-first
+
+38/38 assertions passing
+
+=== block2-step8-part1-decision-engine-regression-suite.js ===
+AXIOM Block 2 / Step 8 / Part 1 — Cognitive Decision Engine regression
+
+[AxiomCognitiveDecisionEngine] requires os/core/orchestrator.js (Event Bus) loaded first. 
+  PASS  module does not install itself without AxiomOrchestrator present
+[AgentRegistryIntegration] Registered agent "system". 
+[AxiomCognitiveDecisionEngine] requires os/core/runtime-context.js loaded first. 
+  PASS  module does not install itself without AxiomRuntimeContext present
+[AgentRegistryIntegration] Registered agent "system". 
+[AxiomCognitiveDecisionEngine] requires os/core/goal-manager.js loaded first. 
+  PASS  module does not install itself without AxiomGoalManager present
+[AgentRegistryIntegration] Registered agent "system". 
+[AxiomCognitiveDecisionEngine] requires os/core/capability-router.js loaded first. 
+  PASS  module does not install itself without AxiomCapabilityRouter present
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  installs cleanly with the full stack present, without editing any dependency
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  does NOT install onto window.AxiomDecisionEngine — that name stays Part 3C's own scheduling engine
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  installs standalone even when Part 3C (window.AxiomDecisionEngine) is entirely absent
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  emits only previously-unused event names (no collision with decisionengine_* or goalmgr_* namespaces)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  single-intent detection: coding request classifies as coding with one intent only
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  single-intent detection: browser request classifies as browser
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  unrecognized text classifies as unknown with low confidence
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  multi-intent detection: a request naming two distinct intents returns both
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  multi-intent detection: exactly one intent is flagged isPrimary, and it is the highest scorer
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  options.maxIntents on decide() caps how many intents are processed into goals
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  confidence scoring: a request with more/stronger keyword hits scores higher confidence than a weak one
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  confidence scoring: every confidence value is within [0, 1]
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  context extraction: URLs, file names, dates, and times are all recognized
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  context extraction: quoted phrases and capitalized multi-word phrases are extracted as entities
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  context extraction: a single capitalized sentence-leading word alone is not treated as an entity
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  context extraction: imperative commands are extracted from known action verbs
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  context extraction: application names are matched against the LIVE agent registry
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  context extraction: keywords excludes stopwords and short filler words
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  capability recommendation reads only from the LIVE registry (Orchestrator.discoverCapabilities())
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a brand-new capability registered at runtime becomes recommendable with zero code changes
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decide() capability recommendations for coding intent resolve to a real registered capability
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  agent recommendation matches AxiomCapabilityRouter.selectAgent() directly (no duplicated selection logic)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  agent recommendation is null when no agent exposes the recommended capability
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  recommendation never dispatches or routes: AxiomCapabilityRouter.route()/prepare() are never called by decide()
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  recommendation never admits/dispatches a goal: no goal created by decide() ever leaves PENDING
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decide() creates one real Goal Manager record per processed intent
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decide() goals carry decisionId/intent/confidence in metadata, traceable back to the decision
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  options.dryRun skips goal creation entirely — zero Goal Manager side effects
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decide() returns a fully-formed, frozen decision object
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decide() creates and completes a real Runtime Context record for the decision
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decide() throws a structural error on empty/invalid input, before creating any state
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decision_started fires before decision_completed, both carrying the same decisionId
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decision_completed payload reports primaryIntent, confidence, and the created goalIds
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decision_failed fires (with no decision_completed) when goal creation fails mid-decision
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  decision_failed marks the decision's Runtime Context record as failed, not left dangling
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getDecision()/getDecisionHistory() return the same decision decide() produced
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getMetrics() tracks started/completed/failed counts
+
+41/41 assertions passing
+
+=== block2-step8-part2-planning-regression-suite.js ===
+AXIOM Block 2 / Step 8 / Part 2 — Intelligent Planning regression
+
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  planning API installs alongside Part 1 without editing any dependency file
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  generateExecutionPlan() works without goal-manager-learning.js loaded (soft dependency)
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  "learning" strategy throws a clear structural error without goal-manager-learning.js
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  generateAlternativePlans() omits the "learning" strategy when the module is absent
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  sequential strategy: one goal per step, in Goal Manager's own execution order
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  parallel strategy: independent goals share one parallel step
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  parallel strategy produces a lower (or equal) estimated duration than sequential for the same goals
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  parallel strategy respects Goal Manager dependencies: a dependent goal is placed in a later step
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  sequential strategy never orders a dependent goal before its prerequisite
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a request containing only unknown goalIds throws before any plan is built
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  every generated plan carries reliability/efficiency/completionProbability/resourceUsage/confidence in [0,1]
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a goal with a live, healthy agent scores higher agentAvailability/capabilityAvailability than one with none
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  scorePlan() re-derives the same score fresh from a plan object
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  scorePlan() rejects a malformed plan object
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  generateAlternativePlans() returns sequential + parallel + learning, exactly one selected
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  generateAlternativePlans() selects the highest-overall-scoring plan
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  each rejected plan carries a non-empty, comparative reason
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  explainPlan() mentions the selected strategy, every rejection, the path, and a completion estimate
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  plan()'s own returned explanation matches explainPlan() called on the same selection
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  planning_started fires before planning_completed, both carrying the same planningId
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  plan_selected fires with the winning plan's id, strategy, and score
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  planning_failed fires (with no planning_completed) on invalid input, before any plan is built
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  planning_failed marks the planning cycle's own Runtime Context record as failed
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  a full decide() -> plan() cycle never calls dispatch/route/prepare/markGoalRunning
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getPlanning()/getPlanningHistory() round-trip a completed planning cycle
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  getPlanningMetrics() tracks started/completed/failed counts independently of decision metrics
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  empty/invalid planning input throws before any state (context, history) is created
+[AgentRegistryIntegration] Registered agent "system". 
+  PASS  plan() accepts a decide() Decision Object directly and carries its decisionId through
+
+28/28 assertions passing
+
+=== block2-step9-part2a-openrouter-core-regression-suite.js ===
+AXIOM Block 2 / Step 9 / Part 2A — OpenRouter Core Foundation regression
+
+PASS  errors: installs onto window.AxiomOpenRouter.errors
+PASS  errors: HTTP 401 classifies as "invalid_api_key"
+PASS  errors: HTTP 403 classifies as "forbidden"
+PASS  errors: HTTP 404 classifies as "not_found"
+PASS  errors: HTTP 408 classifies as "request_timeout"
+PASS  errors: HTTP 429 classifies as "rate_limited"
+PASS  errors: HTTP 500 classifies as "server_error"
+PASS  errors: HTTP 502 classifies as "bad_gateway"
+PASS  errors: HTTP 503 classifies as "service_unavailable"
+PASS  errors: HTTP 504 classifies as "gateway_timeout"
+PASS  errors: AbortError classifies as "timeout"
+PASS  errors: fetch-layer TypeError classifies as "network_error"
+PASS  errors: "Invalid API key" message body classifies as "invalid_api_key"
+PASS  errors: model-not-found message classifies as "model_unavailable"
+PASS  errors: unrecognized input classifies as "unknown"
+PASS  errors: retryable set is exactly {timeout,rate_limited,5xx,network,request_timeout}
+PASS  errors: classify() never throws on null/undefined/empty input
+PASS  errors: handle() emits openrouter_error on the shared AxiomOpenRouter bus
+PASS  api-manager: init() with no stored key resolves to NO_KEY and fires openrouter_initialized
+PASS  api-manager: setApiKey() with a key that validates persists it and transitions to CONNECTED, firing openrouter_connected
+PASS  api-manager: setApiKey() with a key OpenRouter rejects (401) does NOT persist it, transitions to INVALID_KEY
+PASS  api-manager: removeApiKey() clears storage and returns to NO_KEY, firing openrouter_disconnected
+PASS  api-manager: checkHealth() reflects a live 500 as ERROR without discarding the stored key
+PASS  api-manager: bus events are forwarded verbatim onto AxiomOrchestrator.emit (Event Bus reuse)
+PASS  api-manager: dispatches namespaced DOM CustomEvents (axiom:openrouter_*)
+PASS  api-manager: forwards to AxiomAnalyticsAutomation.addLog when present (Analytics reuse)
+PASS  api-manager: works standalone with no AxiomOrchestrator/Analytics/Supabase/RuntimeContext loaded
+PASS  api-manager: on/once/off pub-sub contract matches AxiomSupabaseConnection's documented shape
+PASS  api-manager: reuses AxiomSupabaseConnection session to scope key storage per-user without modifying it
+PASS  api-manager: falls back to an anonymous storage namespace when Supabase is absent or has no session
+PASS  api-manager: optionally wraps requests in AxiomRuntimeContext without requiring it
+PASS  model-manager: fetchModels() populates the cache and fires openrouter_models_loaded
+PASS  model-manager: fetchModels() serves from cache on a second call (no duplicate fetch) within the TTL
+PASS  model-manager: refreshModels() always bypasses the cache
+PASS  model-manager: concurrent fetchModels() calls share one in-flight request
+PASS  model-manager: getModelMetadata/getContextSize/getPricing/getCapabilities read the cached catalog
+PASS  model-manager: setDefaultModel() rejects an id outside the loaded catalog, accepts one inside it
+PASS  model-manager: getDefaultModel() falls back to a sane built-in before any catalog is loaded
+PASS  model-manager: default-model storage key never collides with js/core/model-selector.js's key
+PASS  model-manager: a fetch failure classifies through the shared error handler and rejects cleanly
+PASS  token-manager: countPromptTokens() returns a positive, deterministic estimate
+PASS  token-manager: recordUsage() accumulates global and per-model totals
+PASS  token-manager: estimateCost() multiplies real per-token pricing from model-manager.js
+PASS  token-manager: estimateCost() returns null (not 0) when pricing is unknown
+PASS  token-manager: estimateCost() degrades to null without throwing when model-manager.js is not loaded at all
+PASS  token-manager: recordUsage() attaches costUsd once pricing is known
+PASS  token-manager: resetStats() zeroes both global and per-model totals
+PASS  integration: all four files share one AxiomOpenRouter namespace regardless of load order
+PASS  integration: all five documented events exist and are reachable through window.AxiomOpenRouter.on()
+PASS  static: js/core/openrouter-client.js exists and was not touched by Part 2A (byte content unchanged)
+PASS  static: js/core/openrouter-config.js exists and was not touched by Part 2A (byte content unchanged)
+PASS  static: js/core/model-selector.js exists and was not touched by Part 2A (byte content unchanged)
+PASS  static: protected file os/core/browser-engine.js still present on disk
+PASS  static: protected file os/core/browser-manager.js still present on disk
+PASS  static: protected file os/core/browser-sandbox.js still present on disk
+PASS  static: protected file os/core/automation-engine.js still present on disk
+PASS  static: protected file os/core/automation-manager.js still present on disk
+PASS  static: protected file os/core/memory-engine.js still present on disk
+PASS  static: protected file os/core/memory-manager.js still present on disk
+PASS  static: protected file os/core/goal-manager.js still present on disk
+PASS  static: protected file os/core/goal-manager-learning.js still present on disk
+PASS  static: protected file os/core/goal-manager-recovery.js still present on disk
+PASS  static: protected file js/core/voice.js still present on disk
+PASS  static: protected file js/core/voice-controller.js still present on disk
+PASS  static: protected file js/core/supabase/connection-manager.js still present on disk
+PASS  static: protected file js/core/supabase/auth-service.js still present on disk
+PASS  static: protected file js/core/supabase/env.js still present on disk
+PASS  static: os/api/openrouter/ contains the four Part 2A files plus only Part 2B-1's chat-manager.js, nothing else
+PASS  static: os/api/openrouter/api-manager.js never touches localStorage key axiom_openrouter_selected_model in code (existing UI selector's key)
+PASS  static: os/api/openrouter/model-manager.js never touches localStorage key axiom_openrouter_selected_model in code (existing UI selector's key)
+PASS  static: os/api/openrouter/token-manager.js never touches localStorage key axiom_openrouter_selected_model in code (existing UI selector's key)
+PASS  static: os/api/openrouter/error-handler.js never touches localStorage key axiom_openrouter_selected_model in code (existing UI selector's key)
+
+72 passed, 0 failed.
+
+=== block2-step9-part2b1-chat-manager-regression-suite.js ===
+AXIOM Block 2 / Step 9 / Part 2B-1 — OpenRouter Chat Manager regression
+
+PASS  chat-manager: installs onto window.AxiomOpenRouter.chat standalone (no load-order dependency)
+PASS  chat-manager: state management (createChat/getHistory/resetChat) works with chat-manager.js loaded alone
+PASS  chat-manager: sendMessage() rejects with "core_not_loaded" when api-manager.js is absent
+PASS  chat-manager: createChat() assigns a chatId and fires openrouter_chat_created
+PASS  chat-manager: createChat() with an explicit chatId that already exists returns null (no clobber)
+PASS  chat-manager: getChat() returns null for an unknown chatId
+PASS  chat-manager: listChats() reflects every created conversation with a message count
+PASS  chat-manager: deleteChat() removes the conversation; getChat()/getHistory() then return null
+PASS  chat-manager: setSystemPrompt()/configureChat() update saved state and return true/snapshot
+PASS  chat-manager: sendMessage() posts to /chat/completions with system prompt + full history + params
+PASS  chat-manager: sendMessage() omits temperature/top_p/max_tokens/stop entirely when unset (no silent 0/null)
+PASS  chat-manager: multi-turn — a second sendMessage() includes the first turn's user+assistant messages in the request
+PASS  chat-manager: sendMessage() resolves with the assistant message and usage totals
+PASS  chat-manager: per-call overrides apply to that request only and never mutate the saved conversation config
+PASS  chat-manager: openrouter_request_started/completed fire with matching requestId and model
+PASS  chat-manager: resetChat() clears turns but keeps the system prompt by default, fires openrouter_chat_reset
+PASS  chat-manager: resetChat({clearSystemPrompt:true}) also clears the system prompt
+PASS  chat-manager: resetChat() on an unknown chatId returns false, does not throw
+PASS  chat-manager: two conversations never share history, model, or params
+PASS  chat-manager: interleaved sendMessage() calls across two conversations keep each history correctly ordered
+PASS  chat-manager: sendMessage() rejects "invalid_api_key" when no key is stored
+PASS  chat-manager: sendMessage() rejects "chat_not_found" for an unknown chatId
+PASS  chat-manager: sendMessage() rejects "invalid_message" for empty/non-string content
+PASS  chat-manager: a failed request (HTTP 500) is classified, emits openrouter_error, and keeps the user turn for retry without adding an assistant turn
+PASS  chat-manager: a network failure classifies as "network_error" via the reused error-handler.js
+PASS  chat-manager: successful sendMessage() rolls usage into token-manager.js's existing accounting
+PASS  chat-manager: a chat created without a model falls back to model-manager.js's getDefaultModel()
+PASS  chat-manager: sendMessage() still works (falls back to its own default) if model-manager.js is not loaded
+PASS  chat-manager: load-order independence — chat-manager.js loaded BEFORE api-manager.js still works once both are present
+PASS  static: js/core/openrouter-client.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: js/core/openrouter-config.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: js/core/model-selector.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: os/api/openrouter/api-manager.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: os/api/openrouter/model-manager.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: os/api/openrouter/token-manager.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: os/api/openrouter/error-handler.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: protected file os/core/browser-engine.js still present on disk
+PASS  static: protected file os/core/browser-manager.js still present on disk
+PASS  static: protected file os/core/browser-sandbox.js still present on disk
+PASS  static: protected file os/core/automation-engine.js still present on disk
+PASS  static: protected file os/core/automation-manager.js still present on disk
+PASS  static: protected file os/core/memory-engine.js still present on disk
+PASS  static: protected file os/core/memory-manager.js still present on disk
+PASS  static: protected file os/core/goal-manager.js still present on disk
+PASS  static: protected file os/core/goal-manager-learning.js still present on disk
+PASS  static: protected file os/core/goal-manager-recovery.js still present on disk
+PASS  static: protected file js/core/voice.js still present on disk
+PASS  static: protected file js/core/voice-controller.js still present on disk
+PASS  static: protected file js/core/supabase/connection-manager.js still present on disk
+PASS  static: protected file js/core/supabase/auth-service.js still present on disk
+PASS  static: protected file js/core/supabase/env.js still present on disk
+PASS  static: os/api/openrouter/ contains exactly the five expected files (Part 2A's four + chat-manager.js), nothing extra
+PASS  static: chat-manager.js never touches localStorage key axiom_openrouter_selected_model (existing UI selector's key)
+PASS  static: chat-manager.js never touches localStorage key axiom_os_openrouter_default_model (model-manager.js's key — read via its API, not localStorage directly)
+PASS  static: chat-manager.js never touches localStorage key axiom_os_openrouter_api_key (api-manager.js's key — read via _internal.getStoredKey(), not localStorage directly)
+PASS  static: chat-manager.js does not reference js/core/openrouter-client.js's global (window.OpenRouter)
+
+56 passed, 0 failed.
+
+=== milestone10-regression-suite.js ===
+node:internal/modules/cjs/loader:1386
+  throw err;
+  ^
+
+Error: Cannot find module 'jsdom'
+Require stack:
+- /home/claude/work/part2a/axiom/test-evidence/milestone10-regression-suite.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+    at Function._load (node:internal/modules/cjs/loader:1192:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/claude/work/part2a/axiom/test-evidence/milestone10-regression-suite.js:1:19)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/claude/work/part2a/axiom/test-evidence/milestone10-regression-suite.js'
+  ]
+}
+
+Node.js v22.22.2
+
+=== milestone11-regression-suite.js ===
+[AxiomRuntime] online — 10 agents registered. Run AxiomRuntime.selfTest() to verify.
+[AxiomDynamicWorkflow] dynamic decomposition rule registered.
+[AxiomM8] Milestone 8 intelligence layer online. Run AxiomRuntime.selfTestM8() to verify.
+[AxiomM9] Executive AI online. Run AxiomRuntime.selfTestM9() to verify.
+[AxiomM10] Conversation Manager online. Run AxiomRuntime.selfTestM10() to verify.
+[AxiomM11] Autonomous AI Operating System layer online. Run AxiomRuntime.selfTestM11() to verify.
+[AxiomRuntime] self-test PASS — 11/11
+  ok   manager started
+  ok   ten core agents registered  (count=10)
+  ok   no duplicate ids
+  ok   all agents idle after boot
+  ok   route "Search the web for AXIOM" -> agent.browser  (agent.browser)
+  ok   route "Summarize this PDF" -> agent.file  (agent.file)
+  ok   route "Generate code for a login form" -> agent.coding  (agent.coding)
+  ok   route "Remember this password preference" -> agent.memory  (agent.memory)
+  ok   route "Create a plan for launch" -> agent.planner  (agent.planner)
+  ok   multi-agent collaboration  (agent.assistant,agent.coding,agent.research)
+  ok   end-to-end task completion  (agent.assistant)
+[AxiomM8] self-test PASS — 8/8
+  ok   decompose produces multiple steps  (3)
+  ok   decompose links dependencies in order
+  ok   orchestrator run completes  (completed)
+  ok   monitor report shape
+  ok   error recovery report available
+  ok   planner estimate returns an ETA
+  ok   planner reprioritize returns a plan
+  ok   job manager creates a job
+[AxiomM9] self-test PASS — 8/8
+  ok   vague request short-circuits to clarification  ("needs-clarification")
+  ok   clarification never produced a jobId
+  ok   resolveClarification re-enters the pipeline  ("running")
+  ok   handle() returns a live executiveId + promise
+  ok   run reaches a terminal status  ("completed")
+  ok   status() reports plan/job linkage  ({"planId":"plan-msh2gvq1-gvzoxg","jobId":"job-msh2gvq1-ef1zwt"})
+  ok   report() returns a learning ledger
+  ok   execution traced through the real Orchestrator  (1)
+[AxiomM10] self-test PASS — 11/11
+  ok   start() returns a conversationId
+  ok   send() returns a live turnId + promise
+  ok   turn 1 reaches a terminal status  ("completed")
+  ok   follow-up with a resolvable reference is NOT sent to clarification  ("running")
+  ok   reference was rewritten before reaching Executive AI  ("save remember: milestone 10 self-test turn one")
+  ok   turn 2 reaches a terminal status  ("completed")
+  ok   bare reference with zero history asks for clarification  ("needs-clarification")
+  ok   conversation stream emitted at least one progressive event  (["thinking","thinking","progress","done"])
+  ok   AxiomConversationContext available
+  ok   context bundle loads all sections
+  ok   conversation history is scoped per conversationId (no cross-talk)
+[AxiomM11] self-test PASS — 27/27
+  ok   AxiomExecutiveAI extended with scheduleAutonomous()
+  ok   scheduler.configure() applies maxConcurrent  ({"maxConcurrent":1})
+  ok   higher priority task is admitted before an earlier-queued lower priority one  ({"low":"queued","critical":"running"})
+  ok   scheduled tasks reach a terminal status  (["completed","completed"])
+  ok   a dependent task stays queued while its dependency is unsettled  ("queued")
+  ok   cancel() on a still-queued task succeeds immediately
+  ok   a queued task cancelled before admission resolves as cancelled  ("cancelled")
+  ok   scheduler.report() exposes counts and maxConcurrent
+  ok   task graph builds nodes + edges from a multi-step plan  ({"nodes":3,"edges":2})
+  ok   task graph computes a valid topological order  (["m8step-1-msh2gvqr","m8step-2-msh2gvqr","m8step-3-msh2gvqr"])
+  ok   sequential ("then") plan is classified sequential or mixed, never parallel  ("sequential")
+  ok   independent multi-agent plan graph builds without throwing
+  ok   event timeline records a newly emitted event with a timestamp  (1785993587380)
+  ok   event timeline query() filters by source
+  ok   resource monitor report includes agent activity, queue depth, task counts, latency, scheduler, browser
+  ok   plugin registry rejects an id in the reserved "agent." namespace
+  ok   plugin registry registers a valid external agent through the real Agent Manager
+  ok   a registered plugin agent actually executes a dispatched task  ({"ok":true,"echoedBy":"plugin.m11-selftest","task":{"intent":"selftest","id":"plugin.m11-selftest:msh2gvqta5c2","enqueuedAt":1785993587381}})
+  ok   plugin unregister() removes it from both the registry and the Agent Manager
+  ok   Executive AI derives "sequential" for a dependent, "then"-chained request  ("sequential")
+  ok   Executive AI derives a non-sequential mode for an independent multi-agent request  ("mixed")
+  ok   sequential and independent requests are not collapsed into the same decision  ({"seqMode":"sequential","parMode":"mixed"})
+  ok   scheduleAutonomous() returns a live taskId + promise without blocking
+  ok   autonomous run reaches a terminal status  ("completed")
+  ok   emitting "executive:auto-request" on the bus autonomously triggers Executive AI scheduling — no direct call needed  (1)
+  ok   scheduler task total only grew by exactly the tasks this test created (no phantom duplicates)
+  ok   still exactly 10 core agents after all M11 activity, no duplicates  ("count=10")
+
+=== MILESTONE 11 VERIFICATION ===
+PASS  Milestone 4/5 self-test still passes (no regression)
+PASS  Milestone 8 self-test still passes (no regression)
+PASS  Milestone 9 self-test still passes (no regression)
+PASS  Milestone 10 self-test still passes (no regression)
+PASS  Still exactly 10 core agents, no duplicates
+PASS  Milestone 11 self-test passes
+PASS    [M11] AxiomExecutiveAI extended with scheduleAutonomous()
+PASS    [M11] scheduler.configure() applies maxConcurrent
+PASS    [M11] higher priority task is admitted before an earlier-queued lower priority one
+PASS    [M11] scheduled tasks reach a terminal status
+PASS    [M11] a dependent task stays queued while its dependency is unsettled
+PASS    [M11] cancel() on a still-queued task succeeds immediately
+PASS    [M11] a queued task cancelled before admission resolves as cancelled
+PASS    [M11] scheduler.report() exposes counts and maxConcurrent
+PASS    [M11] task graph builds nodes + edges from a multi-step plan
+PASS    [M11] task graph computes a valid topological order
+PASS    [M11] sequential ("then") plan is classified sequential or mixed, never parallel
+PASS    [M11] independent multi-agent plan graph builds without throwing
+PASS    [M11] event timeline records a newly emitted event with a timestamp
+PASS    [M11] event timeline query() filters by source
+PASS    [M11] resource monitor report includes agent activity, queue depth, task counts, latency, scheduler, browser
+PASS    [M11] plugin registry rejects an id in the reserved "agent." namespace
+PASS    [M11] plugin registry registers a valid external agent through the real Agent Manager
+PASS    [M11] a registered plugin agent actually executes a dispatched task
+PASS    [M11] plugin unregister() removes it from both the registry and the Agent Manager
+PASS    [M11] Executive AI derives "sequential" for a dependent, "then"-chained request
+PASS    [M11] Executive AI derives a non-sequential mode for an independent multi-agent request
+PASS    [M11] sequential and independent requests are not collapsed into the same decision
+PASS    [M11] scheduleAutonomous() returns a live taskId + promise without blocking
+PASS    [M11] autonomous run reaches a terminal status
+PASS    [M11] emitting "executive:auto-request" on the bus autonomously triggers Executive AI scheduling — no direct call needed
+PASS    [M11] scheduler task total only grew by exactly the tasks this test created (no phantom duplicates)
+PASS    [M11] still exactly 10 core agents after all M11 activity, no duplicates
+PASS  scheduler admits a task into the Job Manager exactly once (no duplicate execution)
+PASS  plugin registry rejects a second registration of the same id
+PASS  plugin registry rejects a non-namespaced id
+PASS  task graph returns null topological order for a cyclic graph instead of throwing
+PASS  event timeline .recent() returns newest-first entries
+PASS  resource monitor browser metrics never throw even without full browser APIs
+PASS  Event Bus, Agent Manager, Job Manager, Orchestrator, Executive AI are still the same singletons after M11 load
+PASS  Milestone 11 introduced no window.AxiomJobManager2 / duplicate manager globals
+
+41/41 checks passed.
+
+=== milestone12-regression-suite.js ===
+[AxiomM12] Executive AI memory recall enhanced with Knowledge Graph expansion.
+ok   knowledge graph builds nodes and edges from real memory rows  ({"nodes":8,"edges":7,"byType":{"agent":3,"memory":3,"tag":2},"builtAt":1785993587454})
+ok   knowledge graph has a memory node for a real note
+ok   knowledge graph links the two related TypeScript memories  (["mem-2"])
+ok   knowledge graph does NOT link the unrelated meeting note to the TypeScript notes
+ok   semantic search returns scored, ranked results
+ok   semantic search ranks a TypeScript note above the unrelated meeting note
+ok   auto-tagger classify() suggests tags for an untagged note  ({"tags":["user","prefers","typescript","over","plain"],"category":"technical"})
+ok   auto-tagger fills tags on a previously-untagged note  ({"id":"mem-2","tags":["user","prefers","typescript","over","plain"],"category":"technical","changed":true})
+ok   auto-tagger never overwrites tags a note already has
+ok   duplicate detector groups the two near-identical TypeScript notes  ([["mem-1","mem-2"]])
+ok   duplicate detector does not merge the unrelated meeting note into that group
+ok   importance ranker scores a pinned + tagged note higher than a bare one  ({"pinned":0.855,"bare":0.225})
+ok   the ranked list still carries rankScore from the unmodified Milestone 8 rank()
+ok   summarizer produces a non-empty summary with the correct count  ("3 memories recorded for \"agent.memory\" between 2026-08-06 and 2026-08-06. Most common tags: typescript, preference, user, prefers, over. Most common category: preferences. 1 pinned as important. Most notable: User prefers TypeScript for backend services. | User prefers TypeScript over plain JavaScript for backend work. | Meeting with design team scheduled for Thursday.")
+ok   AxiomMemoryIntelligence.rankedRecall was wrapped, not replaced (marker present)
+ok   enhanced rankedRecall() still resolves an array Executive AI's loadMemory() can consume
+ok   enhanced rankedRecall() surfaces the graph-related note even when only one matched the query text directly  (["mem-1","mem-2"])
+ok   Milestone 8 AxiomMemoryIntelligence.rank() is unmodified and still works standalone
+ok   core agent registry still reports 10 agents, no duplicates (regression)
+
+[Milestone 12] PASS — 19/19 checks passed.
+
+=== milestone13-regression-suite.js ===
+[AxiomRuntime] online — 10 agents registered. Run AxiomRuntime.selfTest() to verify.
+[AxiomDynamicWorkflow] dynamic decomposition rule registered.
+[AxiomM8] Milestone 8 intelligence layer online. Run AxiomRuntime.selfTestM8() to verify.
+[AxiomM9] Executive AI online. Run AxiomRuntime.selfTestM9() to verify.
+[AxiomM10] Conversation Manager online. Run AxiomRuntime.selfTestM10() to verify.
+[AxiomM11] Autonomous AI Operating System layer online. Run AxiomRuntime.selfTestM11() to verify.
+[AxiomM12] Executive AI memory recall enhanced with Knowledge Graph expansion.
+[AxiomM12] Knowledge & Memory Intelligence layer online. Run AxiomRuntime.selfTestM12() to verify.
+[AxiomM13] Automation & Skills Engine online. Run AxiomRuntime.selfTestM13() to verify.
+[AxiomRuntime] self-test PASS — 11/11
+  ok   manager started
+  ok   ten core agents registered  (count=10)
+  ok   no duplicate ids
+  ok   all agents idle after boot
+  ok   route "Search the web for AXIOM" -> agent.browser  (agent.browser)
+  ok   route "Summarize this PDF" -> agent.file  (agent.file)
+  ok   route "Generate code for a login form" -> agent.coding  (agent.coding)
+  ok   route "Remember this password preference" -> agent.memory  (agent.memory)
+  ok   route "Create a plan for launch" -> agent.planner  (agent.planner)
+  ok   multi-agent collaboration  (agent.assistant,agent.coding,agent.research)
+  ok   end-to-end task completion  (agent.assistant)
+[AxiomM8] self-test PASS — 8/8
+  ok   decompose produces multiple steps  (3)
+  ok   decompose links dependencies in order
+  ok   orchestrator run completes  (completed)
+  ok   monitor report shape
+  ok   error recovery report available
+  ok   planner estimate returns an ETA
+  ok   planner reprioritize returns a plan
+  ok   job manager creates a job
+[AxiomM9] self-test PASS — 8/8
+  ok   vague request short-circuits to clarification  ("needs-clarification")
+  ok   clarification never produced a jobId
+  ok   resolveClarification re-enters the pipeline  ("running")
+  ok   handle() returns a live executiveId + promise
+  ok   run reaches a terminal status  ("completed")
+  ok   status() reports plan/job linkage  ({"planId":"plan-msh2gw25-b3x9sp","jobId":"job-msh2gw25-zi1siz"})
+  ok   report() returns a learning ledger
+  ok   execution traced through the real Orchestrator  (1)
+[AxiomM10] self-test PASS — 11/11
+  ok   start() returns a conversationId
+  ok   send() returns a live turnId + promise
+  ok   turn 1 reaches a terminal status  ("completed")
+  ok   follow-up with a resolvable reference is NOT sent to clarification  ("running")
+  ok   reference was rewritten before reaching Executive AI  ("save remember: milestone 10 self-test turn one")
+  ok   turn 2 reaches a terminal status  ("completed")
+  ok   bare reference with zero history asks for clarification  ("needs-clarification")
+  ok   conversation stream emitted at least one progressive event  (["thinking","thinking","progress","done"])
+  ok   AxiomConversationContext available
+  ok   context bundle loads all sections
+  ok   conversation history is scoped per conversationId (no cross-talk)
+[AxiomM11] self-test PASS — 27/27
+  ok   AxiomExecutiveAI extended with scheduleAutonomous()
+  ok   scheduler.configure() applies maxConcurrent  ({"maxConcurrent":1})
+  ok   higher priority task is admitted before an earlier-queued lower priority one  ({"low":"queued","critical":"running"})
+  ok   scheduled tasks reach a terminal status  (["completed","completed"])
+  ok   a dependent task stays queued while its dependency is unsettled  ("queued")
+  ok   cancel() on a still-queued task succeeds immediately
+  ok   a queued task cancelled before admission resolves as cancelled  ("cancelled")
+  ok   scheduler.report() exposes counts and maxConcurrent
+  ok   task graph builds nodes + edges from a multi-step plan  ({"nodes":3,"edges":2})
+  ok   task graph computes a valid topological order  (["m8step-1-msh2gw2t","m8step-2-msh2gw2t","m8step-3-msh2gw2t"])
+  ok   sequential ("then") plan is classified sequential or mixed, never parallel  ("sequential")
+  ok   independent multi-agent plan graph builds without throwing
+  ok   event timeline records a newly emitted event with a timestamp  (1785993587814)
+  ok   event timeline query() filters by source
+  ok   resource monitor report includes agent activity, queue depth, task counts, latency, scheduler, browser
+  ok   plugin registry rejects an id in the reserved "agent." namespace
+  ok   plugin registry registers a valid external agent through the real Agent Manager
+  ok   a registered plugin agent actually executes a dispatched task  ({"ok":true,"echoedBy":"plugin.m11-selftest","task":{"intent":"selftest","id":"plugin.m11-selftest:msh2gw2vq7ff","enqueuedAt":1785993587815}})
+  ok   plugin unregister() removes it from both the registry and the Agent Manager
+  ok   Executive AI derives "sequential" for a dependent, "then"-chained request  ("sequential")
+  ok   Executive AI derives a non-sequential mode for an independent multi-agent request  ("mixed")
+  ok   sequential and independent requests are not collapsed into the same decision  ({"seqMode":"sequential","parMode":"mixed"})
+  ok   scheduleAutonomous() returns a live taskId + promise without blocking
+  ok   autonomous run reaches a terminal status  ("completed")
+  ok   emitting "executive:auto-request" on the bus autonomously triggers Executive AI scheduling — no direct call needed  (1)
+  ok   scheduler task total only grew by exactly the tasks this test created (no phantom duplicates)
+  ok   still exactly 10 core agents after all M11 activity, no duplicates  ("count=10")
+[AxiomM12] self-test PASS — 18/18
+  ok   AxiomMemoryIntelligence.rankedRecall enhanced with knowledge-graph expansion
+  ok   knowledge graph build() resolves with nodes and edges  ({"nodes":31,"edges":7520,"byType":{"agent":10,"memory":19,"tag":2},"builtAt":1785993587910})
+  ok   knowledge graph exposes a memory node for a just-created note
+  ok   semantic search returns results ranked by score  ([0.731,0.313,0,0,0])
+  ok   semantic search surfaces the seeded TypeScript note near the top  (["m17","m18","m19","m16","m15"])
+  ok   auto-tagger classify() suggests at least one tag for an untagged note  ({"tags":["m12","selftest","prefers","typescript","over"],"category":"technical"})
+  ok   auto-tagger fills tags on a previously-untagged note  ({"id":"m18","tags":["m12","selftest","prefers","typescript","over"],"category":"technical","changed":true})
+  ok   auto-tagger never overwrites tags a note already has  ({"id":"m17","tags":["typescript","preference"],"category":"preferences","changed":true})
+  ok   duplicate detector groups the two near-identical TypeScript notes together  ([["m18","m17"],["m14","m13"],["m12","m11"],["m7","m5"],["m9","m6","m4","m2"]])
+  ok   duplicate detector does NOT group the unrelated meeting note with the TypeScript notes
+  ok   importance ranker scores a pinned, tagged note higher than a bare one  ({"pinned":0.88,"bare":0.35})
+  ok   importance-ranked list is still produced by the existing Milestone 8 rank() (rankScore present)
+  ok   summarizer produces a non-empty summary string with the right count  ("19 memories recorded for \"agent.memory\" between 2026-08-06 and 2026-08-06. Most common tags: typescript, m12, selftest, prefers, over. Most common category: technical. 1 pinned as important. Most notable: M12 selftest: prefers TypeScript for backend services | M12 selftest: prefers TypeScript over plain JavaScript for backend work | M12 selftest: meeting with design team scheduled for Thursday")
+  ok   enhanced rankedRecall() still resolves an array (backward compatible with Milestone 9's loadMemory())
+  ok   AxiomExecutiveAI.graphContext() (new Milestone 12 capability) resolves an array
+  ok   AxiomExecutiveAI.knowledgeStats() passes through knowledge-graph stats  ({"nodes":31,"edges":7520,"byType":{"agent":10,"memory":19,"tag":2},"builtAt":1785993587910})
+  ok   Milestone 8 AxiomMemoryIntelligence.rank() still works standalone (regression)
+  ok   still exactly 10 core agents after all Milestone 12 activity, no duplicates  ("count=10")
+[AxiomM13] self-test PASS — 31/31
+  ok   AxiomExecutiveAI extended with runAsAutomation()
+  ok   skill registry rejects an id in the reserved "agent." namespace
+  ok   skill registry rejects a malformed/non-namespaced id
+  ok   skill registry registers a valid function-backed skill
+  ok   skill registry rejects a second registration of the same id
+  ok   a registered skill actually executes and returns its handler result  ({"ok":true,"echoed":{"probe":42}})
+  ok   a skill with a permanently-failing handler is retried up to its configured bound, then fails (reliability)  (3)
+  ok   workflow engine defines a valid multi-step workflow
+  ok   a workflow with chained dependsOn steps is classified sequential and all steps succeed  ({"runId":"wfrun-msh2gw62-1","workflowId":"workflow.m13-selftest-sequential","ok":true,"mode":"sequential","steps":[{"stepId":"s1","ok":true,"result":{"ok":true,"echoed":{"step":1}}},{"stepId":"s2","ok":true,"result":{"ok":true,"echoed":{"step":2}}}]})
+  ok   workflow engine defines a second, independent-step workflow
+  ok   a workflow with no dependsOn between steps is classified parallel — genuine multi-agent automation  ({"runId":"wfrun-msh2gw64-2","workflowId":"workflow.m13-selftest-parallel","ok":true,"mode":"parallel","steps":[{"stepId":"p1","ok":true,"result":{"ok":true,"echoed":{"branch":"a"}}},{"stepId":"p2","ok":true,"result":{"ok":true,"echoed":{"branch":"b"}}}]})
+  ok   workflow engine rejects a cyclic-dependency workflow instead of hanging  ({"threw":true,"error":"workflow \"workflow.m13-selftest-cyclic\" has a cyclic step dependency."})
+  ok   trigger scheduler accepts a valid interval schedule
+  ok   an interval trigger fires on its own at least once with no manual call  ({"id":"trigger.m13-selftest-interval","name":"trigger.m13-selftest-interval","type":"interval","workflowId":"workflow.m13-selftest-sequential","skillId":null,"enabled":true,"fireCount":3,"lastFiredAt":1785993587980,"lastResult":{"ok":true,"at":1785993587984}})
+  ok   cancel() removes a trigger from the registry
+  ok   trigger scheduler accepts a valid event-based trigger
+  ok   emitting the watched event fires the trigger with no polling  ({"id":"trigger.m13-selftest-event","name":"trigger.m13-selftest-event","type":"event","workflowId":"workflow.m13-selftest-parallel","skillId":null,"enabled":true,"fireCount":1,"lastFiredAt":1785993587995,"lastResult":{"ok":true,"at":1785993587997}})
+  ok   trigger scheduler rejects an incomplete schedule instead of silently no-op-ing
+  ok   automation engine creates an automation from inline steps + a trigger
+  ok   a disabled automation does not fire when its trigger event occurs  ({"id":"trigger.auto.m13-selftest","name":"trigger.auto.m13-selftest","type":"event","workflowId":"workflow.auto-m13-selftest","skillId":null,"enabled":false,"fireCount":0,"lastFiredAt":null,"lastResult":null})
+  ok   re-enabling the automation lets the same event fire it  ({"id":"trigger.auto.m13-selftest","name":"trigger.auto.m13-selftest","type":"event","workflowId":"workflow.auto-m13-selftest","skillId":null,"enabled":true,"fireCount":1,"lastFiredAt":1785993588057,"lastResult":{"ok":true,"at":1785993588058}})
+  ok   automations can also be run manually on demand, independent of their trigger  ({"runId":"wfrun-msh2gwah-9","workflowId":"workflow.auto-m13-selftest","ok":true,"mode":"sequential","steps":[{"stepId":"a1","ok":true,"result":{"ok":true,"echoed":{"via":"automation"}}}]})
+  ok   remove() deletes the automation record
+  ok   workflow history recorded the sequential self-test run  ({"runId":"wfrun-msh2gw7h-6","workflowId":"workflow.m13-selftest-sequential","status":"completed","startedAt":1785993587981,"finishedAt":1785993587984,"mode":"sequential","steps":[{"stepId":"s1","ok":true,"at":1785993587983},{"stepId":"s2","ok":true,"at":1785993587984}]})
+  ok   workflow history recorded trigger firings from this self-test
+  ok   workflow history recorded skill invocations from this self-test
+  ok   Executive AI turns a single-clause request into a completed automation run  ({"executiveId":"exec-auto-msh2gwai-1","workflowId":"workflow.executive-plan-msh2gwai-r0qcyh","runId":"wfrun-msh2gwaj-a","ok":true,"mode":"sequential","steps":[{"stepId":"m8step-1-msh2gwai","ok":true,"result":{"ok":false,"op":"executive-automation","error":"Unsupported memory op \"executive-automation\"."}}]})
+  ok   Executive AI's automation run exposes a live workflowId + runId without blocking
+  ok   a multi-clause Executive AI automation runs its steps and reaches a terminal outcome  ({"executiveId":"exec-auto-msh2gwak-2","workflowId":"workflow.executive-plan-msh2gwak-gfk2zv","runId":"wfrun-msh2gwal-b","ok":true,"mode":"sequential","steps":[{"stepId":"m8step-1-msh2gwak","ok":true,"result":{"ok":true,"reply":"Assistant acknowledged: search AI news"}},{"stepId":"m8step-2-msh2gwak","ok":true,"result":{"ok":false,"op":"executive-automation","error":"Unsupported memory op \"executive-automation\"."}}]})
+  ok   emitting "automation:auto-request" on the bus autonomously triggers Executive AI to define and run an automation — no direct call needed  (1)
+  ok   still exactly 10 core agents after all Milestone 13 activity, no duplicates  ("count=10")
+
+=== MILESTONE 13 VERIFICATION ===
+PASS  Milestone 4/5 self-test still passes (no regression)
+PASS  Milestone 8 self-test still passes (no regression)
+PASS  Milestone 9 self-test still passes (no regression)
+PASS  Milestone 10 self-test still passes (no regression)
+PASS  Milestone 11 self-test still passes (no regression)
+PASS  Milestone 12 self-test still passes (no regression)
+PASS  Still exactly 10 core agents, no duplicates
+PASS  Milestone 13 self-test passes
+PASS    [M13] AxiomExecutiveAI extended with runAsAutomation()
+PASS    [M13] skill registry rejects an id in the reserved "agent." namespace
+PASS    [M13] skill registry rejects a malformed/non-namespaced id
+PASS    [M13] skill registry registers a valid function-backed skill
+PASS    [M13] skill registry rejects a second registration of the same id
+PASS    [M13] a registered skill actually executes and returns its handler result
+PASS    [M13] a skill with a permanently-failing handler is retried up to its configured bound, then fails (reliability)
+PASS    [M13] workflow engine defines a valid multi-step workflow
+PASS    [M13] a workflow with chained dependsOn steps is classified sequential and all steps succeed
+PASS    [M13] workflow engine defines a second, independent-step workflow
+PASS    [M13] a workflow with no dependsOn between steps is classified parallel — genuine multi-agent automation
+PASS    [M13] workflow engine rejects a cyclic-dependency workflow instead of hanging
+PASS    [M13] trigger scheduler accepts a valid interval schedule
+PASS    [M13] an interval trigger fires on its own at least once with no manual call
+PASS    [M13] cancel() removes a trigger from the registry
+PASS    [M13] trigger scheduler accepts a valid event-based trigger
+PASS    [M13] emitting the watched event fires the trigger with no polling
+PASS    [M13] trigger scheduler rejects an incomplete schedule instead of silently no-op-ing
+PASS    [M13] automation engine creates an automation from inline steps + a trigger
+PASS    [M13] a disabled automation does not fire when its trigger event occurs
+PASS    [M13] re-enabling the automation lets the same event fire it
+PASS    [M13] automations can also be run manually on demand, independent of their trigger
+PASS    [M13] remove() deletes the automation record
+PASS    [M13] workflow history recorded the sequential self-test run
+PASS    [M13] workflow history recorded trigger firings from this self-test
+PASS    [M13] workflow history recorded skill invocations from this self-test
+PASS    [M13] Executive AI turns a single-clause request into a completed automation run
+PASS    [M13] Executive AI's automation run exposes a live workflowId + runId without blocking
+PASS    [M13] a multi-clause Executive AI automation runs its steps and reaches a terminal outcome
+PASS    [M13] emitting "automation:auto-request" on the bus autonomously triggers Executive AI to define and run an automation — no direct call needed
+PASS    [M13] still exactly 10 core agents after all Milestone 13 activity, no duplicates
+PASS  a skill invoked purely via the "skill:invoke" bus event (no JS reference) completes
+PASS  a diamond-shaped dependency graph runs every step exactly once (no duplicate execution)
+PASS  a step depending on a failed step is skipped rather than run, and the workflow reports failed
+PASS  a paused trigger does not fire while paused
+PASS  resuming a paused trigger lets it fire again
+PASS  Event Bus, Agent Manager, Job Manager, Orchestrator, Executive AI, and all Milestone 13 modules are still the same singletons after M13 load
+PASS  Milestone 13 introduced no duplicate manager/registry globals
+
+46/46 checks passed.
+
+=== milestone14-part1-regression-suite.js ===
+[AxiomRuntime] online — 10 agents registered. Run AxiomRuntime.selfTest() to verify.
+[AxiomDynamicWorkflow] dynamic decomposition rule registered.
+[AxiomM8] Milestone 8 intelligence layer online. Run AxiomRuntime.selfTestM8() to verify.
+[AxiomM9] Executive AI online. Run AxiomRuntime.selfTestM9() to verify.
+[AxiomM10] Conversation Manager online. Run AxiomRuntime.selfTestM10() to verify.
+[AxiomM11] Autonomous AI Operating System layer online. Run AxiomRuntime.selfTestM11() to verify.
+[AxiomM12] Executive AI memory recall enhanced with Knowledge Graph expansion.
+[AxiomM12] Knowledge & Memory Intelligence layer online. Run AxiomRuntime.selfTestM12() to verify.
+[AxiomM13] Automation & Skills Engine online. Run AxiomRuntime.selfTestM13() to verify.
+[AxiomM14] Plugin Foundation online. Run AxiomRuntime.selfTestM14() to verify.
+[AxiomRuntime] self-test PASS — 11/11
+  ok   manager started
+  ok   ten core agents registered  (count=10)
+  ok   no duplicate ids
+  ok   all agents idle after boot
+  ok   route "Search the web for AXIOM" -> agent.browser  (agent.browser)
+  ok   route "Summarize this PDF" -> agent.file  (agent.file)
+  ok   route "Generate code for a login form" -> agent.coding  (agent.coding)
+  ok   route "Remember this password preference" -> agent.memory  (agent.memory)
+  ok   route "Create a plan for launch" -> agent.planner  (agent.planner)
+  ok   multi-agent collaboration  (agent.assistant,agent.coding,agent.research)
+  ok   end-to-end task completion  (agent.assistant)
+[AxiomM8] self-test PASS — 8/8
+  ok   decompose produces multiple steps  (3)
+  ok   decompose links dependencies in order
+  ok   orchestrator run completes  (completed)
+  ok   monitor report shape
+  ok   error recovery report available
+  ok   planner estimate returns an ETA
+  ok   planner reprioritize returns a plan
+  ok   job manager creates a job
+[AxiomM9] self-test PASS — 8/8
+  ok   vague request short-circuits to clarification  ("needs-clarification")
+  ok   clarification never produced a jobId
+  ok   resolveClarification re-enters the pipeline  ("running")
+  ok   handle() returns a live executiveId + promise
+  ok   run reaches a terminal status  ("completed")
+  ok   status() reports plan/job linkage  ({"planId":"plan-msh2gwua-h311ww","jobId":"job-msh2gwua-hbxk65"})
+  ok   report() returns a learning ledger
+  ok   execution traced through the real Orchestrator  (1)
+[AxiomM10] self-test PASS — 11/11
+  ok   start() returns a conversationId
+  ok   send() returns a live turnId + promise
+  ok   turn 1 reaches a terminal status  ("completed")
+  ok   follow-up with a resolvable reference is NOT sent to clarification  ("running")
+  ok   reference was rewritten before reaching Executive AI  ("save remember: milestone 10 self-test turn one")
+  ok   turn 2 reaches a terminal status  ("completed")
+  ok   bare reference with zero history asks for clarification  ("needs-clarification")
+  ok   conversation stream emitted at least one progressive event  (["thinking","thinking","progress","done"])
+  ok   AxiomConversationContext available
+  ok   context bundle loads all sections
+  ok   conversation history is scoped per conversationId (no cross-talk)
+[AxiomM11] self-test PASS — 27/27
+  ok   AxiomExecutiveAI extended with scheduleAutonomous()
+  ok   scheduler.configure() applies maxConcurrent  ({"maxConcurrent":1})
+  ok   higher priority task is admitted before an earlier-queued lower priority one  ({"low":"queued","critical":"running"})
+  ok   scheduled tasks reach a terminal status  (["completed","completed"])
+  ok   a dependent task stays queued while its dependency is unsettled  ("queued")
+  ok   cancel() on a still-queued task succeeds immediately
+  ok   a queued task cancelled before admission resolves as cancelled  ("cancelled")
+  ok   scheduler.report() exposes counts and maxConcurrent
+  ok   task graph builds nodes + edges from a multi-step plan  ({"nodes":3,"edges":2})
+  ok   task graph computes a valid topological order  (["m8step-1-msh2gwuy","m8step-2-msh2gwuy","m8step-3-msh2gwuy"])
+  ok   sequential ("then") plan is classified sequential or mixed, never parallel  ("sequential")
+  ok   independent multi-agent plan graph builds without throwing
+  ok   event timeline records a newly emitted event with a timestamp  (1785993588827)
+  ok   event timeline query() filters by source
+  ok   resource monitor report includes agent activity, queue depth, task counts, latency, scheduler, browser
+  ok   plugin registry rejects an id in the reserved "agent." namespace
+  ok   plugin registry registers a valid external agent through the real Agent Manager
+  ok   a registered plugin agent actually executes a dispatched task  ({"ok":true,"echoedBy":"plugin.m11-selftest","task":{"intent":"selftest","id":"plugin.m11-selftest:msh2gwuz1vda","enqueuedAt":1785993588827}})
+  ok   plugin unregister() removes it from both the registry and the Agent Manager
+  ok   Executive AI derives "sequential" for a dependent, "then"-chained request  ("sequential")
+  ok   Executive AI derives a non-sequential mode for an independent multi-agent request  ("mixed")
+  ok   sequential and independent requests are not collapsed into the same decision  ({"seqMode":"sequential","parMode":"mixed"})
+  ok   scheduleAutonomous() returns a live taskId + promise without blocking
+  ok   autonomous run reaches a terminal status  ("completed")
+  ok   emitting "executive:auto-request" on the bus autonomously triggers Executive AI scheduling — no direct call needed  (1)
+  ok   scheduler task total only grew by exactly the tasks this test created (no phantom duplicates)
+  ok   still exactly 10 core agents after all M11 activity, no duplicates  ("count=10")
+[AxiomM12] self-test PASS — 18/18
+  ok   AxiomMemoryIntelligence.rankedRecall enhanced with knowledge-graph expansion
+  ok   knowledge graph build() resolves with nodes and edges  ({"nodes":31,"edges":7520,"byType":{"agent":10,"memory":19,"tag":2},"builtAt":1785993588917})
+  ok   knowledge graph exposes a memory node for a just-created note
+  ok   semantic search returns results ranked by score  ([0.731,0.313,0,0,0])
+  ok   semantic search surfaces the seeded TypeScript note near the top  (["m17","m18","m19","m16","m15"])
+  ok   auto-tagger classify() suggests at least one tag for an untagged note  ({"tags":["m12","selftest","prefers","typescript","over"],"category":"technical"})
+  ok   auto-tagger fills tags on a previously-untagged note  ({"id":"m18","tags":["m12","selftest","prefers","typescript","over"],"category":"technical","changed":true})
+  ok   auto-tagger never overwrites tags a note already has  ({"id":"m17","tags":["typescript","preference"],"category":"preferences","changed":true})
+  ok   duplicate detector groups the two near-identical TypeScript notes together  ([["m18","m17"],["m14","m13"],["m12","m11"],["m7","m5"],["m9","m6","m4","m2"]])
+  ok   duplicate detector does NOT group the unrelated meeting note with the TypeScript notes
+  ok   importance ranker scores a pinned, tagged note higher than a bare one  ({"pinned":0.88,"bare":0.35})
+  ok   importance-ranked list is still produced by the existing Milestone 8 rank() (rankScore present)
+  ok   summarizer produces a non-empty summary string with the right count  ("19 memories recorded for \"agent.memory\" between 2026-08-06 and 2026-08-06. Most common tags: typescript, m12, selftest, prefers, over. Most common category: technical. 1 pinned as important. Most notable: M12 selftest: prefers TypeScript for backend services | M12 selftest: prefers TypeScript over plain JavaScript for backend work | M12 selftest: meeting with design team scheduled for Thursday")
+  ok   enhanced rankedRecall() still resolves an array (backward compatible with Milestone 9's loadMemory())
+  ok   AxiomExecutiveAI.graphContext() (new Milestone 12 capability) resolves an array
+  ok   AxiomExecutiveAI.knowledgeStats() passes through knowledge-graph stats  ({"nodes":31,"edges":7520,"byType":{"agent":10,"memory":19,"tag":2},"builtAt":1785993588917})
+  ok   Milestone 8 AxiomMemoryIntelligence.rank() still works standalone (regression)
+  ok   still exactly 10 core agents after all Milestone 12 activity, no duplicates  ("count=10")
+[AxiomM13] self-test PASS — 31/31
+  ok   AxiomExecutiveAI extended with runAsAutomation()
+  ok   skill registry rejects an id in the reserved "agent." namespace
+  ok   skill registry rejects a malformed/non-namespaced id
+  ok   skill registry registers a valid function-backed skill
+  ok   skill registry rejects a second registration of the same id
+  ok   a registered skill actually executes and returns its handler result  ({"ok":true,"echoed":{"probe":42}})
+  ok   a skill with a permanently-failing handler is retried up to its configured bound, then fails (reliability)  (3)
+  ok   workflow engine defines a valid multi-step workflow
+  ok   a workflow with chained dependsOn steps is classified sequential and all steps succeed  ({"runId":"wfrun-msh2gwy2-1","workflowId":"workflow.m13-selftest-sequential","ok":true,"mode":"sequential","steps":[{"stepId":"s1","ok":true,"result":{"ok":true,"echoed":{"step":1}}},{"stepId":"s2","ok":true,"result":{"ok":true,"echoed":{"step":2}}}]})
+  ok   workflow engine defines a second, independent-step workflow
+  ok   a workflow with no dependsOn between steps is classified parallel — genuine multi-agent automation  ({"runId":"wfrun-msh2gwy3-2","workflowId":"workflow.m13-selftest-parallel","ok":true,"mode":"parallel","steps":[{"stepId":"p1","ok":true,"result":{"ok":true,"echoed":{"branch":"a"}}},{"stepId":"p2","ok":true,"result":{"ok":true,"echoed":{"branch":"b"}}}]})
+  ok   workflow engine rejects a cyclic-dependency workflow instead of hanging  ({"threw":true,"error":"workflow \"workflow.m13-selftest-cyclic\" has a cyclic step dependency."})
+  ok   trigger scheduler accepts a valid interval schedule
+  ok   an interval trigger fires on its own at least once with no manual call  ({"id":"trigger.m13-selftest-interval","name":"trigger.m13-selftest-interval","type":"interval","workflowId":"workflow.m13-selftest-sequential","skillId":null,"enabled":true,"fireCount":3,"lastFiredAt":1785993588987,"lastResult":{"ok":true,"at":1785993588989}})
+  ok   cancel() removes a trigger from the registry
+  ok   trigger scheduler accepts a valid event-based trigger
+  ok   emitting the watched event fires the trigger with no polling  ({"id":"trigger.m13-selftest-event","name":"trigger.m13-selftest-event","type":"event","workflowId":"workflow.m13-selftest-parallel","skillId":null,"enabled":true,"fireCount":1,"lastFiredAt":1785993589002,"lastResult":{"ok":true,"at":1785993589003}})
+  ok   trigger scheduler rejects an incomplete schedule instead of silently no-op-ing
+  ok   automation engine creates an automation from inline steps + a trigger
+  ok   a disabled automation does not fire when its trigger event occurs  ({"id":"trigger.auto.m13-selftest","name":"trigger.auto.m13-selftest","type":"event","workflowId":"workflow.auto-m13-selftest","skillId":null,"enabled":false,"fireCount":0,"lastFiredAt":null,"lastResult":null})
+  ok   re-enabling the automation lets the same event fire it  ({"id":"trigger.auto.m13-selftest","name":"trigger.auto.m13-selftest","type":"event","workflowId":"workflow.auto-m13-selftest","skillId":null,"enabled":true,"fireCount":1,"lastFiredAt":1785993589064,"lastResult":{"ok":true,"at":1785993589065}})
+  ok   automations can also be run manually on demand, independent of their trigger  ({"runId":"wfrun-msh2gx2e-9","workflowId":"workflow.auto-m13-selftest","ok":true,"mode":"sequential","steps":[{"stepId":"a1","ok":true,"result":{"ok":true,"echoed":{"via":"automation"}}}]})
+  ok   remove() deletes the automation record
+  ok   workflow history recorded the sequential self-test run  ({"runId":"wfrun-msh2gwzf-6","workflowId":"workflow.m13-selftest-sequential","status":"completed","startedAt":1785993588987,"finishedAt":1785993588989,"mode":"sequential","steps":[{"stepId":"s1","ok":true,"at":1785993588989},{"stepId":"s2","ok":true,"at":1785993588989}]})
+  ok   workflow history recorded trigger firings from this self-test
+  ok   workflow history recorded skill invocations from this self-test
+  ok   Executive AI turns a single-clause request into a completed automation run  ({"executiveId":"exec-auto-msh2gx2g-1","workflowId":"workflow.executive-plan-msh2gx2g-qcogxa","runId":"wfrun-msh2gx2g-a","ok":true,"mode":"sequential","steps":[{"stepId":"m8step-1-msh2gx2g","ok":true,"result":{"ok":false,"op":"executive-automation","error":"Unsupported memory op \"executive-automation\"."}}]})
+  ok   Executive AI's automation run exposes a live workflowId + runId without blocking
+  ok   a multi-clause Executive AI automation runs its steps and reaches a terminal outcome  ({"executiveId":"exec-auto-msh2gx2i-2","workflowId":"workflow.executive-plan-msh2gx2i-igm8f9","runId":"wfrun-msh2gx2i-b","ok":true,"mode":"sequential","steps":[{"stepId":"m8step-1-msh2gx2i","ok":true,"result":{"ok":true,"reply":"Assistant acknowledged: search AI news"}},{"stepId":"m8step-2-msh2gx2i","ok":true,"result":{"ok":false,"op":"executive-automation","error":"Unsupported memory op \"executive-automation\"."}}]})
+  ok   emitting "automation:auto-request" on the bus autonomously triggers Executive AI to define and run an automation — no direct call needed  (1)
+  ok   still exactly 10 core agents after all Milestone 13 activity, no duplicates  ("count=10")
+[AxiomM14] self-test PASS — 37/37
+  ok   rejects a manifest id in the reserved "agent." namespace
+  ok   rejects a malformed/non-namespaced manifest
+  ok   rejects a non-semver version string
+  ok   rejects an unknown/undeclared permission
+  ok   rejects a manifest depending on a plugin that is not installed
+  ok   install() accepts a valid manifest + factory and returns state "disabled"  ({"ok":true,"plugin":{"id":"plugin.m14-selftest-base","name":"M14 Selftest Base","version":"1.0.0","author":"AXIOM QA","description":"Ephemeral plugin used only by the Milestone 14 self-test.","permissions":["bus.emit"],"dependencies":[],"capabilities":["selftest.echo"],"state":"disabled","error":null,"installedAt":1785993589350,"loadedAt":null}})
+  ok   install() rejects a second install of the same id
+  ok   install() accepts a plugin whose dependency is already installed  ({"ok":true,"plugin":{"id":"plugin.m14-selftest-dependent","name":"M14 Selftest Dependent","version":"1.0.0","author":"AXIOM QA","description":"Depends on plugin.m14-selftest-base.","permissions":[],"dependencies":["plugin.m14-selftest-base"],"capabilities":[],"state":"disabled","error":null,"installedAt":1785993589350,"loadedAt":null}})
+  ok   load() refuses when a declared dependency is installed but not yet enabled
+  ok   a failed dependency-gated load leaves the plugin in state "failed"
+  ok   enable() loads and runs a disabled plugin, reaching state "running"  ({"ok":true,"plugin":{"id":"plugin.m14-selftest-base","name":"M14 Selftest Base","version":"1.0.0","author":"AXIOM QA","description":"Ephemeral plugin used only by the Milestone 14 self-test.","permissions":["bus.emit"],"dependencies":[],"capabilities":["selftest.echo"],"state":"running","error":null,"installedAt":1785993589350,"loadedAt":1785993589351}})
+  ok   enabling a plugin invoked its module onEnable() hook
+  ok   loading a plugin ran its factory exactly once
+  ok   enable() on an already-running plugin is a no-op success (idempotent, no duplicate load)
+  ok   load() on an already-running plugin does not re-invoke the factory (duplicate loading prevented)
+  ok   load() succeeds once its dependency is enabled  ({"ok":true,"plugin":{"id":"plugin.m14-selftest-dependent","name":"M14 Selftest Dependent","version":"1.0.0","author":"AXIOM QA","description":"Depends on plugin.m14-selftest-base.","permissions":[],"dependencies":["plugin.m14-selftest-base"],"capabilities":[],"state":"running","error":null,"installedAt":1785993589350,"loadedAt":1785993589351}})
+  ok   pause() moves a running plugin to state "paused"  ({"ok":true,"plugin":{"id":"plugin.m14-selftest-base","name":"M14 Selftest Base","version":"1.0.0","author":"AXIOM QA","description":"Ephemeral plugin used only by the Milestone 14 self-test.","permissions":["bus.emit"],"dependencies":[],"capabilities":["selftest.echo"],"state":"paused","error":null,"installedAt":1785993589350,"loadedAt":1785993589351}})
+  ok   pausing invoked the module onPause() hook
+  ok   pause() on an already-paused plugin is rejected (not running)
+  ok   resume() moves a paused plugin back to state "running"  ({"ok":true,"plugin":{"id":"plugin.m14-selftest-base","name":"M14 Selftest Base","version":"1.0.0","author":"AXIOM QA","description":"Ephemeral plugin used only by the Milestone 14 self-test.","permissions":["bus.emit"],"dependencies":[],"capabilities":["selftest.echo"],"state":"running","error":null,"installedAt":1785993589350,"loadedAt":1785993589351}})
+  ok   resuming invoked the module onResume() hook
+  ok   uninstall() is refused while an active dependent plugin still needs it  ("Cannot uninstall \"plugin.m14-selftest-base\": still depended on by active plugin(s): plugin.m14-selftest-dependent.")
+  ok   disable() moves a running plugin to state "disabled" and frees it (unloaded)
+  ok   disable() on the base plugin succeeds once nothing depends on it anymore
+  ok   disabling invoked the module onDisable() hook
+  ok   after disable(), the loader no longer reports the plugin as loaded
+  ok   unload() on a not-loaded plugin reports a clear error rather than throwing
+  ok   load() after a full disable/unload cycle re-invokes the factory (lazy reload works)  (2)
+  ok   uninstall() removes a disabled plugin from the registry
+  ok   uninstall() removes the base plugin once no dependents remain
+  ok   uninstall() on an unknown id reports a clear error
+  ok   install() accepts a plugin that declares a skill extension point
+  ok   enabling a plugin registers its declared skill in the real Skill Registry
+  ok   the plugin-provided skill is genuinely invocable through Skill Registry .invoke()  ({"via":"plugin"})
+  ok   disabling the plugin unregisters its skill from the Skill Registry
+  ok   still exactly 10 core agents after all Milestone 14 activity, no duplicates  ("count=10")
+  ok   event-driven lifecycle events actually fired on the shared bus for this run  (39)
+
+=== MILESTONE 14 PART 1 VERIFICATION ===
+PASS  Milestone 4/5 self-test still passes (no regression)
+PASS  Milestone 8 self-test still passes (no regression)
+PASS  Milestone 9 self-test still passes (no regression)
+PASS  Milestone 10 self-test still passes (no regression)
+PASS  Milestone 11 self-test still passes (no regression)
+PASS  Milestone 12 self-test still passes (no regression)
+PASS  Milestone 13 self-test still passes (no regression)
+PASS  Still exactly 10 core agents, no duplicates
+PASS  Milestone 14 Part 1 self-test passes
+PASS    [M14] rejects a manifest id in the reserved "agent." namespace
+PASS    [M14] rejects a malformed/non-namespaced manifest
+PASS    [M14] rejects a non-semver version string
+PASS    [M14] rejects an unknown/undeclared permission
+PASS    [M14] rejects a manifest depending on a plugin that is not installed
+PASS    [M14] install() accepts a valid manifest + factory and returns state "disabled"
+PASS    [M14] install() rejects a second install of the same id
+PASS    [M14] install() accepts a plugin whose dependency is already installed
+PASS    [M14] load() refuses when a declared dependency is installed but not yet enabled
+PASS    [M14] a failed dependency-gated load leaves the plugin in state "failed"
+PASS    [M14] enable() loads and runs a disabled plugin, reaching state "running"
+PASS    [M14] enabling a plugin invoked its module onEnable() hook
+PASS    [M14] loading a plugin ran its factory exactly once
+PASS    [M14] enable() on an already-running plugin is a no-op success (idempotent, no duplicate load)
+PASS    [M14] load() on an already-running plugin does not re-invoke the factory (duplicate loading prevented)
+PASS    [M14] load() succeeds once its dependency is enabled
+PASS    [M14] pause() moves a running plugin to state "paused"
+PASS    [M14] pausing invoked the module onPause() hook
+PASS    [M14] pause() on an already-paused plugin is rejected (not running)
+PASS    [M14] resume() moves a paused plugin back to state "running"
+PASS    [M14] resuming invoked the module onResume() hook
+PASS    [M14] uninstall() is refused while an active dependent plugin still needs it
+PASS    [M14] disable() moves a running plugin to state "disabled" and frees it (unloaded)
+PASS    [M14] disable() on the base plugin succeeds once nothing depends on it anymore
+PASS    [M14] disabling invoked the module onDisable() hook
+PASS    [M14] after disable(), the loader no longer reports the plugin as loaded
+PASS    [M14] unload() on a not-loaded plugin reports a clear error rather than throwing
+PASS    [M14] load() after a full disable/unload cycle re-invokes the factory (lazy reload works)
+PASS    [M14] uninstall() removes a disabled plugin from the registry
+PASS    [M14] uninstall() removes the base plugin once no dependents remain
+PASS    [M14] uninstall() on an unknown id reports a clear error
+PASS    [M14] install() accepts a plugin that declares a skill extension point
+PASS    [M14] enabling a plugin registers its declared skill in the real Skill Registry
+PASS    [M14] the plugin-provided skill is genuinely invocable through Skill Registry .invoke()
+PASS    [M14] disabling the plugin unregisters its skill from the Skill Registry
+PASS    [M14] still exactly 10 core agents after all Milestone 14 activity, no duplicates
+PASS    [M14] event-driven lifecycle events actually fired on the shared bus for this run
+PASS  a plugin installed purely via "pluginmgr:install-request" (no JS reference) registers
+PASS  the same plugin reaches "running" purely via "pluginmgr:enable-request"
+PASS  the plugin returns to "disabled" purely via "pluginmgr:disable-request"
+PASS  a plugin declaring an "agent" extension point installs cleanly
+PASS  enabling the plugin registers its agent via the real, unmodified AxiomPluginRegistry
+PASS  the registered agent is a genuine AxiomAgentManager agent too
+PASS  disabling the plugin unregisters its agent from the Plugin Registry
+PASS  the agent is also gone from AxiomAgentManager
+PASS  three concurrent load()/enable() calls on the same plugin run the factory exactly once
+PASS  Event Bus, Agent Manager, Skill Registry, Plugin Registry, and all Milestone 14 modules are still the same singletons after M14 load
+PASS  Milestone 14 introduced no duplicate manager/registry globals
+PASS  Still exactly 10 core agents after all Milestone 14 activity, no duplicates
+
+58/58 checks passed.
+
+=== milestone5-regression-suite.js ===
+node:internal/modules/cjs/loader:1386
+  throw err;
+  ^
+
+Error: Cannot find module 'jsdom'
+Require stack:
+- /home/claude/work/part2a/axiom/test-evidence/milestone5-regression-suite.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+    at Function._load (node:internal/modules/cjs/loader:1192:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/claude/work/part2a/axiom/test-evidence/milestone5-regression-suite.js:1:19)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/claude/work/part2a/axiom/test-evidence/milestone5-regression-suite.js'
+  ]
+}
+
+Node.js v22.22.2
+
+=== milestone6-regression-suite.js ===
+node:internal/modules/cjs/loader:1386
+  throw err;
+  ^
+
+Error: Cannot find module 'jsdom'
+Require stack:
+- /home/claude/work/part2a/axiom/test-evidence/milestone6-regression-suite.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+    at Function._load (node:internal/modules/cjs/loader:1192:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/claude/work/part2a/axiom/test-evidence/milestone6-regression-suite.js:1:19)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/claude/work/part2a/axiom/test-evidence/milestone6-regression-suite.js'
+  ]
+}
+
+Node.js v22.22.2
+
+=== supabase-part1-regression-suite.js ===
+[AxiomSupabaseEnv] Configuration invalid:
+  - SUPABASE_URL is not set. window.__AXIOM_ENV__ was not found — js/core/env.config.js is missing (run `npm run build` / scripts/inject-env.js with SUPABASE_URL and SUPABASE_ANON_KEY set in the environment), or it loaded after this script.
+  - SUPABASE_ANON_KEY is not set (see SUPABASE_URL error above for the same root cause).
+PASS  env: missing __AXIOM_ENV__ is invalid
+[AxiomSupabaseEnv] Configuration invalid:
+  - SUPABASE_URL is still the template placeholder value — the build step that fills in js/core/env.config.js from real environment variables has not run.
+  - SUPABASE_ANON_KEY is still the template placeholder value.
+PASS  env: template placeholders are invalid
+[AxiomSupabaseEnv] Configuration invalid:
+  - SUPABASE_URL ("not-a-url") is not a valid https:// URL.
+PASS  env: malformed URL rejected
+[AxiomSupabaseEnv] Configuration invalid:
+  - SUPABASE_ANON_KEY looks too short to be a real anon/publishable key.
+PASS  env: too-short anon key rejected
+PASS  env: well-formed config is valid
+PASS  env: validate() is memoized
+[AxiomSupabaseConnection] unconfigured -> connecting
+[AxiomSupabaseEnv] Configuration invalid:
+  - SUPABASE_URL is not set. window.__AXIOM_ENV__ was not found — js/core/env.config.js is missing (run `npm run build` / scripts/inject-env.js with SUPABASE_URL and SUPABASE_ANON_KEY set in the environment), or it loaded after this script.
+  - SUPABASE_ANON_KEY is not set (see SUPABASE_URL error above for the same root cause).
+[AxiomSupabaseConnection] connecting -> unconfigured
+PASS  connection: invalid env -> getClient() is null
+PASS  connection: invalid env -> state is unconfigured
+[AxiomSupabaseConnection] unconfigured -> connecting
+[AxiomSupabaseConnection] connecting -> unconfigured
+PASS  connection: missing SDK -> getClient() is null
+PASS  connection: missing SDK -> lastError classified
+[AxiomSupabaseConnection] unconfigured -> connecting
+PASS  connection: valid env + SDK -> client created
+[AxiomSupabaseConnection] connecting -> connected
+PASS  connection: healthy probe resolves true
+PASS  connection: healthy probe -> state connected
+PASS  connection: state-changed event fired
+PASS  connection: DOM CustomEvent dispatched (axiom:supabase:*)
+[AxiomSupabaseConnection] unconfigured -> connecting
+[AxiomSupabaseConnection] connecting -> degraded
+[AxiomSupabaseConnection] degraded -> reconnecting
+[AxiomSupabaseConnection] reconnecting -> degraded
+PASS  connection: failing probe resolves false
+PASS  connection: failing probe -> state degraded or reconnecting
+[AxiomSupabaseConnection] unconfigured -> connecting
+[AxiomSupabaseConnection] connecting -> offline
+PASS  connection: offline browser -> state offline
+[AxiomSupabaseConnection] unconfigured -> connecting
+[AxiomSupabaseConnection] connecting -> degraded
+[AxiomSupabaseConnection] degraded -> reconnecting
+[AxiomSupabaseConnection] reconnecting -> degraded
+PASS  connection: network error classified as "network"
+PASS  connection: duplicate on() does not double-fire
+PASS  connection: off() removes the listener
+PASS  connection: once() fires exactly once
+[AxiomSupabaseConnection] unconfigured -> connecting
+PASS  auth: onAuthStateChange re-broadcast as "changed"
+[AxiomSupabaseConnection] connecting -> connected
+PASS  auth: getTimeToExpiryMs reflects last known session
+PASS  auth: init() is idempotent (no duplicate subscriptions)
+[AxiomSupabaseConnection] unconfigured -> connecting
+PASS  back-compat: supabaseClient bare identifier defined
+PASS  back-compat: SUPABASE_URL bare identifier defined
+PASS  back-compat: SUPABASE_ANON_KEY bare identifier defined
+PASS  back-compat: openrouter-config.js-style bare reference works
+[AxiomSupabaseConnection] connecting -> connected
+PASS  static: no hardcoded Supabase credential in js/core/supabase-config.js
+PASS  static: no hardcoded Supabase credential in js/core/supabase/env.js
+PASS  static: no hardcoded Supabase credential in js/core/supabase/connection-manager.js
+PASS  static: no hardcoded Supabase credential in js/core/supabase/auth-service.js
+PASS  static: no hardcoded Supabase credential in js/core/env.config.template.js
+PASS  static: no hardcoded Supabase credential in scripts/inject-env.js
+PASS  static: admin.html loads Supabase foundation scripts in order
+PASS  static: agent-library.html loads Supabase foundation scripts in order
+PASS  static: analytics.html loads Supabase foundation scripts in order
+PASS  static: automation.html loads Supabase foundation scripts in order
+PASS  static: billing.html loads Supabase foundation scripts in order
+PASS  static: brain.html loads Supabase foundation scripts in order
+PASS  static: browser.html loads Supabase foundation scripts in order
+PASS  static: index.html loads Supabase foundation scripts in order
+PASS  static: login.html loads Supabase foundation scripts in order
+PASS  static: memory.html loads Supabase foundation scripts in order
+PASS  static: os-shell.html loads Supabase foundation scripts in order
+PASS  static: playground.html loads Supabase foundation scripts in order
+PASS  static: register.html loads Supabase foundation scripts in order
+PASS  static: settings.html loads Supabase foundation scripts in order
+PASS  static: studios.html loads Supabase foundation scripts in order
+PASS  static: workspace.html loads Supabase foundation scripts in order
+
+51/51 passing
+

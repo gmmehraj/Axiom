@@ -1,0 +1,852 @@
+/* ============================================================
+   AXIOM PLAYGROUND — Phase 4 · Part 1 · UX Refinement
+   ------------------------------------------------------------
+   ai-workspace-ultimate.js builds a large amount of Playground
+   chrome at runtime (composer quick-tools, attachments, model
+   switcher, compare mode, canvas panel, capture modal, message
+   actions, fork tabs, code blocks) that previously shipped with
+   NO matching CSS anywhere in the project — it rendered with
+   unstyled browser defaults. This file gives all of it a look
+   consistent with ax-chat.css so the whole Playground reads as
+   one considered surface instead of a styled shell around an
+   unstyled engine.
+
+   Reuses the --ax-ease-out / --ax-dur-* tokens defined at the
+   top of ax-chat.css (load this file after it).
+   ============================================================ */
+
+/* ---------------------------------------------------------
+   1. Composer wrap + quick tools row
+   --------------------------------------------------------- */
+.ax-prompt-wrap {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-radius: 26px;
+}
+
+/* Ambient "AI is thinking/answering" cue around the whole composer —
+   pairs with the in-bubble typing indicator so the state reads even
+   when the chat window itself is scrolled out of view. */
+.ax-prompt-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 27px;
+  padding: 1px;
+  background: linear-gradient(90deg, transparent, rgba(141, 187, 255, .55), transparent);
+  background-size: 200% 100%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-duration-base) var(--motion-ease-standard);
+}
+
+.ax-prompt-wrap.is-answering::before {
+  opacity: 1;
+  animation: axComposerScan 1.6s var(--motion-ease-linear) infinite;
+}
+
+@keyframes axComposerScan {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.ax-quick-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px 8px;
+  flex-wrap: wrap;
+}
+
+.ax-qt-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .55);
+  font-size: .74rem;
+  font-weight: 500;
+  font-family: var(--ax-font, "Inter"), sans-serif;
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard),
+              color var(--motion-duration-fast) var(--motion-ease-standard),
+              border-color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-qt-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.ax-qt-btn:hover {
+  background: rgba(255, 255, 255, .07);
+  color: rgba(255, 255, 255, .85);
+  border-color: rgba(255, 255, 255, .14);
+}
+
+.ax-qt-btn.active {
+  background: rgba(141, 187, 255, .14);
+  border-color: rgba(141, 187, 255, .35);
+  color: #C7DEFF;
+}
+
+/* ---------------------------------------------------------
+   2. Compare-mode banner
+   --------------------------------------------------------- */
+.ax-compare-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 16px 8px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: rgba(141, 187, 255, .08);
+  border: 1px solid rgba(141, 187, 255, .22);
+  color: #CBE0FF;
+  font-size: .78rem;
+  animation: axAttachSlide var(--motion-duration-base) var(--motion-ease-decelerate) both;
+}
+
+.ax-compare-banner strong {
+  color: #FFFFFF;
+}
+
+/* ---------------------------------------------------------
+   3. Attachment tray + chips (drag/drop, image/pdf/file uploads)
+   --------------------------------------------------------- */
+.ax-attach-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 16px 8px;
+}
+
+.ax-attach-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 220px;
+  padding: 6px 10px 6px 6px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .1);
+  animation: axAttachSlide var(--motion-duration-base) var(--motion-ease-decelerate) both;
+}
+
+.ax-attach-thumb {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.ax-attach-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, .06);
+  color: rgba(255, 255, 255, .5);
+  flex-shrink: 0;
+}
+
+.ax-attach-icon svg { width: 16px; height: 16px; }
+
+.ax-attach-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+  gap: 1px;
+}
+
+.ax-attach-fname {
+  font-size: .78rem;
+  color: #F5F5F5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ax-attach-sub {
+  font-size: .68rem;
+  color: rgba(255, 255, 255, .4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ax-attach-chip button {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, .35);
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .7rem;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-attach-chip button svg { width: 13px; height: 13px; }
+
+.ax-attach-chip button:hover {
+  background: rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .8);
+}
+
+/* ---------------------------------------------------------
+   4. Model switcher chip + dropdown
+   --------------------------------------------------------- */
+.ax-model-switcher {
+  position: relative;
+}
+
+.ax-model-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .1);
+  color: rgba(255, 255, 255, .7);
+  font-size: .76rem;
+  font-weight: 500;
+  font-family: var(--ax-font, "Inter"), sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 160px;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-model-chip span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ax-model-chip svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  opacity: .6;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-model-chip:hover {
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .16);
+  color: #F5F5F5;
+}
+
+.ax-model-switcher:has(.ax-model-dropdown.open) .ax-model-chip svg {
+  transform: rotate(180deg);
+}
+
+.ax-model-dropdown {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  max-height: 320px;
+  overflow-y: auto;
+  background: #101010;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .5);
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 1px;
+  z-index: 60;
+}
+
+.ax-model-dropdown.open {
+  display: flex;
+  animation: axDropdownIn var(--motion-duration-fast) var(--motion-ease-decelerate) both;
+}
+
+@keyframes axDropdownIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ax-model-dropdown-group {
+  font-size: .66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: rgba(255, 255, 255, .3);
+  padding: 8px 10px 4px;
+}
+
+.ax-model-option {
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: .8rem;
+  color: rgba(255, 255, 255, .7);
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-model-option:hover {
+  background: rgba(255, 255, 255, .07);
+  color: #F5F5F5;
+}
+
+.ax-model-option.selected {
+  background: rgba(141, 187, 255, .1);
+  color: #C7DEFF;
+}
+
+/* ---------------------------------------------------------
+   5. Message actions polish (copy/regenerate/edit/branch tag)
+   --------------------------------------------------------- */
+.ax-msg-model-tag {
+  margin-top: 4px;
+  font-size: .68rem;
+  color: rgba(255, 255, 255, .3);
+  font-family: var(--ax-font-mono, "JetBrains Mono"), monospace;
+}
+
+.ax-msg-action.is-done {
+  color: #6EE7B7;
+}
+
+.ax-msg-edit-box {
+  width: 100%;
+  min-height: 60px;
+  margin-top: 4px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .14);
+  color: #F5F5F5;
+  font-family: var(--ax-font, "Inter"), sans-serif;
+  font-size: .88rem;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+}
+
+.ax-msg-edit-box:focus {
+  border-color: rgba(255, 255, 255, .3);
+}
+
+.ax-msg-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ax-msg-edit-actions button {
+  padding: 7px 14px;
+  border-radius: 10px;
+  font-size: .78rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(255, 255, 255, .04);
+  color: rgba(255, 255, 255, .7);
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-msg-edit-actions button:hover {
+  background: rgba(255, 255, 255, .09);
+  color: #F5F5F5;
+}
+
+.ax-msg-edit-actions button.primary {
+  background: #F5F5F5;
+  border-color: #F5F5F5;
+  color: #0A0A0A;
+}
+
+.ax-msg-edit-actions button.primary:hover {
+  background: #FFFFFF;
+}
+
+/* ---------------------------------------------------------
+   6. Fork/branch conversation tabs (inserted above the chat window)
+   --------------------------------------------------------- */
+.ax-chat-main > .ax-chat-tabs {
+  display: none;
+  gap: 4px;
+  padding: 8px 16px 0;
+  margin: 0;
+  background: none;
+  border: none;
+  overflow-x: auto;
+}
+
+.ax-chat-main > .ax-chat-tabs .ax-chat-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  max-width: 180px;
+  padding: 7px 10px;
+}
+
+.ax-chat-main > .ax-chat-tabs .ax-chat-tab svg {
+  width: 13px;
+  height: 13px;
+  opacity: .5;
+  flex-shrink: 0;
+}
+
+.ax-chat-main > .ax-chat-tabs .ax-chat-tab span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ax-chat-main > .ax-chat-tabs .ax-chat-tab-new {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 255, 255, .16);
+  background: transparent;
+  color: rgba(255, 255, 255, .4);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-chat-main > .ax-chat-tabs .ax-chat-tab-new:hover {
+  background: rgba(255, 255, 255, .06);
+  color: #F5F5F5;
+}
+
+.ax-chat-main > .ax-chat-tabs .ax-tab-close {
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, .3);
+  font-size: .65rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.ax-chat-main > .ax-chat-tabs .ax-tab-close:hover {
+  background: rgba(255, 255, 255, .1);
+  color: #F5F5F5;
+}
+
+/* ---------------------------------------------------------
+   7. Follow-up suggestion chips
+   --------------------------------------------------------- */
+.ax-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.ax-suggestion-chip {
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .1);
+  color: rgba(255, 255, 255, .65);
+  font-size: .78rem;
+  font-family: var(--ax-font, "Inter"), sans-serif;
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-suggestion-chip:hover {
+  background: rgba(255, 255, 255, .09);
+  border-color: rgba(255, 255, 255, .18);
+  color: #F5F5F5;
+}
+
+/* ---------------------------------------------------------
+   8. Code blocks + diagram blocks rendered inside a bubble
+   --------------------------------------------------------- */
+.ax-msg-bubble .ax-code-block {
+  margin: .6em 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(0, 0, 0, .35);
+  overflow: hidden;
+}
+
+.ax-msg-bubble .ax-code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, .04);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  font-size: .72rem;
+  font-family: var(--ax-font-mono, "JetBrains Mono"), monospace;
+  color: rgba(255, 255, 255, .4);
+  text-transform: lowercase;
+}
+
+.ax-code-block-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.ax-code-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255, 255, 255, .45);
+  font-size: .7rem;
+  font-family: var(--ax-font, "Inter"), sans-serif;
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-code-btn svg { width: 12px; height: 12px; }
+
+.ax-code-btn:hover {
+  background: rgba(255, 255, 255, .08);
+  color: #F5F5F5;
+}
+
+.ax-msg-bubble .ax-code-block-content {
+  display: block;
+  padding: 12px 14px;
+  overflow-x: auto;
+  font-family: var(--ax-font-mono, "JetBrains Mono"), monospace;
+  font-size: .82rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, .85);
+  background: none;
+}
+
+.ax-code-run-output {
+  margin: 0 14px 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .65);
+  font-family: var(--ax-font-mono, "JetBrains Mono"), monospace;
+  font-size: .76rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ax-code-run-output.is-error {
+  border-color: rgba(239, 68, 68, .3);
+  color: #FCA5A5;
+  background: rgba(239, 68, 68, .08);
+}
+
+.ax-mermaid-block {
+  margin: .6em 0;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(255, 255, 255, .08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow-x: auto;
+}
+
+.ax-mermaid-block svg { max-width: 100%; }
+
+.ax-mermaid-loading {
+  font-size: .8rem;
+  color: rgba(255, 255, 255, .4);
+}
+
+.ax-mermaid-expand {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  background: rgba(0, 0, 0, .4);
+  color: rgba(255, 255, 255, .6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ax-mermaid-expand svg { width: 14px; height: 14px; }
+
+.ax-mermaid-expand:hover {
+  color: #FFFFFF;
+  background: rgba(0, 0, 0, .6);
+}
+
+/* ---------------------------------------------------------
+   9. Compare-mode grid (side-by-side model responses)
+   --------------------------------------------------------- */
+.ax-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.ax-compare-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .08);
+  overflow: hidden;
+}
+
+.ax-compare-card-head {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  background: rgba(255, 255, 255, .03);
+}
+
+.ax-compare-model {
+  font-size: .72rem;
+  font-family: var(--ax-font-mono, "JetBrains Mono"), monospace;
+  color: rgba(255, 255, 255, .5);
+}
+
+.ax-compare-body {
+  flex: 1;
+  padding: 12px 14px;
+  font-size: .85rem;
+  line-height: 1.6;
+  color: #F5F5F5;
+}
+
+.ax-compare-keep {
+  margin: 0 12px 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(255, 255, 255, .05);
+  color: rgba(255, 255, 255, .75);
+  font-size: .78rem;
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-compare-keep:hover {
+  background: #F5F5F5;
+  color: #0A0A0A;
+}
+
+/* ---------------------------------------------------------
+   10. Canvas panel (live HTML/SVG/JS/diagram preview)
+   --------------------------------------------------------- */
+.ax-canvas-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .5);
+  z-index: 449;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-duration-base) var(--motion-ease-standard);
+}
+
+.ax-canvas-scrim.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ax-canvas-panel {
+  position: fixed;
+  top: 4vh;
+  left: 50%;
+  width: min(920px, 92vw);
+  height: 92vh;
+  transform: translate(-50%, 24px);
+  background: #0A0A0A;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 20px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, .6);
+  z-index: 450;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-duration-slow) var(--motion-ease-decelerate), transform var(--motion-duration-slow) var(--motion-ease-decelerate);
+}
+
+.ax-canvas-panel.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.ax-canvas-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  flex-shrink: 0;
+}
+
+.ax-canvas-head h4 {
+  font-size: .85rem;
+  font-weight: 600;
+  color: #F5F5F5;
+}
+
+.ax-canvas-body {
+  flex: 1;
+  background: #050505;
+}
+
+.ax-canvas-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ---------------------------------------------------------
+   11. Camera / screen capture modal
+   --------------------------------------------------------- */
+.ax-capture-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, .6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.ax-capture-modal.open {
+  display: flex;
+  animation: axAttachSlide var(--motion-duration-base) var(--motion-ease-decelerate) both;
+}
+
+.ax-capture-card {
+  width: min(560px, 92vw);
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .6);
+}
+
+.ax-capture-card h4 {
+  font-size: .95rem;
+  font-weight: 600;
+  color: #F5F5F5;
+  margin-bottom: 12px;
+}
+
+.ax-capture-viewport {
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 16 / 10;
+}
+
+.ax-capture-viewport video,
+.ax-capture-viewport canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ax-capture-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ax-capture-actions button {
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: .82rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(255, 255, 255, .04);
+  color: rgba(255, 255, 255, .7);
+  cursor: pointer;
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-capture-actions button:hover {
+  background: rgba(255, 255, 255, .09);
+  color: #F5F5F5;
+}
+
+.ax-capture-actions button.primary {
+  background: #F5F5F5;
+  border-color: #F5F5F5;
+  color: #0A0A0A;
+}
+
+.ax-capture-actions button.primary:hover {
+  background: #FFFFFF;
+}
+
+/* ---------------------------------------------------------
+   12. Responsive
+   --------------------------------------------------------- */
+@media (max-width: 900px) {
+  .ax-model-chip {
+    max-width: 110px;
+  }
+
+  .ax-compare-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ax-canvas-panel {
+    width: 96vw;
+    height: 94vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .ax-quick-tools {
+    padding: 0 10px 8px;
+  }
+
+  .ax-qt-btn {
+    padding: 6px 9px;
+    font-size: 0;
+  }
+
+  .ax-qt-btn svg {
+    width: 15px;
+    height: 15px;
+  }
+}

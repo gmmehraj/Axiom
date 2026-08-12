@@ -1,0 +1,182 @@
+{
+  "common": {
+    "appName": "Axiom AI Studio",
+    "back": "返回",
+    "backToAxiom": "返回 Axiom",
+    "save": "保存",
+    "cancel": "取消",
+    "close": "关闭",
+    "loading": "加载中…",
+    "pleaseWait": "请稍候…",
+    "saved": "已保存",
+    "search": "搜索",
+    "send": "发送",
+    "stop": "停止",
+    "regenerate": "重新生成",
+    "upload": "上传",
+    "thinking": "思考中…",
+    "typing": "正在输入…",
+    "language": "语言",
+    "theme": "主题",
+    "notifications": "通知",
+    "signOut": "退出登录"
+  },
+
+  "nav": {
+    "dashboard": "仪表盘",
+    "chats": "Chats",
+    "playground": "playground",
+    "billing": "账单",
+    "settings": "设置",
+    "admin": "管理后台",
+    "profile": "个人资料",
+    "newChat": "新建对话",
+    "history": "历史记录"
+  },
+
+  "auth": {
+    "welcomeBack": "欢迎回来",
+    "signInTitle": "登录 Axiom",
+    "signInSubtitle": "在每个模型中，从上次离开的地方继续。",
+    "email": "邮箱",
+    "password": "密码",
+    "forgotPassword": "忘记密码？",
+    "signIn": "登录",
+    "noAccount": "还没有账号？",
+    "createOne": "立即注册",
+    "createAccountTitle": "创建你的账号",
+    "createAccountSubtitle": "一个账号，畅用所有模型进行创作。",
+    "fullName": "姓名",
+    "confirmPassword": "确认密码",
+    "createAccount": "创建账号",
+    "haveAccount": "已经有账号了？",
+    "signInLink": "登录",
+    "logout": "退出登录",
+    "errorInvalidCredentials": "邮箱或密码不正确。",
+    "errorGeneric": "出了点问题，请重试。",
+    "errorPasswordMismatch": "两次输入的密码不一致。"
+  },
+
+  "dashboard": {
+    "title": "仪表盘",
+    "creditsRemaining": "剩余额度",
+    "activeProjects": "活跃项目",
+    "generationsThisMonth": "本月生成次数",
+    "avgRelayHandoff": "平均 Relay 交接时间",
+    "quickActions": "快捷操作",
+    "quickActionsSubtitle": "直接跳转到某个模型。",
+    "recentGenerations": "最近生成",
+    "recentGenerationsSubtitle": "来自工作室的所有工具。",
+    "viewAll": "查看全部 →",
+    "newGeneration": "新建生成"
+  },
+
+  "playground": {
+    "modelLabel": "模型",
+    "searchModels": "搜索模型…",
+    "placeholder": "向 JARVIS 提问……",
+    "deleteChat": "删除对话",
+    "renameChat": "重命名对话",
+    "newChat": "新建对话",
+    "outOfCredits": "你的额度已用完，请前往账单页面充值。",
+    "chatUnavailable": "对话功能不可用：OpenRouter 加载失败。",
+    "genericError": "与 AI 对话时出了点问题。",
+    "generationComplete": "生成完成"
+  },
+
+  "billing": {
+    "title": "账单",
+    "currentPlan": "当前套餐",
+    "freeForever": "永久免费",
+    "creditPacks": "额度包",
+    "subscriptions": "订阅",
+    "buyCredits": "购买额度",
+    "subscribe": "订阅",
+    "currentPlanBtn": "当前套餐",
+    "preparingCheckout": "正在准备结账…",
+    "verifyingPayment": "正在验证付款…",
+    "paymentSuccessful": "付款成功！",
+    "paymentFailed": "付款失败：{reason}",
+    "checkoutFailed": "无法启动结账流程",
+    "checkoutError": "启动结账时出了点问题",
+    "verificationFailed": "付款验证失败",
+    "verificationError": "无法验证付款——如已被扣款，请联系支持团队",
+    "usageHistory": "使用记录",
+    "model": "模型",
+    "date": "日期",
+    "tokens": "Token 数",
+    "credits": "额度"
+  },
+
+  "settings": {
+    "title": "设置",
+    "profile": "个人资料",
+    "account": "账户",
+    "appearance": "外观",
+    "languageRegion": "语言与地区",
+    "languageRegionSubtitle": "选择界面语言以及 JARVIS 回复所使用的语言。",
+    "selectLanguage": "选择语言",
+    "autoDetected": "已根据浏览器自动检测",
+    "voice": "语音",
+    "voiceInput": "语音输入语言",
+    "voiceOutput": "语音输出音色",
+    "notifications": "通知",
+    "dangerZone": "危险区域",
+    "deleteAccount": "删除账号"
+  },
+
+  "admin": {
+    "title": "管理后台",
+    "subtitle": "全工作室范围的使用情况、用户和系统状态。",
+    "totalUsers": "用户总数",
+    "generations24h": "生成次数（24 小时）",
+    "activeSubscriptions": "有效订阅数",
+    "mrrComingSoon": "即将推出",
+    "mrrLabel": "月经常性收入（MRR）——需要账单分析功能",
+    "recentUsers": "最新用户",
+    "recentUsersSubtitle": "工作室最新注册的用户。",
+    "modelLoad": "模型负载",
+    "modelLoadSubtitle": "仅作示意——尚未连接真实的分模型使用数据。",
+    "name": "姓名",
+    "plan": "套餐",
+    "credits": "额度",
+    "joined": "加入时间",
+    "loadingUsers": "加载中…",
+    "couldNotLoad": "无法加载用户数据。"
+  },
+
+  "jarvis": {
+    "name": "JARVIS",
+    "onlineStatus": "在线 · 反应堆已激活",
+    "listeningStatus": "正在聆听…",
+    "thinkingStatus": "思考中…",
+    "speakingStatus": "正在说话…",
+    "errorStatus": "出了点问题",
+    "greeting": "你好，我是 JARVIS",
+    "greetingSubtitle": "你的智能私人助理。",
+    "tagline": "思考 · 创造 · 自动化",
+    "askAnything": "向 JARVIS 提问……",
+    "micUnavailable": "麦克风不可用——语音模式目前仅支持视觉效果。",
+    "writeCode": "编写代码",
+    "writeCodeSub": "调试、构建、审查",
+    "generateImage": "生成图像",
+    "generateImageSub": "文本或图像提示词",
+    "analyzeDocument": "分析文档",
+    "analyzeDocumentSub": "上传并获取摘要",
+    "researchWeb": "网络搜索研究",
+    "researchWebSub": "实时、有引用来源的回答"
+  },
+
+  "errors": {
+    "generic": "出了点问题，请重试。",
+    "network": "无法连接，请检查你的网络连接。",
+    "rateLimited": "请求过于频繁，请放慢速度。",
+    "unauthorized": "请登录后继续。",
+    "notFound": "未找到相关内容。"
+  },
+
+  "toasts": {
+    "saved": "已保存",
+    "copied": "已复制到剪贴板"
+  }
+}

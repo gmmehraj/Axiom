@@ -21,3 +21,6 @@ build/
 # Editor
 .vscode/
 .idea/
+
+# Generated public Supabase runtime config
+js/core/env.config.js

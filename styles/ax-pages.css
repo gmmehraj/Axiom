@@ -1,0 +1,346 @@
+/* ============================================================
+   AXIOM AI OS V8 — Shared Page Styles
+   ------------------------------------------------------------
+   Used by Analytics, Memory, Browser, Automation pages.
+   Uniform glass card design language.
+   ============================================================ */
+
+/* ---- Page Layout ---- */
+.ax-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ax-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 4px 0;
+  flex-wrap: wrap;
+}
+
+.ax-page-header-left h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  color: #F5F5F5;
+  margin-bottom: 4px;
+}
+
+.ax-page-header-left p {
+  font-size: .88rem;
+  color: rgba(255, 255, 255, .45);
+}
+
+.ax-page-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---- Page Grid Layout ---- */
+.ax-page-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.ax-page-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.ax-page-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.ax-page-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* ---- Glass Metric Card ---- */
+.ax-metric-card {
+  padding: 20px;
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .45), inset 0 1px rgba(255, 255, 255, .10);
+  transition: transform var(--motion-duration-base) var(--motion-ease-emphasized), border-color var(--motion-duration-base) var(--motion-ease-standard), box-shadow var(--motion-duration-base) var(--motion-ease-standard);
+}
+
+.ax-metric-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, .14);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, .5), inset 0 1px rgba(255, 255, 255, .14);
+}
+
+.ax-metric-card .ax-metric-label {
+  font-size: .74rem;
+  color: rgba(255, 255, 255, .4);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-weight: 600;
+}
+
+.ax-metric-card .ax-metric-value {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -.04em;
+  color: #F5F5F5;
+  line-height: 1;
+}
+
+.ax-metric-card .ax-metric-sub {
+  font-size: .78rem;
+  color: rgba(255, 255, 255, .35);
+}
+
+.ax-metric-card .ax-metric-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .74rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(110, 231, 183, .1);
+  color: #6EE7B7;
+  border: 1px solid rgba(110, 231, 183, .15);
+}
+
+.ax-metric-card .ax-metric-trend.down {
+  background: rgba(239, 68, 68, .1);
+  color: #EF4444;
+  border-color: rgba(239, 68, 68, .15);
+}
+
+/* ---- Glass Chart / Graph Placeholder ---- */
+.ax-chart-card {
+  padding: 20px;
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 24px;
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .45), inset 0 1px rgba(255, 255, 255, .10);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  grid-column: span 2;
+}
+
+.ax-chart-card .ax-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ax-chart-card .ax-chart-header h3 {
+  font-size: .95rem;
+  font-weight: 600;
+  color: #F5F5F5;
+}
+
+.ax-chart-card .ax-chart-area {
+  flex: 1;
+  min-height: 200px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .02);
+  border: 1px solid rgba(255, 255, 255, .04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, .15);
+  font-size: .82rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---- Glass Progress Bar ---- */
+.ax-page-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .04);
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.ax-page-progress .ax-page-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, .25), rgba(255, 255, 255, .6));
+  box-shadow: 0 0 10px rgba(255, 255, 255, .08);
+  transition: width var(--motion-duration-reveal) var(--motion-ease-emphasized);
+}
+
+/* ---- Glass Status Indicator ---- */
+.ax-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.ax-status-dot.online { background: #6EE7B7; box-shadow: 0 0 10px rgba(110, 231, 183, .4); }
+.ax-status-dot.warning { background: #FBBF24; box-shadow: 0 0 10px rgba(251, 191, 36, .4); }
+.ax-status-dot.offline { background: rgba(255, 255, 255, .2); }
+.ax-status-dot.error { background: #EF4444; box-shadow: 0 0 10px rgba(239, 68, 68, .4); }
+
+/* ---- Glass Table ---- */
+.ax-table-wrap {
+  overflow-x: auto;
+}
+
+.ax-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.ax-table th {
+  padding: 12px 16px;
+  font-size: .72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: rgba(255, 255, 255, .35);
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+}
+
+.ax-table td {
+  padding: 12px 16px;
+  font-size: .85rem;
+  color: rgba(255, 255, 255, .6);
+  border-bottom: 1px solid rgba(255, 255, 255, .04);
+  transition: background var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-table tr:hover td {
+  background: rgba(255, 255, 255, .02);
+}
+
+.ax-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---- Empty State ---- */
+.ax-page-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.ax-page-empty svg {
+  width: 48px;
+  height: 48px;
+  color: rgba(255, 255, 255, .1);
+}
+
+.ax-page-empty h3 {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, .4);
+  font-weight: 600;
+}
+
+.ax-page-empty p {
+  font-size: .85rem;
+  color: rgba(255, 255, 255, .25);
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1100px) {
+  .ax-page-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .ax-page-grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .ax-page-grid-2,
+  .ax-page-grid-3,
+  .ax-page-grid-4 { grid-template-columns: 1fr; }
+
+  .ax-chart-card { grid-column: span 1; }
+
+  .ax-page-header { flex-direction: column; align-items: flex-start; }
+
+  .ax-metric-card .ax-metric-value { font-size: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .ax-metric-card { padding: 14px; }
+  .ax-chart-card { padding: 14px; }
+}
+
+/* ============================================================
+   PHASE 2 · PART 1 — Shared inline-style extraction utilities
+   ------------------------------------------------------------
+   Added to migrate repeated style="" attributes out of
+   billing.html and settings.html into reusable classes. Values
+   match the original inline styles exactly (no visual change);
+   colors reference design-tokens.css wherever an exact
+   canonical token exists instead of a hardcoded hex value.
+   ============================================================ */
+
+.ax-span-2 { grid-column: span 2; }
+.ax-span-4 { grid-column: span 4; }
+
+.ax-plan-card-row {
+  grid-column: span 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+}
+
+.ax-heading-md { font-size: 1.3rem; font-weight: 700; color: var(--ax-text); }
+.ax-text-90 { font-size: .9rem; }
+.ax-card-title-sm { font-size: .9rem; color: var(--ax-text); }
+.ax-card-title-xs { font-size: .95rem; color: var(--ax-text); margin-bottom: 4px; }
+.ax-price-lg { font-size: 1.6rem; font-weight: 700; color: var(--ax-text); }
+.ax-price-md { font-size: 1.4rem; font-weight: 700; color: var(--ax-text); }
+
+.ax-sub-tertiary { font-size: .78rem; color: var(--ax-text-tertiary); margin: 4px 0 12px; }
+.ax-sub-tertiary-sm { font-size: .74rem; color: var(--ax-text-tertiary); margin: 4px 0 12px; }
+.ax-sub-tertiary-mt4 { font-size: .78rem; color: var(--ax-text-tertiary); margin-top: 4px; }
+.ax-sub-secondary { font-size: .82rem; color: var(--ax-text-secondary); }
+.ax-sub-secondary-mb16 { font-size: .82rem; color: var(--ax-text-secondary); margin-bottom: 16px; }
+.ax-lang-intro { color: var(--ax-text-secondary); font-size: .88rem; margin-bottom: 16px; }
+
+.ax-text-strong { color: var(--ax-text); }
+.ax-text-tertiary-inline { color: var(--ax-text-tertiary); }
+.ax-text-secondary-inline { color: var(--ax-text-secondary); }
+.ax-text-center { text-align: center; }
+.ax-text-center-clickable { text-align: center; cursor: pointer; }
+.ax-text-center-strong-border { text-align: center; border-color: var(--ax-border-strong); }
+
+.ax-flex-1 { flex: 1; }
+.ax-flex-gap-8 { display: flex; gap: 8px; }
+.ax-flex-gap-24 { display: flex; align-items: center; gap: 24px; }
+.ax-flex-between-mb8 { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.ax-row-padded { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; }
+.ax-row-padded-divider { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--ax-border); }
+
+.ax-input-flush { padding: 0; }
+.ax-avatar-lg { width: 56px; height: 56px; border-radius: 16px; font-size: 1.2rem; }
+
+.ax-mt-12 { margin-top: 12px; }
+.ax-mt-16 { margin-top: 16px; }
+.ax-mt-32-pt-24 { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--ax-border); }
+.ax-mb-4  { margin-bottom: 4px; }
+.ax-mb-8  { margin-bottom: 8px; }
+.ax-mb-16 { margin-bottom: 16px; }
+.ax-mb-20 { margin-bottom: 20px; }
+.ax-mb-24 { margin-bottom: 24px; }
+

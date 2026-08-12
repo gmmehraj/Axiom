@@ -1,0 +1,163 @@
+/* ============================================================
+   AXIOM — AI BRAIN PAGE STYLES
+   ------------------------------------------------------------
+   Milestone 14 · Phase 2 · Part 1 — AI Identity & Inline Style
+   Migration. Extracted from the inline <style> block that used
+   to live in brain.html. AI-identity accent unified to Purple
+   Aurora (--ax-ai-accent family from design-tokens.css); the
+   former ad hoc teal (#6EE7B7 / --ax-success) and blue
+   (#60A5FA / --ax-info) AI-accent usage has been replaced.
+   Genuine semantic colors (amber = knowledge/in-progress,
+   red = goals/alert) are left as-is — they were never part of
+   the teal/blue AI-identity accent.
+   ============================================================ */
+
+.brain-hero{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+.brain-hero h1{ font-size:1.5rem; font-weight:700; color:var(--ax-text); display:flex; align-items:center; gap:10px; }
+.brain-hero p{ font-size:.85rem; color:rgba(255,255,255,.5); margin-top:4px; }
+
+/* live/cognition-active badge — AI identity accent (was teal) */
+.brain-core-live{ display:flex; align-items:center; gap:8px; font-size:.72rem; color:var(--ax-ai-accent-soft); padding:6px 12px; border-radius:999px; background:var(--ax-ai-accent-bg); border:1px solid var(--ax-ai-accent-border); }
+.brain-core-live .pulse-dot{ width:6px; height:6px; border-radius:50%; background:var(--ax-ai-accent); box-shadow:0 0 8px var(--ax-ai-accent); animation: brainPulse 1.6s var(--motion-ease-standard) infinite; }
+@keyframes brainPulse{ 0%,100%{ opacity:1; transform:scale(1);} 50%{ opacity:.4; transform:scale(.7);} }
+
+/* mode switch */
+.brain-mode-switch{ display:inline-flex; gap:4px; padding:4px; border-radius:14px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); margin-bottom:20px; }
+.brain-mode-btn{ padding:8px 18px; border-radius:10px; font-size:.82rem; font-weight:600; color:rgba(255,255,255,.55); cursor:pointer; border:none; background:transparent; transition: all var(--motion-duration-fast) var(--motion-ease-standard); }
+.brain-mode-btn.active{ background:rgba(255,255,255,.08); color:var(--ax-text); box-shadow:inset 0 1px rgba(255,255,255,.12); }
+
+.brain-mode-panel{ display:none; }
+.brain-mode-panel.active{ display:block; }
+
+/* section nav */
+.brain-nav{ display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:20px; }
+@media (max-width:1100px){ .brain-nav{ grid-template-columns:repeat(3,1fr);} }
+.brain-nav-card{
+  padding:14px; border-radius:18px; text-align:left; cursor:pointer;
+  background:var(--ax-glass-bg, rgba(255,255,255,.03)); border:1px solid var(--ax-glass-border, rgba(255,255,255,.08));
+  backdrop-filter:var(--ax-glass-blur, blur(40px)); -webkit-backdrop-filter:var(--ax-glass-blur, blur(40px));
+  box-shadow:var(--ax-glass-shadow, 0 14px 40px rgba(0,0,0,.4), inset 0 1px rgba(255,255,255,.10));
+  transition: transform var(--motion-duration-base) var(--motion-ease-emphasized), border-color var(--motion-duration-fast) var(--motion-ease-standard);
+  display:flex; align-items:center; gap:10px; position:relative; overflow:hidden;
+}
+.brain-nav-card:hover{ transform:translateY(-2px); border-color:rgba(255,255,255,.14); }
+.brain-nav-card.active{ border-color:var(--ax-ai-accent-border); box-shadow:0 0 0 1px var(--ax-ai-accent-glow), 0 14px 40px rgba(0,0,0,.4); }
+.brain-nav-icon{ width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; border:1px solid rgba(255,255,255,.08); }
+
+/* icon color variants — replace the old per-card inline background/color styles */
+.brain-nav-icon--accent{ background:var(--ax-ai-accent-bg); color:var(--ax-ai-accent); }
+.brain-nav-icon--warning{ background:rgba(251,191,36,.1); color:var(--ax-warning); }
+.brain-nav-icon--danger{ background:rgba(239,68,68,.1); color:var(--ax-error); }
+
+.brain-nav-label{ font-size:.82rem; font-weight:600; color:var(--ax-text); }
+.brain-nav-sub{ font-size:.66rem; color:rgba(255,255,255,.4); }
+
+/* section content panel */
+.brain-section{ display:none; }
+.brain-section.active{ display:block; }
+.brain-section-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; flex-wrap:wrap; }
+.brain-section-head h2{ font-size:1.15rem; color:var(--ax-text); }
+.brain-section-head p{ font-size:.8rem; color:rgba(255,255,255,.45); margin-top:2px; }
+
+.brain-metrics-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:12px; margin-bottom:18px; }
+.brain-metric-card{
+  padding:16px; border-radius:20px; background:var(--ax-glass-bg, rgba(255,255,255,.03)); border:1px solid var(--ax-glass-border, rgba(255,255,255,.08));
+  backdrop-filter:var(--ax-glass-blur, blur(40px)); -webkit-backdrop-filter:var(--ax-glass-blur, blur(40px));
+  box-shadow:var(--ax-glass-shadow, 0 16px 44px rgba(0,0,0,.4), inset 0 1px rgba(255,255,255,.10));
+}
+.brain-metric-label{ font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; color:rgba(255,255,255,.4); font-weight:600; margin-bottom:6px; }
+.brain-metric-value{ font-size:1.5rem; font-weight:700; color:var(--ax-text); line-height:1; margin-bottom:6px; }
+.brain-metric-bar{ height:4px; border-radius:999px; background:rgba(255,255,255,.05); overflow:hidden; }
+/* fill % is per-instance data, kept inline via --fill custom property rather than a fixed-width class */
+.brain-metric-bar span{ display:block; height:100%; border-radius:999px; width:var(--fill, 0%); background:var(--ax-ai-accent-gradient); }
+
+.brain-feed{
+  border-radius:22px; background:var(--ax-glass-bg, rgba(255,255,255,.03)); border:1px solid var(--ax-glass-border, rgba(255,255,255,.08));
+  backdrop-filter:var(--ax-glass-blur, blur(40px)); -webkit-backdrop-filter:var(--ax-glass-blur, blur(40px));
+  box-shadow:var(--ax-glass-shadow, 0 20px 60px rgba(0,0,0,.45), inset 0 1px rgba(255,255,255,.10));
+  padding:8px;
+}
+.brain-feed-item{ display:flex; align-items:flex-start; gap:12px; padding:12px 14px; border-radius:14px; transition: background var(--motion-duration-fast) var(--motion-ease-standard); }
+.brain-feed-item:hover{ background:rgba(255,255,255,.03); }
+.brain-feed-dot{ width:8px; height:8px; border-radius:50%; margin-top:6px; flex-shrink:0; }
+
+/* feed-dot color variants — replace the old per-row inline background styles */
+.brain-feed-dot--accent{ background:var(--ax-ai-accent); }
+.brain-feed-dot--warning{ background:var(--ax-warning); }
+.brain-feed-dot--muted{ background:rgba(255,255,255,.2); }
+
+.brain-feed-main{ flex:1; min-width:0; }
+.brain-feed-title{ font-size:.85rem; color:var(--ax-text); font-weight:500; }
+.brain-feed-sub{ font-size:.74rem; color:rgba(255,255,255,.42); margin-top:2px; }
+.brain-feed-time{ font-size:.68rem; color:rgba(255,255,255,.35); white-space:nowrap; }
+
+.brain-goal-row{ display:flex; align-items:center; gap:14px; padding:12px 4px; border-bottom:1px solid rgba(255,255,255,.05); }
+.brain-goal-row:last-child{ border-bottom:none; }
+.brain-goal-info{ flex:1; min-width:0; }
+.brain-goal-name{ font-size:.86rem; color:var(--ax-text); font-weight:500; }
+.brain-goal-sub{ font-size:.72rem; color:rgba(255,255,255,.42); margin-top:2px; }
+.brain-goal-pct{ font-size:.78rem; font-weight:700; color:var(--ax-ai-accent); width:44px; text-align:right; }
+.brain-goal-track{ flex:2; height:6px; border-radius:999px; background:rgba(255,255,255,.05); overflow:hidden; }
+/* fill % is per-instance data, kept inline via --fill custom property rather than a fixed-width class */
+.brain-goal-fill{ height:100%; border-radius:999px; width:var(--fill, 0%); background:var(--ax-ai-accent-gradient); }
+
+.emotion-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:14px; }
+.emotion-tile{ text-align:center; padding:18px 10px; border-radius:20px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); }
+.emotion-emoji{ font-size:1.6rem; margin-bottom:8px; }
+.emotion-name{ font-size:.8rem; color:var(--ax-text); font-weight:600; }
+.emotion-val{ font-size:.7rem; color:rgba(255,255,255,.42); margin-top:4px; }
+
+/* visualization mode */
+.viz-nav{ display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-bottom:20px; }
+@media (max-width:1100px){ .viz-nav{ grid-template-columns:repeat(3,1fr);} }
+.viz-nav-card{
+  padding:12px; border-radius:16px; text-align:center; cursor:pointer;
+  background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08);
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+.viz-nav-card:hover{ transform:translateY(-2px); border-color:rgba(255,255,255,.14); }
+.viz-nav-card.active{ border-color:var(--ax-ai-accent-border); box-shadow:0 0 0 1px var(--ax-ai-accent-glow); }
+.viz-nav-card span{ font-size:.76rem; font-weight:600; color:var(--ax-text); }
+
+.viz-stage{
+  border-radius:26px; background:rgba(255,255,255,.02); border:1px solid var(--ax-glass-border, rgba(255,255,255,.08));
+  box-shadow:0 24px 70px rgba(0,0,0,.5), inset 0 1px rgba(255,255,255,.08);
+  overflow:hidden; position:relative; min-height:460px;
+}
+.viz-stage-head{ display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid rgba(255,255,255,.06); }
+.viz-stage-head h3{ font-size:.95rem; color:var(--ax-text); }
+.viz-stage-head p{ font-size:.74rem; color:rgba(255,255,255,.42); margin-top:2px; }
+.viz-stage svg{ display:block; width:100%; height:460px; }
+.viz-node-label{ font-size:9px; fill:rgba(255,255,255,.55); font-family:'JetBrains Mono',monospace; }
+.viz-edge{ stroke:var(--ax-ai-accent-glow); stroke-width:1; fill:none; }
+.viz-edge-flow{ stroke-dasharray:4 6; animation: vizDash 3s var(--motion-ease-linear) infinite; }
+@keyframes vizDash{ to{ stroke-dashoffset:-100; } }
+.viz-node-pulse{ animation: vizNodePulse 2.4s var(--motion-ease-standard) infinite; }
+@keyframes vizNodePulse{ 0%,100%{ opacity:.55;} 50%{ opacity:1;} }
+
+.token-flow-row{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding:20px; }
+.token-chip{
+  font-family:'JetBrains Mono',monospace; font-size:.74rem; padding:6px 10px; border-radius:10px;
+  background:var(--ax-ai-accent-bg); border:1px solid var(--ax-ai-accent-border); color:var(--ax-ai-accent-soft);
+  opacity:0; animation: tokenIn var(--motion-duration-slow) var(--motion-ease-standard) forwards;
+}
+@keyframes tokenIn{ from{ opacity:0; transform:translateY(4px);} to{ opacity:1; transform:translateY(0);} }
+
+/* ---- Reduced Motion (Phase 5 · Part 2) --------------------------
+   This file's four loops (live-badge pulse, graph edge flow, node
+   pulse, token-in reveal) all use literal keyframe durations
+   (1.6s/3s/2.4s/`--motion-duration-slow`-as-a-forwards-fill), so the
+   global `--motion-duration-*` zeroing in motion-tokens.css doesn't
+   reach the ones with literal values, and even the token-driven
+   `tokenIn` needs `animation-iteration-count` addressed since it's
+   `forwards`-filled, not `infinite`, so a plain duration:0 already
+   works there — the other three infinite loops did not, and are
+   the actual gap this closes. */
+@media (prefers-reduced-motion: reduce) {
+  .brain-core-live .pulse-dot,
+  .viz-edge-flow,
+  .viz-node-pulse {
+    animation: none;
+  }
+  .viz-node-pulse { opacity: 1; }
+}

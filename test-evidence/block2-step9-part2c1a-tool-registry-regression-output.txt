@@ -1,0 +1,147 @@
+PASS  schema: installs window.AxiomOpenRouterToolSchema
+PASS  schema: exposes validateTool/validateParameters/normalizeTool/isValidToolName
+PASS  schema: valid tool passes validateTool()
+PASS  schema: rejects missing name
+PASS  schema: rejects empty-string name
+PASS  schema: rejects invalid name (spaces)
+PASS  schema: rejects invalid name (too long)
+PASS  schema: accepts name at 64-char boundary
+PASS  schema: accepts hyphen/underscore in name
+PASS  schema: rejects missing parameters
+PASS  schema: rejects null parameters
+PASS  schema: rejects non-object parameters
+PASS  schema: rejects parameters.type !== "object"
+PASS  schema: rejects invalid property type
+PASS  schema: rejects malformed required (not an array)
+PASS  schema: rejects malformed required (non-string entry)
+PASS  schema: rejects required entry not in properties
+PASS  schema: accepts empty properties object (no-arg tool)
+PASS  schema: accepts parameters with properties omitted entirely
+PASS  schema: accepts nested object property
+PASS  schema: rejects malformed nested object (bad required)
+PASS  schema: accepts array property with items schema
+PASS  schema: rejects array property missing items
+PASS  schema: accepts array of objects (nested array + object combined)
+PASS  schema: rejects malformed items inside array
+PASS  schema: accepts primitive property type "string"
+PASS  schema: accepts primitive property type "number"
+PASS  schema: accepts primitive property type "integer"
+PASS  schema: accepts primitive property type "boolean"
+PASS  schema: rejects malformed schema (non-object tool)
+PASS  schema: rejects malformed schema (array as tool)
+PASS  schema: rejects null tool
+PASS  schema: rejects invalid description type
+PASS  schema: accepts tool with no description
+PASS  schema: rejects invalid metadata type
+PASS  schema: accepts tool with no metadata
+PASS  schema: validateTool() returns an errors array
+PASS  schema: isValidToolName("search_web") === true
+PASS  schema: isValidToolName("") === false
+PASS  schema: isValidToolName(123) === false
+PASS  schema: isValidToolName("has space") === false
+PASS  schema: isValidToolName(undefined) === false
+PASS  schema: validateParameters() valid case
+PASS  schema: validateParameters() missing case
+PASS  schema: validateParameters() malformed case
+PASS  schema: normalizeTool() returns wire shape {type:"function", function:{...}}
+PASS  schema: normalizeTool() preserves name
+PASS  schema: normalizeTool() preserves description
+PASS  schema: normalizeTool() fills required=[] when omitted
+PASS  schema: normalizeTool() fills properties={} when omitted
+PASS  schema: normalizeTool() defaults missing description to ""
+PASS  schema: normalizeTool() omits metadata from wire shape (AXIOM-local field, never sent to OpenRouter)
+PASS  schema: normalizeTool() returns null for an invalid tool
+PASS  schema: normalizeTool() does not mutate the input object
+PASS  schema: normalizeTool() recursively normalizes nested array-of-object schemas
+PASS  manager (degraded): installs window.AxiomOpenRouterToolManager even without tool-schema.js
+PASS  manager (degraded): getTools() returns empty array
+PASS  manager (degraded): getToolDefinitions() returns empty array
+PASS  manager (degraded): hasTool() is false for anything
+PASS  manager (degraded): registerTool() fails gracefully (no throw) without tool-schema.js
+PASS  manager (degraded): registerTool() failure carries an errors array
+PASS  manager (degraded): registerTool() failure emits openrouter_tool_registration_failed
+PASS  manager: registerTool() succeeds for a valid tool
+PASS  manager: registerTool() returns the registered tool record
+PASS  manager: hasTool() true after registration
+PASS  manager: getTool() returns the stored record
+PASS  manager: getTool() returns null for an unknown name
+PASS  manager: getTool() returns null for a non-string name
+PASS  manager: registerTool() prevents duplicate tool names
+PASS  manager: duplicate registerTool() does not overwrite the original
+PASS  manager: duplicate registration emits openrouter_tool_registration_failed
+PASS  manager: registerTool() rejects an invalid tool (bad name)
+PASS  manager: invalid registration is never added to the registry
+PASS  manager: unregisterTool() removes an existing tool
+PASS  manager: hasTool() false after unregisterTool()
+PASS  manager: getTool() null after unregisterTool()
+PASS  manager: unregisterTool() returns false for an unknown name
+PASS  manager: unregisterTool() returns false for a non-string name
+PASS  manager: multiple distinct tools can be registered
+PASS  manager: clearTools() empties the registry
+PASS  manager: hasTool() false for a previously-registered name after clearTools()
+PASS  manager: getTools() preserves registration order (not sorted)
+PASS  manager: getToolDefinitions() preserves the same registration order
+PASS  manager: getToolDefinitions() returns OpenRouter wire-format entries
+PASS  manager: getToolDefinitions() entries omit the AXIOM-local metadata field
+PASS  manager: mutating a getTool() return value does not affect the registry
+PASS  manager: mutating a getTools() return value does not affect the registry
+PASS  manager: mutating a getToolDefinitions() return value does not affect the registry
+PASS  manager: mutating the caller's original tool object after registration does not affect the stored record
+PASS  events: openrouter_tool_registered fires on success
+PASS  events: openrouter_tool_registered payload carries name/tool/at
+PASS  events: openrouter_tool_unregistered fires on unregister
+PASS  events: openrouter_tool_registration_failed fires on invalid registration
+PASS  events: registerTool() never throws when AxiomOrchestrator is absent (feature-detected)
+PASS  events: registerTool() still succeeds with no Orchestrator loaded
+PASS  security: tool-schema.js contains no eval( in code (comments may name it to explain why it isn't used)
+PASS  security: tool-manager.js contains no eval( in code (comments may name it to explain why it isn't used)
+PASS  security: tool-schema.js contains no new Function( in code
+PASS  security: tool-manager.js contains no new Function( in code
+PASS  security: neither file references child_process/exec/spawn in code
+PASS  security: neither file references a script/document.write dynamic-load pattern
+PASS  security: neither file makes a fetch()/XHR network call (registration/schema only, no network)
+PASS  security: neither file touches localStorage (stateless/in-memory only)
+PASS  security: registerTool() succeeds even when the input carries stray function fields
+PASS  security: a stray execute()/handler() function is never stored on the registered record
+PASS  security: getTool() never returns a callable field anywhere on the record
+PASS  security: getToolDefinitions() output contains no function-typed values
+PASS  security: tool-manager.js never invokes a stored field as a function (no dynamic .execute()/.handler() call site)
+PASS  static: protected file os/core/browser-engine.js still present on disk
+PASS  static: protected file os/core/browser-manager.js still present on disk
+PASS  static: protected file os/core/browser-sandbox.js still present on disk
+PASS  static: protected file os/core/automation-engine.js still present on disk
+PASS  static: protected file os/core/automation-manager.js still present on disk
+PASS  static: protected file os/core/memory-engine.js still present on disk
+PASS  static: protected file os/core/memory-manager.js still present on disk
+PASS  static: protected file os/core/goal-manager.js still present on disk
+PASS  static: protected file os/core/goal-manager-learning.js still present on disk
+PASS  static: protected file os/core/goal-manager-recovery.js still present on disk
+PASS  static: protected file js/core/voice.js still present on disk
+PASS  static: protected file js/core/voice-controller.js still present on disk
+PASS  static: protected file js/core/supabase/connection-manager.js still present on disk
+PASS  static: protected file js/core/supabase/auth-service.js still present on disk
+PASS  static: protected file js/core/supabase/env.js still present on disk
+PASS  static: existing sibling os/api/openrouter/api-manager.js still present on disk, untouched by this Part
+PASS  static: existing sibling os/api/openrouter/model-manager.js still present on disk, untouched by this Part
+PASS  static: existing sibling os/api/openrouter/chat-manager.js still present on disk, untouched by this Part
+PASS  static: existing sibling os/api/openrouter/response-parser.js still present on disk, untouched by this Part
+PASS  static: existing sibling os/api/openrouter/stream-manager.js still present on disk, untouched by this Part
+PASS  static: existing sibling os/api/openrouter/request-queue.js still present on disk, untouched by this Part
+PASS  static: existing sibling os/api/openrouter/token-manager.js still present on disk, untouched by this Part
+PASS  static: existing sibling os/api/openrouter/error-handler.js still present on disk, untouched by this Part
+PASS  static: existing sibling os/api/openrouter/usage-tracker.js still present on disk, untouched by this Part
+PASS  static: os/api/openrouter/ contains exactly the ten expected entries (nine Part 2A-2B4 files + Part 2C-1A's tool-calling/), nothing extra
+PASS  static: os/api/openrouter/tool-calling/ contains exactly the two Part 2C-1A deliverables, nothing extra
+PASS  static: tool-manager.js does not reimplement JSON Schema validation itself in code (delegates entirely to AxiomOpenRouterToolSchema)
+PASS  static: tool-manager.js never creates its own event bus in code (no local listeners map / on() implementation)
+PASS  static: tool-manager.js calls AxiomOrchestrator.emit rather than reimplementing pub/sub
+PASS  static: tool-schema.js code is dependency-free (no reference to AxiomOpenRouter, AxiomOrchestrator, or AxLogger outside comments)
+PASS  static: neither new file calls response-parser.js's normalizeToolCalls in code (disjoint concern — response tool_calls vs request tool defs; comments may name it to explain why)
+PASS  static: neither new file calls model-manager.js's getCapabilities in code (no model-awareness in this Part; comments may name it to explain why)
+PASS  regression: Part 2A's own suite still passes in full (72/72) after Part 2C-1A's additive changes
+PASS  regression: Part 2B-1's own suite still passes in full (56/56) after Part 2C-1A's additive changes
+PASS  regression: Part 2B-2's own suite still passes in full (87/87) after Part 2C-1A's additive changes
+PASS  regression: Part 2B-3's own suite still passes in full (96/96) after Part 2C-1A's additive changes
+PASS  regression: Part 2B-4's own suite still passes in full (90/90) after Part 2C-1A's additive changes
+
+145 passed, 0 failed.

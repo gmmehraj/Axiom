@@ -1,0 +1,44 @@
+PASS  AxiomMemoryEngine loaded
+PASS  AxiomAutomationBuilderEngine loaded
+PASS  AxiomAutomationMemoryBridge loaded
+PASS  AxiomAutomationManager loaded
+PASS  workflows.create returns a real stored workflow
+PASS  new workflow starts as draft (not runnable yet)
+PASS  run.start refuses to start a draft (unpublished) workflow
+PASS  workflows.publish activates the real workflow
+PASS  run.start reports unknown-workflow for a bogus id
+PASS  run.start actually starts a run through the real engine
+PASS  the run manager started genuinely reached a terminal status per the engine
+PASS  first "click" genuinely starts a run
+PASS  second "click" while the first run is still in flight is refused
+PASS  the refused call reports the REAL in-flight run, not a fabricated one
+PASS  the engine itself shows only ONE in-flight run for this workflow (no duplicate was ever enqueued)
+PASS  opts.force explicitly bypasses the duplicate guard when the caller really wants a second run
+PASS  the seeded run genuinely failed per the engine
+PASS  run.retry starts a genuine new run cloned from the failed one
+PASS  retrying again while the retried run is still in flight is refused for the same reason
+PASS  run.pause reaches the real engine
+PASS  the run genuinely reached paused
+PASS  run.resume reaches the real engine
+PASS  run.cancel reaches the real engine
+PASS  the run genuinely ended up cancelled
+PASS  getRunProgress reports the real step count from the engine
+PASS  getRunProgress reports a real, non-negative elapsed time
+PASS  getActiveRuns includes the run actually in flight
+PASS  getRunProgress returns null once the run is no longer in flight (not a stale snapshot)
+PASS  getErrorRecoveryStats returns real, non-negative derived counters
+PASS  getStatus reports the real queue state
+PASS  getStatus reports the real engine stats
+PASS  getStatus reports this manager's own duplicate-guard counter, which is > 0 after the double-click test above
+PASS  getWorkflowStatus reports no in-flight run once everything for that workflow has settled
+PASS  getWorkflowStatus reports the real last run for that workflow
+PASS  getStatus returns null for an unknown workflow rather than throwing
+PASS  history.listExecutionHistory matches the Bridge's own real record for this workflow
+PASS  history.getExecutionHistory returns the Bridge's real stored record
+PASS  getStats reports runsStarted > 0
+PASS  getStats reports duplicatesBlocked > 0
+PASS  getStats reports retryCalls > 0
+PASS  onChange passes through the real engine pub/sub
+PASS  destroy() does not throw and Manager remains usable afterward
+
+ALL CHECKS PASSED

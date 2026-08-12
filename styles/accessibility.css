@@ -1,0 +1,203 @@
+/* ==========================================================
+   AXIOM — Accessibility Foundation (Phase 7, Part 1)
+   ------------------------------------------------------------
+   Cross-cutting a11y layer: focus indicators, skip links, and
+   screen-reader-only utilities. Loaded last on every page so its
+   focus-visible rules win the cascade without needing !important
+   or touching any existing component stylesheet.
+
+   Nothing here changes layout, color, spacing, or animation for
+   sighted mouse users — every rule is either invisible until
+   keyboard focus lands on it (:focus-visible, .skip-link) or
+   affects only assistive-tech output (.sr-only).
+   ========================================================== */
+
+/* ---- Screen-reader-only utility ----
+   Use for text that should be announced by assistive tech but
+   never rendered visually (e.g. a page's <h1> when the visual
+   design carries the title in chrome/branding instead). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reveal an .sr-only element when it (or a descendant) receives
+   focus — used by the skip link below and can be reused anywhere
+   a hidden control needs to become visible for keyboard users. */
+.sr-only-focusable:focus,
+.sr-only-focusable:focus-within {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* ---- Skip link ----
+   First focusable element on every page. Off-screen until
+   focused, then docked top-left above everything else. */
+.skip-link {
+  position: absolute;
+  top: -1000px;
+  left: 0;
+  z-index: 10000;
+  padding: 0.85em 1.3em;
+  background: #0A0A0A;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0 0 10px 0;
+  font-family: var(--font, "Inter", sans-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: 0;
+  left: 0;
+}
+
+/* ---- Universal focus-visible ring ----
+   Keyboard-only outline (mouse/touch clicks never trigger
+   :focus-visible) so pointer users see no visual change at all.
+   Uses a neutral high-contrast ring that reads on every surface
+   in the app's near-black chrome, mirroring the ring already used
+   for auth-page inputs (styles.css) but applied app-wide. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible,
+[role="button"]:focus-visible,
+[role="tab"]:focus-visible,
+[role="menuitem"]:focus-visible,
+[role="option"]:focus-visible,
+summary:focus-visible,
+[contenteditable="true"]:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 2px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.18);
+}
+
+/* Tight-radius / pill controls read better with a matching offset */
+.btn:focus-visible,
+.btn-oauth:focus-visible,
+.icon-btn:focus-visible,
+.ax-dock-item:focus-visible,
+.ax-topbar-item:focus-visible,
+.ax-notif-trigger:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 3px;
+}
+
+/* Keep the existing hover-triggered dock tooltip visible on
+   keyboard focus too, so tabbing through the floating dock isn't
+   silent the way :hover-only would leave it. */
+.ax-dock-item:focus-visible .ax-dock-label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Never remove focus outlines app-wide — components that set
+   outline:none for the mouse-click case (e.g. .field input:focus
+   in styles.css) already re-add one via :focus-visible themselves;
+   this is a safety net for anything that doesn't. */
+:focus-visible {
+  outline-offset: 2px;
+}
+
+/* ==========================================================
+   Phase 7, Part 2 additions below this line.
+   ========================================================== */
+
+/* ---- Reduced-motion safety net ----
+   motion-tokens.css already zeroes every --motion-duration-*
+   variable under prefers-reduced-motion, which covers anything
+   built on the shared token system. It can't help the handful of
+   components that animate with hardcoded, non-token values
+   (e.g. components/notifications-center.js's inline
+   `animation: axNotifIn .2s ...`, and a few one-off CSS
+   transitions elsewhere in the app). This is a blanket net for
+   those: it does not change any duration/easing/scale for anyone
+   who hasn't turned on "reduce motion" at the OS level, and for
+   anyone who has, it collapses every remaining CSS animation and
+   transition to effectively instant, plus turns off smooth
+   scrolling. Loaded last, so it always wins ties with
+   component-level durations. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Touch target sizing ----
+   WCAG 2.2 SC 2.5.8 (Target Size, Minimum, AA) asks for at least
+   24x24 CSS px for pointer targets that aren't already spaced far
+   enough apart or covered by an exception. Several icon-only
+   controls in the compact/desktop chrome (dock items, topbar
+   icons, small icon-btn variants like .ax-browser-icon-btn-sm at
+   26px, .icon-btn at 28px in workspace.html) render below that on
+   touch viewports. Rather than resizing them everywhere (which
+   would change desktop layout/density — out of scope for this
+   pass), this widens their hit area with an invisible overlay on
+   touch-capable/narrow viewports only, leaving the visual size,
+   desktop layout, and Purple Aurora chrome untouched. */
+@media (pointer: coarse), (max-width: 640px) {
+  .icon-btn,
+  .ax-dock-item,
+  .ax-topbar-item,
+  .ax-notif-trigger,
+  button[class*="icon-btn"] {
+    position: relative;
+  }
+  .icon-btn::after,
+  .ax-dock-item::after,
+  .ax-topbar-item::after,
+  .ax-notif-trigger::after,
+  button[class*="icon-btn"]::after {
+    content: "";
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* ---- Form validation state ----
+   Gives any input/select/textarea marked aria-invalid="true" (set
+   by a form's own validation JS) a visible, non-color-only error
+   indicator — a dashed outline in addition to whatever color the
+   component already uses — so the error state doesn't rely on
+   color alone (WCAG 1.4.1) and is visible without focus. */
+[aria-invalid="true"] {
+  outline: 1.5px dashed var(--ax-error, #EF4444);
+  outline-offset: 2px;
+}
+
+/* ---- Switch / checkbox affordance on custom controls ----
+   .ax-switch (settings.html notification/2FA toggles) is a real
+   <input type="checkbox"> under the hood, so it already gets the
+   universal :focus-visible ring above. This just makes sure the
+   track itself doesn't visually clip that ring on the pill shape. */
+.ax-switch:focus-within .ax-switch-track {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 3px;
+  border-radius: 999px;
+}

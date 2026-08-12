@@ -1,0 +1,190 @@
+### test-evidence/block2-step1-coding-agent-regression-suite.js
+}
+
+Node.js v22.22.2
+
+### test-evidence/block2-step1-part2-pipeline-regression-suite.js
+}
+
+Node.js v22.22.2
+
+### test-evidence/block2-step2-part2-brain-integration-regression-suite.js
+PASS  unrelated bus events do not touch activeModel
+
+ALL CHECKS PASSED
+
+### test-evidence/block2-step3-part1-memory-foundation-regression-suite.js
+PASS  a fresh engine instance reads back persisted memories from localStorage
+
+ALL CHECKS PASSED
+
+### test-evidence/block2-step3-part2-memory-integration-regression-suite.js
+PASS  destroy() stops the bridge from recording further messages
+
+ALL CHECKS PASSED
+
+### test-evidence/block2-step3-part3-memory-manager-regression-suite.js
+  PASS  findMemories over 2000 records completes quickly (no regression)
+======================================================================
+30 passed, 0 failed
+
+### test-evidence/block2-step4-part1-automation-foundation-regression-suite.js
+  PASS  a run left queued/running across a reload is recovered honestly as failed, never as a fake success
+
+17 passed, 0 failed
+
+### test-evidence/block2-step4-part2-brain-automation-integration-regression-suite.js
+PASS  destroy() stops the bridge from writing further Brain updates
+
+ALL CHECKS PASSED
+
+### test-evidence/block2-step4-part3-automation-memory-integration-regression-suite.js
+PASS  destroy() stops the bridge from recording further runs
+
+ALL CHECKS PASSED
+
+### test-evidence/block2-step4-part4-automation-manager-regression-suite.js
+PASS  destroy() does not throw and Manager remains usable afterward
+
+ALL CHECKS PASSED
+
+### test-evidence/block2-step5-part1-browser-foundation-regression-suite.js
+  PASS  a full realistic session (multiple tabs, nav, bookmarks, close) runs without throwing
+====================================================
+21 passed, 0 failed
+
+### test-evidence/block2-step5-part2-navigation-session-regression-suite.js
+
+====================================================
+TOTAL: 28 passed, 0 failed
+
+### test-evidence/block2-step5-part6a-browser-audit-regression-suite.js
+
+====================================================
+7 passed, 0 failed
+
+### test-evidence/block2-step5-part6b-error-recovery-regression-suite.js
+  PASS  executeBrowserOp() resolves a standardized envelope instead of rejecting, for every op
+====================================================
+15 passed, 0 failed
+
+### test-evidence/block2-step6-part1-orchestrator-regression-suite.js
+  PASS  getStats() reflects agent and task counts accurately
+
+21/21 assertions passing
+
+### test-evidence/block2-step6-part2-agent-registry-integration-regression-suite.js
+  PASS  Part 1 Orchestrator behavior is completely unmodified: manual registerAgent() still works
+
+18/18 assertions passing
+
+### test-evidence/block2-step6-part3-capability-routing-regression-suite.js
+  PASS  a misbehaving handler never crashes the Orchestrator — synchronous throw is contained
+
+20/20 assertions passing
+
+### test-evidence/block2-step6-part4-workflow-planner-regression-suite.js
+  PASS  FIX 3: exactly one Runtime Context exists at a time per in-flight workflow run
+
+29 passed, 0 failed.
+
+### test-evidence/block2-step6-part5-runtime-context-regression-suite.js
+  PASS  FIX 5: createChildContext() propagates the same JSON-safe validation, and a rejected child is never linked into the parent
+
+42 passed, 0 failed.
+
+### test-evidence/block2-step7-part2-task-planner-regression-suite.js
+  PASS  existing Part 1/3/5 regression posture: task-planner.js never edits orchestrator.js, capability-router.js, or runtime-context.js at runtime
+
+21/21 assertions passing
+
+### test-evidence/block2-step7-part3a-goal-manager-regression-suite.js
+  PASS  loaded alongside task-planner.js: task-planner.js's own regression posture is unaffected (route/scheduler still work)
+
+35/35 assertions passing
+
+### test-evidence/block2-step7-part3b-goal-scheduling-regression-suite.js
+  PASS  Event Bus: goalmgr_priority_changed, goalmgr_dependency_added, goalmgr_paused, goalmgr_resumed, goalmgr_retried all fire
+
+45/45 assertions passing
+
+### test-evidence/block2-step7-part3c-decision-engine-regression-suite.js
+  PASS  does not duplicate ordering logic: admitting the selected goal never bypasses transitionGoal()'s validated state machine
+
+37/37 assertions passing
+
+### test-evidence/block2-step7-part3d-execution-bridge-regression-suite.js
+  PASS  getExecutionMetrics() reports accurate dispatched/completed/failed/retried/exhausted counters
+
+24/24 assertions passing
+
+### test-evidence/block2-step7-part3e-goal-manager-learning-regression-suite.js
+  PASS  getExecutionHistory() supports goalId/strategy/outcome filters and a limit, most-recent-first
+
+35/35 assertions passing
+
+### test-evidence/block2-step7-part3f-goal-manager-recovery-regression-suite.js
+  PASS  getRecoveryHistory() supports a limit and is most-recent-first
+
+38/38 assertions passing
+
+### test-evidence/block2-step8-part1-decision-engine-regression-suite.js
+  PASS  getMetrics() tracks started/completed/failed counts
+
+41/41 assertions passing
+
+### test-evidence/block2-step8-part2-planning-regression-suite.js
+  PASS  plan() accepts a decide() Decision Object directly and carries its decisionId through
+
+28/28 assertions passing
+
+### test-evidence/block2-step9-part2a-openrouter-core-regression-suite.js
+PASS  static: os/api/openrouter/error-handler.js never touches localStorage key axiom_openrouter_selected_model in code (existing UI selector's key)
+
+72 passed, 0 failed.
+
+### test-evidence/milestone10-regression-suite.js
+}
+
+Node.js v22.22.2
+
+### test-evidence/milestone11-regression-suite.js
+PASS  Milestone 11 introduced no window.AxiomJobManager2 / duplicate manager globals
+
+41/41 checks passed.
+
+### test-evidence/milestone12-regression-suite.js
+ok   core agent registry still reports 10 agents, no duplicates (regression)
+
+[Milestone 12] PASS — 19/19 checks passed.
+
+### test-evidence/milestone13-regression-suite.js
+PASS  Milestone 13 introduced no duplicate manager/registry globals
+
+46/46 checks passed.
+
+### test-evidence/milestone14-part1-regression-suite.js
+PASS  Still exactly 10 core agents after all Milestone 14 activity, no duplicates
+
+58/58 checks passed.
+
+### test-evidence/milestone5-regression-suite.js
+}
+
+Node.js v22.22.2
+
+### test-evidence/milestone6-regression-suite.js
+}
+
+Node.js v22.22.2
+
+### test-evidence/supabase-part1-regression-suite.js
+PASS  static: workspace.html loads Supabase foundation scripts in order
+
+51/51 passing
+
+### test-evidence/phase9-part1-static-audit-suite.js
+  - Asset resolves: settings.html -> js/core/env.config.js
+  - Asset resolves: studios.html -> js/core/env.config.js
+  - Asset resolves: workspace.html -> js/core/env.config.js
+

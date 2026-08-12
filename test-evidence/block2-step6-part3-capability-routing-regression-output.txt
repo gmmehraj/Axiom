@@ -1,0 +1,26 @@
+AXIOM Block 2 / Step 6 / Part 3 — Capability Routing & Intelligent Task Dispatch regression
+
+[CapabilityRouter] AxiomOrchestrator (os/core/orchestrator.js) not found — load it before capability-router.js. 
+  PASS  module loads and requires AxiomOrchestrator to be present first
+  PASS  installs a routing API onto the existing AxiomOrchestrator without editing orchestrator.js behavior
+  PASS  resolveExecutionPlan() produces an immutable plan with required fields
+  PASS  resolveCapability() infers capability from a type that matches a known capability
+  PASS  resolveCapability() throws a clear error when nothing can be resolved
+  PASS  selectAgent() excludes agents lacking the required permission
+  PASS  selectAgent() is deterministic: fewer-workload agent wins, then lexical agent id
+  PASS  selectAgent() falls back to lexical agent id ordering when everything else ties
+  PASS  setAgentPriority()/getAgentPriority() let a higher-priority agent win a tie
+  PASS  route() dispatches through the real Scheduler and completes successfully
+  PASS  route() with an explicit agentId never fails over on failure
+[CapabilityRouter] Failing over request "req-msa6bz5l-1" from agent unavailability (agent-a is broken) to alternate agent "agent-b". 
+  PASS  route() fails over to an alternate healthy agent when the chosen agent errors out
+  PASS  route() returns a standardized graceful failure when no eligible agent exists at all — never throws
+  PASS  route() malformed input throws synchronously, same posture as dispatch()
+  PASS  cancelRequest() cancels the underlying task through the real Scheduler
+  PASS  retryRequest() re-plans a failed capability-based request and can land on a different agent
+  PASS  getTaskMetrics() aggregates completed/failed/failedOver counts across routed requests
+  PASS  getExecutionHistory() returns finished requests, most recent first, bounded by limit
+  PASS  getQueueStatus() reports per-agent queued/running counts using only public listTasks()
+  PASS  a misbehaving handler never crashes the Orchestrator — synchronous throw is contained
+
+20/20 assertions passing

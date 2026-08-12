@@ -1,0 +1,323 @@
+/* ============================================================
+   AXIOM AI OS X — Premium Window System
+   Native OS-style windows: drag, resize, snap, minimize, close
+   ============================================================ */
+
+/* ---- Window Container ---- */
+.ax-wm {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ax-wm.active {
+  pointer-events: auto;
+}
+
+/* ---- Window Instance ---- */
+.ax-window {
+  position: absolute;
+  min-width: 200px;
+  min-height: 120px;
+  background: rgba(10, 10, 10, .88);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.5), inset 0 1px rgba(255,255,255,.06);
+  backdrop-filter: blur(40px) saturate(120%);
+  -webkit-backdrop-filter: blur(40px) saturate(120%);
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+  transition: box-shadow var(--motion-duration-base) var(--motion-ease-standard), border-color var(--motion-duration-base) var(--motion-ease-standard);
+  animation: axWindowAppear var(--motion-duration-base) var(--motion-ease-emphasized);
+  will-change: transform, width, height, left, top;
+  overflow: hidden;
+}
+
+.ax-window:focus-within,
+.ax-window.active {
+  border-color: rgba(255,255,255,.14);
+  box-shadow: 0 28px 90px rgba(0,0,0,.6), inset 0 1px rgba(255,255,255,.1);
+  z-index: 10;
+}
+
+@keyframes axWindowAppear {
+  from {
+    opacity: 0;
+    transform: scale(.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes axWindowMinimize {
+  to {
+    opacity: 0;
+    transform: scale(.85) translateY(40px);
+  }
+}
+
+@keyframes axWindowMaximizeIn {
+  from {
+    opacity: 0;
+    transform: scale(.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ---- Window Title Bar ---- */
+.ax-window-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  min-height: 42px;
+  flex-shrink: 0;
+  cursor: default;
+  user-select: none;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  position: relative;
+}
+
+.ax-window-titlebar:active {
+  cursor: grabbing;
+}
+
+/* Traffic Light Buttons (macOS-style) */
+.ax-window-dots {
+  display: flex;
+  gap: 7px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.ax-window-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard), opacity var(--motion-duration-fast) var(--motion-ease-standard);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ax-window-dot:hover {
+  transform: scale(var(--motion-scale-hover-strong));
+}
+
+.ax-window-dot:active {
+  transform: scale(var(--motion-scale-press-strong));
+}
+
+.ax-window-dot svg {
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+  transition: opacity var(--motion-duration-instant) var(--motion-ease-standard);
+}
+
+.ax-window-dot:hover svg {
+  opacity: .6;
+}
+
+.ax-window-dot.close {
+  background: #FF5F57;
+  box-shadow: inset 0 1px rgba(0,0,0,.1);
+}
+
+.ax-window-dot.minimize {
+  background: #FEBC2E;
+  box-shadow: inset 0 1px rgba(0,0,0,.1);
+}
+
+.ax-window-dot.maximize {
+  background: #28C840;
+  box-shadow: inset 0 1px rgba(0,0,0,.1);
+}
+
+/* Window Title */
+.ax-window-title {
+  flex: 1;
+  min-width: 0;
+  font-size: .78rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.7);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 4px;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -.01em;
+}
+
+/* Window Icon */
+.ax-window-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: .5;
+}
+
+/* ---- Window Content ---- */
+.ax-window-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0;
+  position: relative;
+}
+
+.ax-window-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* ---- Milestone 2 — Step 1: loading / error state for iframe windows ---- */
+.ax-window-loading,
+.ax-window-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--ax-bg, #050505);
+  z-index: 2;
+}
+
+.ax-window-error {
+  display: none;
+  color: var(--ax-text-3, rgba(255,255,255,.5));
+  font-size: .85rem;
+  text-align: center;
+  padding: 24px;
+}
+
+.ax-window-error p { margin: 0 0 4px; }
+.ax-window-error .btn { margin: 0 4px; }
+
+/* ---- Resize Handles ---- */
+.ax-window-resize-handle {
+  position: absolute;
+  z-index: 20;
+}
+
+.ax-window-resize-handle.n { top: -3px; left: 6px; right: 6px; height: 6px; cursor: n-resize; }
+.ax-window-resize-handle.s { bottom: -3px; left: 6px; right: 6px; height: 6px; cursor: s-resize; }
+.ax-window-resize-handle.e { right: -3px; top: 6px; bottom: 6px; width: 6px; cursor: e-resize; }
+.ax-window-resize-handle.w { left: -3px; top: 6px; bottom: 6px; width: 6px; cursor: w-resize; }
+.ax-window-resize-handle.ne { top: -3px; right: -3px; width: 10px; height: 10px; cursor: ne-resize; }
+.ax-window-resize-handle.nw { top: -3px; left: -3px; width: 10px; height: 10px; cursor: nw-resize; }
+.ax-window-resize-handle.se { bottom: -3px; right: -3px; width: 10px; height: 10px; cursor: se-resize; }
+.ax-window-resize-handle.sw { bottom: -3px; left: -3px; width: 10px; height: 10px; cursor: sw-resize; }
+
+/* ---- Snap Indicators ---- */
+.ax-wm-snap-indicator {
+  position: absolute;
+  border: 2px dashed rgba(96,165,250,.35);
+  border-radius: 14px;
+  background: rgba(96,165,250,.04);
+  pointer-events: none;
+  z-index: 999;
+  animation: axSnapPulse .8s var(--motion-ease-standard) infinite;
+}
+
+@keyframes axSnapPulse {
+  0%, 100% { border-color: rgba(96,165,250,.35); }
+  50% { border-color: rgba(96,165,250,.6); }
+}
+
+/* ---- Window States ---- */
+.ax-window.minimized {
+  animation: axWindowMinimize var(--motion-duration-fast) var(--motion-ease-emphasized) forwards;
+  pointer-events: none;
+}
+
+.ax-window.maximized {
+  border-radius: 0 !important;
+  border: none;
+  animation: axWindowMaximizeIn var(--motion-duration-fast) var(--motion-ease-emphasized);
+}
+
+.ax-window.maximized .ax-window-titlebar {
+  border-radius: 0;
+}
+
+/* ---- Window Shake (for unsnap) ---- */
+@keyframes axWindowShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+.ax-window.shaking {
+  animation: axWindowShake var(--motion-duration-fast) var(--motion-ease-standard) 3;
+}
+
+/* ---- Drop Shadow Glow for Active ---- */
+.ax-window.active .ax-window-titlebar {
+  background: rgba(255,255,255,.02);
+}
+
+/* ---- Window Fade In for all children ---- */
+.ax-window-body > * {
+  animation: axContentFadeIn var(--motion-duration-base) var(--motion-ease-standard) both;
+}
+
+@keyframes axContentFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- No Transition During Drag (for performance) ---- */
+.ax-window.dragging {
+  transition: none !important;
+}
+
+.ax-window.resizing {
+  transition: none !important;
+}
+
+/* ---- Responsive Windows ---- */
+@media (max-width: 768px) {
+  .ax-window {
+    left: 8px !important;
+    right: 8px !important;
+    width: calc(100% - 16px) !important;
+    max-width: calc(100% - 16px) !important;
+  }
+
+  .ax-window.maximized {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+  }
+}
+
+
+/* ===== Part 6: split-screen snap + show-desktop ===== */
+.ax-window.ax-snap-anim {
+  transition: left var(--motion-duration-fast) var(--motion-ease-standard), top var(--motion-duration-fast) var(--motion-ease-standard),
+              width var(--motion-duration-fast) var(--motion-ease-standard), height var(--motion-duration-fast) var(--motion-ease-standard);
+}
+.ax-window.ax-desktop-hidden {
+  transform: scale(.92) translateY(40px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--motion-duration-base) var(--motion-ease-standard), opacity var(--motion-duration-base) var(--motion-ease-standard);
+}

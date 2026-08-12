@@ -1,0 +1,106 @@
+/* ============================================================
+   AXIOM AI OS X — Part 6: Mission Control / Exposé styles
+   ============================================================ */
+.ax-mc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9700;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 40px 40px;
+  background: rgba(6,6,8,.55);
+  backdrop-filter: blur(34px) saturate(140%);
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.02);
+  transition: opacity var(--motion-duration-base) var(--motion-ease-standard), transform var(--motion-duration-base) var(--motion-ease-standard);
+}
+.ax-mc-overlay.active { opacity: 1; pointer-events: all; transform: scale(1); }
+
+.ax-mc-desktops {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 26px;
+}
+.ax-mc-desktop-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--ax-glass, rgba(255,255,255,.05));
+  border: 1px solid var(--ax-border, rgba(255,255,255,.1));
+  color: var(--ax-text-2, rgba(255,255,255,.65));
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: all var(--motion-duration-fast) var(--motion-ease-standard);
+}
+.ax-mc-desktop-pill:hover { background: var(--ax-glass-hover, rgba(255,255,255,.08)); }
+.ax-mc-desktop-pill.active {
+  background: var(--ax-accent, #fff);
+  color: #0a0a0a;
+  border-color: transparent;
+}
+.ax-mc-desktop-add {
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--ax-glass, rgba(255,255,255,.05));
+  border: 1px dashed var(--ax-border-strong, rgba(255,255,255,.16));
+  color: var(--ax-text-2, rgba(255,255,255,.6));
+  cursor: pointer;
+}
+.ax-mc-desktop-add:hover { background: var(--ax-glass-hover, rgba(255,255,255,.08)); }
+
+.ax-mc-grid {
+  flex: 1;
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 26px;
+  align-content: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+.ax-mc-card {
+  width: 260px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--ax-surface, #1c1c1e);
+  border: 1px solid var(--ax-border, rgba(255,255,255,.1));
+  cursor: pointer;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard), box-shadow var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard);
+  box-shadow: var(--ax-shadow, 0 20px 60px rgba(0,0,0,.5));
+}
+.ax-mc-card:hover {
+  transform: translateY(-8px) scale(var(--motion-scale-hover));
+  border-color: var(--ax-border-strong, rgba(255,255,255,.2));
+}
+.ax-mc-card-preview {
+  width: 100%;
+  min-height: 120px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(150deg, var(--ax-surface-2, #242426), var(--ax-surface-3, #2c2c2e));
+  color: var(--ax-text-3, rgba(255,255,255,.35));
+}
+.ax-mc-card-title {
+  display: flex; align-items: center; gap: 6px;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  color: var(--ax-text, #fff);
+  border-top: 1px solid var(--ax-border, rgba(255,255,255,.08));
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.ax-mc-empty {
+  color: var(--ax-text-3, rgba(255,255,255,.4));
+  font-size: 14px;
+}
+.ax-mc-hint {
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--ax-text-3, rgba(255,255,255,.35));
+}
+.ax-mc-overlay.ax-mc-expose .ax-mc-desktops { opacity: .5; pointer-events: none; }

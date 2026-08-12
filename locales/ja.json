@@ -1,0 +1,182 @@
+{
+  "common": {
+    "appName": "Axiom AI Studio",
+    "back": "戻る",
+    "backToAxiom": "Axiomに戻る",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "loading": "読み込み中…",
+    "pleaseWait": "しばらくお待ちください…",
+    "saved": "保存しました",
+    "search": "検索",
+    "send": "送信",
+    "stop": "停止",
+    "regenerate": "再生成",
+    "upload": "アップロード",
+    "thinking": "考え中…",
+    "typing": "入力中…",
+    "language": "言語",
+    "theme": "テーマ",
+    "notifications": "通知",
+    "signOut": "ログアウト"
+  },
+
+  "nav": {
+    "dashboard": "ダッシュボード",
+    "chats": "Chats",
+    "playground": "プレイグラウンド",
+    "billing": "請求",
+    "settings": "設定",
+    "admin": "管理者",
+    "profile": "プロフィール",
+    "newChat": "新しいチャット",
+    "history": "履歴"
+  },
+
+  "auth": {
+    "welcomeBack": "おかえりなさい",
+    "signInTitle": "Axiomにサインイン",
+    "signInSubtitle": "どのモデルでも、前回の続きからすぐに再開できます。",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "signIn": "サインイン",
+    "noAccount": "アカウントをお持ちでない方",
+    "createOne": "新規登録",
+    "createAccountTitle": "アカウントを作成",
+    "createAccountSubtitle": "1つのアカウントで、あらゆるモデルでの制作を始めましょう。",
+    "fullName": "氏名",
+    "confirmPassword": "パスワードの確認",
+    "createAccount": "アカウントを作成",
+    "haveAccount": "すでにアカウントをお持ちですか？",
+    "signInLink": "サインイン",
+    "logout": "ログアウト",
+    "errorInvalidCredentials": "メールアドレスまたはパスワードが正しくありません。",
+    "errorGeneric": "問題が発生しました。もう一度お試しください。",
+    "errorPasswordMismatch": "パスワードが一致しません。"
+  },
+
+  "dashboard": {
+    "title": "ダッシュボード",
+    "creditsRemaining": "残りクレジット",
+    "activeProjects": "進行中のプロジェクト",
+    "generationsThisMonth": "今月の生成回数",
+    "avgRelayHandoff": "平均リレー引き継ぎ時間",
+    "quickActions": "クイックアクション",
+    "quickActionsSubtitle": "モデルにすぐアクセス。",
+    "recentGenerations": "最近の生成",
+    "recentGenerationsSubtitle": "スタジオ内のすべてのツールから。",
+    "viewAll": "すべて表示 →",
+    "newGeneration": "新しい生成"
+  },
+
+  "playground": {
+    "modelLabel": "モデル",
+    "searchModels": "モデルを検索…",
+    "placeholder": "JARVISに何でも聞いてみましょう…",
+    "deleteChat": "チャットを削除",
+    "renameChat": "チャット名を変更",
+    "newChat": "新しいチャット",
+    "outOfCredits": "クレジットがなくなりました。請求ページでチャージしてください。",
+    "chatUnavailable": "チャットが利用できません：OpenRouterの読み込みに失敗しました。",
+    "genericError": "AIとの通信で問題が発生しました。",
+    "generationComplete": "生成が完了しました"
+  },
+
+  "billing": {
+    "title": "請求",
+    "currentPlan": "現在のプラン",
+    "freeForever": "永久無料",
+    "creditPacks": "クレジットパック",
+    "subscriptions": "サブスクリプション",
+    "buyCredits": "クレジットを購入",
+    "subscribe": "登録する",
+    "currentPlanBtn": "現在のプラン",
+    "preparingCheckout": "お支払いの準備中…",
+    "verifyingPayment": "お支払いを確認中…",
+    "paymentSuccessful": "お支払いが完了しました！",
+    "paymentFailed": "お支払いに失敗しました：{reason}",
+    "checkoutFailed": "決済を開始できませんでした",
+    "checkoutError": "決済の開始中に問題が発生しました",
+    "verificationFailed": "お支払いの確認に失敗しました",
+    "verificationError": "お支払いを確認できませんでした — 引き落としがあった場合はサポートまでご連絡ください",
+    "usageHistory": "利用履歴",
+    "model": "モデル",
+    "date": "日付",
+    "tokens": "トークン数",
+    "credits": "クレジット"
+  },
+
+  "settings": {
+    "title": "設定",
+    "profile": "プロフィール",
+    "account": "アカウント",
+    "appearance": "外観",
+    "languageRegion": "言語と地域",
+    "languageRegionSubtitle": "インターフェースとJARVISの返答に使用する言語を選択してください。",
+    "selectLanguage": "言語を選択",
+    "autoDetected": "ブラウザから自動検出されました",
+    "voice": "音声",
+    "voiceInput": "音声入力の言語",
+    "voiceOutput": "音声出力のボイス",
+    "notifications": "通知",
+    "dangerZone": "危険な操作",
+    "deleteAccount": "アカウントを削除"
+  },
+
+  "admin": {
+    "title": "管理者",
+    "subtitle": "スタジオ全体の利用状況、ユーザー、システムの状態。",
+    "totalUsers": "総ユーザー数",
+    "generations24h": "生成回数（24時間）",
+    "activeSubscriptions": "有効なサブスクリプション数",
+    "mrrComingSoon": "近日公開",
+    "mrrLabel": "MRR — 請求分析機能が必要です",
+    "recentUsers": "最近のユーザー",
+    "recentUsersSubtitle": "スタジオの最新登録者。",
+    "modelLoad": "モデル負荷",
+    "modelLoadSubtitle": "あくまで一例です — 実際のモデル別利用状況とはまだ連携していません。",
+    "name": "名前",
+    "plan": "プラン",
+    "credits": "クレジット",
+    "joined": "登録日",
+    "loadingUsers": "読み込み中…",
+    "couldNotLoad": "ユーザーデータを読み込めませんでした。"
+  },
+
+  "jarvis": {
+    "name": "JARVIS",
+    "onlineStatus": "オンライン · リアクター稼働中",
+    "listeningStatus": "聞いています…",
+    "thinkingStatus": "考え中…",
+    "speakingStatus": "話しています…",
+    "errorStatus": "問題が発生しました",
+    "greeting": "こんにちは、JARVISです",
+    "greetingSubtitle": "あなたの優秀なパーソナルアシスタント。",
+    "tagline": "考える · 創る · 自動化する",
+    "askAnything": "JARVISに何でも聞いてみましょう…",
+    "micUnavailable": "マイクが利用できません — 現在、音声モードは表示のみです。",
+    "writeCode": "コードを書く",
+    "writeCodeSub": "デバッグ・構築・レビュー",
+    "generateImage": "画像を生成",
+    "generateImageSub": "テキストまたは画像プロンプト",
+    "analyzeDocument": "ドキュメントを分析",
+    "analyzeDocumentSub": "アップロードして要約を取得",
+    "researchWeb": "Webでリサーチ",
+    "researchWebSub": "出典付きのリアルタイムな回答"
+  },
+
+  "errors": {
+    "generic": "問題が発生しました。もう一度お試しください。",
+    "network": "接続できませんでした。インターネット接続を確認してください。",
+    "rateLimited": "リクエストが多すぎます。少し時間をおいてください。",
+    "unauthorized": "続行するにはサインインしてください。",
+    "notFound": "見つかりませんでした。"
+  },
+
+  "toasts": {
+    "saved": "保存しました",
+    "copied": "クリップボードにコピーしました"
+  }
+}

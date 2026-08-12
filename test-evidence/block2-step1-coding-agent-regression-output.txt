@@ -1,0 +1,13 @@
+PASS  Coding Agent registered and reachable via manager
+PASS  Coding Agent reaches idle after init (not stuck initializing/offline)
+PASS  generate op returns a live result via the real client
+PASS  exactly one underlying client call for one task (no duplicate calls)
+PASS  agent returns to idle after completing (no wedge)
+PASS  explain-code op succeeds via the real client
+PASS  queued tasks never overlap (max 1 concurrent client call)
+PASS  cancelCurrent() found an in-flight task to flag
+PASS  cancelled in-flight generate resolves as cancelled, not a stale result
+PASS  explain-code with no client fails cleanly (no crash) instead of throwing unhandled
+PASS  unsupported op fails gracefully (no crash)
+
+ALL CHECKS PASSED

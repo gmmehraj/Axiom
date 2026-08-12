@@ -1,0 +1,58 @@
+============================================================
+AXIOM — Block 2 / Step 9 / Part 2C-2A Regression Suite
+============================================================
+
+PASS  initialize — returns success object with tool count
+PASS  initialize — success status is true
+PASS  getStatus — reflects initialized state
+PASS  discoverTools — discovers tools from registered agents
+PASS  discoverTools — normalized tool names created correctly
+PASS  empty registry — handles empty agent registry safely without crashing
+PASS  empty registry — getStatus shows zero tools
+PASS  missing registry — handles missing AxiomOrchestrator gracefully
+PASS  tool normalization — browser.navigate -> browser_navigate
+PASS  tool normalization — memory.findMemories -> memory_findMemories
+PASS  tool normalization — coding.projectSearch -> coding_projectSearch
+PASS  tool normalization — sample:action -> sample_action
+PASS  schema validation — registered tool present in AxiomOpenRouterToolManager
+PASS  invalid schema — rejected by ToolManager / ToolSchema
+PASS  collision detection — conflicting normalized tool excluded from registry
+PASS  collision detection — status records collision count
+PASS  collision detection — emits registry_error event for collision
+PASS  availability metadata — healthy agent tool marked available
+PASS  availability metadata — unhealthy agent tool marked unavailable
+PASS  availability metadata — health and status preserved in metadata
+PASS  permission metadata — permissions array preserved in tool metadata
+PASS  getTool — retrieves tool by normalized name
+PASS  getTool — retrieves tool by original name
+PASS  getTool — returns null for unknown tool
+PASS  hasTool — returns true for existing tool
+PASS  hasTool — returns false for missing tool
+PASS  getTools — returns list of discovered tools
+PASS  getToolDefinitions — returns OpenRouter wire-format function definitions
+PASS  getToolDefinitions — wire format includes parameters schema object
+PASS  refresh — initial tool count is 1
+PASS  refresh — updates snapshot and returns refreshed tools
+PASS  refresh — emits openrouter_axiom_registry_refreshed event
+PASS  destroy — initialized before destroy
+PASS  destroy — resets state to uninitialized and clears tools
+PASS  destroy — clears bridge registrations from AxiomOpenRouterToolManager
+PASS  events — emits openrouter_axiom_tools_discovered
+PASS  events — emits openrouter_axiom_registry_initialized
+PASS  events — payload contains count, timestamp, status, source
+PASS  events — payload does not contain secrets or API keys
+PASS  runtime context — records discovery and initialization events in AxiomRuntimeContext
+PASS  logger — logs initialization info via AxLogger
+PASS  read-only — bridge contains no executeTool invocations
+PASS  read-only — bridge contains no handler function calls
+PASS  read-only — bridge contains no window navigation calls
+PASS  no tool execution — agent handler function was never called during discovery/get/refresh
+PASS  security — contains no eval() in code
+PASS  security — contains no new Function() in code
+PASS  part 2c-1a compatibility — AxiomOpenRouterToolSchema loaded and valid
+PASS  part 2c-1a compatibility — AxiomOpenRouterToolManager loaded and valid
+PASS  part 2c-1b compatibility — AxiomOpenRouterToolCallParser loaded and valid
+
+============================================================
+Summary: 50 passed, 0 failed.
+============================================================

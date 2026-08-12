@@ -1,0 +1,205 @@
+@import url("design-tokens.css");
+/* ============================================================
+   AXIOM — Module 10: Holographic Environment + Global Lighting
+   ------------------------------------------------------------
+   Owns three purely-ambient, purely-additive layers, all driven
+   by the single `data-ai-state` attribute os-state-engine.js sets
+   on <html> (idle / listening / thinking / speaking / heavy /
+   error / sleeping):
+
+     1. #axiomOsLighting   — fixed, full-viewport, ultra-low-opacity
+                             radial glow. The "global lighting" the
+                             brief asks for, done as a CSS wash
+                             rather than real WebGL scene lights, so
+                             it costs nothing and never fights with
+                             page content.
+     2. #axiomOsParticles  — a single reactive <canvas> (driven by
+                             os-environment.js), layered above the
+                             lighting wash. Distinct from the
+                             existing decorative `#particles`
+                             rising-dot layer (untouched) — this one
+                             is the state-reactive system Module 10
+                             adds.
+     3. #axiomOsHolo        — floating rings / rotating data-circle /
+                             animated grid / HUD ticks around the AI
+                             Core, mounted only where the Reactor/Face
+                             already live (dashboard.html), sized and
+                             centered against the SAME box
+                             (.core-hero-canvas-wrap) they use.
+
+   Everything here is transform/opacity only (GPU-composited), never
+   touches layout, and is skipped/frozen under
+   prefers-reduced-motion — see the block at the bottom.
+   ============================================================ */
+
+:root {
+  /* Set by os-interface.js (camera parallax); consumed here so the
+     holo field and lighting wash drift together with everything
+     else Module 10 adds. Defaults to zero so nothing moves until
+     the script sets a real value. */
+  --ax-parallax-x: 0px;
+  --ax-parallax-y: 0px;
+}
+
+html[data-ai-state="idle"]      { --ax-live-color: var(--ax-live-idle);      --ax-live-speed: 7s; }
+html[data-ai-state="listening"] { --ax-live-color: var(--ax-live-listening); --ax-live-speed: 4.5s; }
+html[data-ai-state="thinking"]  { --ax-live-color: var(--ax-live-thinking);  --ax-live-speed: 1.8s; }
+html[data-ai-state="speaking"]  { --ax-live-color: var(--ax-live-speaking);  --ax-live-speed: 2.6s; }
+html[data-ai-state="heavy"]     { --ax-live-color: var(--ax-live-heavy);     --ax-live-speed: 1.1s; }
+html[data-ai-state="error"]     { --ax-live-color: var(--ax-live-error);     --ax-live-speed: 0.5s; }
+html[data-ai-state="sleeping"]  { --ax-live-color: var(--ax-live-sleeping);  --ax-live-speed: 12s; }
+
+/* ---- 1. Global lighting wash ---------------------------------- */
+
+#axiomOsLighting {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 18%, var(--ax-live-color), transparent 46%);
+  transition: background-color var(--motion-duration-reveal) var(--motion-ease-standard);
+  animation: axLightingBreathe var(--ax-live-speed) var(--motion-ease-standard) infinite;
+  will-change: opacity;
+}
+@keyframes axLightingBreathe {
+  0%, 100% { opacity: .7; }
+  50%      { opacity: 1; }
+}
+html[data-ai-state="error"] #axiomOsLighting {
+  animation: axLightingFlash var(--ax-live-speed) var(--motion-ease-standard) 3;
+}
+@keyframes axLightingFlash {
+  0%, 100% { opacity: .5; }
+  50%      { opacity: 1; }
+}
+
+/* ---- 2. Reactive particle canvas -------------------------------- */
+
+#axiomOsParticles {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: .55;
+  transition: opacity .8s var(--motion-ease-standard);
+}
+html[data-ai-state="sleeping"] #axiomOsParticles { opacity: .18; }
+
+/* ---- 3. Holographic environment around the AI Core ---------------- */
+
+.ax-holo-field {
+  position: absolute;
+  inset: -22%;
+  pointer-events: none;
+  z-index: 0;
+  transform: translate3d(calc(var(--ax-parallax-x) * .5), calc(var(--ax-parallax-y) * .5), 0);
+}
+
+.ax-holo-grid {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 1px, transparent 1px 34px);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 78%);
+          mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 78%);
+  opacity: .35;
+  animation: axGridPan 26s var(--motion-ease-linear) infinite;
+}
+@keyframes axGridPan {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 0 340px, 340px 0; }
+}
+
+.ax-holo-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .08);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 24px rgba(255, 255, 255, .02) inset;
+}
+.ax-holo-ring-1 { width: 84%; aspect-ratio: 1; animation: axRingSpin 34s var(--motion-ease-linear) infinite; }
+.ax-holo-ring-2 {
+  width: 100%;
+  aspect-ratio: 1;
+  border-style: dashed;
+  border-color: rgba(255, 255, 255, .06);
+  animation: axRingSpin 54s var(--motion-ease-linear) infinite reverse;
+}
+
+.ax-holo-data-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 92%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background:
+    repeating-conic-gradient(from 0deg, rgba(255,255,255,.12) 0 2deg, transparent 2deg 18deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 97%, #000 98%, #000 100%, transparent 100.5%);
+          mask-image: radial-gradient(circle at 50% 50%, transparent 97%, #000 98%, #000 100%, transparent 100.5%);
+  opacity: .35;
+  animation: axRingSpin 42s var(--motion-ease-linear) infinite;
+}
+
+@keyframes axRingSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Reuses the pre-existing (previously unused) .core-hud-layer corner-
+   bracket styling from styles/premium-os.css — Module 10 just supplies
+   the element so those brackets finally render. */
+.ax-holo-hud { opacity: .5; }
+
+/* ---- State reactivity for the holo field -------------------------- */
+
+html[data-ai-state="thinking"] .ax-holo-ring-1  { animation-duration: 9s; }
+html[data-ai-state="thinking"] .ax-holo-ring-2  { animation-duration: 16s; }
+html[data-ai-state="thinking"] .ax-holo-data-circle { animation-duration: 11s; opacity: .72; }
+
+html[data-ai-state="heavy"] .ax-holo-ring-1     { animation-duration: 5s; }
+html[data-ai-state="heavy"] .ax-holo-ring-2     { animation-duration: 9s; }
+html[data-ai-state="heavy"] .ax-holo-data-circle{ animation-duration: 6s; opacity: .85; }
+html[data-ai-state="heavy"] .ax-holo-grid       { opacity: .5; animation-duration: 14s; }
+
+html[data-ai-state="speaking"] .ax-holo-ring-1  { border-color: rgba(255, 255, 255, .12); }
+html[data-ai-state="speaking"] .ax-holo-data-circle { opacity: .45; }
+
+html[data-ai-state="listening"] .ax-holo-ring-1,
+html[data-ai-state="listening"] .ax-holo-ring-2 { border-color: rgba(255, 255, 255, .12); }
+
+html[data-ai-state="error"] .ax-holo-ring-1,
+html[data-ai-state="error"] .ax-holo-ring-2 {
+  border-color: rgba(255, 255, 255, .15);
+  animation-duration: 2.6s;
+}
+
+html[data-ai-state="sleeping"] .ax-holo-field { opacity: .35; }
+html[data-ai-state="sleeping"] .ax-holo-ring-1,
+html[data-ai-state="sleeping"] .ax-holo-ring-2,
+html[data-ai-state="sleeping"] .ax-holo-data-circle { animation-play-state: paused; }
+
+/* ---- Accessibility -------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  #axiomOsLighting,
+  .ax-holo-grid,
+  .ax-holo-ring,
+  .ax-holo-data-circle {
+    animation: none !important;
+  }
+  .ax-holo-field { transform: none !important; }
+}
+
+@media (max-width: 720px) {
+  .ax-holo-field { inset: -10%; }
+}

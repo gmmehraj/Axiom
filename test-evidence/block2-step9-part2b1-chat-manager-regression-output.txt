@@ -1,0 +1,60 @@
+AXIOM Block 2 / Step 9 / Part 2B-1 — OpenRouter Chat Manager regression
+
+PASS  chat-manager: installs onto window.AxiomOpenRouter.chat standalone (no load-order dependency)
+PASS  chat-manager: state management (createChat/getHistory/resetChat) works with chat-manager.js loaded alone
+PASS  chat-manager: sendMessage() rejects with "core_not_loaded" when api-manager.js is absent
+PASS  chat-manager: createChat() assigns a chatId and fires openrouter_chat_created
+PASS  chat-manager: createChat() with an explicit chatId that already exists returns null (no clobber)
+PASS  chat-manager: getChat() returns null for an unknown chatId
+PASS  chat-manager: listChats() reflects every created conversation with a message count
+PASS  chat-manager: deleteChat() removes the conversation; getChat()/getHistory() then return null
+PASS  chat-manager: setSystemPrompt()/configureChat() update saved state and return true/snapshot
+PASS  chat-manager: sendMessage() posts to /chat/completions with system prompt + full history + params
+PASS  chat-manager: sendMessage() omits temperature/top_p/max_tokens/stop entirely when unset (no silent 0/null)
+PASS  chat-manager: multi-turn — a second sendMessage() includes the first turn's user+assistant messages in the request
+PASS  chat-manager: sendMessage() resolves with the assistant message and usage totals
+PASS  chat-manager: per-call overrides apply to that request only and never mutate the saved conversation config
+PASS  chat-manager: openrouter_request_started/completed fire with matching requestId and model
+PASS  chat-manager: resetChat() clears turns but keeps the system prompt by default, fires openrouter_chat_reset
+PASS  chat-manager: resetChat({clearSystemPrompt:true}) also clears the system prompt
+PASS  chat-manager: resetChat() on an unknown chatId returns false, does not throw
+PASS  chat-manager: two conversations never share history, model, or params
+PASS  chat-manager: interleaved sendMessage() calls across two conversations keep each history correctly ordered
+PASS  chat-manager: sendMessage() rejects "invalid_api_key" when no key is stored
+PASS  chat-manager: sendMessage() rejects "chat_not_found" for an unknown chatId
+PASS  chat-manager: sendMessage() rejects "invalid_message" for empty/non-string content
+PASS  chat-manager: a failed request (HTTP 500) is classified, emits openrouter_error, and keeps the user turn for retry without adding an assistant turn
+PASS  chat-manager: a network failure classifies as "network_error" via the reused error-handler.js
+PASS  chat-manager: successful sendMessage() rolls usage into token-manager.js's existing accounting
+PASS  chat-manager: a chat created without a model falls back to model-manager.js's getDefaultModel()
+PASS  chat-manager: sendMessage() still works (falls back to its own default) if model-manager.js is not loaded
+PASS  chat-manager: load-order independence — chat-manager.js loaded BEFORE api-manager.js still works once both are present
+PASS  static: js/core/openrouter-client.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: js/core/openrouter-config.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: js/core/model-selector.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: os/api/openrouter/api-manager.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: os/api/openrouter/model-manager.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: os/api/openrouter/token-manager.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: os/api/openrouter/error-handler.js exists and was not touched by Part 2B-1 (present, non-empty)
+PASS  static: protected file os/core/browser-engine.js still present on disk
+PASS  static: protected file os/core/browser-manager.js still present on disk
+PASS  static: protected file os/core/browser-sandbox.js still present on disk
+PASS  static: protected file os/core/automation-engine.js still present on disk
+PASS  static: protected file os/core/automation-manager.js still present on disk
+PASS  static: protected file os/core/memory-engine.js still present on disk
+PASS  static: protected file os/core/memory-manager.js still present on disk
+PASS  static: protected file os/core/goal-manager.js still present on disk
+PASS  static: protected file os/core/goal-manager-learning.js still present on disk
+PASS  static: protected file os/core/goal-manager-recovery.js still present on disk
+PASS  static: protected file js/core/voice.js still present on disk
+PASS  static: protected file js/core/voice-controller.js still present on disk
+PASS  static: protected file js/core/supabase/connection-manager.js still present on disk
+PASS  static: protected file js/core/supabase/auth-service.js still present on disk
+PASS  static: protected file js/core/supabase/env.js still present on disk
+PASS  static: os/api/openrouter/ contains exactly the nine expected files (Part 2A's four + chat-manager.js + Part 2B-2's stream-manager.js/response-parser.js + Part 2B-3's request-queue.js + Part 2B-4's usage-tracker.js), nothing extra
+PASS  static: chat-manager.js never touches localStorage key axiom_openrouter_selected_model (existing UI selector's key)
+PASS  static: chat-manager.js never touches localStorage key axiom_os_openrouter_default_model (model-manager.js's key — read via its API, not localStorage directly)
+PASS  static: chat-manager.js never touches localStorage key axiom_os_openrouter_api_key (api-manager.js's key — read via _internal.getStoredKey(), not localStorage directly)
+PASS  static: chat-manager.js does not reference js/core/openrouter-client.js's global (window.OpenRouter)
+
+56 passed, 0 failed.

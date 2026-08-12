@@ -1,0 +1,229 @@
+@import url("design-tokens.css");
+/* ============================================================
+   AXIOM — CSS Custom Property Alias Layer
+   ------------------------------------------------------------
+   Maps legacy variable names to the master design system
+   defined in ax-redesign.css. This file contains NO component
+   declarations — only :root and .app-body variable aliases so
+   outdated selectors in legacy styles.css/app.css continue to
+   resolve correctly through the cascade.
+
+   Every component (buttons, cards, inputs, panels, etc.) is
+   defined ONCE in ax-redesign.css — the single source of truth.
+   ============================================================ */
+
+/* ---- Alias :root variables to ax-redesign tokens ----
+   Phase 10 · Part 2 · Block 1 Step 1 note: loaded only on
+   index.html / login.html / register.html, after base.css. Its
+   own a-violet/a-cyan/a-pink/a-coral/a-gold/a-teal/font/radius-*
+   values (further down this file) intentionally differ from both
+   base.css's literals and design-tokens.css's §11 aliases — this
+   is the "vision page" family's own currently-rendering design,
+   kept as-is to avoid a visual change on these 3 pages. See
+   TOKEN_AUDIT.md. ---- */
+:root {
+  --white:              #FFFFFF;
+  --white-hover:        rgba(255, 255, 255, .08);
+  --white-soft:         rgba(255, 255, 255, .06);
+  --white-softer:       rgba(255, 255, 255, .03);
+  --white-glow:         rgba(255, 255, 255, .12);
+
+  --bg-primary:         #050505;
+  --bg-secondary:       #0B0B0B;
+  --surface-card:       #111111;
+  --surface-glass:      rgba(255, 255, 255, .04);
+  --surface-glass-hover: rgba(255, 255, 255, .07);
+  --border-hairline:    rgba(255, 255, 255, .08);
+  --border-hairline-strong: rgba(255, 255, 255, .15);
+
+  --text-primary:       #F5F5F5;
+  --text-secondary:     rgba(245, 245, 245, .70);
+  --text-tertiary:      rgba(245, 245, 245, .45);
+
+  --success:            rgba(255, 255, 255, .60);
+  --warning:            rgba(255, 255, 255, .45);
+  --error:              rgba(255, 255, 255, .30);
+
+  --glass-blur:  blur(40px);
+  --glass-bg:    rgba(255, 255, 255, .04);
+  --glass-shadow: 0 20px 60px rgba(0, 0, 0, .45), inset 0 1px rgba(255, 255, 255, .10);
+  --glass-inset:  inset 0 1px rgba(255, 255, 255, .10);
+
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 16px;
+  --sp-4: 24px;
+  --sp-5: 32px;
+  --sp-6: 40px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  --r-sm:   12px;
+  --r-md:   18px;
+  --r-lg:   28px;
+  --r-xl:   34px;
+  --r-pill: 999px;
+
+  --motion-ease:      cubic-bezier(.19, 1, .22, 1);
+  --motion-fast:      160ms;
+  --motion-base:      260ms;
+  --motion-slow:      420ms;
+
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, .28);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, .36);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, .44);
+  --shadow-xl: 0 30px 80px rgba(0, 0, 0, .50);
+  --stroke-glass: 0 0 0 1px rgba(255, 255, 255, .06);
+
+  /* Backward-compatible aliases */
+  --ink-3:      #101010;
+  --text-lo:    var(--text-secondary);
+  --text-faint: var(--text-tertiary);
+
+  --a-violet:   var(--white);
+  --a-violet-2: rgba(255, 255, 255, .60);
+  --a-cyan:     rgba(255, 255, 255, .50);
+  --a-cyan-2:   rgba(255, 255, 255, .35);
+  --a-coral:    var(--error);
+  --a-gold:     var(--warning);
+  --a-teal:     var(--success);
+
+  --font: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius-s: var(--r-sm);
+  --radius-m: var(--r-md);
+  --radius-l: var(--r-lg);
+
+  --space-section: clamp(3.2rem, 6vw, 7rem);
+  --space-container: clamp(1.2rem, 4vw, 2rem);
+  --gap-grid: var(--sp-4);
+
+  --accent:        var(--white);
+  --accent-glow:   rgba(255, 255, 255, .10);
+  --accent-hover:  var(--white-hover);
+  --text-2:        var(--text-secondary);
+  --text-muted:    var(--text-tertiary);
+
+  --ax-surface-2:     var(--surface-card);
+  --ax-surface-3:     #131313;
+  --ax-glow:          rgba(255, 255, 255, .20);
+  --ax-glow-2:        rgba(255, 255, 255, .10);
+  --ax-accent:        var(--white);
+  --ax-success:       rgba(255, 255, 255, .60);
+  --ax-text-2:        var(--text-secondary);
+  --ax-text-3:        var(--text-tertiary);
+  --ax-radius:        var(--r-lg);
+  --ax-radius-sm:     var(--r-md);
+  --ax-shadow:        var(--shadow-xl);
+  --ax-glass:         linear-gradient(180deg, rgba(255, 255, 255, .04) 0%, rgba(255, 255, 255, .015) 100%);
+  --ax-panel:         linear-gradient(180deg, rgba(255, 255, 255, .035) 0%, rgba(255, 255, 255, .01) 100%);
+
+  --vg-bg:      var(--bg-primary);
+  --vg-surface: var(--bg-secondary);
+  --vg-glass:   var(--surface-glass);
+  --vg-card:    var(--surface-card);
+  --vg-text:    var(--text-primary);
+  --vg-text-2:  var(--text-secondary);
+  --vg-muted:   var(--text-tertiary);
+  --vg-border:  var(--border-hairline);
+  --vg-hover:   var(--surface-glass-hover);
+  --vg-success: var(--success);
+  --vg-warning: var(--warning);
+  --vg-error:   var(--error);
+  --vg-blur:    20px;
+}
+
+/* ---- .app-body scoped aliases ---- */
+.app-body {
+  --a-violet:   var(--white);
+  --a-violet-2: rgba(255, 255, 255, .60);
+  --a-cyan:     rgba(255, 255, 255, .50);
+  --a-cyan-2:   rgba(255, 255, 255, .35);
+  --a-pink:     rgba(255, 255, 255, .25);
+  --ink:        var(--bg-primary);
+  --ink-2:      var(--bg-secondary);
+  --ink-3:      #101010;
+  --card:       var(--surface-card);
+  --line:       var(--border-hairline);
+  --line-soft:  rgba(255, 255, 255, .04);
+
+  --bg:            var(--ink);
+  --sidebar-bg:    var(--ink-2);
+  --panel-bg:      var(--card);
+  --card-bg:       var(--card);
+  --accent:        var(--white);
+  --accent-glow:   rgba(255, 255, 255, .10);
+  --accent-hover:  var(--white-hover);
+  --text-1:        var(--text-hi);
+  --text-2:        var(--text-lo);
+  --text-muted:    var(--text-faint);
+  --border-accent: var(--line);
+
+  background: var(--bg);
+  color: var(--text-1);
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-i18n, var(--font));
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+
+::selection {
+  background: var(--white-glow);
+  color: var(--text-primary);
+}
+
+:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, .50);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-i18n, var(--font));
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+h1 { font-weight: 700; letter-spacing: -0.03em; }
+p { color: var(--text-secondary); line-height: 1.65; }
+small, .text-muted { color: var(--text-tertiary); }
+code, pre, kbd { font-family: var(--font-mono); }
+
+/* Aurora — barely visible white ambient */
+.app-body .aurora,
+.app-body .grain { opacity: .20; }
+.app-body .aurora span { filter: saturate(0); }
+.aurora span:nth-child(1),
+.aurora span:nth-child(2),
+.aurora span:nth-child(3) {
+  background: var(--white-soft);
+  opacity: .08;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .08);
+  border-radius: var(--r-pill);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, .15);
+  background-clip: padding-box;
+}
+

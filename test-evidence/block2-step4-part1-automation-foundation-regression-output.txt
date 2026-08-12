@@ -1,0 +1,21 @@
+AXIOM Block 2 / Step 4 / Part 1 — Automation Foundation regression
+
+  PASS  engine exposes the documented public API
+  PASS  init() starts with a clean, empty state
+  PASS  createWorkflow persists a draft workflow
+  PASS  updateWorkflow merges a patch without clobbering other fields
+  PASS  publishWorkflow flips status to active
+  PASS  enqueueRun rejects a workflow with no steps
+  PASS  a queued run genuinely transitions queued -> running -> success
+  PASS  a step that fails all retry attempts genuinely fails the run (no fake success)
+  PASS  a condition that is not met fails the run honestly
+  PASS  cancelRun stops a queued run before it ever executes
+  PASS  cancelRun stops an in-flight run cooperatively
+  PASS  retryRun enqueues a fresh run cloned from a failed one
+  PASS  getQueueState reports real pending/running counts, not fixed numbers
+  PASS  deleteWorkflow removes it from listWorkflows
+  PASS  exportAll/importAll round-trip workflow + run state
+  PASS  workflows and run history survive a simulated page reload
+  PASS  a run left queued/running across a reload is recovered honestly as failed, never as a fake success
+
+17 passed, 0 failed

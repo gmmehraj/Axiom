@@ -1,0 +1,175 @@
+/* ============================================================
+   AXIOM AI OS V8 — Floating Dock Navigation
+   ------------------------------------------------------------
+   macOS/iPadOS-style floating dock.
+   Glass morphism, blur, rounded 24px, floating, soft shadow.
+   Icons only with tooltip labels on hover.
+   Active state: bright white pill indicator.
+   ============================================================ */
+
+/* ---- Dock Container ---- */
+.ax-dock {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .10);
+  border-radius: 28px;
+  backdrop-filter: blur(40px) saturate(120%);
+  -webkit-backdrop-filter: blur(40px) saturate(120%);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .5), inset 0 1px rgba(255, 255, 255, .12), 0 0 0 1px rgba(255, 255, 255, .04);
+  transition: transform var(--motion-duration-base) var(--motion-ease-spring), opacity var(--motion-duration-base) var(--motion-ease-standard);
+  will-change: transform;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ax-dock:hover {
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.ax-dock.hidden {
+  transform: translateX(-50%) translateY(120px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- Dock Items ---- */
+.ax-dock-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  color: rgba(255, 255, 255, .55);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--motion-duration-base) var(--motion-ease-spring),
+              background var(--motion-duration-fast) var(--motion-ease-standard),
+              color var(--motion-duration-fast) var(--motion-ease-standard),
+              border-color var(--motion-duration-fast) var(--motion-ease-standard);
+  position: relative;
+}
+
+.ax-dock-item svg {
+  width: 20px;
+  height: 20px;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.ax-dock-item:hover {
+  color: rgba(255, 255, 255, .9);
+  background: rgba(255, 255, 255, .06);
+  border-color: rgba(255, 255, 255, .06);
+  transform: translateY(-4px) scale(var(--motion-scale-hover-strong));
+}
+
+.ax-dock-item:hover svg {
+  transform: scale(var(--motion-scale-hover-strong));
+}
+
+.ax-dock-item:active {
+  transform: translateY(-2px) scale(var(--motion-scale-press-strong));
+  transition-duration: var(--motion-duration-instant);
+}
+
+/* Active state — white pill indicator */
+.ax-dock-item.active {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, .10);
+  border: 1px solid rgba(255, 255, 255, .15);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .06), inset 0 1px rgba(255, 255, 255, .12);
+}
+
+.ax-dock-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 3px;
+  border-radius: 999px;
+  background: #FFFFFF;
+  box-shadow: 0 0 10px rgba(255, 255, 255, .4);
+}
+
+/* ---- Tooltip Label ---- */
+.ax-dock-label {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(20, 20, 20, .95);
+  border: 1px solid rgba(255, 255, 255, .10);
+  color: #F5F5F5;
+  font-size: .72rem;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: .3em .7em;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease-standard), transform var(--motion-duration-fast) var(--motion-ease-standard);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.ax-dock-item:hover .ax-dock-label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---- Dock Divider ---- */
+.ax-dock-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, .08);
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+
+/* ---- Hide old sidebar when dock is active ---- */
+.ax-dock-active .app-sidebar {
+  display: none;
+}
+
+/* ---- Responsive: Hide dock on mobile, use bottom nav instead ---- */
+@media (max-width: 900px) {
+  .ax-dock {
+    display: none;
+  }
+}
+
+@media (min-width: 901px) {
+  .mobile-nav {
+    display: none !important;
+  }
+}
+
+/* ---- Dock auto-hide setting ---- */
+.ax-dock-auto-hide .ax-dock {
+  opacity: 0;
+  transform: translateX(-50%) translateY(20px);
+  pointer-events: none;
+  transition: transform var(--motion-duration-slow) var(--motion-ease-standard), opacity var(--motion-duration-slow) var(--motion-ease-standard);
+}
+
+.ax-dock-auto-hide:hover .ax-dock,
+.ax-dock-auto-hide .ax-dock:hover {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+

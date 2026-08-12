@@ -1,0 +1,22 @@
+[AxiomM12] Executive AI memory recall enhanced with Knowledge Graph expansion.
+ok   knowledge graph builds nodes and edges from real memory rows  ({"nodes":8,"edges":7,"byType":{"agent":3,"memory":3,"tag":2},"builtAt":1785065684920})
+ok   knowledge graph has a memory node for a real note
+ok   knowledge graph links the two related TypeScript memories  (["mem-2"])
+ok   knowledge graph does NOT link the unrelated meeting note to the TypeScript notes
+ok   semantic search returns scored, ranked results
+ok   semantic search ranks a TypeScript note above the unrelated meeting note
+ok   auto-tagger classify() suggests tags for an untagged note  ({"tags":["user","prefers","typescript","over","plain"],"category":"technical"})
+ok   auto-tagger fills tags on a previously-untagged note  ({"id":"mem-2","tags":["user","prefers","typescript","over","plain"],"category":"technical","changed":true})
+ok   auto-tagger never overwrites tags a note already has
+ok   duplicate detector groups the two near-identical TypeScript notes  ([["mem-1","mem-2"]])
+ok   duplicate detector does not merge the unrelated meeting note into that group
+ok   importance ranker scores a pinned + tagged note higher than a bare one  ({"pinned":0.855,"bare":0.225})
+ok   the ranked list still carries rankScore from the unmodified Milestone 8 rank()
+ok   summarizer produces a non-empty summary with the correct count  ("3 memories recorded for \"agent.memory\" between 2026-07-26 and 2026-07-26. Most common tags: typescript, preference, user, prefers, over. Most common category: preferences. 1 pinned as important. Most notable: User prefers TypeScript for backend services. | User prefers TypeScript over plain JavaScript for backend work. | Meeting with design team scheduled for Thursday.")
+ok   AxiomMemoryIntelligence.rankedRecall was wrapped, not replaced (marker present)
+ok   enhanced rankedRecall() still resolves an array Executive AI's loadMemory() can consume
+ok   enhanced rankedRecall() surfaces the graph-related note even when only one matched the query text directly  (["mem-1","mem-2"])
+ok   Milestone 8 AxiomMemoryIntelligence.rank() is unmodified and still works standalone
+ok   core agent registry still reports 10 agents, no duplicates (regression)
+
+[Milestone 12] PASS — 19/19 checks passed.

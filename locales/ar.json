@@ -1,0 +1,182 @@
+{
+  "common": {
+    "appName": "أكسيوم AI ستوديو",
+    "back": "رجوع",
+    "backToAxiom": "العودة إلى أكسيوم",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "close": "إغلاق",
+    "loading": "جارٍ التحميل…",
+    "pleaseWait": "يرجى الانتظار…",
+    "saved": "تم الحفظ",
+    "search": "بحث",
+    "send": "إرسال",
+    "stop": "إيقاف",
+    "regenerate": "إعادة الإنشاء",
+    "upload": "رفع",
+    "thinking": "يفكر…",
+    "typing": "يكتب…",
+    "language": "اللغة",
+    "theme": "المظهر",
+    "notifications": "الإشعارات",
+    "signOut": "تسجيل الخروج"
+  },
+
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "chats": "Chats",
+    "playground": "ساحة التجربة",
+    "billing": "الفواتير",
+    "settings": "الإعدادات",
+    "admin": "الإدارة",
+    "profile": "الملف الشخصي",
+    "newChat": "محادثة جديدة",
+    "history": "السجل"
+  },
+
+  "auth": {
+    "welcomeBack": "مرحبًا بعودتك",
+    "signInTitle": "تسجيل الدخول إلى أكسيوم",
+    "signInSubtitle": "تابع من حيث توقفت، عبر كل نموذج.",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "signIn": "تسجيل الدخول",
+    "noAccount": "ليس لديك حساب؟",
+    "createOne": "أنشئ واحدًا",
+    "createAccountTitle": "أنشئ حسابك",
+    "createAccountSubtitle": "ابدأ الإنشاء مع كل نموذج، بحساب واحد.",
+    "fullName": "الاسم الكامل",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "createAccount": "إنشاء حساب",
+    "haveAccount": "لديك حساب بالفعل؟",
+    "signInLink": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "errorInvalidCredentials": "بريد إلكتروني أو كلمة مرور غير صحيحة.",
+    "errorGeneric": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "errorPasswordMismatch": "كلمتا المرور غير متطابقتين."
+  },
+
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "creditsRemaining": "الأرصدة المتبقية",
+    "activeProjects": "المشاريع النشطة",
+    "generationsThisMonth": "الإنشاءات هذا الشهر",
+    "avgRelayHandoff": "متوسط تسليم الترحيل",
+    "quickActions": "إجراءات سريعة",
+    "quickActionsSubtitle": "انتقل مباشرة إلى نموذج.",
+    "recentGenerations": "الإنشاءات الأخيرة",
+    "recentGenerationsSubtitle": "عبر كل أداة في الاستوديو.",
+    "viewAll": "عرض الكل ←",
+    "newGeneration": "إنشاء جديد"
+  },
+
+  "playground": {
+    "modelLabel": "النموذج",
+    "searchModels": "البحث عن نماذج…",
+    "placeholder": "اسأل JARVIS أي شيء…",
+    "deleteChat": "حذف المحادثة",
+    "renameChat": "إعادة تسمية المحادثة",
+    "newChat": "محادثة جديدة",
+    "outOfCredits": "لقد نفدت أرصدتك. أعد الشحن من الفواتير.",
+    "chatUnavailable": "المحادثة غير متاحة: تعذر تحميل OpenRouter.",
+    "genericError": "حدث خطأ ما أثناء التحدث مع الذكاء الاصطناعي.",
+    "generationComplete": "اكتمل الإنشاء"
+  },
+
+  "billing": {
+    "title": "الفواتير",
+    "currentPlan": "الخطة الحالية",
+    "freeForever": "مجاني للأبد",
+    "creditPacks": "حزم الأرصدة",
+    "subscriptions": "الاشتراكات",
+    "buyCredits": "شراء أرصدة",
+    "subscribe": "اشترك",
+    "currentPlanBtn": "الخطة الحالية",
+    "preparingCheckout": "جارٍ تجهيز الدفع…",
+    "verifyingPayment": "جارٍ التحقق من الدفع…",
+    "paymentSuccessful": "تمت عملية الدفع بنجاح!",
+    "paymentFailed": "فشلت عملية الدفع: {reason}",
+    "checkoutFailed": "تعذر بدء عملية الدفع",
+    "checkoutError": "حدث خطأ ما أثناء بدء عملية الدفع",
+    "verificationFailed": "فشل التحقق من الدفع",
+    "verificationError": "تعذر التحقق من الدفع — تواصل مع الدعم إذا تم خصم المبلغ منك",
+    "usageHistory": "سجل الاستخدام",
+    "model": "النموذج",
+    "date": "التاريخ",
+    "tokens": "الرموز",
+    "credits": "الأرصدة"
+  },
+
+  "settings": {
+    "title": "الإعدادات",
+    "profile": "الملف الشخصي",
+    "account": "الحساب",
+    "appearance": "المظهر",
+    "languageRegion": "اللغة والمنطقة",
+    "languageRegionSubtitle": "اختر لغة الواجهة وردود JARVIS.",
+    "selectLanguage": "اختر لغة",
+    "autoDetected": "تم اكتشافها تلقائيًا من متصفحك",
+    "voice": "الصوت",
+    "voiceInput": "لغة الإدخال الصوتي",
+    "voiceOutput": "صوت الإخراج الصوتي",
+    "notifications": "الإشعارات",
+    "dangerZone": "منطقة الخطر",
+    "deleteAccount": "حذف الحساب"
+  },
+
+  "admin": {
+    "title": "الإدارة",
+    "subtitle": "الاستخدام والمستخدمون وصحة النظام على مستوى الاستوديو.",
+    "totalUsers": "إجمالي المستخدمين",
+    "generations24h": "الإنشاءات (24 ساعة)",
+    "activeSubscriptions": "الاشتراكات النشطة",
+    "mrrComingSoon": "قريبًا",
+    "mrrLabel": "الإيراد الشهري — يحتاج إلى تحليلات الفوترة",
+    "recentUsers": "المستخدمون الجدد",
+    "recentUsersSubtitle": "أحدث المسجلين في الاستوديو.",
+    "modelLoad": "حمل النموذج",
+    "modelLoadSubtitle": "لأغراض التوضيح فقط — غير مرتبط بعد بالاستخدام الفعلي لكل نموذج.",
+    "name": "الاسم",
+    "plan": "الخطة",
+    "credits": "الأرصدة",
+    "joined": "تاريخ الانضمام",
+    "loadingUsers": "جارٍ التحميل…",
+    "couldNotLoad": "تعذر تحميل بيانات المستخدم."
+  },
+
+  "jarvis": {
+    "name": "JARVIS",
+    "onlineStatus": "متصل · المفاعل نشط",
+    "listeningStatus": "يستمع…",
+    "thinkingStatus": "يفكر…",
+    "speakingStatus": "يتحدث…",
+    "errorStatus": "حدث خطأ ما",
+    "greeting": "مرحبًا، أنا JARVIS",
+    "greetingSubtitle": "مساعدك الشخصي الذكي.",
+    "tagline": "فكّر · أنشئ · شغّل تلقائيًا",
+    "askAnything": "اسأل JARVIS أي شيء…",
+    "micUnavailable": "الميكروفون غير متاح — وضع الصوت مرئي فقط حاليًا.",
+    "writeCode": "كتابة الشيفرة",
+    "writeCodeSub": "تصحيح، بناء، مراجعة",
+    "generateImage": "إنشاء صورة",
+    "generateImageSub": "موجه نصي أو صورة",
+    "analyzeDocument": "تحليل مستند",
+    "analyzeDocumentSub": "ارفع واحصل على ملخص",
+    "researchWeb": "البحث على الويب",
+    "researchWebSub": "إجابات مباشرة وموثقة"
+  },
+
+  "errors": {
+    "generic": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "network": "تعذر الاتصال. تحقق من اتصالك بالإنترنت.",
+    "rateLimited": "طلبات كثيرة جدًا — يرجى الإبطاء.",
+    "unauthorized": "يرجى تسجيل الدخول للمتابعة.",
+    "notFound": "لم نتمكن من العثور على ذلك."
+  },
+
+  "toasts": {
+    "saved": "تم الحفظ",
+    "copied": "تم النسخ إلى الحافظة"
+  }
+}
