@@ -16,9 +16,22 @@
 
   function init() {
     if (!document.querySelector('.app-body')) return;
+    loadDesktopPolish();
     wireSidebarCollapse();
     injectMobileNav();
     wirePlaygroundDeepLink();
+  }
+
+  // ---- Shared desktop polish layer ----
+  // Loaded dynamically so the visual pass remains additive and does not
+  // replace any existing page-specific CSS or responsive rules.
+  function loadDesktopPolish() {
+    if (document.querySelector('link[data-axiom-desktop-polish]')) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'styles/desktop-polish.css';
+    link.dataset.axiomDesktopPolish = 'true';
+    document.head.appendChild(link);
   }
 
   // ---- Desktop sidebar collapse (independent of the mobile drawer) ----
@@ -58,7 +71,7 @@
       { href: '#', match: [], label: 'Files',
         icon: '<path d="M5 3h10l4 4v14H5z" stroke-linejoin="round"/><path d="M8 11h8M8 15h8M8 7h4" stroke-linecap="round"/>' },
       { href: 'settings.html', match: ['settings.html'], label: 'Settings',
-        icon: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.04 1.56V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.9 19.7a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.56-1.04H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001.04-1.56V3a2 2 0 014 0v.09A1.7 1.7 0 0015.4 4.6a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.56 1.04H21a2 2 0 010 4h-.09A1.7 1.7 0 0019.4 15z" stroke-width="1.4"/>' }
+        icon: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.04 1.56V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.9 19.7a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.56-1.04H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001.04-1.56V3a2 2 0 014 0v.09A1.7 1.7 0 0015.4 4.6a1.7 1.7 0 001.87-.34l-.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.56 1.04H21a2 2 0 010 4h-.09A1.7 1.7 0 0019.4 15z" stroke-width="1.4"/>' }
     ];
 
     const nav = document.createElement('nav');
