@@ -1,0 +1,77 @@
+/* Axiom desktop layout fixes — shared, non-destructive layer. */
+
+@media (min-width: 1024px) {
+  :root {
+    --desktop-content-gutter: clamp(20px, 2.2vw, 40px);
+    --desktop-section-gap: clamp(20px, 2vw, 36px);
+  }
+
+  body {
+    min-width: 1024px;
+  }
+
+  main,
+  [role="main"],
+  .workspace-main,
+  .main-content,
+  .page-content {
+    min-width: 0;
+  }
+
+  .page-content,
+  .workspace-content {
+    padding-inline: max(var(--desktop-content-gutter), env(safe-area-inset-left));
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button,
+  [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :where(button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--a-accent, #8ee7ff) 78%, white);
+    outline-offset: 2px;
+  }
+
+  :where(.grid, .cards-grid, .dashboard-grid, .workspace-grid) {
+    min-width: 0;
+  }
+
+  :where(.card, .panel, .glass-card, .surface, .widget) {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  :where(.card, .panel, .glass-card, .surface, .widget) img,
+  :where(.card, .panel, .glass-card, .surface, .widget) video,
+  :where(.card, .panel, .glass-card, .surface, .widget) canvas {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .page-content,
+  .workspace-content {
+    padding-inline: max(28px, var(--desktop-content-gutter));
+  }
+}
+
+@media (min-width: 1920px) {
+  .page-content,
+  .workspace-content {
+    padding-inline: max(36px, var(--desktop-content-gutter));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+  }
+}
