@@ -29,6 +29,13 @@ function setBtnLoading(btn, loading, loadingText) {
   }
 }
 
+// Always use the current deployed origin for email confirmation redirects.
+// This prevents old/local development URLs from being embedded in signup
+// confirmation emails when Axiom is running on Vercel.
+function getAuthRedirectUrl() {
+  return new URL('os-shell.html', window.location.origin).href;
+}
+
 // ============================================
 // Register page
 // ============================================
@@ -51,7 +58,12 @@ if (registerForm) {
     const { data, error } = await supabaseClient.auth.signUp({
       email,
       password,
-      options: { data: { full_name: fullName } }
+      options: {
+        data: { full_name: fullName },
+        // Explicit production redirect. Do not rely only on Supabase's
+        // project-wide Site URL, because this app is also used locally.
+        emailRedirectTo: getAuthRedirectUrl()
+      }
     });
     setBtnLoading(submitBtn, false);
 
@@ -60,7 +72,7 @@ if (registerForm) {
       return;
     }
     if (data.session) {
-      window.location.href = 'os-shell.html';
+      window.location.href = getAuthRedirectUrl();
     } else {
       const card = document.querySelector('.auth-card');
       if (card) {
@@ -95,10 +107,14 @@ if (loginForm) {
     setBtnLoading(submitBtn, false);
 
     if (error) {
-      authError(error.message);
+      if (/email not confirmed/i.test(error.message || '')) {
+        authError('Your email is not confirmed yet. Open the latest Axiom confirmation email and click the confirmation link.');
+      } else {
+        authError(error.message);
+      }
       return;
     }
-    window.location.href = 'os-shell.html';
+    window.location.href = getAuthRedirectUrl();
   });
 }
 
@@ -110,7 +126,7 @@ document.querySelectorAll('[data-oauth]').forEach(btn => {
     const provider = btn.dataset.oauth;
     await supabaseClient.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: window.location.origin + '/os-shell.html' }
+      options: { redirectTo: getAuthRedirectUrl() }
     });
   });
 });
