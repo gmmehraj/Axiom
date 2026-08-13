@@ -35,11 +35,9 @@ if (navToggle && navLinks) {
   navLinks.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', closeMenu);
   });
-  // Close drawer automatically if the viewport grows past the collapse point
   window.addEventListener('resize', () => {
     if (window.innerWidth > 900) closeMenu();
   });
-  // Escape key closes the drawer
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && navLinks.classList.contains('open')) closeMenu();
   });
@@ -252,4 +250,23 @@ if (backToOptions && emailForm && oauthGroup && emailDivider && emailCta) {
     emailDivider.classList.remove('hidden');
     emailCta.classList.remove('hidden');
   });
+}
+
+// ============================================
+// AXIOM OS premium UI loader
+// Motion + Anime.js are loaded only on the desktop OS shell.
+// KokonutUI/Bklit UI are React/shadcn libraries, so their strongest
+// spotlight/command and metric/data patterns are adapted in the
+// vanilla shell instead of introducing a second framework.
+// ============================================
+if (document.body.classList.contains('ax-os-active')) {
+  const css = document.createElement('link');
+  css.rel = 'stylesheet';
+  css.href = 'os/core/ui-upgrade.css';
+  document.head.appendChild(css);
+
+  const upgrade = document.createElement('script');
+  upgrade.type = 'module';
+  upgrade.src = 'os/core/ui-upgrade.js';
+  document.body.appendChild(upgrade);
 }
