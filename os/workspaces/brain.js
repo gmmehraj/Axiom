@@ -1,6 +1,8 @@
 // ============================================================
 // AXIOM AI OS X — AI Brain Workspace Module
-// Full AI state visualization: mood, reasoning, confidence, health
+// ------------------------------------------------------------
+// Truthful view over AxiomBrain / AxiomAIState. No invented
+// confidence, emotion, token speed, reasoning speed, or model data.
 // ============================================================
 if (!window.AxiomWorkspaces) window.AxiomWorkspaces = {};
 
@@ -8,76 +10,108 @@ window.AxiomWorkspaces.brain = {
   name: 'AI Brain',
   icon: 'brain',
 
-  render: function(container) {
+  render: function (container) {
+    const brain = window.AxiomBrain;
+    const aiState = window.AxiomAIState;
+
     container.innerHTML = `
-      <div class="ax-workspace-window" data-motion="fade-in">
+      <div class="ax-workspace-window ax-brain-workspace" data-motion="fade-in">
         <div class="ax-workspace-window-header">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           <span class="ax-workspace-window-title">AI Brain</span>
-          <button class="ax-workspace-window-close" onclick="AxiomOS.openWorkspace('dashboard')">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          </button>
+          <button class="ax-workspace-window-close" onclick="AxiomOS.openWorkspace('dashboard')" aria-label="Close">×</button>
         </div>
         <div class="ax-workspace-window-body">
-          <div style="max-width:900px;margin:0 auto;">
-            <div class="ax-workspace-fallback" style="gap:8px;padding:20px 0;">
-              <h2>AI Brain Activity</h2>
-              <p style="color:var(--ax-text-3);">Real-time view into the AI's cognitive state.</p>
+          <div style="max-width:1000px;margin:0 auto;padding:clamp(12px,2vw,28px);">
+            <div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:20px;">
+              <div>
+                <h2 style="margin:0 0 6px;">AI Brain Activity</h2>
+                <p style="margin:0;color:var(--ax-text-3);max-width:650px;">Live state from Axiom's canonical AI state systems.</p>
+              </div>
+              <span data-brain-live style="font-size:.72rem;color:var(--ax-text-3);">Live state</span>
             </div>
-
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
-              <div class="ax-widget"><div class="ax-widget-head"><span class="ax-widget-label">Mood</span></div><div class="ax-widget-value" style="font-size:1.1rem;display:flex;align-items:center;gap:8px;"><span style="font-size:1.3rem;">🧠</span> Focused</div><div class="ax-widget-sub">Stable cognitive state</div></div>
-              <div class="ax-widget"><div class="ax-widget-head"><span class="ax-widget-label">Confidence</span></div><div class="ax-widget-value">98.2%</div><div class="ax-widget-bar"><div class="ax-widget-bar-fill" style="width:98%"></div></div><div class="ax-widget-sub">High certainty</div></div>
-              <div class="ax-widget"><div class="ax-widget-head"><span class="ax-widget-label">Health</span></div><div class="ax-widget-value" style="color:#6EE7B7;">Optimal</div><div class="ax-widget-bar"><div class="ax-widget-bar-fill" style="width:100%;background:linear-gradient(90deg,#6EE7B7,#6EE7B7);"></div></div><div class="ax-widget-sub">All systems nominal</div></div>
-            </div>
-
-            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;">
-              <div class="ax-metric-card" style="padding:16px;background:var(--ax-glass);border:1px solid var(--ax-border);border-radius:var(--ax-radius-sm);">
-                <div class="ax-metric-label" style="font-size:.68rem;color:var(--ax-text-3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:8px;">Reasoning</div>
-                <div style="display:flex;flex-direction:column;gap:6px;">
-                  <div style="display:flex;justify-content:space-between;font-size:.78rem;"><span style="color:var(--ax-text-3);">Depth</span><span style="color:var(--ax-text);">Chain-of-thought</span></div>
-                  <div style="display:flex;justify-content:space-between;font-size:.78rem;"><span style="color:var(--ax-text-3);">Speed</span><span style="color:var(--ax-text);">2.7 TB/s</span></div>
-                  <div style="display:flex;justify-content:space-between;font-size:.78rem;"><span style="color:var(--ax-text-3);">Pattern</span><span style="color:var(--ax-text);">Active</span></div>
-                </div>
-              </div>
-              <div class="ax-metric-card" style="padding:16px;background:var(--ax-glass);border:1px solid var(--ax-border);border-radius:var(--ax-radius-sm);">
-                <div class="ax-metric-label" style="font-size:.68rem;color:var(--ax-text-3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:8px;">Context</div>
-                <div style="display:flex;flex-direction:column;gap:6px;">
-                  <div style="display:flex;justify-content:space-between;font-size:.78rem;"><span style="color:var(--ax-text-3);">Usage</span><span style="color:var(--ax-text);">12%</span></div>
-                  <div style="display:flex;justify-content:space-between;font-size:.78rem;"><span style="color:var(--ax-text-3);">Tokens</span><span style="color:var(--ax-text);">16,384 / 128K</span></div>
-                  <div style="display:flex;justify-content:space-between;font-size:.78rem;"><span style="color:var(--ax-text-3);">Window</span><span style="color:var(--ax-text);">Full</span></div>
-                </div>
-              </div>
-            </div>
-
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;">
-              <div style="padding:12px;background:var(--ax-glass);border:1px solid var(--ax-border);border-radius:12px;text-align:center;">
-                <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ax-text-3);font-weight:600;">Model</div>
-                <div style="font-size:.85rem;font-weight:600;color:var(--ax-text);margin-top:4px;">Claude 3.5</div>
-              </div>
-              <div style="padding:12px;background:var(--ax-glass);border:1px solid var(--ax-border);border-radius:12px;text-align:center;">
-                <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ax-text-3);font-weight:600;">Latency</div>
-                <div style="font-size:.85rem;font-weight:600;color:var(--ax-text);margin-top:4px;">124ms</div>
-              </div>
-              <div style="padding:12px;background:var(--ax-glass);border:1px solid var(--ax-border);border-radius:12px;text-align:center;">
-                <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ax-text-3);font-weight:600;">Token Speed</div>
-                <div style="font-size:.85rem;font-weight:600;color:var(--ax-text);margin-top:4px;">42/s</div>
-              </div>
-              <div style="padding:12px;background:var(--ax-glass);border:1px solid var(--ax-border);border-radius:12px;text-align:center;">
-                <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ax-text-3);font-weight:600;">Learning</div>
-                <div style="font-size:.85rem;font-weight:600;color:var(--ax-text);margin-top:4px;">Active</div>
-              </div>
-            </div>
-
-            <div style="display:flex;flex-direction:column;gap:8px;padding:16px;background:var(--ax-glass);border:1px solid var(--ax-border);border-radius:var(--ax-radius-sm);">
-              <h3 style="font-size:.85rem;font-weight:600;color:var(--ax-text);margin-bottom:4px;">Running Tasks</h3>
-              <div class="ax-timeline-item"><span class="ax-timeline-dot"></span><span style="font-size:.78rem;color:var(--ax-text-2);">Context window monitoring</span></div>
-              <div class="ax-timeline-item"><span class="ax-timeline-dot"></span><span style="font-size:.78rem;color:var(--ax-text-2);">Memory consolidation</span></div>
-              <div class="ax-timeline-item"><span class="ax-timeline-dot"></span><span style="font-size:.78rem;color:var(--ax-text-2);">Background learning</span></div>
-            </div>
+            <div data-brain-cards style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px;"></div>
+            <div data-brain-details style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;"></div>
           </div>
         </div>
-      </div>
-    `;
+      </div>`;
+
+    const cards = container.querySelector('[data-brain-cards]');
+    const details = container.querySelector('[data-brain-details]');
+    const live = container.querySelector('[data-brain-live]');
+
+    function text(value, fallback) {
+      return value === null || value === undefined || value === '' ? (fallback || 'Unavailable') : String(value);
+    }
+
+    function formatTime(ts) {
+      if (!ts) return 'Unavailable';
+      try { return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }
+      catch (_) { return 'Unavailable'; }
+    }
+
+    function render() {
+      const brainState = brain && typeof brain.getState === 'function' ? brain.getState() : null;
+      const canonical = aiState && typeof aiState.getState === 'function' ? aiState.getState() : null;
+      const activity = canonical || brainState?.activity || 'idle';
+      const model = brainState?.activeModel;
+      const tool = brainState?.toolActive ? brainState.activeTool : null;
+      const conversation = brainState?.activeConversationId;
+      const automation = brainState?.automation || null;
+
+      cards.innerHTML = [
+        ['Activity', text(activity, 'Unavailable'), 'Canonical AI state'],
+        ['Model', text(model, 'Model information unavailable'), 'Active model state'],
+        ['Tool', tool ? text(tool) : 'No active tool', tool ? 'Capability call in progress' : 'No tool currently active'],
+        ['Conversation', conversation ? text(conversation) : 'None active', conversation ? 'Live conversation id' : 'No conversation in flight']
+      ].map(card => `<div class="ax-widget"><div class="ax-widget-head"><span class="ax-widget-label">${card[0]}</span></div><div class="ax-widget-value" style="font-size:1rem;word-break:break-word;">${card[1]}</div><div class="ax-widget-sub">${card[2]}</div></div>`).join('');
+
+      const automationText = automation && automation.status && automation.status !== 'idle'
+        ? `${automation.status}${automation.workflowName ? ' · ' + automation.workflowName : ''}`
+        : 'Idle / unavailable';
+
+      details.innerHTML = `
+        <div class="ax-metric-card" style="padding:16px;background:var(--ax-glass);border:1px solid var(--ax-border);border-radius:var(--ax-radius-sm);">
+          <div style="font-size:.68rem;color:var(--ax-text-3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:10px;">Current state</div>
+          <div style="display:grid;gap:8px;font-size:.82rem;">
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--ax-text-3);">Activity</span><strong style="color:var(--ax-text);">${text(brainState?.activity, 'Unavailable')}</strong></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--ax-text-3);">Mood</span><strong style="color:var(--ax-text);">${text(brainState?.mood, 'Unavailable')}</strong></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--ax-text-3);">Last interaction</span><strong style="color:var(--ax-text);">${formatTime(brainState?.lastInteraction)}</strong></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--ax-text-3);">Day</span><strong style="color:var(--ax-text);">${text(brainState?.day, 'Unavailable')}</strong></div>
+          </div>
+        </div>
+        <div class="ax-metric-card" style="padding:16px;background:var(--ax-glass);border:1px solid var(--ax-border);border-radius:var(--ax-radius-sm);">
+          <div style="font-size:.68rem;color:var(--ax-text-3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:10px;">Connected systems</div>
+          <div style="display:grid;gap:8px;font-size:.82rem;">
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--ax-text-3);">Automation</span><strong style="color:var(--ax-text);">${automationText}</strong></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--ax-text-3);">Time of day</span><strong style="color:var(--ax-text);">${text(brainState?.timeOfDay, 'Unavailable')}</strong></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--ax-text-3);">AI state source</span><strong style="color:var(--ax-text);">${canonical ? 'AxiomAIState' : 'AxiomBrain'}</strong></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--ax-text-3);">Telemetry</span><strong style="color:var(--ax-text);">Only available live signals shown</strong></div>
+          </div>
+        </div>`;
+
+      live.textContent = `Live · ${text(activity, 'unavailable')}`;
+    }
+
+    const unsubs = [];
+    if (brain && typeof brain.on === 'function') {
+      const listener = () => render();
+      brain.on('change', listener);
+      unsubs.push(() => brain.off && brain.off('change', listener));
+    }
+    if (aiState && typeof aiState.onChange === 'function') unsubs.push(aiState.onChange(() => render()));
+    document.addEventListener('axiom:ai-state', render);
+    document.addEventListener('axiom:brain', render);
+
+    render();
+
+    const observer = new MutationObserver(() => {
+      if (!document.body.contains(container)) {
+        unsubs.forEach(fn => { try { fn(); } catch (_) {} });
+        document.removeEventListener('axiom:ai-state', render);
+        document.removeEventListener('axiom:brain', render);
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 };
