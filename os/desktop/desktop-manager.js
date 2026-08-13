@@ -19,11 +19,29 @@ window.AxiomDesktop = (function () {
 
   function uid() { return 'di-' + Math.random().toString(36).slice(2, 9); }
 
+  // Remove legacy desktop clutter from older localStorage versions.
+  function sanitizeItems(list) {
+    const safe = Array.isArray(list) ? list.filter(item => {
+      if (!item) return false;
+      if (item.type === 'widget' && (item.widget === 'clock' || item.widget === 'notes')) return false;
+      return true;
+    }) : [];
+
+    // The OS Shell desktop should always start with the four intentional items.
+    if (safe.length === 0) return defaultItems();
+    return safe;
+  }
+
   function load() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      items = raw ? JSON.parse(raw) : defaultItems();
-    } catch (e) { items = defaultItems(); }
+      items = sanitizeItems(raw ? JSON.parse(raw) : defaultItems());
+      // Persist the cleaned desktop so removed widgets cannot return after refresh.
+      save();
+    } catch (e) {
+      items = defaultItems();
+      save();
+    }
   }
 
   function save() {
@@ -36,8 +54,6 @@ window.AxiomDesktop = (function () {
       { id: uid(), type: 'folder', name: 'Documents', x: 24, y: 24 + GRID, children: [] },
       { id: uid(), type: 'shortcut', name: 'AI Chat', workspace: 'chat', x: 24, y: 24 + GRID * 2 },
       { id: uid(), type: 'shortcut', name: 'File System', workspace: 'files', x: 24, y: 24 + GRID * 3 },
-      { id: uid(), type: 'widget', name: 'Clock', widget: 'clock', x: window.innerWidth - 220, y: 24, w: 200, h: 200 },
-      { id: uid(), type: 'widget', name: 'Notes', widget: 'notes', x: window.innerWidth - 220, y: 240, w: 200, h: 220, content: '' },
     ];
   }
 
@@ -169,49 +185,6 @@ window.AxiomDesktop = (function () {
     }
   }
 
-  // ---- WIDGETS (live content, not opened — they sit on the desktop) ----
-  function mountWidget(el, item) {
-    if (item.widget === 'clock') {
-      const tick = () => {
-        const now = new Date();
-        el.querySelector('.ax-widget-clock-time').textContent =
-          now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        el.querySelector('.ax-widget-clock-date').textContent =
-          now.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' });
-      };
-      tick();
-      setInterval(tick, 1000 * 15);
-    }
-    if (item.widget === 'notes') {
-      const ta = el.querySelector('textarea');
-      ta.value = item.content || '';
-      ta.addEventListener('input', () => { item.content = ta.value; save(); });
-      // stop icon-drag from stealing focus while typing
-      ta.addEventListener('mousedown', (e) => e.stopPropagation());
-    }
-  }
-
-  function widgetInner(item) {
-    if (item.widget === 'clock') {
-      return `<div class="ax-widget ax-widget-clock">
-        <div class="ax-widget-clock-time">--:--</div>
-        <div class="ax-widget-clock-date"></div>
-      </div>`;
-    }
-    if (item.widget === 'notes') {
-      return `<div class="ax-widget ax-widget-notes">
-        <div class="ax-widget-notes-title">${icon('files', 12)} Notes</div>
-        <textarea placeholder="Jot something down..."></textarea>
-      </div>`;
-    }
-    if (item.widget === 'weather') {
-      return `<div class="ax-widget ax-widget-weather">
-        ${icon('brain', 22)}<div>Weather widget</div>
-      </div>`;
-    }
-    return `<div class="ax-widget">${icon('widget', 20)}</div>`;
-  }
-
   // ---- CONTEXT MENUS ----
   function hideContextMenu() {
     if (contextMenuEl) { contextMenuEl.remove(); contextMenuEl = null; }
@@ -226,8 +199,6 @@ window.AxiomDesktop = (function () {
       rows = [
         ['New Folder', () => addItem({ type: 'folder', name: 'New Folder', children: [] }, x, y)],
         ['New File', () => addItem({ type: 'file', name: 'Untitled.txt', content: '' }, x, y)],
-        ['Add Widget: Clock', () => addItem({ type: 'widget', name: 'Clock', widget: 'clock', w: 200, h: 200 }, x, y)],
-        ['Add Widget: Notes', () => addItem({ type: 'widget', name: 'Notes', widget: 'notes', w: 200, h: 220, content: '' }, x, y)],
         ['Change Wallpaper…', () => window.AxiomWallpaperEngine && window.AxiomWallpaperEngine.openPicker()],
         ['Sort Icons', () => sortIcons()],
       ];
@@ -271,7 +242,6 @@ window.AxiomDesktop = (function () {
     let col = 0, row = 0;
     const perCol = Math.floor((window.innerHeight - 80) / GRID);
     items.forEach(item => {
-      if (item.type === 'widget') return;
       item.x = 24 + col * GRID;
       item.y = 24 + row * GRID;
       row++;
@@ -291,21 +261,15 @@ window.AxiomDesktop = (function () {
   function render() {
     ensureLayer();
     layer.innerHTML = '';
+    items = sanitizeItems(items);
     items.forEach(item => {
       const el = document.createElement('div');
-      el.className = 'ax-desktop-icon ' + (item.type === 'widget' ? 'is-widget' : '');
+      el.className = 'ax-desktop-icon';
       el.style.left = (item.x || 24) + 'px';
       el.style.top = (item.y || 24) + 'px';
-      if (item.type === 'widget') {
-        el.style.width = (item.w || 200) + 'px';
-        el.style.height = (item.h || 200) + 'px';
-        el.innerHTML = widgetInner(item);
-        mountWidget(el, item);
-      } else {
-        const kind = item.type === 'folder' ? 'folder' : item.type === 'shortcut' ? 'shortcut' : 'files';
-        el.innerHTML = `<div class="ax-desktop-icon-glyph">${icon(kind, 30)}</div><div class="ax-desktop-icon-label">${item.name}</div>`;
-        el.addEventListener('dblclick', () => activate(item));
-      }
+      const kind = item.type === 'folder' ? 'folder' : item.type === 'shortcut' ? 'shortcut' : 'files';
+      el.innerHTML = `<div class="ax-desktop-icon-glyph">${icon(kind, 30)}</div><div class="ax-desktop-icon-label">${item.name}</div>`;
+      el.addEventListener('dblclick', () => activate(item));
       el.addEventListener('contextmenu', (e) => {
         e.preventDefault(); e.stopPropagation();
         showContextMenu(e.clientX, e.clientY, item);
@@ -313,6 +277,7 @@ window.AxiomDesktop = (function () {
       makeDraggable(el, item);
       layer.appendChild(el);
     });
+    save();
   }
 
   function init() {
