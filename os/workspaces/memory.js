@@ -50,7 +50,7 @@ window.AxiomWorkspaces.memory = {
               <span data-memory-live style="font-size:.72rem;color:var(--ax-text-3);">Live data</span>
             </div>
 
-            <div data-memory-stats style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px;"></div>
+            <div data-memory-stats style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:20px;"></div>
 
             <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
               <button type="button" data-memory-filter="all" class="btn btn-solid btn-sm">All</button>
@@ -150,8 +150,6 @@ window.AxiomWorkspaces.memory = {
     unsubscribe = typeof engine.onChange === 'function' ? engine.onChange(onChange) : null;
     render();
 
-    // The native workspace can be reopened; keep the subscription scoped to
-    // this module instance and clean it up when the outer window is removed.
     const observer = new MutationObserver(() => {
       if (!document.body.contains(container) && unsubscribe) {
         unsubscribe();
