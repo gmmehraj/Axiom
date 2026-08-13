@@ -57,10 +57,7 @@ window.AxiomWorkspaces.brain = {
       const details = container.querySelector('[data-brain-details]');
       const live = container.querySelector('[data-brain-live]');
       function text(value, fallback) { return value === null || value === undefined || value === '' ? (fallback || 'Unavailable') : String(value); }
-      function formatTime(ts) {
-        if (!ts) return 'Unavailable';
-        try { return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }); } catch (_) { return 'Unavailable'; }
-      }
+      function formatTime(ts) { if (!ts) return 'Unavailable'; try { return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }); } catch (_) { return 'Unavailable'; } }
       function render() {
         const brainState = typeof brain.getState === 'function' ? brain.getState() : null;
         const canonical = aiState && typeof aiState.getState === 'function' ? aiState.getState() : null;
@@ -81,7 +78,6 @@ window.AxiomWorkspaces.brain = {
             <div style="font-size:.68rem;color:var(--ax-text-3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:10px;">Current state</div>
             <div style="display:grid;gap:8px;font-size:.82rem;">
               <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--ax-text-3);">Activity</span><strong style="color:var(--ax-text);">${text(brainState?.activity, 'Unavailable')}</strong></div>
-              <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--ax-text-3);">Mood</span><strong style="color:var(--ax-text);">${text(brainState?.mood, 'Unavailable')}</strong></div>
               <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--ax-text-3);">Last interaction</span><strong style="color:var(--ax-text);">${formatTime(brainState?.lastInteraction)}</strong></div>
               <div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:var(--ax-text-3);">Day</span><strong style="color:var(--ax-text);">${text(brainState?.day, 'Unavailable')}</strong></div>
             </div>
