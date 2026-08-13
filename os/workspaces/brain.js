@@ -29,8 +29,8 @@ window.AxiomWorkspaces.brain = {
               </div>
               <span data-brain-live style="font-size:.72rem;color:var(--ax-text-3);">Live state</span>
             </div>
-            <div data-brain-cards style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px;"></div>
-            <div data-brain-details style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;"></div>
+            <div data-brain-cards style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:20px;"></div>
+            <div data-brain-details style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;"></div>
           </div>
         </div>
       </div>`;
