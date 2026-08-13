@@ -10,70 +10,22 @@ window.AxiomAppManifest = {
   milestone: 'Phase 1 — Unified Workspace Architecture',
 
   pages: {
-    'index.html': {
-      role: 'standalone',
-      reason: 'Pre-auth marketing/landing page. Must remain reachable before login.'
-    },
-    'login.html': {
-      role: 'standalone',
-      reason: 'Pre-auth. Cannot live inside the OS Shell, which requires auth.'
-    },
-    'register.html': {
-      role: 'standalone',
-      reason: 'Pre-auth. Same constraint as login.html.'
-    },
-    'os-shell.html': {
-      role: 'primary',
-      reason: 'Canonical authenticated application shell.'
-    },
-    'playground.html': {
-      role: 'workspace', workspaceId: 'chat', status: 'integrated',
-      reason: 'Real Chat workspace page.'
-    },
-    'workspace.html': {
-      role: 'workspace', workspaceId: 'files', status: 'pending',
-      reason: 'Candidate Files page; no workspace module exists yet.'
-    },
-    'browser.html': {
-      role: 'workspace', workspaceId: 'browser', status: 'integrated',
-      reason: 'Real Browser workspace page.'
-    },
-    'analytics.html': {
-      role: 'workspace', workspaceId: 'analytics', status: 'integrated',
-      reason: 'Real Analytics workspace page.'
-    },
-    'automation.html': {
-      role: 'workspace', workspaceId: 'automation', status: 'integrated',
-      reason: 'Real Automation workspace page.'
-    },
-    'agent-library.html': {
-      role: 'workspace', workspaceId: 'agents', status: 'integrated',
-      reason: 'Real Agents workspace page.'
-    },
-    'settings.html': {
-      role: 'workspace', workspaceId: 'settings', status: 'integrated',
-      reason: 'Real Settings workspace page.'
-    },
-    'memory.html': {
-      role: 'workspace', workspaceId: 'memory', status: 'needs-rework',
-      reason: 'Workspace module exists but currently contains placeholder data.'
-    },
-    'brain.html': {
-      role: 'workspace', workspaceId: 'brain', status: 'needs-rework',
-      reason: 'Workspace module exists but currently contains placeholder data.'
-    },
-    'billing.html': {
-      role: 'standalone-recommended', workspaceId: 'billing', status: 'flagged',
-      reason: 'Razorpay checkout should remain direct navigation rather than iframe embedding.'
-    },
-    'admin.html': {
-      role: 'standalone', workspaceId: 'admin', status: 'standalone',
-      reason: 'Admin console is intentionally outside the general-user workspace dock.'
-    },
-    'studios.html': {
-      role: 'unresolved',
-      reason: 'Shared Browser/Studios implementation still needs a product decision.'
-    }
+    'index.html': { role: 'standalone', reason: 'Pre-auth marketing/landing page.' },
+    'login.html': { role: 'standalone', reason: 'Pre-auth authentication page.' },
+    'register.html': { role: 'standalone', reason: 'Pre-auth registration page.' },
+    'os-shell.html': { role: 'primary', reason: 'Canonical authenticated application shell.' },
+    'playground.html': { role: 'workspace', workspaceId: 'chat', status: 'integrated', reason: 'Real Chat workspace page.' },
+    'workspace.html': { role: 'workspace', workspaceId: 'files', status: 'pending', reason: 'Candidate Files page; no workspace module exists yet.' },
+    'browser.html': { role: 'workspace', workspaceId: 'browser', status: 'integrated', reason: 'Real Browser workspace page.' },
+    'analytics.html': { role: 'workspace', workspaceId: 'analytics', status: 'integrated', reason: 'Real Analytics workspace page.' },
+    'automation.html': { role: 'workspace', workspaceId: 'automation', status: 'integrated', reason: 'Real Automation workspace page.' },
+    'agent-library.html': { role: 'workspace', workspaceId: 'agents', status: 'integrated', reason: 'Real Agents workspace page.' },
+    'settings.html': { role: 'workspace', workspaceId: 'settings', status: 'integrated', reason: 'Real Settings workspace page.' },
+    'memory.html': { role: 'workspace', workspaceId: 'memory', status: 'needs-rework', reason: 'Module exists but currently contains placeholder data.' },
+    'brain.html': { role: 'workspace', workspaceId: 'brain', status: 'needs-rework', reason: 'Module exists but currently contains placeholder data.' },
+    'billing.html': { role: 'standalone-recommended', workspaceId: 'billing', status: 'flagged', reason: 'Razorpay checkout should remain direct navigation.' },
+    'admin.html': { role: 'standalone', workspaceId: 'admin', status: 'standalone', reason: 'Admin console is intentionally outside the general-user dock.' },
+    'studios.html': { role: 'unresolved', reason: 'Browser/Studios relationship still needs a product decision.' }
   },
 
   // Canonical workspace definitions. No launcher should maintain a second
@@ -105,27 +57,18 @@ window.AxiomAppManifest = {
     admin: { id: 'admin', name: 'Admin', description: 'Administrative console.', icon: 'admin', category: 'system', status: 'standalone', route: 'admin.html', safeToOpen: true, presentation: 'external' }
   },
 
-  getWorkspace(id) {
-    return this.workspaces[id] || null;
-  },
-
-  listWorkspaces() {
-    return Object.values(this.workspaces);
-  },
-
+  getWorkspace(id) { return this.workspaces[id] || null; },
+  listWorkspaces() { return Object.values(this.workspaces); },
   resolveWorkspace(id) {
     const workspace = this.getWorkspace(id);
     if (!workspace) return { id, status: 'error', safeToOpen: false, reason: 'Unknown workspace.' };
     if (!workspace.safeToOpen) return { ...workspace, status: 'error' };
     return workspace;
   },
-
   openWorkspace(id, options) {
     const workspace = this.resolveWorkspace(id);
     if (!workspace || workspace.status === 'error') {
-      if (window.AxiomWorkspaceManager?.showUnavailable) {
-        window.AxiomWorkspaceManager.showUnavailable(id, workspace?.reason || 'Workspace not found.');
-      }
+      if (window.AxiomWorkspaceManager?.showUnavailable) window.AxiomWorkspaceManager.showUnavailable(id, workspace?.reason || 'Workspace not found.');
       return false;
     }
     if (workspace.presentation === 'external') {
@@ -161,34 +104,35 @@ window.AxiomAppManifest = {
     const commandItem = target.closest?.('.ax-cmd-item');
     const quickAction = target.closest?.('.ax-qa-btn');
     const suggestion = target.closest?.('.ax-acc-suggestion');
+    const avatar = target.closest?.('.ax-topbar-avatar');
 
-    let id = dockItem?.dataset.workspace || suggestion?.dataset.workspace || quickAction?.dataset.action || null;
-    if (searchItem) id = searchItem.dataset.id?.startsWith('ws-') ? searchItem.dataset.id.slice(3) : id;
+    let id = dockItem?.dataset.workspace || suggestion?.dataset.workspace || quickAction?.dataset.action || (avatar ? 'settings' : null);
 
-    if (commandItem) {
-      const commandWorkspaceMap = {
-        'cmd-dashboard': 'dashboard', 'cmd-chat': 'chat', 'cmd-memory': 'memory',
-        'cmd-browser': 'browser', 'cmd-coding': 'coding', 'cmd-analytics': 'analytics',
-        'cmd-voice': 'voice', 'cmd-image': 'image', 'cmd-settings': 'settings'
-      };
-      id = commandWorkspaceMap[commandItem.dataset.id] || id;
+    const searchWorkspaceMap = {
+      'cmd-new-chat': 'chat', 'cmd-new-memory': 'memory', 'cmd-generate-image': 'image',
+      'cmd-analyze': 'analytics', 'cmd-browse': 'browser', 'cmd-settings': 'settings',
+      'cmd-billing': 'billing'
+    };
+    if (searchItem) {
+      id = searchItem.dataset.id?.startsWith('ws-')
+        ? searchItem.dataset.id.slice(3)
+        : searchWorkspaceMap[searchItem.dataset.id] || id;
     }
 
-    if (!id) return false;
-    if (!window.AxiomAppManifest.getWorkspace(id)) return false;
+    const commandWorkspaceMap = {
+      'cmd-dashboard': 'dashboard', 'cmd-chat': 'chat', 'cmd-memory': 'memory',
+      'cmd-browser': 'browser', 'cmd-coding': 'coding', 'cmd-analytics': 'analytics',
+      'cmd-voice': 'voice', 'cmd-image': 'image', 'cmd-settings': 'settings'
+    };
+    if (commandItem) id = commandWorkspaceMap[commandItem.dataset.id] || id;
 
-    if (target.closest?.('.ax-search-item') && !searchItem?.dataset.id?.startsWith('ws-')) return false;
-
+    if (!id || !window.AxiomAppManifest.getWorkspace(id)) return false;
     window.AxiomAppManifest.openWorkspace(id);
     return true;
   }
 
   function install() {
     sanitizeRememberedWorkspaces();
-
-    // Capture launch clicks before legacy launcher listeners run. This makes
-    // dock, desktop-adjacent shell controls, search and command palette use
-    // the same resolver without rewriting unrelated shell behavior.
     document.addEventListener('click', function (event) {
       if (launchFromElement(event.target)) {
         event.preventDefault();
@@ -196,22 +140,17 @@ window.AxiomAppManifest = {
       }
     }, true);
 
-    // Desktop shortcuts already delegate to AxiomWorkspaceManager; expose the
-    // same resolver for any external caller of the shell API.
     if (window.AxiomOS && typeof window.AxiomOS.openWorkspace === 'function') {
       window.AxiomOS.openWorkspace = window.AxiomAppManifest.openWorkspace;
     }
 
-    // Clean up any old placeholder windows left by a previous shell version.
     if (window.AxiomWindowManager?.getAllWindows) {
       window.AxiomWindowManager.getAllWindows().forEach(win => {
         const id = String(win.id || '').replace(/^ws-/, '');
         const ws = window.AxiomAppManifest.getWorkspace(id);
         if (ws && ws.status === 'pending' && win.element) {
           const body = win.element.querySelector('.ax-window-body');
-          if (body) {
-            body.innerHTML = `<div class="ax-workspace-fallback" data-motion="fade-in"><div class="ax-workspace-fallback-icon">${window.AxiomIcons ? window.AxiomIcons.svg(ws.icon, 48) : ''}</div><h2>${ws.name}</h2><p>This workspace is not yet available in Axiom.</p></div>`;
-          }
+          if (body) body.innerHTML = `<div class="ax-workspace-fallback" data-motion="fade-in"><div class="ax-workspace-fallback-icon">${window.AxiomIcons ? window.AxiomIcons.svg(ws.icon, 48) : ''}</div><h2>${ws.name}</h2><p>This workspace is not yet available in Axiom.</p><small>Coming soon</small></div>`;
         }
       });
     }
