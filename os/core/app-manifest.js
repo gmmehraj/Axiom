@@ -166,3 +166,75 @@ window.AxiomAppManifest = {
     }
   }
 };
+
+// ============================================================
+// OS PERFORMANCE BOOTSTRAP
+// ------------------------------------------------------------
+// This is intentionally tiny and additive. It keeps Axiom's existing
+// architecture and visual system intact while reducing the two most
+// common sources of desktop-shell jank: oversized HiDPI canvas backing
+// stores and expensive glass effects on constrained devices.
+// It does not replace or modify any AI/backend/workspace subsystem.
+// ============================================================
+(function axiomPerformanceBootstrap() {
+  'use strict';
+
+  if (!document.body || !document.body.classList.contains('ax-os-active')) return;
+
+  const root = document.documentElement;
+  const nav = navigator || {};
+  const cores = Number(nav.hardwareConcurrency || 8);
+  const memory = Number(nav.deviceMemory || 8);
+  const reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const coarse = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+
+  // Cap only the OS Shell's canvas pixel ratio. A 2x/3x backing store can
+  // multiply every canvas pixel operation while the CSS size stays the same.
+  // Keep the cap conservative so the Core remains crisp.
+  const nativeDpr = Number(window.devicePixelRatio || 1);
+  const cap = (reduced || cores <= 4 || memory <= 4 || coarse) ? 1.25 : 1.5;
+  const renderDpr = Math.min(nativeDpr, cap);
+  try {
+    Object.defineProperty(window, 'devicePixelRatio', {
+      configurable: true,
+      get: () => renderDpr
+    });
+  } catch (e) {
+    // Some browsers expose devicePixelRatio as non-configurable. Continue
+    // without changing it; the rest of the performance layer still applies.
+  }
+
+  root.dataset.axPerformance = (reduced || cores <= 4 || memory <= 4) ? 'conserve' : 'balanced';
+
+  // Keep expensive decorative layers composited and reduce blur cost only
+  // on constrained devices. The layout and visual identity are unchanged.
+  const style = document.createElement('style');
+  style.id = 'ax-performance-runtime';
+  style.textContent = `
+    .ax-os #axiomCore,
+    .ax-os .ax-core,
+    .ax-os .ax-dock,
+    .ax-os .ax-topbar,
+    .ax-os .ax-control-center,
+    .ax-os .ax-notif-panel {
+      contain: layout paint;
+    }
+    .ax-os #axiomCore canvas {
+      display: block;
+      max-width: 100%;
+    }
+    html[data-ax-performance="conserve"] .ax-os .ax-glass,
+    html[data-ax-performance="conserve"] .ax-os .ax-glass-deep,
+    html[data-ax-performance="conserve"] .ax-os .ax-glass-shadow {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    html[data-ax-performance="conserve"] .ax-os .ax-os-aurora {
+      opacity: .45;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ax-os #axiomCore canvas { visibility: hidden; }
+    }
+  `;
+  document.head.appendChild(style);
+})();
