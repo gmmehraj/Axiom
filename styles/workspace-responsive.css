@@ -1,0 +1,280 @@
+/* AXIOM — shared workspace responsive presentation layer.
+ * Presentation only: no workspace registry, backend, or component logic.
+ * Uses the existing page classes and canonical design/motion tokens.
+ */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+video,
+canvas,
+iframe,
+svg {
+  max-width: 100%;
+}
+
+button,
+[role="button"],
+a {
+  touch-action: manipulation;
+}
+
+@media (max-width: 1024px) {
+  .ax-page,
+  .ax-page-grid,
+  .ax-workspace,
+  .ax-workspace-shell,
+  .ax-content,
+  .ax-main-content {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+
+  .ax-page {
+    gap: clamp(12px, 2.5vw, 20px);
+  }
+
+  .ax-page-header-right {
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .ax-table-wrap,
+  .ax-scroll-x,
+  pre,
+  .code-block {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ax-page input,
+  .ax-page select,
+  .ax-page textarea,
+  .ax-page button,
+  .ax-workspace input,
+  .ax-workspace select,
+  .ax-workspace textarea,
+  .ax-workspace button {
+    max-width: 100%;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: max(16px, 1em);
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    min-height: 100dvh;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .ax-page,
+  .ax-workspace,
+  .ax-workspace-shell,
+  .ax-main-content {
+    padding-left: clamp(10px, 3vw, 20px);
+    padding-right: clamp(10px, 3vw, 20px);
+  }
+
+  .ax-page-header {
+    gap: 10px;
+  }
+
+  .ax-page-header-left,
+  .ax-page-header-right {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .ax-page-header-right {
+    justify-content: flex-start;
+  }
+
+  .ax-page-grid-2,
+  .ax-page-grid-3,
+  .ax-page-grid-4 {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .ax-chart-card,
+  .ax-span-2,
+  .ax-span-4,
+  .ax-plan-card-row {
+    grid-column: auto !important;
+  }
+
+  .ax-metric-card,
+  .ax-chart-card {
+    min-width: 0;
+    border-radius: clamp(14px, 4vw, 24px);
+  }
+
+  .ax-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  .ax-table {
+    min-width: 620px;
+  }
+
+  /* Common desktop sidebar/main patterns become stacked surfaces. */
+  .ax-sidebar,
+  .ax-left-sidebar,
+  .ax-right-sidebar,
+  .ax-panel-sidebar {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+
+  .ax-main,
+  .ax-main-panel,
+  .ax-content-panel,
+  .ax-chat-main {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Chat: keep the real composer/message engine, change only presentation. */
+  .ax-chat {
+    min-width: 0;
+    min-height: 0;
+    height: 100dvh;
+  }
+
+  .ax-chat-sidebar {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    max-height: 38dvh;
+    border-right: 0;
+    border-bottom: 1px solid var(--ax-border, rgba(255,255,255,.08));
+  }
+
+  .ax-chat-main {
+    min-height: 0;
+  }
+
+  .ax-chat-window {
+    min-width: 0;
+    padding: clamp(14px, 4vw, 28px) clamp(10px, 4vw, 28px);
+  }
+
+  .ax-message {
+    max-width: min(92%, 720px);
+  }
+
+  /* Fixed/sticky bottom controls must leave room for the device safe area. */
+  .ax-composer,
+  .ax-prompt-wrap,
+  .ax-playground-composer,
+  .ax-chat-composer {
+    padding-bottom: max(10px, env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Browser / studio / automation multi-column layouts should not squeeze. */
+  .ax-browser-layout,
+  .ax-studio-layout,
+  .ax-automation-layout,
+  .ax-agents-layout,
+  .ax-brain-layout,
+  .ax-memory-layout,
+  .ax-settings-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .ax-browser-sidebar,
+  .ax-studio-sidebar,
+  .ax-automation-sidebar,
+  .ax-agents-sidebar,
+  .ax-memory-sidebar,
+  .ax-settings-sidebar {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  dialog,
+  .ax-dialog,
+  .ax-modal,
+  .ax-drawer {
+    max-width: calc(100vw - 20px) !important;
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 20px) !important;
+    overflow: auto;
+  }
+
+  .ax-action-row,
+  .ax-toolbar,
+  .ax-form-row,
+  .ax-filter-row {
+    flex-wrap: wrap;
+  }
+
+  .ax-action-row > *,
+  .ax-toolbar > *,
+  .ax-form-row > *,
+  .ax-filter-row > * {
+    min-width: 44px;
+  }
+}
+
+@media (max-width: 430px) {
+  .ax-page,
+  .ax-workspace,
+  .ax-workspace-shell,
+  .ax-main-content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .ax-page-header-left h1 {
+    font-size: clamp(1.15rem, 6vw, 1.5rem);
+  }
+
+  .ax-page-header-left p {
+    max-width: 100%;
+  }
+
+  .ax-chat-sidebar {
+    max-height: 32dvh;
+  }
+
+  .ax-message {
+    max-width: 96%;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .ax-page,
+  .ax-workspace {
+    padding-top: max(8px, env(safe-area-inset-top, 0px));
+    padding-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+  }
+
+  .ax-chat-sidebar {
+    max-height: 42dvh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0ms !important;
+  }
+}
