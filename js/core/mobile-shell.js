@@ -1,10 +1,15 @@
 /* Axiom Mobile Shell interaction layer.
  * Uses the canonical AxiomWorkspaceManager; it does not create a second registry.
+ *
+ * IMPORTANT: the presentation breakpoint intentionally includes tablet-sized
+ * viewports. Some mobile browsers/devices expose a wider CSS viewport than
+ * their captured/physical viewport, so a 700px-only gate can leave the old
+ * desktop canvas visible. The shell itself remains responsive inside this mode.
  */
 (function () {
   'use strict';
 
-  const MOBILE_QUERY = '(max-width: 700px)';
+  const MOBILE_QUERY = '(max-width: 1024px), (hover: none) and (pointer: coarse)';
   const SWIPE_THRESHOLD = 54;
   const VELOCITY_THRESHOLD = 0.35;
   const MOBILE_WORKSPACES = ['chat', 'brain', 'memory', 'browser', 'automation', 'agents', 'studios', 'settings'];
@@ -42,34 +47,12 @@
   }
 
   function workspaceLabel(id) {
-    const labels = {
-      chat: 'Chat',
-      brain: 'Brain',
-      memory: 'Memory',
-      browser: 'Browser',
-      automation: 'Automation',
-      agents: 'Agents',
-      studios: 'Studios',
-      settings: 'Settings',
-      coding: 'Coding',
-      knowledge: 'Knowledge'
-    };
+    const labels = { chat:'Chat', brain:'Brain', memory:'Memory', browser:'Browser', automation:'Automation', agents:'Agents', studios:'Studios', settings:'Settings', coding:'Coding', knowledge:'Knowledge' };
     return labels[id] || id.replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   }
 
   function workspaceIcon(id) {
-    const icons = {
-      chat: '◌',
-      brain: '♧',
-      memory: '◇',
-      browser: '◎',
-      automation: 'ϟ',
-      agents: '✦',
-      studios: '◈',
-      settings: '⚙',
-      coding: '</>',
-      knowledge: '⌘'
-    };
+    const icons = { chat:'◌', brain:'♧', memory:'◇', browser:'◎', automation:'ϟ', agents:'✦', studios:'◈', settings:'⚙', coding:'</>', knowledge:'⌘' };
     return icons[id] || '•';
   }
 
@@ -87,9 +70,8 @@
 
     const ids = getIds();
     const available = MOBILE_WORKSPACES.filter(id => ids.includes(id)).slice(0, 8);
-    const existing = home.dataset.workspaceSignature;
     const signature = available.join('|');
-    if (existing === signature) return;
+    if (home.dataset.workspaceSignature === signature) return;
     home.dataset.workspaceSignature = signature;
 
     home.innerHTML = `
@@ -105,9 +87,7 @@
         <div class="ax-mobile-home-section-label">Workspaces</div>
         <div class="ax-mobile-workspaces" data-mobile-workspaces></div>
       </div>
-      <div class="ax-mobile-home-hint" aria-hidden="true">
-        <span>←</span><span>Swipe to navigate workspaces</span><span>→</span>
-      </div>
+      <div class="ax-mobile-home-hint" aria-hidden="true"><span>←</span><span>Swipe to navigate workspaces</span><span>→</span></div>
     `;
 
     const grid = home.querySelector('[data-mobile-workspaces]');
@@ -136,11 +116,9 @@
   function installWorkspaceObserver() {
     const manager = getManager();
     if (!manager || manager.__axiomMobileHomeObserverInstalled) return;
-    manager.__axiomMobileHomeObserverInstalled = true;
-
     const originalOpen = typeof manager.open === 'function' ? manager.open.bind(manager) : null;
     if (!originalOpen) return;
-
+    manager.__axiomMobileHomeObserverInstalled = true;
     manager.open = function () {
       const result = originalOpen.apply(manager, arguments);
       window.requestAnimationFrame(() => {
@@ -163,21 +141,14 @@
     if (surface.dataset.mobileGesturesInstalled === 'true') return;
     surface.dataset.mobileGesturesInstalled = 'true';
 
-    let startX = 0;
-    let startY = 0;
-    let startTime = 0;
-    let tracking = false;
-
-    surface.addEventListener('touchstart', (event) => {
+    let startX = 0, startY = 0, startTime = 0, tracking = false;
+    surface.addEventListener('touchstart', event => {
       if (!isMobile() || event.touches.length !== 1) return;
       const t = event.touches[0];
-      startX = t.clientX;
-      startY = t.clientY;
-      startTime = performance.now();
-      tracking = true;
+      startX = t.clientX; startY = t.clientY; startTime = performance.now(); tracking = true;
     }, { passive: true });
 
-    surface.addEventListener('touchend', (event) => {
+    surface.addEventListener('touchend', event => {
       if (!tracking || !isMobile() || event.changedTouches.length !== 1) return;
       tracking = false;
       const t = event.changedTouches[0];
@@ -185,11 +156,8 @@
       const dy = t.clientY - startY;
       const elapsed = Math.max(1, performance.now() - startTime);
       const velocity = Math.abs(dx) / elapsed;
-
-      // Horizontal intent only: vertical scrolling stays native.
       if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) <= Math.abs(dy) * 1.25) return;
       if (velocity < VELOCITY_THRESHOLD && Math.abs(dx) < 90) return;
-
       openRelative(dx < 0 ? 1 : -1);
     }, { passive: true });
   }
@@ -197,10 +165,7 @@
   function boot() {
     install();
     window.addEventListener('resize', () => {
-      if (isMobile()) {
-        ensureMobileHome();
-        installWorkspaceObserver();
-      }
+      if (isMobile()) { ensureMobileHome(); installWorkspaceObserver(); }
       updateHomeVisibility();
     }, { passive: true });
     window.addEventListener('workspacechange', () => {
@@ -208,11 +173,7 @@
       if (isMobile()) ensureMobileHome();
     });
     window.setTimeout(() => {
-      if (isMobile()) {
-        ensureMobileHome();
-        installWorkspaceObserver();
-        updateHomeVisibility();
-      }
+      if (isMobile()) { ensureMobileHome(); installWorkspaceObserver(); updateHomeVisibility(); }
     }, 250);
   }
 
