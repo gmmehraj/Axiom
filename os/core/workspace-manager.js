@@ -1,177 +1,238 @@
 // ============================================================
-// AXIOM AI OS X — Workspace Manager
-// Loads workspaces as modules on demand
+// AXIOM AI OS X — Canonical Workspace Manager
+// ------------------------------------------------------------
+// The app manifest owns workspace identity and availability. This manager
+// owns the single runtime opening path used by desktop and shell launchers.
 // ============================================================
 window.AxiomWorkspaceManager = (function() {
   'use strict';
 
-  const WORKSPACES = {
-    dashboard: { name: 'Mission Control', icon: 'os', module: null, loaded: false },
-    chat: { name: 'AI Chat', icon: 'chat', module: null, loaded: false },
-    memory: { name: 'Memory', icon: 'memory', module: null, loaded: false },
-    analytics: { name: 'Analytics', icon: 'analytics', module: null, loaded: false },
-    browser: { name: 'Browser', icon: 'browser', module: null, loaded: false },
-    brain: { name: 'AI Brain', icon: 'brain', module: null, loaded: false },
-    voice: { name: 'Voice', icon: 'voice', module: null, loaded: false },
-    coding: { name: 'Coding', icon: 'coding', module: null, loaded: false },
-    files: { name: 'Files', icon: 'files', module: null, loaded: false },
-    image: { name: 'Image Studio', icon: 'image', module: null, loaded: false },
-    video: { name: 'Video Studio', icon: 'video', module: null, loaded: false },
-    audio: { name: 'Audio Studio', icon: 'audio', module: null, loaded: false },
-    agents: { name: 'AI Agents', icon: 'agents', module: null, loaded: false },
-    marketplace: { name: 'Marketplace', icon: 'marketplace', module: null, loaded: false },
-    knowledge: { name: 'Knowledge Graph', icon: 'knowledge', module: null, loaded: false },
-    calendar: { name: 'Calendar', icon: 'calendar', module: null, loaded: false },
-    projects: { name: 'Projects', icon: 'projects', module: null, loaded: false },
-    terminal: { name: 'Terminal', icon: 'terminal', module: null, loaded: false },
-    whiteboard: { name: 'Whiteboard', icon: 'whiteboard', module: null, loaded: false },
-    mindmap: { name: 'Mind Map', icon: 'mindmap', module: null, loaded: false },
-    automation: { name: 'Automation', icon: 'automation', module: null, loaded: false },
-    settings: { name: 'Settings', icon: 'settings', module: null, loaded: false },
-    billing: { name: 'Billing', icon: 'billing', module: null, loaded: false },
-    admin: { name: 'Admin', icon: 'admin', module: null, loaded: false },
-  };
-
   let currentWorkspace = null;
   let listeners = [];
-  let container = null;
+  let loading = {};
 
-  function getWorkspaces() { return WORKSPACES; }
-  function getCurrent() { return currentWorkspace; }
-  function getWorkspace(id) { return WORKSPACES[id]; }
+  function registry() {
+    return window.AxiomAppManifest ? window.AxiomAppManifest.workspaces : {};
+  }
 
-  function setContainer(el) {
-    container = el;
+  function getWorkspaces() {
+    return registry();
+  }
+
+  function getCurrent() {
+    return currentWorkspace;
+  }
+
+  function getWorkspace(id) {
+    return registry()[id] || null;
+  }
+
+  function setContainer() {
+    // Kept for backward compatibility with existing shell boot code.
   }
 
   function open(workspaceId, opts = {}) {
-    if (!WORKSPACES[workspaceId]) return;
-    if (workspaceId === currentWorkspace && !opts.force) return;
+    const ws = getWorkspace(workspaceId);
+    if (!ws) {
+      showUnavailable(workspaceId, 'This workspace does not exist in the Axiom registry.');
+      return false;
+    }
 
-    const ws = WORKSPACES[workspaceId];
+    if (workspaceId === currentWorkspace && !opts.force && workspaceId !== 'dashboard') {
+      return true;
+    }
+
     currentWorkspace = workspaceId;
-
+    document.body.dataset.workspace = workspaceId;
     listeners.forEach(fn => fn(workspaceId, ws));
-
     document.dispatchEvent(new CustomEvent('ax-workspace-open', {
       detail: { workspace: workspaceId, config: ws }
     }));
 
-    if (!ws.module) {
-      loadModule(workspaceId, opts);
-    } else {
-      renderModule(workspaceId, opts);
+    if (workspaceId === 'dashboard') {
+      // Dashboard is the shell itself. Other workspaces are native windows,
+      // so returning here preserves the live Mission Control DOM and its
+      // bound event handlers.
+      return true;
     }
+
+    if (ws.status === 'pending') {
+      return showUnavailable(workspaceId, 'This workspace is not yet available in Axiom.');
+    }
+
+    if (ws.status === 'standalone') {
+      if (ws.route) window.open(ws.route, '_blank', 'noopener');
+      return true;
+    }
+
+    if (!ws.safeToOpen) {
+      return showUnavailable(workspaceId, 'This workspace is currently unavailable.');
+    }
+
+    if (ws.modulePath) {
+      return loadModule(workspaceId, opts);
+    }
+
+    if (ws.route) {
+      return openWindow(workspaceId, { ...opts, iframeSrc: ws.route });
+    }
+
+    return showUnavailable(workspaceId, 'This workspace has no implementation or route yet.');
   }
 
   function loadModule(workspaceId, opts = {}) {
-    const ws = WORKSPACES[workspaceId];
-    if (!ws) return;
+    const ws = getWorkspace(workspaceId);
+    if (!ws || !ws.modulePath) return false;
 
-    // Milestone 2: cross-check against the app manifest (additive/diagnostic
-    // only — this does not change load behavior). If the manifest flags a
-    // page 'unresolved', warn loudly instead of silently guessing.
-    if (window.AxiomAppManifest) {
-      const entry = Object.values(window.AxiomAppManifest.pages || {})
-        .find(p => p.workspaceId === workspaceId);
-      if (entry && entry.role === 'unresolved') {
-        console.warn(`[WorkspaceManager] "${workspaceId}" is flagged 'unresolved' in ` +
-          `the app manifest (${entry.reason}). Opening anyway, but this needs a human decision.`);
-      }
+    if (window.AxiomWorkspaces && window.AxiomWorkspaces[workspaceId]) {
+      return openModuleWindow(workspaceId, window.AxiomWorkspaces[workspaceId], opts);
     }
 
-    // Milestone 2 — Step 1: loading state while the module script is fetched.
-    renderLoading(workspaceId);
+    if (loading[workspaceId]) return true;
+    loading[workspaceId] = true;
 
-    // Try to load from workspace module
     const script = document.createElement('script');
-    script.src = `os/workspaces/${workspaceId}.js`;
+    script.src = ws.modulePath;
     script.onload = () => {
-      ws.loaded = true;
-      // Check if the module registered itself
-      if (window.AxiomWorkspaces && window.AxiomWorkspaces[workspaceId]) {
-        ws.module = window.AxiomWorkspaces[workspaceId];
-      }
-      if (ws.module) {
-        renderModule(workspaceId, opts);
-      } else {
-        // Script loaded but never registered a module — treat as a real
-        // error state rather than looping back into "being initialized".
-        renderError(workspaceId, opts, 'This workspace didn\'t load correctly.');
-      }
+      delete loading[workspaceId];
+      const module = window.AxiomWorkspaces && window.AxiomWorkspaces[workspaceId];
+      if (module) openModuleWindow(workspaceId, module, opts);
+      else showError(workspaceId, 'This workspace module loaded but did not register correctly.');
     };
     script.onerror = () => {
-      // Milestone 2 — Step 1: real error state, not an indefinite spinner.
-      renderError(workspaceId, opts, 'This workspace failed to load.');
+      delete loading[workspaceId];
+      showError(workspaceId, 'This workspace failed to load.');
     };
     document.head.appendChild(script);
+    return true;
   }
 
-  function renderLoading(workspaceId) {
-    if (!container) return;
-    const ws = WORKSPACES[workspaceId];
-    if (!ws) return;
-    container.innerHTML = `
-      <div class="ax-workspace-fallback" data-motion="fade-in">
-        <div class="ax-workspace-fallback-icon">${window.AxiomIcons ? window.AxiomIcons.svg(ws.icon, 48) : ''}</div>
-        <h2>${ws.name}</h2>
-        <p>Loading…</p>
-        <div class="ax-workspace-fallback-loader">
-          <div class="ax-loader-ring"></div>
-        </div>
-      </div>
-    `;
+  function openModuleWindow(workspaceId, module, opts = {}) {
+    const ws = getWorkspace(workspaceId);
+    if (!ws || !module || typeof module.render !== 'function') {
+      return showError(workspaceId, 'This workspace has no usable implementation.');
+    }
+
+    const win = openWindow(workspaceId, opts);
+    if (!win || !win.element) return false;
+
+    const body = win.element.querySelector('.ax-window-body');
+    if (!body) return false;
+
+    const temp = document.createElement('div');
+    try {
+      module.render(temp, opts);
+    } catch (error) {
+      body.innerHTML = '';
+      renderState(body, ws, 'error', error?.message || 'This workspace failed to render.');
+      return false;
+    }
+
+    // Existing workspace modules render their own .ax-workspace-window shell.
+    // Reuse their real inner content while letting AxiomWindowManager own the
+    // outer native window. This removes the second window-opening system
+    // without rewriting the working workspace pages.
+    const moduleWindow = temp.querySelector('.ax-workspace-window');
+    const moduleBody = moduleWindow?.querySelector('.ax-workspace-window-body');
+    body.innerHTML = '';
+    if (moduleBody) {
+      Array.from(moduleBody.childNodes).forEach(node => body.appendChild(node));
+    } else {
+      Array.from(temp.childNodes).forEach(node => body.appendChild(node));
+    }
+
+    if (ws.status === 'partial') {
+      const banner = document.createElement('div');
+      banner.className = 'ax-workspace-status-banner';
+      banner.textContent = 'Partial workspace — some capabilities are still being completed.';
+      body.prepend(banner);
+    }
+
+    return true;
   }
 
-  function renderError(workspaceId, opts, message) {
-    if (!container) return;
-    const ws = WORKSPACES[workspaceId];
-    if (!ws) return;
-    container.innerHTML = `
-      <div class="ax-workspace-fallback" data-motion="fade-in">
-        <div class="ax-workspace-fallback-icon">${window.AxiomIcons ? window.AxiomIcons.svg(ws.icon, 48) : ''}</div>
-        <h2>${ws.name}</h2>
-        <p>${message}</p>
-        <button class="btn btn-sm" data-ws-retry>Retry</button>
-      </div>
-    `;
-    const retryBtn = container.querySelector('[data-ws-retry]');
-    if (retryBtn) retryBtn.addEventListener('click', () => {
-      ws.module = null;
-      ws.loaded = false;
-      loadModule(workspaceId, opts);
+  function openWindow(workspaceId, opts = {}) {
+    const ws = getWorkspace(workspaceId);
+    const wm = window.AxiomWindowManager;
+    if (!ws || !wm || typeof wm.createWindow !== 'function') {
+      return null;
+    }
+
+    const existing = wm.getAllWindows ? wm.getAllWindows().find(w => w.id === 'ws-' + workspaceId) : null;
+    if (existing && typeof existing.focus === 'function') {
+      existing.focus();
+      return existing;
+    }
+
+    return wm.createWindow({
+      id: 'ws-' + workspaceId,
+      title: ws.name,
+      icon: ws.icon,
+      width: opts.width || 800,
+      height: opts.height || 550,
+      iframeSrc: opts.iframeSrc || null,
+      content: opts.content || '',
+      onClose: () => rememberOpenWorkspaces(),
     });
   }
 
-  function renderModule(workspaceId, opts = {}) {
-    if (!container) return;
-    const ws = WORKSPACES[workspaceId];
-    if (!ws) return;
-
-    if (ws.module && typeof ws.module.render === 'function') {
-      container.innerHTML = '';
-      ws.module.render(container, opts);
-    } else {
-      renderFallback(workspaceId, opts);
-    }
+  function showUnavailable(workspaceId, message) {
+    const ws = getWorkspace(workspaceId) || {
+      id: workspaceId, name: workspaceId || 'Workspace', icon: 'os'
+    };
+    const win = openWindow(workspaceId, {});
+    if (!win || !win.element) return false;
+    const body = win.element.querySelector('.ax-window-body');
+    if (!body) return false;
+    renderState(body, ws, 'unavailable', message);
+    rememberOpenWorkspaces();
+    return true;
   }
 
-  function renderFallback(workspaceId, opts = {}) {
-    if (!container) return;
-    const ws = WORKSPACES[workspaceId];
-    if (!ws) return;
+  function showError(workspaceId, message) {
+    const ws = getWorkspace(workspaceId) || {
+      id: workspaceId, name: workspaceId || 'Workspace', icon: 'os'
+    };
+    const win = openWindow(workspaceId, {});
+    if (!win || !win.element) return false;
+    const body = win.element.querySelector('.ax-window-body');
+    if (!body) return false;
+    renderState(body, ws, 'error', message);
+    const retry = document.createElement('button');
+    retry.className = 'btn btn-sm';
+    retry.textContent = 'Retry';
+    retry.addEventListener('click', () => open(workspaceId, { force: true }));
+    body.appendChild(retry);
+    rememberOpenWorkspaces();
+    return false;
+  }
 
-    // Generic fallback renderer
+  function renderState(container, ws, state, message) {
+    const heading = state === 'error' ? 'Workspace error' : 'Coming soon';
     container.innerHTML = `
       <div class="ax-workspace-fallback" data-motion="fade-in">
-        <div class="ax-workspace-fallback-icon">${window.AxiomIcons ? window.AxiomIcons.svg(ws.icon, 48) : ''}</div>
-        <h2>${ws.name}</h2>
-        <p>This workspace is being initialized.</p>
-        <div class="ax-workspace-fallback-loader">
-          <div class="ax-loader-ring"></div>
-        </div>
+        <div class="ax-workspace-fallback-icon">${window.AxiomIcons ? window.AxiomIcons.svg(ws.icon || 'os', 48) : ''}</div>
+        <h2>${ws.name || 'Workspace'}</h2>
+        <p>${message}</p>
+        <small>${heading}</small>
       </div>
     `;
+  }
+
+  function rememberOpenWorkspaces() {
+    try {
+      const open = window.AxiomWindowManager
+        ? window.AxiomWindowManager.getAllWindows()
+            .map(w => w.id)
+            .filter(id => id && id.startsWith('ws-') && !id.startsWith('ws-dashboard'))
+            .map(id => id.slice(3))
+            .filter(id => {
+              const ws = getWorkspace(id);
+              return ws && ws.status !== 'pending' && ws.presentation === 'window';
+            })
+        : [];
+      localStorage.setItem('axiom-open-workspaces', JSON.stringify(open));
+    } catch (_) { /* storage may be unavailable */ }
   }
 
   function onChange(fn) {
@@ -185,6 +246,7 @@ window.AxiomWorkspaceManager = (function() {
     getWorkspace,
     setContainer,
     open,
+    showUnavailable,
     onChange,
   };
 })();
