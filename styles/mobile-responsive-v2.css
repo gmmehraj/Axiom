@@ -1,0 +1,43 @@
+/* Axiom — universal mobile/tablet responsive layer.
+ * Presentation only. Does not change workspace logic or dock iconography.
+ * Loaded after the existing mobile layers so it normalizes all mobile sizes.
+ */
+@media (max-width:1024px), (hover:none) and (pointer:coarse) {
+  :root { --ax-rsp-gutter: clamp(8px, 3vw, 18px); }
+  html, body, .ax-os { width:100% !important; min-width:0 !important; max-width:none !important; margin:0 !important; padding:0 !important; }
+  body.ax-os-active { overflow:hidden !important; }
+  .ax-os { position:fixed !important; inset:0 !important; width:100vw !important; height:100dvh !important; min-height:100dvh !important; transform:none !important; scale:1 !important; overflow:hidden !important; }
+  .ax-workspace-container { position:fixed !important; inset:0 !important; width:100vw !important; height:100dvh !important; min-height:0 !important; margin:0 !important; padding:calc(env(safe-area-inset-top,0px) + 74px) var(--ax-rsp-gutter) calc(env(safe-area-inset-bottom,0px) + 84px) !important; box-sizing:border-box !important; overflow:hidden !important; transform:none !important; }
+  .ax-workspace-inner, .ax-mission-control, .ax-db-center, .ax-db-panel { width:100% !important; max-width:none !important; min-width:0 !important; box-sizing:border-box !important; transform:none !important; }
+  .ax-workspace-inner { height:100% !important; min-height:0 !important; margin:0 !important; padding:0 !important; overflow:hidden !important; touch-action:pan-y !important; overscroll-behavior-x:none !important; }
+  .ax-dashboard, .ax-dashboard > *, .ax-mission-control > .ax-dashboard { display:none !important; }
+  .ax-topbar { left:var(--ax-rsp-gutter) !important; right:var(--ax-rsp-gutter) !important; width:auto !important; min-width:0 !important; max-width:none !important; box-sizing:border-box !important; }
+  .ax-topbar-search, .ax-topbar-search input { min-width:0 !important; max-width:none !important; width:100% !important; }
+  .ax-topbar-search input { text-overflow:ellipsis !important; }
+  .ax-mobile-home { width:100% !important; min-width:0 !important; max-width:none !important; overflow-x:hidden !important; overflow-y:auto !important; touch-action:pan-y !important; }
+  .ax-mobile-home-hero { width:100% !important; min-width:0 !important; max-width:680px !important; min-height:clamp(390px,calc(100dvh - 140px),720px) !important; box-sizing:border-box !important; padding-left:clamp(8px,5vw,42px) !important; padding-right:clamp(8px,5vw,42px) !important; }
+  .ax-mobile-home-title { max-width:100% !important; overflow-wrap:anywhere !important; }
+  .ax-mobile-home-subtitle { width:min(100%,360px) !important; }
+  .ax-mobile-home-composer { width:min(100%,520px) !important; max-width:100% !important; box-sizing:border-box !important; }
+
+  /* Existing dock is preserved; only its viewport fit is normalized. */
+  #axDock.ax-dock { max-width:calc(100vw - 16px) !important; min-width:0 !important; box-sizing:border-box !important; overflow-x:auto !important; overflow-y:hidden !important; scrollbar-width:none !important; -webkit-overflow-scrolling:touch !important; }
+  #axDock.ax-dock::-webkit-scrollbar { display:none !important; }
+
+  @media (max-width:359px) {
+    .ax-topbar { left:6px !important; right:6px !important; }
+    .ax-topbar-time, .ax-topbar-item { width:36px !important; min-width:36px !important; height:36px !important; min-height:36px !important; }
+    .ax-topbar-search { height:38px !important; min-height:38px !important; padding:0 8px !important; }
+    .ax-topbar-search input { font-size:11px !important; }
+    .ax-workspace-container { padding-top:calc(env(safe-area-inset-top,0px) + 68px) !important; padding-bottom:calc(env(safe-area-inset-bottom,0px) + 78px) !important; }
+    .ax-mobile-home-hero { min-height:clamp(370px,calc(100dvh - 126px),520px) !important; padding-top:clamp(125px,28dvh,195px) !important; }
+    .ax-mobile-home-title { font-size:clamp(27px,9vw,34px) !important; }
+    .ax-mobile-home-composer { height:52px !important; min-height:52px !important; margin-top:12px !important; }
+  }
+  @media (min-width:360px) and (max-width:389px) { .ax-topbar { left:8px !important; right:8px !important; } .ax-mobile-home-hero { padding-top:clamp(140px,30dvh,220px) !important; } }
+  @media (min-width:390px) and (max-width:430px) { .ax-mobile-home-hero { padding-top:clamp(160px,32dvh,250px) !important; } }
+  @media (min-width:431px) and (max-width:599px) { .ax-mobile-home-hero { min-height:clamp(480px,calc(100dvh - 150px),680px) !important; padding-top:clamp(180px,34dvh,280px) !important; } .ax-mobile-home-title { font-size:clamp(38px,8vw,52px) !important; } }
+  @media (min-width:600px) and (orientation:portrait) { .ax-topbar { left:18px !important; right:18px !important; } .ax-mobile-home-hero { min-height:clamp(520px,calc(100dvh - 160px),760px) !important; } .ax-mobile-home-title { font-size:clamp(42px,7vw,64px) !important; } .ax-mobile-home-subtitle { font-size:15px !important; } }
+  @media (orientation:landscape) and (max-height:600px) { .ax-workspace-container { padding-top:calc(env(safe-area-inset-top,0px) + 62px) !important; padding-bottom:calc(env(safe-area-inset-bottom,0px) + 76px) !important; } .ax-mobile-home-hero { min-height:calc(100dvh - 118px) !important; padding-top:70px !important; } .ax-mobile-home-title { font-size:clamp(26px,6vw,42px) !important; } .ax-mobile-home-subtitle { margin-top:5px !important; } .ax-mobile-home-composer { height:50px !important; min-height:50px !important; margin-top:10px !important; } }
+  @media (prefers-reduced-motion:reduce) { *, *::before, *::after { scroll-behavior:auto !important; } }
+}
