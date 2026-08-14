@@ -6,7 +6,8 @@ window.AxiomDesktop = (function () {
   'use strict';
 
   const STORAGE_KEY = 'axiom.desktop.items';
-  const GRID = 96; // icon slot size
+  const GRID = 96;
+  const REMOVED_LEGACY_NAMES = new Set(['Projects', 'Documents', 'AI Chat', 'File System']);
 
   let layer = null;
   let items = [];
@@ -19,27 +20,23 @@ window.AxiomDesktop = (function () {
 
   function uid() { return 'di-' + Math.random().toString(36).slice(2, 9); }
 
-  // Remove legacy desktop clutter from older localStorage versions.
+  // Remove legacy desktop clutter, including items persisted by older builds.
   function sanitizeItems(list) {
-    const safe = Array.isArray(list) ? list.filter(item => {
+    return Array.isArray(list) ? list.filter(item => {
       if (!item) return false;
+      if (REMOVED_LEGACY_NAMES.has(String(item.name || '').trim())) return false;
       if (item.type === 'widget' && (item.widget === 'clock' || item.widget === 'notes')) return false;
       return true;
     }) : [];
-
-    // The OS Shell desktop should always start with the four intentional items.
-    if (safe.length === 0) return defaultItems();
-    return safe;
   }
 
   function load() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      items = sanitizeItems(raw ? JSON.parse(raw) : defaultItems());
-      // Persist the cleaned desktop so removed widgets cannot return after refresh.
+      items = sanitizeItems(raw ? JSON.parse(raw) : []);
       save();
     } catch (e) {
-      items = defaultItems();
+      items = [];
       save();
     }
   }
@@ -48,14 +45,7 @@ window.AxiomDesktop = (function () {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch (e) {}
   }
 
-  function defaultItems() {
-    return [
-      { id: uid(), type: 'folder', name: 'Projects', x: 24, y: 24, children: [] },
-      { id: uid(), type: 'folder', name: 'Documents', x: 24, y: 24 + GRID, children: [] },
-      { id: uid(), type: 'shortcut', name: 'AI Chat', workspace: 'chat', x: 24, y: 24 + GRID * 2 },
-      { id: uid(), type: 'shortcut', name: 'File System', workspace: 'files', x: 24, y: 24 + GRID * 3 },
-    ];
-  }
+  function defaultItems() { return []; }
 
   function ensureLayer() {
     if (layer) return layer;
@@ -66,7 +56,7 @@ window.AxiomDesktop = (function () {
     host.insertBefore(layer, host.firstChild);
 
     layer.addEventListener('contextmenu', (e) => {
-      if (e.target !== layer) return; // empty space only
+      if (e.target !== layer) return;
       e.preventDefault();
       showContextMenu(e.clientX, e.clientY, null);
     });
@@ -77,7 +67,6 @@ window.AxiomDesktop = (function () {
     return layer;
   }
 
-  // ---- ICON DRAG ----
   function makeDraggable(el, itemEl) {
     el.addEventListener('mousedown', (e) => {
       if (e.button !== 0) return;
@@ -111,13 +100,10 @@ window.AxiomDesktop = (function () {
     document.removeEventListener('mouseup', onIconDrop);
   }
 
-  // ---- ACTIONS ----
   function openFolder(item) {
     const wm = window.AxiomWindowManager;
     if (!wm) return;
-    const win = wm.createWindow({
-      title: item.name, icon: 'folder', width: 520, height: 380, appId: 'finder',
-    });
+    const win = wm.createWindow({ title: item.name, icon: 'folder', width: 520, height: 380, appId: 'finder' });
     renderFolderContents(win, item);
   }
 
@@ -185,7 +171,6 @@ window.AxiomDesktop = (function () {
     }
   }
 
-  // ---- CONTEXT MENUS ----
   function hideContextMenu() {
     if (contextMenuEl) { contextMenuEl.remove(); contextMenuEl = null; }
   }
@@ -222,6 +207,7 @@ window.AxiomDesktop = (function () {
 
   function addItem(partial, x, y) {
     const item = Object.assign({ id: uid(), x: x - 32, y: y - 32 }, partial);
+    if (REMOVED_LEGACY_NAMES.has(String(item.name || '').trim())) return;
     items.push(item);
     save();
     render();
@@ -229,7 +215,7 @@ window.AxiomDesktop = (function () {
 
   function renameItem(item) {
     const name = prompt('Rename:', item.name);
-    if (name) { item.name = name; save(); render(); }
+    if (name && !REMOVED_LEGACY_NAMES.has(name.trim())) { item.name = name; save(); render(); }
   }
 
   function deleteItem(item) {
@@ -257,7 +243,6 @@ window.AxiomDesktop = (function () {
     else if (item.type === 'shortcut') openShortcut(item);
   }
 
-  // ---- RENDER ----
   function render() {
     ensureLayer();
     layer.innerHTML = '';
