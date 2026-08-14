@@ -9,7 +9,6 @@
   const SWIPE_THRESHOLD = 54;
   const VELOCITY_THRESHOLD = 0.35;
 
-  // Exact compact dock vocabulary requested for the OS shell.
   const DOCK_ITEMS = [
     { id: 'dashboard', label: 'Home', icon: 'home' },
     { id: 'chat', label: 'Chat', icon: 'chat' },
@@ -27,13 +26,18 @@
   function isAdaptive() { return window.matchMedia(ADAPTIVE_QUERY).matches; }
   function getManager() { return window.AxiomWorkspaceManager || null; }
 
-  function ensureDockStylesheet() {
-    if (document.querySelector('link[data-axiom-mobile-dock]')) return;
+  function ensureStylesheet(href, attribute) {
+    if (document.querySelector(`link[${attribute}]`)) return;
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = 'styles/mobile-dock.css';
-    link.dataset.axiomMobileDock = 'true';
+    link.href = href;
+    link.setAttribute(attribute, 'true');
     document.head.appendChild(link);
+  }
+
+  function ensureDockStylesheet() {
+    ensureStylesheet('styles/mobile-dock.css', 'data-axiom-mobile-dock');
+    ensureStylesheet('styles/mobile-professional.css', 'data-axiom-mobile-professional');
   }
 
   function getIds() {
