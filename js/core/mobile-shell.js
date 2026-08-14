@@ -14,6 +14,15 @@
   function isMobile() { return window.matchMedia(MOBILE_QUERY).matches; }
   function getManager() { return window.AxiomWorkspaceManager || null; }
 
+  function ensureDockStylesheet() {
+    if (document.querySelector('link[data-axiom-mobile-dock]')) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'styles/mobile-dock.css';
+    link.dataset.axiomMobileDock = 'true';
+    document.head.appendChild(link);
+  }
+
   function getIds() {
     const manager = getManager();
     if (!manager || typeof manager.getWorkspaces !== 'function') return [];
@@ -56,7 +65,10 @@
 
     const ids = MOBILE_WORKSPACES.filter(id => getIds().includes(id)).slice(0, 8);
     const signature = ids.join('|');
-    if (dock.dataset.mobileDockSignature === signature) return;
+    if (dock.dataset.mobileDockSignature === signature) {
+      updateMobileDockState();
+      return;
+    }
     dock.dataset.mobileDockSignature = signature;
     dock.innerHTML = '';
 
@@ -142,6 +154,7 @@
     if (!surface) return;
 
     if (isMobile()) {
+      ensureDockStylesheet();
       ensureMobileHome();
       ensureMobileDock();
       installWorkspaceObserver();
@@ -174,7 +187,7 @@
   function boot() {
     install();
     window.addEventListener('resize', () => {
-      if (isMobile()) { ensureMobileHome(); ensureMobileDock(); installWorkspaceObserver(); }
+      if (isMobile()) { ensureDockStylesheet(); ensureMobileHome(); ensureMobileDock(); installWorkspaceObserver(); }
       updateHomeVisibility();
     }, { passive: true });
     window.addEventListener('workspacechange', () => {
@@ -182,7 +195,7 @@
       if (isMobile()) { ensureMobileHome(); ensureMobileDock(); }
     });
     window.setTimeout(() => {
-      if (isMobile()) { ensureMobileHome(); ensureMobileDock(); installWorkspaceObserver(); updateHomeVisibility(); }
+      if (isMobile()) { ensureDockStylesheet(); ensureMobileHome(); ensureMobileDock(); installWorkspaceObserver(); updateHomeVisibility(); }
     }, 250);
   }
 
