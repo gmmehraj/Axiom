@@ -1,10 +1,7 @@
 /* Axiom Mobile Shell interaction layer.
  * Uses the canonical AxiomWorkspaceManager; it does not create a second registry.
- *
- * IMPORTANT: the presentation breakpoint intentionally includes tablet-sized
- * viewports. Some mobile browsers/devices expose a wider CSS viewport than
- * their captured/physical viewport, so a 700px-only gate can leave the old
- * desktop canvas visible. The shell itself remains responsive inside this mode.
+ * Mobile Home uses the same OS dock/navigation model as desktop instead of a
+ * separate "Workspaces" launcher.
  */
 (function () {
   'use strict';
@@ -14,16 +11,13 @@
   const VELOCITY_THRESHOLD = 0.35;
   const MOBILE_WORKSPACES = ['chat', 'brain', 'memory', 'browser', 'automation', 'agents', 'studios', 'settings'];
 
-  function isMobile() {
-    return window.matchMedia(MOBILE_QUERY).matches;
-  }
-
+  function isMobile() { return window.matchMedia(MOBILE_QUERY).matches; }
   function getManager() { return window.AxiomWorkspaceManager || null; }
 
   function getIds() {
     const manager = getManager();
     if (!manager || typeof manager.getWorkspaces !== 'function') return [];
-    return Object.keys(manager.getWorkspaces()).filter(id => !['billing', 'admin'].includes(id));
+    return Object.keys(manager.getWorkspaces()).filter(id => !['billing', 'admin', 'dashboard', 'home'].includes(id));
   }
 
   function openWorkspace(id, source) {
@@ -35,15 +29,14 @@
   }
 
   function openRelative(direction) {
-    const manager = getManager();
-    if (!manager) return;
     const ids = getIds();
     if (!ids.length) return;
-    const current = (typeof manager.getCurrent === 'function' ? manager.getCurrent() : null) || document.body.dataset.workspace || 'dashboard';
+    const manager = getManager();
+    const current = (manager && typeof manager.getCurrent === 'function' ? manager.getCurrent() : null) || document.body.dataset.workspace || 'dashboard';
     const index = Math.max(0, ids.indexOf(current));
     const next = (index + direction + ids.length) % ids.length;
     const target = ids[next];
-    if (target && target !== current) manager.open(target, { source: 'mobile-swipe' });
+    if (target && target !== current) openWorkspace(target, 'mobile-swipe');
   }
 
   function workspaceLabel(id) {
@@ -54,6 +47,40 @@
   function workspaceIcon(id) {
     const icons = { chat:'◌', brain:'♧', memory:'◇', browser:'◎', automation:'ϟ', agents:'✦', studios:'◈', settings:'⚙', coding:'</>', knowledge:'⌘' };
     return icons[id] || '•';
+  }
+
+  function ensureMobileDock() {
+    if (!isMobile()) return;
+    const dock = document.getElementById('axDock');
+    if (!dock) return;
+
+    const ids = MOBILE_WORKSPACES.filter(id => getIds().includes(id)).slice(0, 8);
+    const signature = ids.join('|');
+    if (dock.dataset.mobileDockSignature === signature) return;
+    dock.dataset.mobileDockSignature = signature;
+    dock.innerHTML = '';
+
+    ids.forEach(id => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'ax-mobile-dock-item';
+      button.dataset.workspace = id;
+      button.setAttribute('aria-label', `Open ${workspaceLabel(id)}`);
+      button.innerHTML = `<span class="ax-mobile-dock-icon" aria-hidden="true">${workspaceIcon(id)}</span><span class="ax-mobile-dock-label">${workspaceLabel(id)}</span>`;
+      button.addEventListener('click', () => openWorkspace(id, 'mobile-dock'));
+      dock.appendChild(button);
+    });
+
+    updateMobileDockState();
+  }
+
+  function updateMobileDockState() {
+    const dock = document.getElementById('axDock');
+    if (!dock) return;
+    const current = document.body.dataset.workspace || 'dashboard';
+    dock.querySelectorAll('[data-workspace]').forEach(button => {
+      button.classList.toggle('is-active', button.dataset.workspace === current);
+    });
   }
 
   function ensureMobileHome() {
@@ -68,12 +95,8 @@
       inner.appendChild(home);
     }
 
-    const ids = getIds();
-    const available = MOBILE_WORKSPACES.filter(id => ids.includes(id)).slice(0, 8);
-    const signature = available.join('|');
-    if (home.dataset.workspaceSignature === signature) return;
-    home.dataset.workspaceSignature = signature;
-
+    if (home.dataset.mobileHomeBuilt === 'true') return;
+    home.dataset.mobileHomeBuilt = 'true';
     home.innerHTML = `
       <div class="ax-mobile-home-hero">
         <div class="ax-mobile-home-eyebrow">AI Operating System</div>
@@ -83,24 +106,8 @@
           <span>Ask Axiom anything...</span><strong>→</strong>
         </button>
       </div>
-      <div class="ax-mobile-home-section">
-        <div class="ax-mobile-home-section-label">Workspaces</div>
-        <div class="ax-mobile-workspaces" data-mobile-workspaces></div>
-      </div>
-      <div class="ax-mobile-home-hint" aria-hidden="true"><span>←</span><span>Swipe to navigate workspaces</span><span>→</span></div>
+      <div class="ax-mobile-home-hint" aria-hidden="true"><span>←</span><span>Swipe to navigate</span><span>→</span></div>
     `;
-
-    const grid = home.querySelector('[data-mobile-workspaces]');
-    available.forEach(id => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'ax-mobile-workspace-btn';
-      button.dataset.workspace = id;
-      button.setAttribute('aria-label', `Open ${workspaceLabel(id)}`);
-      button.innerHTML = `<span class="ax-mobile-workspace-icon" aria-hidden="true">${workspaceIcon(id)}</span><span class="ax-mobile-workspace-name">${workspaceLabel(id)}</span>`;
-      button.addEventListener('click', () => openWorkspace(id, 'mobile-home'));
-      grid.appendChild(button);
-    });
 
     const chat = home.querySelector('[data-mobile-home-chat]');
     if (chat) chat.addEventListener('click', () => openWorkspace('chat', 'mobile-home-composer'));
@@ -111,6 +118,7 @@
     if (!home) return;
     const current = document.body.dataset.workspace || 'dashboard';
     home.hidden = !isMobile() || (current !== 'dashboard' && current !== 'home');
+    updateMobileDockState();
   }
 
   function installWorkspaceObserver() {
@@ -123,7 +131,7 @@
       const result = originalOpen.apply(manager, arguments);
       window.requestAnimationFrame(() => {
         updateHomeVisibility();
-        if (isMobile()) ensureMobileHome();
+        if (isMobile()) { ensureMobileHome(); ensureMobileDock(); }
       });
       return result;
     };
@@ -135,6 +143,7 @@
 
     if (isMobile()) {
       ensureMobileHome();
+      ensureMobileDock();
       installWorkspaceObserver();
     }
 
@@ -165,15 +174,15 @@
   function boot() {
     install();
     window.addEventListener('resize', () => {
-      if (isMobile()) { ensureMobileHome(); installWorkspaceObserver(); }
+      if (isMobile()) { ensureMobileHome(); ensureMobileDock(); installWorkspaceObserver(); }
       updateHomeVisibility();
     }, { passive: true });
     window.addEventListener('workspacechange', () => {
       updateHomeVisibility();
-      if (isMobile()) ensureMobileHome();
+      if (isMobile()) { ensureMobileHome(); ensureMobileDock(); }
     });
     window.setTimeout(() => {
-      if (isMobile()) { ensureMobileHome(); installWorkspaceObserver(); updateHomeVisibility(); }
+      if (isMobile()) { ensureMobileHome(); ensureMobileDock(); installWorkspaceObserver(); updateHomeVisibility(); }
     }, 250);
   }
 
