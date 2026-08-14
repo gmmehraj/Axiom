@@ -1,0 +1,131 @@
+/* Axiom mobile dock presentation.
+ * The existing #axDock is the canonical desktop navigation surface.
+ * Mobile uses the same element, simply restyled as a compact bottom dock.
+ */
+
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+  /* The mobile home must not expose a second workspace launcher. */
+  .ax-mobile-home-section,
+  .ax-mobile-workspaces,
+  .ax-mobile-workspace-btn {
+    display:none !important;
+  }
+
+  .ax-mobile-home-hint {
+    margin:12px 0 96px !important;
+    min-height:42px !important;
+    border:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    font-size:10px !important;
+    letter-spacing:.08em !important;
+    text-transform:uppercase !important;
+    opacity:.55 !important;
+  }
+
+  /* Re-enable the existing OS dock on adaptive screens. */
+  #axDock.ax-dock {
+    position:fixed !important;
+    left:50% !important;
+    right:auto !important;
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 12px) !important;
+    top:auto !important;
+    transform:translateX(-50%) !important;
+    width:max-content !important;
+    max-width:calc(100vw - 24px) !important;
+    min-height:66px !important;
+    height:66px !important;
+    z-index:10001 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:5px !important;
+    padding:7px !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    scrollbar-width:none !important;
+    border:1px solid rgba(255,255,255,.12) !important;
+    border-radius:34px !important;
+    background:linear-gradient(110deg,rgba(255,255,255,.065),rgba(40,26,68,.28) 55%,rgba(91,55,180,.24)) !important;
+    box-shadow:0 1px 0 rgba(255,255,255,.10) inset,0 18px 55px rgba(0,0,0,.48),0 0 55px rgba(124,58,237,.16) !important;
+    backdrop-filter:blur(28px) saturate(170%) !important;
+    -webkit-backdrop-filter:blur(28px) saturate(170%) !important;
+  }
+
+  #axDock::-webkit-scrollbar { display:none !important; }
+
+  #axDock .ax-mobile-dock-item {
+    flex:0 0 52px !important;
+    width:52px !important;
+    height:52px !important;
+    min-width:52px !important;
+    min-height:52px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:3px !important;
+    padding:0 !important;
+    border:1px solid transparent !important;
+    border-radius:17px !important;
+    background:transparent !important;
+    color:rgba(255,255,255,.58) !important;
+    font:inherit !important;
+    cursor:pointer !important;
+    -webkit-tap-highlight-color:transparent !important;
+    transition:transform .18s ease,background .18s ease,color .18s ease,box-shadow .18s ease !important;
+  }
+
+  #axDock .ax-mobile-dock-item:active { transform:scale(.92) !important; }
+
+  #axDock .ax-mobile-dock-item.is-active {
+    color:#fff !important;
+    border-color:rgba(168,85,247,.40) !important;
+    background:linear-gradient(145deg,rgba(139,92,246,.28),rgba(255,255,255,.055)) !important;
+    box-shadow:0 0 24px rgba(124,58,237,.20),0 1px 0 rgba(255,255,255,.10) inset !important;
+  }
+
+  #axDock .ax-mobile-dock-icon {
+    width:25px !important;
+    height:25px !important;
+    display:grid !important;
+    place-items:center !important;
+    font-size:19px !important;
+    line-height:1 !important;
+    font-weight:600 !important;
+  }
+
+  #axDock .ax-mobile-dock-label {
+    max-width:50px !important;
+    overflow:hidden !important;
+    white-space:nowrap !important;
+    text-overflow:ellipsis !important;
+    font-size:7px !important;
+    line-height:1 !important;
+    font-weight:650 !important;
+    letter-spacing:.01em !important;
+  }
+
+  /* Give the home content room above the dock. */
+  .ax-mobile-home {
+    padding-bottom:104px !important;
+  }
+
+  .ax-mobile-home-hero {
+    padding-bottom:8px !important;
+  }
+}
+
+@media (max-width:370px) {
+  #axDock.ax-dock {
+    left:8px !important;
+    right:8px !important;
+    width:auto !important;
+    max-width:none !important;
+  }
+  #axDock .ax-mobile-dock-item {
+    flex-basis:46px !important;
+    width:46px !important;
+    min-width:46px !important;
+  }
+}
