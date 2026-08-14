@@ -1,0 +1,401 @@
+/* AXIOM — production responsive presentation layer
+ *
+ * Presentation only. Reuses the existing shell, workspace manager, dock,
+ * AI Core and design/motion tokens. No new navigation or workspace system.
+ */
+
+/* ---- Global viewport hygiene --------------------------------------- */
+html,
+body {
+  max-width: 100%;
+}
+
+body.ax-os-active {
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+/* ---- Adaptive shell ------------------------------------------------ */
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+  :root {
+    --ax-responsive-gutter: clamp(8px, 3vw, 20px);
+  }
+
+  html,
+  body,
+  body.ax-os-active,
+  .ax-os {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+
+  html,
+  body {
+    min-height: 100%;
+    overflow-x: hidden !important;
+  }
+
+  .ax-os {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    transform: none !important;
+  }
+
+  .ax-workspace-container {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding:
+      calc(env(safe-area-inset-top, 0px) + clamp(72px, 11vw, 92px))
+      var(--ax-responsive-gutter)
+      calc(env(safe-area-inset-bottom, 0px) + clamp(78px, 12vw, 96px)) !important;
+    overflow: hidden !important;
+    transform: none !important;
+  }
+
+  .ax-workspace-inner,
+  .ax-mission-control {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    transform: none !important;
+  }
+
+  /* The desktop Mission Control panels are not squeezed into phone width. */
+  .ax-dashboard {
+    display: none !important;
+  }
+
+  /* ---- Existing topbar: fit, don't redesign ----------------------- */
+  .ax-topbar {
+    left: var(--ax-responsive-gutter) !important;
+    right: var(--ax-responsive-gutter) !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .ax-topbar-search {
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+
+  .ax-topbar-search input {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  /* ---- The canonical dock stays visible and inside the viewport. --- */
+  #axDock.ax-dock {
+    display: flex !important;
+    position: fixed !important;
+    left: max(8px, var(--ax-responsive-gutter)) !important;
+    right: max(8px, var(--ax-responsive-gutter)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 8px) !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    height: auto !important;
+    max-height: 72px !important;
+    padding: 6px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+    z-index: 10050 !important;
+  }
+
+  #axDock.ax-dock::-webkit-scrollbar {
+    display: none;
+  }
+
+  #axDock .ax-dock-item {
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+  }
+
+  #axDock .ax-dock-label {
+    display: none !important;
+  }
+
+  #axDock .ax-dock-divider {
+    flex: 0 0 1px !important;
+    width: 1px !important;
+    min-width: 1px !important;
+    height: 24px !important;
+  }
+
+  /* ---- Native OS windows become mobile workspace surfaces. -------- */
+  .ax-wm {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+    z-index: 9000 !important;
+  }
+
+  .ax-window {
+    position: absolute !important;
+    inset:
+      calc(env(safe-area-inset-top, 0px) + 74px)
+      0
+      calc(env(safe-area-inset-bottom, 0px) + 70px)
+      0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    border-radius: 18px !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+  }
+
+  .ax-window-titlebar {
+    min-height: 48px !important;
+    padding: 8px 12px !important;
+  }
+
+  .ax-window-dots {
+    gap: 8px !important;
+  }
+
+  .ax-window-dot {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+  }
+
+  .ax-window-dot svg {
+    width: 10px !important;
+    height: 10px !important;
+  }
+
+  .ax-window-body {
+    min-width: 0 !important;
+    min-height: 0 !important;
+    overflow: auto !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ax-window-body iframe {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+  }
+
+  /* Resize handles are a desktop affordance; mobile uses the viewport. */
+  .ax-window-resize-handle {
+    display: none !important;
+  }
+
+  /* ---- AI Core: keep the real core centered and unobstructed. ------ */
+  .ax-core {
+    position: fixed !important;
+    top: calc(env(safe-area-inset-top, 0px) + clamp(118px, 18vh, 164px)) !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: min(54vw, 230px) !important;
+    height: min(54vw, 230px) !important;
+    margin: 0 !important;
+    transform: translateX(-50%) !important;
+    z-index: 20 !important;
+    pointer-events: none !important;
+  }
+
+  .ax-core-overlay {
+    pointer-events: none !important;
+  }
+
+  /* ---- Touch targets --------------------------------------------- */
+  .ax-topbar-item,
+  .ax-topbar-search,
+  .ax-cc-slider,
+  .ax-cc-select,
+  .ax-window-dot,
+  .ax-dock-item {
+    min-height: 44px;
+  }
+
+  /* ---- Panels/dialogs -------------------------------------------- */
+  .ax-control-center,
+  .ax-notif-panel,
+  .ax-search-panel,
+  .ax-cmd-panel {
+    max-width: calc(100vw - 16px) !important;
+    min-width: 0 !important;
+  }
+
+  .ax-control-center,
+  .ax-notif-panel {
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 96px) !important;
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Any workspace surface rendered inside a native window must be able
+     to shrink. Tables/code keep their own horizontal scroll instead. */
+  .ax-window-body > * {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .ax-window-body table,
+  .ax-window-body pre,
+  .ax-window-body .code-block {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+  }
+
+  /* ---- Very small phones ---------------------------------------- */
+  @media (max-width: 359px) {
+    .ax-topbar {
+      left: 6px !important;
+      right: 6px !important;
+    }
+
+    .ax-workspace-container {
+      padding-top: calc(env(safe-area-inset-top, 0px) + 68px) !important;
+      padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 70px) !important;
+    }
+
+    #axDock.ax-dock {
+      left: 4px !important;
+      right: 4px !important;
+    }
+
+    #axDock .ax-dock-item {
+      flex-basis: 42px !important;
+      width: 42px !important;
+      min-width: 42px !important;
+      height: 42px !important;
+      min-height: 42px !important;
+    }
+
+    .ax-core {
+      width: 190px !important;
+      height: 190px !important;
+      top: calc(env(safe-area-inset-top, 0px) + 112px) !important;
+    }
+
+    .ax-window {
+      inset: calc(env(safe-area-inset-top, 0px) + 66px) 0 calc(env(safe-area-inset-bottom, 0px) + 64px) 0 !important;
+      border-radius: 14px !important;
+    }
+  }
+
+  /* ---- Tablet: more canvas, still touch-first -------------------- */
+  @media (min-width: 600px) {
+    .ax-workspace-container {
+      padding-left: clamp(18px, 4vw, 32px) !important;
+      padding-right: clamp(18px, 4vw, 32px) !important;
+    }
+
+    .ax-core {
+      width: min(34vw, 300px) !important;
+      height: min(34vw, 300px) !important;
+      top: calc(env(safe-area-inset-top, 0px) + clamp(130px, 18vh, 190px)) !important;
+    }
+
+    .ax-window {
+      inset: calc(env(safe-area-inset-top, 0px) + 88px) 8px calc(env(safe-area-inset-bottom, 0px) + 74px) 8px !important;
+      border: 1px solid var(--ax-border, rgba(255,255,255,.08)) !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (orientation: landscape) and (max-height: 600px) {
+    .ax-workspace-container {
+      padding-top: calc(env(safe-area-inset-top, 0px) + 62px) !important;
+      padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 62px) !important;
+    }
+
+    .ax-core {
+      width: min(30vw, 190px) !important;
+      height: min(30vw, 190px) !important;
+      top: calc(env(safe-area-inset-top, 0px) + 78px) !important;
+    }
+
+    .ax-window {
+      inset: calc(env(safe-area-inset-top, 0px) + 58px) 0 calc(env(safe-area-inset-bottom, 0px) + 60px) 0 !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0ms !important;
+      animation-delay: 0ms !important;
+      transition-duration: 0ms !important;
+    }
+  }
+}
+
+/* ---- Workspace content helpers, all sizes ------------------------- */
+.ax-window-body img,
+.ax-window-body video,
+.ax-window-body canvas,
+.ax-window-body svg {
+  max-width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .ax-window-body input,
+  .ax-window-body select,
+  .ax-window-body textarea,
+  .ax-window-body button {
+    max-width: 100%;
+  }
+
+  .ax-window-body input,
+  .ax-window-body textarea,
+  .ax-window-body select {
+    font-size: max(16px, 1em);
+  }
+}
