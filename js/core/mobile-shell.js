@@ -12,6 +12,15 @@
   const MAX_VERTICAL_RATIO = 1.15;
   const SWIPE_MAX_DURATION = 900;
 
+  function ensureResponsiveStyles() {
+    if (document.querySelector('link[data-axiom-responsive-production]')) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'styles/responsive-production.css';
+    link.dataset.axiomResponsiveProduction = 'true';
+    document.head.appendChild(link);
+  }
+
   function isAdaptive() {
     return window.matchMedia(ADAPTIVE_QUERY).matches;
   }
@@ -128,8 +137,6 @@
 
     if (current) document.body.dataset.workspace = current;
 
-    // The existing OS shell owns dock rendering. We only update its active
-    // state when possible; no alternate mobile dock is generated here.
     document.querySelectorAll('#axDock .ax-dock-item').forEach(item => {
       item.classList.toggle('active', item.dataset.workspace === current);
     });
@@ -149,6 +156,7 @@
   }
 
   function boot() {
+    ensureResponsiveStyles();
     installGestures();
     installWorkspaceObserver();
     syncWorkspaceState();
