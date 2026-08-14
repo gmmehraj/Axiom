@@ -1,0 +1,50 @@
+name: Activate universal mobile responsive layer
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  activate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add universal mobile stylesheet
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('os-shell.html')
+          s = p.read_text()
+          marker = 'styles/mobile-shell-reference.css'
+          link = '  <link rel="stylesheet" href="styles/mobile-responsive-v2.css">'
+          if 'styles/mobile-responsive-v2.css' not in s:
+              needle = f'  <link rel="stylesheet" href="{marker}">'
+              if needle in s:
+                  s = s.replace(needle, needle + '\n' + link, 1)
+              else:
+                  s = s.replace('</head>', link + '\n</head>', 1)
+              p.write_text(s)
+          PY
+      - name: Commit activation
+        shell: bash
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add os-shell.html
+          git commit -m 'fix: activate universal mobile responsive layer'
+          git push
+      - name: Remove one-shot workflow
+        if: always()
+        shell: bash
+        run: |
+          git rm -f .github/workflows/activate-mobile-responsive.yml || true
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore: remove one-shot mobile activation workflow'
+          git push
