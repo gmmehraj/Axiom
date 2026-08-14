@@ -16,11 +16,24 @@
   }
 
   function init() {
+    ensureWorkspaceResponsiveStyles();
     initClock();
     initSearchBar();
     initQuickCommand();
     initNotifications();
     initDockAutoHide();
+  }
+
+  // ── Shared responsive presentation layer ─────────────────
+  // Loaded here so every authenticated workspace receives the
+  // same mobile/tablet safety rules without a second shell system.
+  function ensureWorkspaceResponsiveStyles() {
+    if (document.querySelector('link[data-axiom-workspace-responsive]')) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'styles/workspace-responsive.css';
+    link.dataset.axiomWorkspaceResponsive = 'true';
+    document.head.appendChild(link);
   }
 
   // ── Clock ─────────────────────────────────────────────────
@@ -98,4 +111,3 @@
   }
 
 })();
-
