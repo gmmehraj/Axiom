@@ -1,7 +1,7 @@
 // ============================================================
 // AXIOM AI OS V8 — Shared Application Initialization Module
 // ------------------------------------------------------------
-// Loaded on EVERY authenticated page after all components.
+// Loaded on authenticated pages after page components.
 // Handles shared UI bootstrapping plus cloud voice providers.
 // ============================================================
 (function () {
@@ -65,23 +65,39 @@
     }, { passive: true });
   }
 
-  // Dependency order: provider registry -> ElevenLabs adapter -> controller bridge.
+  // Voice dependency order:
+  // 1) browser voice primitives (needed for STT + fallback)
+  // 2) app-level controller (shared settings/state)
+  // 3) provider registry
+  // 4) ElevenLabs adapter
+  // 5) controller/provider bridge
   function initCloudVoice() {
-    loadScriptOnce('os/runtime/capabilities/voice-adapter-kit.js', function () {
-      loadScriptOnce('js/core/elevenlabs-voice.js', function () {
-        loadScriptOnce('js/core/elevenlabs-voice-controller.js');
+    ensureVoiceController(function () {
+      loadScriptOnce('os/runtime/capabilities/voice-adapter-kit.js', function () {
+        loadScriptOnce('js/core/elevenlabs-voice.js', function () {
+          loadScriptOnce('js/core/elevenlabs-voice-controller.js');
+        });
       });
     });
   }
 
+  function ensureVoiceController(done) {
+    if (window.AxiomVoice && window.JarvisVoiceController) { done(); return; }
+    loadScriptOnce('js/core/voice.js', function () {
+      if (window.JarvisVoiceController) { done(); return; }
+      loadScriptOnce('js/core/voice-controller.js', done);
+    });
+  }
+
   function loadScriptOnce(src, onload) {
-    if (document.querySelector('script[data-axiom-cloud-voice="' + src + '"]')) { if (onload) onload(); return; }
+    const selector = 'script[data-axiom-cloud-voice="' + src + '"],script[src$="/' + src + '"]';
+    if (document.querySelector(selector)) { if (onload) onload(); return; }
     const script = document.createElement('script');
     script.src = src;
-    script.async = true;
+    script.async = false;
     script.dataset.axiomCloudVoice = src;
     script.onload = function () { if (onload) onload(); };
-    script.onerror = function () { try { console.warn('[Axiom] Optional cloud voice failed to load:', src); } catch (_) {} };
+    script.onerror = function () { try { console.warn('[Axiom] Optional voice dependency failed to load:', src); } catch (_) {} };
     document.head.appendChild(script);
   }
 })();
