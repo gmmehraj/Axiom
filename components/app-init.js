@@ -66,16 +66,19 @@
   }
 
   // Voice dependency order:
-  // 1) browser voice primitives (needed for STT + fallback)
+  // 1) browser voice primitives (STT + fallback)
   // 2) app-level controller (shared settings/state)
   // 3) provider registry
-  // 4) ElevenLabs adapter
-  // 5) controller/provider bridge
+  // 4) ElevenLabs TTS adapter
+  // 5) ElevenLabs Scribe realtime STT
+  // 6) controller/provider bridge
   function initCloudVoice() {
     ensureVoiceController(function () {
       loadScriptOnce('os/runtime/capabilities/voice-adapter-kit.js', function () {
         loadScriptOnce('js/core/elevenlabs-voice.js', function () {
-          loadScriptOnce('js/core/elevenlabs-voice-controller.js');
+          loadScriptOnce('js/core/elevenlabs-scribe.js', function () {
+            loadScriptOnce('js/core/elevenlabs-voice-controller.js');
+          });
         });
       });
     });
