@@ -29,3 +29,30 @@ window.JarvisVoiceController = (function () {
   function bindShortcuts({onPTTDown,onPTTUp,onToggleMic,onStopSpeaking}={}){function isTypingTarget(el){return el&&(el.tagName==='INPUT'||el.tagName==='TEXTAREA'||el.isContentEditable);}document.addEventListener('keydown',e=>{if(e.code==='Space'&&!isTypingTarget(e.target)&&onPTTDown&&!e.repeat){e.preventDefault();onPTTDown();}if(e.key==='Escape'&&onStopSpeaking&&(state==='speaking'||state==='paused'))onStopSpeaking();if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='m'){e.preventDefault();if(onToggleMic)onToggleMic();}});document.addEventListener('keyup',e=>{if(e.code==='Space'&&!isTypingTarget(e.target)&&onPTTUp)onPTTUp();});}
   return{DEFAULTS,getSettings,saveSettings,isSupported,getState,pushToTalkStart,handsFreeStart,stopListening,isHandsFreeActive,speak,pauseSpeaking,resumeSpeaking,stopSpeaking,interrupt,requestMicPermission,listDevices,bindShortcuts,normalizeError};
 })();
+
+// OS-shell pages load this controller directly rather than components/app-init.js.
+// Bootstrap the cloud voice stack and the visible microphone control here so
+// dashboard voice is actually usable on production pages.
+(function(w){'use strict';
+  const files=[
+    'os/runtime/capabilities/voice-adapter-kit.js',
+    'js/core/elevenlabs-voice.js',
+    'js/core/elevenlabs-scribe.js',
+    'js/core/elevenlabs-voice-controller.js',
+    'js/core/voice-website-controller.js',
+    'js/core/voice-ui-bridge.js'
+  ];
+  function load(i){
+    if(i>=files.length)return;
+    const src=files[i];
+    const existing=document.querySelector('script[data-axiom-voice-src="'+src+'"],script[src$="/'+src+'"]');
+    if(existing){load(i+1);return;}
+    const s=document.createElement('script');
+    s.src=src;s.async=false;s.dataset.axiomVoiceSrc=src;
+    s.onload=()=>load(i+1);
+    s.onerror=()=>{try{console.warn('[Axiom Voice] Failed to load',src);}catch(_){};load(i+1);};
+    document.head.appendChild(s);
+  }
+  function boot(){load(0);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})(window);
