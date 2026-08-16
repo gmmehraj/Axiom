@@ -1,36 +1,31 @@
 // ============================================
 // AXIOM — JarvisVoiceController (Phase 3)
-// App-level voice orchestration built entirely on top of AxiomVoice
-// (voice.js), which owns the raw Web Speech API calls. This file owns:
-//   - persisted voice settings (rate/pitch/volume/devices/modes)
-//   - push-to-talk vs. hands-free/continuous conversation mode
-//   - interrupting AI speech when the user starts talking
-//   - normalized error codes + a shared axiom:voice-state event so any
-//     page (JARVIS panel, Playground, Settings) can drive the same
-//     mic/speaker UI off one source of truth
-//   - global keyboard shortcuts (Space / Esc / Ctrl+M)
-//
-// Nothing here touches Supabase, billing, or the AI Core reactor — it only
-// dispatches DOM events that existing code (jarvis.js, core-ui.js) can
-// listen for, same pattern as the existing axiom:chat-state event.
-//
-// Load order required on the page: voice.js, then this file.
+// App-level voice orchestration built on top of AxiomVoice and the
+// provider registry. Browser Web Speech remains the STT fallback;
+// ElevenLabs can own TTS without changing the public controller API.
 // ============================================
 window.JarvisVoiceController = (function () {
   const SETTINGS_KEY = 'axiom_voice_settings';
 
   const DEFAULTS = {
-    rate: 1,            // 0.5 - 2
-    pitch: 1,            // 0 - 2
-    volume: 1,            // 0 - 1
-    autoSpeak: true,         // read JARVIS's replies aloud automatically
-    continuous: false,        // hands-free / continuous conversation mode
+    rate: 1,
+    pitch: 1,
+    volume: 1,
+    autoSpeak: true,
+    continuous: false,
     micDeviceId: '',
     speakerDeviceId: '',
-    voiceLang: '',            // '' = follow the interface language
-    voiceName: '',            // '' = browser default for that language
+    voiceLang: '',
+    voiceName: '',
     noiseSuppression: true,
     echoCancellation: true,
+    // Cloud TTS settings. These are identifiers/settings only — never secrets.
+    voiceProvider: 'elevenlabs',
+    elevenLabsVoiceId: '21m00Tcm4TlvDq8ikWAM',
+    elevenLabsModelId: 'eleven_multilingual_v2',
+    elevenLabsStability: 0.45,
+    elevenLabsSimilarity: 0.8,
+    elevenLabsStyle: 0.15,
   };
 
   function getSettings() {
@@ -55,7 +50,6 @@ window.JarvisVoiceController = (function () {
     return window.AxiomI18n ? window.AxiomI18n.getLanguage() : 'en';
   }
 
-  // ---- shared state (idle / listening / speaking / thinking / error) ----
   let state = 'idle';
   function setState(next, extra) {
     state = next;
@@ -63,10 +57,6 @@ window.JarvisVoiceController = (function () {
   }
   function getState() { return state; }
 
-  // ---- error normalization ----
-  // Maps the handful of raw error strings the Web Speech API produces
-  // (which vary a little browser to browser) to a small stable set of
-  // codes the UI can branch on, plus a friendly message.
   const ERROR_MESSAGES = {
     'not-allowed': "Microphone access was denied. Allow microphone access in your browser's site settings to use voice.",
     'permission-denied': "Microphone access was denied. Allow microphone access in your browser's site settings to use voice.",
@@ -75,7 +65,7 @@ window.JarvisVoiceController = (function () {
     'audio-capture': 'No microphone was found. Check that one is connected and enabled.',
     'no-device': 'No microphone was found. Check that one is connected and enabled.',
     'network': 'Voice recognition needs a network connection — check your connection and try again.',
-    'aborted': null, // user-initiated stop, not a real error
+    'aborted': null,
     'unsupported': "Your browser doesn't support voice input. Try the latest Chrome, Edge, or Safari.",
     'timeout': 'Listening timed out.',
     'unknown': 'Something went wrong with the microphone.',
@@ -86,13 +76,14 @@ window.JarvisVoiceController = (function () {
   }
 
   function isSupported() {
+    const provider = getSettings().voiceProvider;
+    const cloud = !!(window.AxiomElevenLabsVoice && window.AxiomVoiceAdapters);
     return {
       recognition: window.AxiomVoice ? window.AxiomVoice.isRecognitionSupported() : false,
-      synthesis: window.AxiomVoice ? window.AxiomVoice.isSynthesisSupported() : false,
+      synthesis: provider === 'elevenlabs' ? cloud : (window.AxiomVoice ? window.AxiomVoice.isSynthesisSupported() : false),
     };
   }
 
-  // ---- recording timer ----
   let timerHandle = null;
   let timerStart = 0;
   function startTimer(onTick) {
@@ -107,43 +98,33 @@ window.JarvisVoiceController = (function () {
     if (timerHandle) { clearInterval(timerHandle); timerHandle = null; }
   }
 
-  // ---- listening (push-to-talk + hands-free) ----
   let handsFreeActive = false;
   let userStoppedListening = false;
 
   function stopListening() {
     userStoppedListening = true;
     handsFreeActive = false;
-    window.AxiomVoice.stopListening();
+    if (window.AxiomVoice) window.AxiomVoice.stopListening();
     stopTimer();
     if (state === 'listening') setState('idle');
   }
 
-  // opts: { onInterim(text), onFinal(text), onError({code,message}), onTick(seconds) }
   function pushToTalkStart(opts = {}) {
     if (!window.AxiomVoice || !window.AxiomVoice.isRecognitionSupported()) {
       if (opts.onError) opts.onError(normalizeError('unsupported'));
       return;
     }
-    // Interrupt any AI speech in progress — talking over JARVIS should
-    // stop it, not queue behind it.
     interrupt();
-
     userStoppedListening = false;
     setState('listening');
     startTimer(opts.onTick);
-
     window.AxiomVoice.startListening({
       lang: window.AxiomVoice.toSpeechLang(activeLang()),
       interim: true,
       continuous: false,
       onResult: (text, isFinal) => {
-        if (isFinal) {
-          stopTimer();
-          if (opts.onFinal) opts.onFinal(text);
-        } else if (opts.onInterim) {
-          opts.onInterim(text);
-        }
+        if (isFinal) { stopTimer(); if (opts.onFinal) opts.onFinal(text); }
+        else if (opts.onInterim) opts.onInterim(text);
       },
       onError: (err) => {
         stopTimer();
@@ -151,18 +132,10 @@ window.JarvisVoiceController = (function () {
         const normalized = normalizeError(err);
         if (normalized.message && opts.onError) opts.onError(normalized);
       },
-      onEnd: () => {
-        stopTimer();
-        if (state === 'listening') setState('idle');
-      },
+      onEnd: () => { stopTimer(); if (state === 'listening') setState('idle'); },
     });
   }
 
-  // Continuous conversation mode: keeps re-listening after every final
-  // result until the user explicitly stops it, so a whole back-and-forth
-  // can happen hands-free. Each finished utterance fires onFinal — the
-  // caller decides when to also speak the reply back before we resume
-  // listening (see JarvisVoiceController.speak's onEnd hook usage).
   function handsFreeStart(opts = {}) {
     if (!window.AxiomVoice || !window.AxiomVoice.isRecognitionSupported()) {
       if (opts.onError) opts.onError(normalizeError('unsupported'));
@@ -173,7 +146,6 @@ window.JarvisVoiceController = (function () {
     handsFreeActive = true;
     setState('listening');
     startTimer(opts.onTick);
-
     const relisten = () => {
       if (!handsFreeActive || userStoppedListening) return;
       window.AxiomVoice.startListening({
@@ -181,24 +153,16 @@ window.JarvisVoiceController = (function () {
         interim: true,
         continuous: true,
         onResult: (text, isFinal) => {
-          if (isFinal && text.trim()) {
-            if (opts.onFinal) opts.onFinal(text);
-          } else if (opts.onInterim) {
-            opts.onInterim(text);
-          }
+          if (isFinal && text.trim()) { if (opts.onFinal) opts.onFinal(text); }
+          else if (opts.onInterim) opts.onInterim(text);
         },
         onError: (err) => {
           const normalized = normalizeError(err);
-          if (err === 'no-speech') { relisten(); return; } // keep waiting in hands-free mode
-          handsFreeActive = false;
-          stopTimer();
-          setState('idle');
+          if (err === 'no-speech') { relisten(); return; }
+          handsFreeActive = false; stopTimer(); setState('idle');
           if (normalized.message && opts.onError) opts.onError(normalized);
         },
         onEnd: () => {
-          // Recognition auto-stops after a pause even in continuous mode
-          // on most browsers — restart it seamlessly unless the user (or
-          // an unrecoverable error) turned hands-free off.
           if (handsFreeActive && !userStoppedListening) relisten();
           else { stopTimer(); setState('idle'); }
         },
@@ -209,109 +173,77 @@ window.JarvisVoiceController = (function () {
 
   function isHandsFreeActive() { return handsFreeActive; }
 
-  // ---- speaking (TTS) ----
   function speak(text, opts = {}) {
+    if (!text || !String(text).trim()) return Promise.resolve();
+    const s = getSettings();
+    const useElevenLabs = s.voiceProvider === 'elevenlabs';
+
+    // The cloud bridge owns ElevenLabs TTS. Do not require browser
+    // speechSynthesis support when cloud TTS is selected.
+    if (useElevenLabs && window.AxiomElevenLabsVoice && window.AxiomVoiceAdapters) {
+      return window.AxiomElevenLabsVoice.speak(String(text), {
+        lang: opts.lang || activeLang(),
+        voiceId: opts.voiceId,
+        modelId: opts.modelId,
+        volume: s.volume,
+        onStart: () => { setState('speaking', { provider: 'elevenlabs' }); if (opts.onStart) opts.onStart(); },
+        onEnd: () => { if (state === 'speaking') setState('idle'); if (opts.onEnd) opts.onEnd(); },
+        onError: (err) => { if (state === 'speaking') setState('idle'); if (opts.onError) opts.onError(err); },
+      });
+    }
+
     if (!window.AxiomVoice || !window.AxiomVoice.isSynthesisSupported()) {
       if (opts.onError) opts.onError(normalizeError('unsupported'));
-      return;
+      return Promise.reject(new Error('Speech synthesis is not available.'));
     }
-    if (!text || !text.trim()) return;
-    const s = getSettings();
     if (opts.interrupt !== false) window.AxiomVoice.stopSpeaking();
-
-    window.AxiomVoice.speak(text, {
-      lang: window.AxiomVoice.toSpeechLang(opts.lang || activeLang()),
-      rate: s.rate,
-      pitch: s.pitch,
-      volume: s.volume,
-      voiceName: s.voiceName || undefined,
-      onStart: () => { setState('speaking'); if (opts.onStart) opts.onStart(); },
-      onEnd: () => { if (state === 'speaking') setState('idle'); if (opts.onEnd) opts.onEnd(); },
-      onError: (err) => {
-        if (state === 'speaking') setState('idle');
-        if (opts.onError) opts.onError(normalizeError(err));
-      },
+    return new Promise((resolve, reject) => {
+      window.AxiomVoice.speak(text, {
+        lang: window.AxiomVoice.toSpeechLang(opts.lang || activeLang()),
+        rate: s.rate, pitch: s.pitch, volume: s.volume,
+        voiceName: s.voiceName || undefined,
+        onStart: () => { setState('speaking', { provider: 'browser' }); if (opts.onStart) opts.onStart(); },
+        onEnd: () => { if (state === 'speaking') setState('idle'); if (opts.onEnd) opts.onEnd(); resolve(); },
+        onError: (err) => { if (state === 'speaking') setState('idle'); if (opts.onError) opts.onError(normalizeError(err)); reject(err); },
+      });
     });
   }
 
-  function pauseSpeaking() { window.AxiomVoice.pauseSpeaking(); setState('paused'); }
-  function resumeSpeaking() { window.AxiomVoice.resumeSpeaking(); setState('speaking'); }
+  function pauseSpeaking() { if (window.AxiomVoice) window.AxiomVoice.pauseSpeaking(); setState('paused'); }
+  function resumeSpeaking() { if (window.AxiomVoice) window.AxiomVoice.resumeSpeaking(); setState('speaking'); }
   function stopSpeaking() {
-    window.AxiomVoice.stopSpeaking();
+    if (window.AxiomElevenLabsVoice) window.AxiomElevenLabsVoice.cancel();
+    if (window.AxiomVoice) window.AxiomVoice.stopSpeaking();
     if (state === 'speaking' || state === 'paused') setState('idle');
   }
-
-  // Stops whichever of listening/speaking is currently active — used
-  // whenever the other one is about to start, so the two never overlap
-  // (talking over JARVIS interrupts it; JARVIS replying stops the mic).
   function interrupt() {
+    if (window.AxiomElevenLabsVoice) window.AxiomElevenLabsVoice.cancel();
     if (window.AxiomVoice && window.AxiomVoice.isSpeaking()) window.AxiomVoice.stopSpeaking();
   }
 
-  // ---- devices ----
   async function requestMicPermission() {
     const s = getSettings();
-    await window.AxiomVoice.requestMicAccess({
-      echoCancellation: s.echoCancellation,
-      noiseSuppression: s.noiseSuppression,
-      deviceId: s.micDeviceId || undefined,
-    });
+    await window.AxiomVoice.requestMicAccess({ echoCancellation: s.echoCancellation, noiseSuppression: s.noiseSuppression, deviceId: s.micDeviceId || undefined });
   }
-
   async function listDevices() {
-    const [inputs, outputs] = await Promise.all([
-      window.AxiomVoice.listInputDevices(),
-      window.AxiomVoice.listOutputDevices(),
-    ]);
+    const [inputs, outputs] = await Promise.all([window.AxiomVoice.listInputDevices(), window.AxiomVoice.listOutputDevices()]);
     return { inputs, outputs, outputSelectable: window.AxiomVoice.isOutputSelectionSupported() };
   }
 
-  // ---- keyboard shortcuts ----
-  // Space = push-to-talk (held) — only while the target isn't a text
-  // field, so typing a space in chat still works normally.
-  // Esc = stop speaking (falls through to existing panel-close behavior
-  // if nothing was speaking).
-  // Ctrl/Cmd+M = toggle mic on/off.
   function bindShortcuts({ onPTTDown, onPTTUp, onToggleMic, onStopSpeaking } = {}) {
-    function isTypingTarget(el) {
-      return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
-    }
+    function isTypingTarget(el) { return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable); }
     document.addEventListener('keydown', (e) => {
-      if (e.code === 'Space' && !isTypingTarget(e.target) && onPTTDown && !e.repeat) {
-        e.preventDefault();
-        onPTTDown();
-      }
-      if (e.key === 'Escape' && (window.AxiomVoice && window.AxiomVoice.isSpeaking())) {
-        if (onStopSpeaking) onStopSpeaking();
-      }
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'm') {
-        e.preventDefault();
-        if (onToggleMic) onToggleMic();
-      }
+      if (e.code === 'Space' && !isTypingTarget(e.target) && onPTTDown && !e.repeat) { e.preventDefault(); onPTTDown(); }
+      if (e.key === 'Escape' && onStopSpeaking && (state === 'speaking' || state === 'paused')) { onStopSpeaking(); }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'm') { e.preventDefault(); if (onToggleMic) onToggleMic(); }
     });
-    document.addEventListener('keyup', (e) => {
-      if (e.code === 'Space' && !isTypingTarget(e.target) && onPTTUp) onPTTUp();
-    });
+    document.addEventListener('keyup', (e) => { if (e.code === 'Space' && !isTypingTarget(e.target) && onPTTUp) onPTTUp(); });
   }
 
   return {
-    DEFAULTS,
-    getSettings,
-    saveSettings,
-    isSupported,
-    getState,
-    pushToTalkStart,
-    handsFreeStart,
-    stopListening,
-    isHandsFreeActive,
-    speak,
-    pauseSpeaking,
-    resumeSpeaking,
-    stopSpeaking,
-    interrupt,
-    requestMicPermission,
-    listDevices,
-    bindShortcuts,
-    normalizeError,
+    DEFAULTS, getSettings, saveSettings, isSupported, getState,
+    pushToTalkStart, handsFreeStart, stopListening, isHandsFreeActive,
+    speak, pauseSpeaking, resumeSpeaking, stopSpeaking, interrupt,
+    requestMicPermission, listDevices, bindShortcuts, normalizeError,
   };
 })();
