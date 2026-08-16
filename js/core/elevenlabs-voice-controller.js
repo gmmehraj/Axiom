@@ -1,13 +1,17 @@
 // ============================================================
 // AXIOM — ElevenLabs bridge for JarvisVoiceController
 // ------------------------------------------------------------
-// Keeps the existing voice controller API intact while swapping
-// its TTS backend to the active AxiomVoiceAdapters provider.
+// Keeps the existing controller API intact while routing TTS through
+// the active ElevenLabs provider. Browser speech remains a safe fallback.
 // ============================================================
 (function (global) {
   'use strict';
 
   var installed = false;
+
+  function emit(state, extra) {
+    document.dispatchEvent(new CustomEvent('axiom:voice-state', { detail: Object.assign({ state: state, provider: 'elevenlabs' }, extra || {}) }));
+  }
 
   function install() {
     if (installed || !global.JarvisVoiceController || !global.AxiomVoiceAdapters) return false;
@@ -17,23 +21,23 @@
 
     controller.speak = function (text, opts) {
       opts = opts || {};
-      if (!text || !String(text).trim()) return;
+      if (!text || !String(text).trim()) return Promise.resolve();
 
       var settings = controller.getSettings ? controller.getSettings() : {};
       var useEleven = settings.voiceProvider !== 'browser';
       var providers = global.AxiomVoiceAdapters.listProviders ? global.AxiomVoiceAdapters.listProviders() : { tts: [] };
-      if (!useEleven || providers.tts.indexOf('elevenlabs') === -1) {
-        return originalSpeak(text, opts);
-      }
+      var hasEleven = providers.tts.indexOf('elevenlabs') !== -1;
+
+      if (!useEleven || !hasEleven) return originalSpeak(text, opts);
 
       if (opts.interrupt !== false && global.AxiomElevenLabsVoice) {
         try { global.AxiomElevenLabsVoice.cancel(); } catch (_) {}
       }
 
-      document.dispatchEvent(new CustomEvent('axiom:voice-state', { detail: { state: 'speaking', provider: 'elevenlabs' } }));
+      emit('speaking');
       if (opts.onStart) opts.onStart();
-
       global.AxiomVoiceAdapters.setActiveTTS('elevenlabs');
+
       return global.AxiomVoiceAdapters.speak(String(text), {
         lang: opts.lang,
         voiceId: opts.voiceId,
@@ -41,21 +45,37 @@
         volume: settings.volume,
         onStart: function () {},
         onEnd: function () {
-          document.dispatchEvent(new CustomEvent('axiom:voice-state', { detail: { state: 'idle', provider: 'elevenlabs' } }));
+          emit('idle');
           if (opts.onEnd) opts.onEnd();
         },
         onError: function (err) {
-          document.dispatchEvent(new CustomEvent('axiom:voice-state', { detail: { state: 'error', provider: 'elevenlabs', error: err } }));
+          emit('error', { error: err });
         }
       }).catch(function (err) {
-        document.dispatchEvent(new CustomEvent('axiom:voice-state', { detail: { state: 'idle', provider: 'elevenlabs' } }));
-        // If the cloud provider is unavailable, preserve Axiom's existing
-        // browser TTS behavior rather than leaving the user speechless.
-        if (settings.voiceProvider === 'elevenlabs') {
-          if (opts.onError) opts.onError('elevenlabs-error');
-          return Promise.reject(err);
+        emit('error', { error: 'elevenlabs-error' });
+
+        // Never leave Axiom silent because a cloud TTS request failed.
+        // Fall back to the existing browser TTS when it is available.
+        if (global.AxiomVoice && global.AxiomVoice.isSynthesisSupported && global.AxiomVoice.isSynthesisSupported()) {
+          try {
+            return new Promise(function (resolve, reject) {
+              global.AxiomVoice.speak(String(text), {
+                lang: global.AxiomVoice.toSpeechLang(opts.lang || settings.voiceLang || 'en'),
+                rate: settings.rate,
+                pitch: settings.pitch,
+                volume: settings.volume,
+                voiceName: settings.voiceName || undefined,
+                onStart: function () { emit('speaking', { provider: 'browser-fallback' }); },
+                onEnd: function () { emit('idle', { provider: 'browser-fallback' }); if (opts.onEnd) opts.onEnd(); resolve(); },
+                onError: function (browserErr) { emit('idle', { provider: 'browser-fallback' }); if (opts.onError) opts.onError(browserErr); reject(browserErr); }
+              });
+            });
+          } catch (_) {}
         }
-        return originalSpeak(text, opts);
+
+        emit('idle');
+        if (opts.onError) opts.onError('elevenlabs-error');
+        throw err;
       });
     };
 
