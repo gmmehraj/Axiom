@@ -3,12 +3,12 @@
 // ------------------------------------------------------------
 // Loaded on EVERY authenticated page after all components.
 // Handles: Universal Search, Quick Command, Notifications,
-// Clock, Search bar wiring, Dock auto-hide, Theme consistency.
+// Clock, Search bar wiring, Dock auto-hide, Theme consistency,
+// and cloud voice provider bootstrapping.
 // ============================================================
 (function () {
   'use strict';
 
-  // ── Wait for DOM ──────────────────────────────────────────
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
@@ -22,11 +22,9 @@
     initQuickCommand();
     initNotifications();
     initDockAutoHide();
+    initCloudVoice();
   }
 
-  // ── Shared responsive presentation layer ─────────────────
-  // Loaded here so every authenticated workspace receives the
-  // same mobile/tablet safety rules without a second shell system.
   function ensureWorkspaceResponsiveStyles() {
     if (document.querySelector('link[data-axiom-workspace-responsive]')) return;
     const link = document.createElement('link');
@@ -36,7 +34,6 @@
     document.head.appendChild(link);
   }
 
-  // ── Clock ─────────────────────────────────────────────────
   function initClock() {
     const el = document.getElementById('axTimeDisplay');
     if (!el) return;
@@ -47,18 +44,15 @@
     setInterval(update, 10000);
   }
 
-  // ── Universal Search Bar ──────────────────────────────────
   function initSearchBar() {
     const searchBar = document.getElementById('axTopbarSearch');
     const searchInput = document.getElementById('topbarSearchInput');
-
     if (searchBar) {
       searchBar.addEventListener('click', function (e) {
         e.preventDefault();
         if (window.AxiomSearch) window.AxiomSearch.open();
       });
     }
-
     if (searchInput) {
       searchInput.addEventListener('focus', function (e) {
         e.preventDefault();
@@ -68,7 +62,6 @@
     }
   }
 
-  // ── Quick Command ─────────────────────────────────────────
   function initQuickCommand() {
     const btn = document.getElementById('axCmdBtn');
     if (btn) {
@@ -78,7 +71,6 @@
     }
   }
 
-  // ── Notifications ─────────────────────────────────────────
   function initNotifications() {
     const trigger = document.getElementById('axNotifTrigger');
     if (trigger) {
@@ -87,8 +79,6 @@
         if (window.AxiomNotifications) window.AxiomNotifications.toggle();
       });
     }
-
-    // Also handle older ID
     const triggerAlt = document.getElementById('axNotificationsTrigger');
     if (triggerAlt) {
       triggerAlt.addEventListener('click', function (e) {
@@ -98,7 +88,6 @@
     }
   }
 
-  // ── Dock Auto-Hide on Scroll ──────────────────────────────
   function initDockAutoHide() {
     let dockTimer;
     window.addEventListener('scroll', function () {
@@ -110,4 +99,29 @@
     }, { passive: true });
   }
 
+  // Load cloud voice after the existing browser voice/controller stack.
+  // Scripts are loaded in dependency order and are idempotent so pages
+  // that already include one of them do not create duplicate providers.
+  function initCloudVoice() {
+    loadScriptOnce('js/core/elevenlabs-voice.js', function () {
+      loadScriptOnce('js/core/elevenlabs-voice-controller.js');
+    });
+  }
+
+  function loadScriptOnce(src, onload) {
+    if (document.querySelector('script[data-axiom-cloud-voice="' + src + '"]')) {
+      if (onload) onload();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    script.dataset.axiomCloudVoice = src;
+    script.onload = function () { if (onload) onload(); };
+    script.onerror = function () {
+      // Cloud voice is an enhancement; browser speech remains available.
+      try { console.warn('[Axiom] Optional cloud voice failed to load:', src); } catch (_) {}
+    };
+    document.head.appendChild(script);
+  }
 })();
