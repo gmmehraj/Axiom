@@ -8,11 +8,9 @@
 (function () {
   'use strict';
 
-  const SUPABASE_FUNCTION = 'https://oduzhebaobaojbchxjci.supabase.co/functions/v1/elevenlabs-scribe-token';
+  const FALLBACK_SUPABASE_URL = 'https://oduzhebaobaojbchxjci.supabase.co';
   const WS_URL = 'wss://api.elevenlabs.io/v1/speech-to-text/realtime';
   const SAMPLE_RATE = 16000;
-  const PROJECT_REF = 'oduzhebaobaojbchxjci';
-
   let socket = null;
   let stream = null;
   let context = null;
@@ -21,31 +19,45 @@
   let running = false;
   let sessionId = null;
 
-  function findAccessToken() {
+  function getSupabaseUrl() {
+    try {
+      if (window.AxiomSupabaseEnv && typeof window.AxiomSupabaseEnv.validate === 'function') {
+        const env = window.AxiomSupabaseEnv.validate();
+        if (env && env.url) return env.url;
+      }
+    } catch (_) {}
+    try { if (typeof SUPABASE_URL !== 'undefined' && SUPABASE_URL) return SUPABASE_URL; } catch (_) {}
+    return FALLBACK_SUPABASE_URL;
+  }
+
+  async function findAccessToken() {
+    try {
+      if (window.AxiomSupabaseAuth && typeof window.AxiomSupabaseAuth.getSession === 'function') {
+        const session = await window.AxiomSupabaseAuth.getSession();
+        if (session && session.access_token) return session.access_token;
+      }
+    } catch (_) {}
     const direct = window.AxiomSupabaseAccessToken || window.__AXIOM_SUPABASE_ACCESS_TOKEN;
     if (typeof direct === 'string' && direct.trim()) return direct.trim();
     try {
-      const preferred = localStorage.getItem(`sb-${PROJECT_REF}-auth-token`);
-      const candidates = preferred ? [preferred] : [];
       for (const key of Object.keys(localStorage)) {
-        if (key.startsWith('sb-') && key.endsWith('-auth-token') && !candidates.includes(localStorage.getItem(key))) candidates.push(localStorage.getItem(key));
-      }
-      for (const raw of candidates) {
-        if (!raw) continue;
+        if (!key.startsWith('sb-') || !key.endsWith('-auth-token')) continue;
+        const raw = localStorage.getItem(key); if (!raw) continue;
         const parsed = JSON.parse(raw);
-        if (parsed?.access_token) return parsed.access_token;
-        if (parsed?.currentSession?.access_token) return parsed.currentSession.access_token;
+        if (parsed && parsed.access_token) return parsed.access_token;
+        if (parsed && parsed.currentSession && parsed.currentSession.access_token) return parsed.currentSession.access_token;
       }
     } catch (_) {}
     return '';
   }
 
   async function fetchToken() {
-    const token = findAccessToken();
-    if (!token) throw new Error('Axiom session token was not found. Please sign in again.');
-    const response = await fetch(SUPABASE_FUNCTION, {
+    const token = await findAccessToken();
+    if (!token) throw new Error('Please sign in again to use realtime voice input.');
+    const endpoint = getSupabaseUrl().replace(/\/$/, '') + '/functions/v1/elevenlabs-scribe-token';
+    const response = await fetch(endpoint, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json', apikey: (typeof SUPABASE_ANON_KEY !== 'undefined' ? SUPABASE_ANON_KEY : '') },
       body: JSON.stringify({ token_type: 'realtime_scribe' }),
       cache: 'no-store',
     });
@@ -83,21 +95,21 @@
     return btoa(binary);
   }
 
-  async function start(options = {}) {
+  async function start(options) {
+    options = options || {};
     if (running) return;
-    if (!navigator.mediaDevices?.getUserMedia || !window.WebSocket) throw new Error('Realtime voice input is not supported in this browser.');
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.WebSocket) throw new Error('Realtime voice input is not supported in this browser.');
     const token = await fetchToken();
     stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: options.echoCancellation !== false, noiseSuppression: options.noiseSuppression !== false, autoGainControl: true } });
     context = new (window.AudioContext || window.webkitAudioContext)();
     await context.resume();
-    socket = new WebSocket(`${WS_URL}?model_id=scribe_v2_realtime&audio_format=pcm_16000&sample_rate=${SAMPLE_RATE}&token=${encodeURIComponent(token)}`);
+    socket = new WebSocket(WS_URL + '?model_id=scribe_v2_realtime&audio_format=pcm_16000&sample_rate=' + SAMPLE_RATE + '&token=' + encodeURIComponent(token));
     socket.binaryType = 'arraybuffer';
 
-    socket.onopen = () => {
-      socket.send(JSON.stringify({ message_type: 'input_audio_chunk', audio_base_64: '', commit: false }));
+    socket.onopen = function () {
       source = context.createMediaStreamSource(stream);
       processor = context.createScriptProcessor(4096, 1, 1);
-      processor.onaudioprocess = (event) => {
+      processor.onaudioprocess = function (event) {
         if (!running || !socket || socket.readyState !== WebSocket.OPEN) return;
         const pcm = downsample(event.inputBuffer.getChannelData(0), context.sampleRate);
         socket.send(JSON.stringify({ message_type: 'input_audio_chunk', audio_base_64: pcm16Base64(pcm), commit: false }));
@@ -109,7 +121,7 @@
       if (options.onStart) options.onStart();
     };
 
-    socket.onmessage = (event) => {
+    socket.onmessage = function (event) {
       let data; try { data = JSON.parse(event.data); } catch (_) { return; }
       if (data.message_type === 'session_started') sessionId = data.session_id || null;
       if (data.message_type === 'partial_transcript' && options.onInterim) options.onInterim(data.text || '');
@@ -119,8 +131,8 @@
         stop();
       }
     };
-    socket.onerror = () => { if (options.onError) options.onError(new Error('ElevenLabs Scribe connection failed.')); };
-    socket.onclose = () => { const wasRunning = running; cleanup(); if (wasRunning && options.onEnd) options.onEnd(); };
+    socket.onerror = function () { if (options.onError) options.onError(new Error('ElevenLabs Scribe connection failed.')); };
+    socket.onclose = function () { const wasRunning = running; cleanup(); if (wasRunning && options.onEnd) options.onEnd(); };
   }
 
   function stop() {
@@ -135,17 +147,17 @@
     running = false; sessionId = null;
     if (processor) { try { processor.disconnect(); } catch (_) {} processor.onaudioprocess = null; processor = null; }
     if (source) { try { source.disconnect(); } catch (_) {} source = null; }
-    if (stream) stream.getTracks().forEach((track) => track.stop()); stream = null;
+    if (stream) stream.getTracks().forEach(function (track) { track.stop(); }); stream = null;
     if (context) { try { context.close(); } catch (_) {} context = null; }
     socket = null;
   }
 
   window.AxiomElevenLabsScribe = {
-    isSupported: () => !!(navigator.mediaDevices?.getUserMedia && window.WebSocket),
-    isRunning: () => running,
-    getSessionId: () => sessionId,
-    start,
-    stop,
-    fetchToken,
+    isSupported: function () { return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.WebSocket); },
+    isRunning: function () { return running; },
+    getSessionId: function () { return sessionId; },
+    start: start,
+    stop: stop,
+    fetchToken: fetchToken,
   };
 })();
