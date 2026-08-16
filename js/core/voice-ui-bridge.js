@@ -1,34 +1,94 @@
-// AXIOM — Voice UI bridge
-// Connects any [data-axiom-voice] control (or a safe injected fallback)
-// to JarvisVoiceController. Keeps command handling in the existing controller.
+// AXIOM — Hands-free always-on voice bridge
+// No microphone button. While the Axiom page is open and microphone permission
+// is granted, Scribe stays ready for the wake phrase and routes commands to the
+// existing website controller. A browser permission prompt is still required.
 (function(w){'use strict';
-function speak(text){if(text&&w.JarvisVoiceController?.speak) return w.JarvisVoiceController.speak(text).catch(()=>{});}
-function command(text, ui){
-  if(!text||!text.trim()) return;
-  ui.status.textContent='Thinking…';
-  const result=w.AxiomVoiceWebsiteController?.execute(text);
-  if(result?.handled){ui.status.textContent='Speaking…'; speak(result.response).finally(()=>ui.status.textContent='Ready'); return;}
-  document.dispatchEvent(new CustomEvent('axiom:voice-command-request',{detail:{text}}));
-  const onResult=e=>{document.removeEventListener('axiom:voice-command-result',onResult);ui.status.textContent='Speaking…';speak(e.detail?.response||'Done.').finally(()=>ui.status.textContent='Ready');};
-  document.addEventListener('axiom:voice-command-result',onResult,{once:true});
-  setTimeout(()=>{document.removeEventListener('axiom:voice-command-result',onResult);if(ui.status.textContent==='Thinking…'){ui.status.textContent='Ready';speak("I didn't understand that command.");}},5000);
-}
-function bind(root){if(!root||root.dataset.axiomVoiceBound)return;root.dataset.axiomVoiceBound='1';
- const btn=root.matches('button,[role=button]')?root:root.querySelector('[data-axiom-voice-button]')||root;
- const status=root.querySelector?.('[data-axiom-voice-status]')||document.querySelector('[data-axiom-voice-status]')||document.createElement('span');
- if(!status.parentNode){status.dataset.axiomVoiceStatus='';status.textContent='Ready';status.style.cssText='margin-left:8px;font-size:12px;opacity:.7';root.appendChild(status);}
- let listening=false;
- const start=()=>{if(listening)return;listening=true;status.textContent='Listening…';btn.setAttribute('aria-pressed','true');w.JarvisVoiceController?.pushToTalkStart({onInterim:t=>{status.textContent=t||'Listening…';},onFinal:t=>{listening=false;btn.setAttribute('aria-pressed','false');command(t,statusUi());},onError:e=>{listening=false;btn.setAttribute('aria-pressed','false');status.textContent=e?.message||'Voice error';setTimeout(()=>status.textContent='Ready',2500);},onEnd:()=>{listening=false;btn.setAttribute('aria-pressed','false');}});};
- const stop=()=>{if(!listening)return;w.JarvisVoiceController?.stopListening();listening=false;btn.setAttribute('aria-pressed','false');status.textContent='Ready';};
- function statusUi(){return{status, get textContent(){return status.textContent}, set textContent(v){status.textContent=v;}};}
- btn.addEventListener('click',()=>listening?stop():start());
-}
-function inject(){
- if(document.querySelector('[data-axiom-voice]')){document.querySelectorAll('[data-axiom-voice]').forEach(bind);return;}
- const wrap=document.createElement('div');wrap.dataset.axiomVoice='true';wrap.setAttribute('aria-label','Axiom voice control');wrap.style.cssText='position:fixed;right:24px;bottom:24px;z-index:2147483000;display:flex;align-items:center;gap:8px;font-family:inherit';
- const btn=document.createElement('button');btn.type='button';btn.dataset.axiomVoiceButton='';btn.textContent='🎙️';btn.title='Talk to Axiom';btn.setAttribute('aria-label','Talk to Axiom');btn.style.cssText='width:52px;height:52px;border-radius:50%;border:1px solid rgba(160,220,255,.35);background:rgba(10,20,32,.9);color:white;font-size:22px;cursor:pointer;box-shadow:0 8px 28px rgba(0,0,0,.3)';
- const status=document.createElement('span');status.dataset.axiomVoiceStatus='';status.textContent='Ready';status.style.cssText='padding:7px 10px;border-radius:10px;background:rgba(10,20,32,.86);color:white;font-size:12px';wrap.append(btn,status);document.body.appendChild(wrap);bind(wrap);
-}
-function boot(){const run=()=>setTimeout(inject,0);if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();}
-boot();
+  const WAKE_PHRASES=['hey axiom','hi axiom','okay axiom','ok axiom','axiom'];
+  const ACTIVE_MS=9000;
+  let activeUntil=0;
+  let starting=false;
+  let restartTimer=null;
+  let statusNode=null;
+
+  function status(text){
+    if(statusNode) statusNode.textContent=text;
+    document.documentElement.dataset.axiomVoiceState=(text||'ready').toLowerCase().replace(/[^a-z]+/g,'-');
+    try{document.dispatchEvent(new CustomEvent('axiom:voice-state',{detail:{state:text||'Ready',handsFree:true}}));}catch(_){}
+  }
+  function speak(text){
+    if(!text) return Promise.resolve();
+    if(w.JarvisVoiceController?.speak) return Promise.resolve(w.JarvisVoiceController.speak(text)).catch(()=>{});
+    return Promise.resolve();
+  }
+  function normalize(s){return String(s||'').toLowerCase().replace(/[.,!?;:]/g,' ').replace(/\s+/g,' ').trim();}
+  function stripWake(s){
+    const n=normalize(s);
+    for(const phrase of WAKE_PHRASES){
+      if(n===phrase)return '';
+      if(n.startsWith(phrase+' '))return n.slice(phrase.length).trim();
+    }
+    return null;
+  }
+  function command(text){
+    const clean=stripWake(text);
+    if(clean===null && Date.now()>activeUntil)return false;
+    const commandText=clean===null?normalize(text):clean;
+    if(!commandText){activeUntil=Date.now()+ACTIVE_MS; status('Listening'); return true;}
+    activeUntil=0;
+    status('Thinking');
+    const result=w.AxiomVoiceWebsiteController?.execute(commandText);
+    if(result?.handled){
+      status('Speaking');
+      speak(result.response).finally(()=>status('Listening'));
+      return true;
+    }
+    document.dispatchEvent(new CustomEvent('axiom:voice-command-request',{detail:{text:commandText}}));
+    const onResult=e=>{status('Speaking');speak(e.detail?.response||'Done.').finally(()=>status('Listening'));};
+    document.addEventListener('axiom:voice-command-result',onResult,{once:true});
+    setTimeout(()=>{document.removeEventListener('axiom:voice-command-result',onResult);if(document.documentElement.dataset.axiomVoiceState==='thinking'){status('Listening');speak("I didn't understand that command.");}},6000);
+    return true;
+  }
+  function scheduleRestart(){
+    clearTimeout(restartTimer);
+    restartTimer=setTimeout(()=>startAlwaysOn(),800);
+  }
+  async function startAlwaysOn(){
+    if(starting)return;
+    starting=true;
+    try{
+      if(!w.AxiomElevenLabsScribe?.isSupported?.()) throw new Error('Realtime voice is not supported in this browser.');
+      if(w.AxiomElevenLabsScribe.isRunning()){starting=false;return;}
+      status('Listening');
+      await w.AxiomElevenLabsScribe.start({
+        echoCancellation:true,
+        noiseSuppression:true,
+        onStart:()=>status('Listening'),
+        onInterim:()=>{},
+        onFinal:text=>command(text),
+        onError:e=>{status('Voice reconnecting');scheduleRestart();},
+        onEnd:()=>{status('Voice reconnecting');scheduleRestart();}
+      });
+    }catch(e){
+      status('Microphone permission needed');
+      // Retry after a short delay. The browser will only show its permission
+      // prompt when appropriate; a denied permission cannot be bypassed.
+      scheduleRestart();
+    }finally{starting=false;}
+  }
+  function mountStatus(){
+    statusNode=document.createElement('span');
+    statusNode.id='axiom-handsfree-status';
+    statusNode.setAttribute('aria-live','polite');
+    statusNode.setAttribute('aria-label','Axiom hands-free voice status');
+    statusNode.style.cssText='position:fixed;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap';
+    statusNode.textContent='Starting voice';
+    document.body.appendChild(statusNode);
+  }
+  function boot(){
+    if(!w.AxiomElevenLabsScribe){setTimeout(boot,250);return;}
+    mountStatus();
+    startAlwaysOn();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+  w.AxiomHandsFreeVoice={start:startAlwaysOn,stop:()=>w.AxiomElevenLabsScribe?.stop(),isActive:()=>!!w.AxiomElevenLabsScribe?.isRunning(),wakePhrases:WAKE_PHRASES.slice()};
 })(window);
