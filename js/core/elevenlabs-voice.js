@@ -8,7 +8,8 @@
 (function (global) {
   'use strict';
   var EDGE_ACTION = 'elevenlabs-tts';
-  var DEFAULT_VOICE_ID = '21m00Tcm4TlvDq8ikWAM';
+  // Axiom default voice: user-selected ElevenLabs voice.
+  var DEFAULT_VOICE_ID = 'dVTC43Yewy5fAIcmsISI';
   var DEFAULT_MODEL_ID = 'eleven_multilingual_v2';
   var providerReady = false;
   var currentAudio = null;
@@ -80,12 +81,8 @@
       var modelId = opts.modelId || settings.elevenLabsModelId || DEFAULT_MODEL_ID;
 
       cancel();
-
       var payload = {
-        action: 'speak',
-        text: String(text || ''),
-        voice_id: voiceId,
-        model_id: modelId,
+        action: 'speak', text: String(text || ''), voice_id: voiceId, model_id: modelId,
         voice_settings: {
           stability: typeof settings.elevenLabsStability === 'number' ? settings.elevenLabsStability : 0.45,
           similarity_boost: typeof settings.elevenLabsSimilarity === 'number' ? settings.elevenLabsSimilarity : 0.8,
@@ -93,13 +90,7 @@
           use_speaker_boost: true
         }
       };
-
-      // Eleven Multilingual v2 determines language from the text and does
-      // not support language_code. Other supported models may use it.
-      if (modelId !== 'eleven_multilingual_v2' && lang) {
-        payload.language_code = String(lang).replace('_', '-').split('-')[0];
-      }
-
+      if (modelId !== 'eleven_multilingual_v2' && lang) payload.language_code = String(lang).replace('_', '-').split('-')[0];
       var blob = await requestAudio(payload);
       return playBlob(blob, opts);
     },
@@ -108,10 +99,7 @@
 
   function cancel() {
     var audio = currentAudio || global.__AxiomElevenAudio;
-    if (audio) {
-      try { audio.pause(); audio.currentTime = 0; } catch (_) {}
-      currentAudio = null;
-    }
+    if (audio) { try { audio.pause(); audio.currentTime = 0; } catch (_) {} currentAudio = null; }
     global.__AxiomElevenAudio = null;
   }
 
@@ -121,7 +109,7 @@
     global.AxiomVoiceAdapters.registerTTSProvider('elevenlabs', adapter);
     global.AxiomVoiceAdapters.setActiveTTS('elevenlabs');
     providerReady = true;
-    document.dispatchEvent(new CustomEvent('axiom:voice-provider-ready', { detail: { provider: 'elevenlabs' } }));
+    document.dispatchEvent(new CustomEvent('axiom:voice-provider-ready', { detail: { provider: 'elevenlabs', voiceId: DEFAULT_VOICE_ID } }));
     return true;
   }
 
@@ -129,9 +117,7 @@
   var retry = setInterval(function () { if (register()) clearInterval(retry); }, 100);
 
   global.AxiomElevenLabsVoice = {
-    register: register,
-    speak: adapter.speak,
-    cancel: adapter.cancel,
+    register: register, speak: adapter.speak, cancel: adapter.cancel,
     getConfig: function () {
       var s = global.JarvisVoiceController && global.JarvisVoiceController.getSettings ? global.JarvisVoiceController.getSettings() : {};
       return { provider: 'elevenlabs', voiceId: s.elevenLabsVoiceId || DEFAULT_VOICE_ID, modelId: s.elevenLabsModelId || DEFAULT_MODEL_ID };
