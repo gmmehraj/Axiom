@@ -148,9 +148,115 @@
     listeners[evt] = listeners[evt].filter(f => f !== fn);
   }
 
+  // ---- Multimodal Intent & Context Understanding (Phase 1 & Phase 23) ----
+  async function understand(input, options = {}) {
+    options = options || {};
+    const text = typeof input === 'string' ? input : (input && input.text) || '';
+    const image = (input && input.image) || (typeof input === 'object' && input instanceof File && input.type.startsWith('image/') ? input : null);
+    const video = (input && input.video) || (typeof input === 'object' && input instanceof File && input.type.startsWith('video/') ? input : null);
+    const screenshot = (input && input.screenshot) || null;
+    const toolResults = (input && input.toolResults) || options.toolResults || null;
+
+    // 1. Gather context
+    const user = global.AxiomVoiceGreeting && typeof global.AxiomVoiceGreeting.getUser === 'function' 
+      ? await global.AxiomVoiceGreeting.getUser().catch(() => null) 
+      : null;
+    const currentPage = location.pathname.split('/').pop() || 'index.html';
+
+    // 2. Resolve cross-turn references if text is present
+    let resolvedText = text;
+    if (global.AxiomNLU && typeof global.AxiomNLU.resolveReferences === 'function') {
+      const convState = global.AxiomConversationManager && typeof global.AxiomConversationManager.state === 'function'
+        ? global.AxiomConversationManager.state(options.conversationId) || {}
+        : {};
+      const refRes = global.AxiomNLU.resolveReferences(text, convState);
+      if (refRes && refRes.resolvedText) resolvedText = refRes.resolvedText;
+    }
+
+    // 3. Recall relevant memories
+    let memories = [];
+    if (global.AxiomMemoryIntelligence && typeof global.AxiomMemoryIntelligence.rankedRecall === 'function') {
+      try {
+        memories = await global.AxiomMemoryIntelligence.rankedRecall(resolvedText || 'user preference context', 5);
+      } catch (_) {}
+    }
+
+    // 4. Intent Classification
+    const normalized = (resolvedText || '').toLowerCase().trim();
+    let intent = 'general_assistance';
+    let goal = resolvedText || 'Assist user';
+    let requestedActions = [];
+    let requiredTools = [];
+    let confidence = 0.9;
+
+    if (image || screenshot || /look at (this|my screen)|analyze (this|the) (image|screenshot|screen)|what('s| is) (wrong|this)|diagnose/i.test(normalized)) {
+      intent = (image || screenshot) ? 'analyze_visual' : (/screen/i.test(normalized) ? 'analyze_screen' : 'analyze_visual');
+      goal = 'Analyze visual input and diagnose any layout, UI, code, or functional issues';
+      requestedActions = ['capture_or_load_visual', 'run_vision_model', 'generate_structured_report'];
+      requiredTools = ['vision_analyze_image', 'vision_analyze_screen'];
+      confidence = 0.95;
+    } else if (video || /analyze (this|the) video|watch (this|the) video|video issue/i.test(normalized)) {
+      intent = 'analyze_video';
+      goal = 'Process video frames, perform temporal analysis, and detect anomalies';
+      requestedActions = ['extract_keyframes', 'run_temporal_vision', 'build_timestamp_report'];
+      requiredTools = ['vision_analyze_video'];
+      confidence = 0.95;
+    } else if (/^(build|create|make|design)\s+(me\s+)?(a\s+|an\s+)?(website|landing page|saas|portfolio|dashboard|app|page)/i.test(normalized) || /build this website/i.test(normalized)) {
+      intent = 'build_website';
+      goal = resolvedText;
+      requestedActions = ['inspect_project', 'plan_components', 'generate_code', 'run_build', 'browser_test', 'screenshot', 'vision_qa', 'verify'];
+      requiredTools = ['file_read', 'file_edit', 'file_create', 'terminal_build', 'browser_navigate', 'browser_screenshot', 'vision_analyze_image'];
+      confidence = 0.96;
+    } else if (/fix (it|them|the issue|the problem|the bug|this)|repair|solve this/i.test(normalized)) {
+      intent = 'self_heal_fix';
+      goal = 'Locate error cause in project files, apply code fix, re-test and verify';
+      requestedActions = ['diagnose_root_cause', 'search_repo', 'modify_files', 'rebuild', 'retest_browser', 'verify_fix'];
+      requiredTools = ['project_search', 'file_read', 'file_edit', 'terminal_build', 'browser_navigate'];
+      confidence = 0.94;
+    } else if (/^(deploy|ship|publish|push to prod)/i.test(normalized)) {
+      intent = 'deploy_production';
+      goal = 'Run pre-flight checks, commit, trigger Vercel deployment, and verify production smoke test';
+      requestedActions = ['run_tests', 'run_build', 'check_git_diff', 'trigger_vercel', 'verify_production_url'];
+      requiredTools = ['terminal_test', 'terminal_build', 'github_commit', 'vercel_deploy', 'vercel_verify'];
+      confidence = 0.95;
+    } else if (/^remember\s+(that\s+)?/i.test(normalized) || /^what\s+(color|setting|preference|did I choose)/i.test(normalized)) {
+      intent = /^remember/i.test(normalized) ? 'store_memory' : 'recall_memory';
+      goal = resolvedText;
+      requestedActions = [intent === 'store_memory' ? 'persist_memory_item' : 'query_memory_graph'];
+      requiredTools = [intent === 'store_memory' ? 'memory_store' : 'memory_recall'];
+      confidence = 0.98;
+    } else if (/^(open|go to|show|take me to)\s+/i.test(normalized) || /^(hide|show)\s+sidebar/i.test(normalized)) {
+      intent = 'navigation_control';
+      goal = resolvedText;
+      requestedActions = ['execute_ui_navigation'];
+      requiredTools = ['ui_navigation'];
+      confidence = 0.99;
+    }
+
+    return {
+      intent,
+      goal,
+      context: {
+        page: currentPage,
+        user: user ? { id: user.id, email: user.email, name: global.AxiomVoiceGreeting?.firstName(user) } : null,
+        activeModel: state.activeModel,
+        memories: memories || [],
+        multimodal: {
+          hasImage: !!image,
+          hasVideo: !!video,
+          hasScreenshot: !!screenshot,
+          hasToolResults: !!toolResults
+        }
+      },
+      requestedActions,
+      requiredTools,
+      confidence
+    };
+  }
+
   global.AxiomBrain = {
     getState, setState, on, off,
-    dayCount, timeOfDay
+    dayCount, timeOfDay, understand
   };
 
   // Fire once on load so early widgets can render immediately.

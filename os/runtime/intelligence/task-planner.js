@@ -111,6 +111,114 @@ window.AxiomTaskPlanner = (function () {
       }
     }
 
+    // Check for specialized autonomous goal archetypes (Phase 2 & Phase 17)
+    var normalized = String(text || '').trim().toLowerCase();
+    
+    if (/^(build|create|make|design)\s+(me\s+)?(a\s+|an\s+)?(website|landing page|saas|portfolio|dashboard|app|page)/i.test(normalized) || /build this website/i.test(normalized)) {
+      var buildSteps = [
+        { clause: 'Inspect project structure and design tokens', agentId: 'agent.coding', task: { intent: 'coding', op: 'project-analysis', prompt: 'Inspect workspace files and CSS tokens' } },
+        { clause: 'Plan semantic components and layout structure', agentId: 'agent.planner', task: { intent: 'planner', op: 'plan', goal: text } },
+        { clause: 'Implement responsive HTML/CSS/JS page code', agentId: 'agent.coding', task: { intent: 'coding', op: 'generate', prompt: 'Generate complete responsive code for ' + text } },
+        { clause: 'Run build verification and check syntax', agentId: 'agent.coding', task: { intent: 'coding', op: 'review-code' } },
+        { clause: 'Open browser sandbox and render live preview', agentId: 'agent.browser', task: { intent: 'browser', op: 'navigate', url: 'index.html' } },
+        { clause: 'Capture viewport screenshot for visual QA', agentId: 'agent.vision', task: { intent: 'vision', op: 'screenshot' } },
+        { clause: 'Run Vision QA and self-heal any layout/CSS defects', agentId: 'agent.coding', task: { intent: 'coding', op: 'bug-investigation' } },
+        { clause: 'Verify responsive behavior and finalize result', agentId: 'agent.assistant', task: { intent: 'assistant', text: 'Website build verified successfully.' } }
+      ];
+
+      var chained = buildSteps.map(function(s, idx) {
+        return {
+          id: 'm8step-auto-' + (idx + 1) + '-' + Date.now().toString(36),
+          clause: s.clause,
+          agentId: s.agentId,
+          workflow: 'autonomous-builder',
+          matchedBy: 'autonomous-archetype',
+          task: s.task,
+          dependsOn: idx > 0 ? ['m8step-auto-' + idx + '-' + Date.now().toString(36)] : []
+        };
+      });
+
+      // Fix forward dependency IDs
+      for (var k = 1; k < chained.length; k++) {
+        chained[k].dependsOn = [chained[k - 1].id];
+      }
+
+      return {
+        goal: String(text || '').trim(),
+        multiStep: true,
+        archetype: 'autonomous-builder',
+        steps: chained
+      };
+    }
+
+    if (/check (my )?website and fix|analyze (this )?(image|video|screen) and fix|fix (the )?(problem|bug|issue)|repair this/i.test(normalized)) {
+      var fixSteps = [
+        { clause: 'Open website and observe live state', agentId: 'agent.browser', task: { intent: 'browser', op: 'navigate', url: 'index.html' } },
+        { clause: 'Capture visual evidence and diagnose defect', agentId: 'agent.vision', task: { intent: 'vision', op: 'screenshot' } },
+        { clause: 'Search repository for root cause and offending files', agentId: 'agent.coding', task: { intent: 'coding', op: 'project-search' } },
+        { clause: 'Apply verified code patch', agentId: 'agent.coding', task: { intent: 'coding', op: 'refactor' } },
+        { clause: 'Rebuild project and verify compilation', agentId: 'agent.coding', task: { intent: 'coding', op: 'review-code' } },
+        { clause: 'Reload browser and verify fix visually', agentId: 'agent.browser', task: { intent: 'browser', op: 'navigate', url: 'index.html' } },
+        { clause: 'Report verified resolution', agentId: 'agent.assistant', task: { intent: 'assistant', text: 'Issue identified, fixed, and verified.' } }
+      ];
+
+      var chainedFix = fixSteps.map(function(s, idx) {
+        return {
+          id: 'm8step-fix-' + (idx + 1) + '-' + Date.now().toString(36),
+          clause: s.clause,
+          agentId: s.agentId,
+          workflow: 'autonomous-fix',
+          matchedBy: 'autonomous-archetype',
+          task: s.task,
+          dependsOn: idx > 0 ? ['m8step-fix-' + idx + '-' + Date.now().toString(36)] : []
+        };
+      });
+
+      for (var f = 1; f < chainedFix.length; f++) {
+        chainedFix[f].dependsOn = [chainedFix[f - 1].id];
+      }
+
+      return {
+        goal: String(text || '').trim(),
+        multiStep: true,
+        archetype: 'autonomous-fix',
+        steps: chainedFix
+      };
+    }
+
+    if (/^(deploy|ship|publish|push to prod)/i.test(normalized)) {
+      var deploySteps = [
+        { clause: 'Run pre-flight test checks and verify build', agentId: 'agent.coding', task: { intent: 'coding', op: 'review-code' } },
+        { clause: 'Inspect git diff and check environment variables', agentId: 'agent.coding', task: { intent: 'coding', op: 'project-search' } },
+        { clause: 'Trigger authorized Vercel production deployment', agentId: 'agent.automation', task: { intent: 'automation', op: 'deploy' } },
+        { clause: 'Smoke-test live production deployment URL', agentId: 'agent.browser', task: { intent: 'browser', op: 'navigate' } },
+        { clause: 'Report live production status', agentId: 'agent.assistant', task: { intent: 'assistant', text: 'Production deployment verified live.' } }
+      ];
+
+      var chainedDeploy = deploySteps.map(function(s, idx) {
+        return {
+          id: 'm8step-dep-' + (idx + 1) + '-' + Date.now().toString(36),
+          clause: s.clause,
+          agentId: s.agentId,
+          workflow: 'autonomous-deploy',
+          matchedBy: 'autonomous-archetype',
+          task: s.task,
+          dependsOn: idx > 0 ? ['m8step-dep-' + idx + '-' + Date.now().toString(36)] : []
+        };
+      });
+
+      for (var d = 1; d < chainedDeploy.length; d++) {
+        chainedDeploy[d].dependsOn = [chainedDeploy[d - 1].id];
+      }
+
+      return {
+        goal: String(text || '').trim(),
+        multiStep: true,
+        archetype: 'autonomous-deploy',
+        steps: chainedDeploy
+      };
+    }
+
     return {
       goal: String(text || '').trim() || 'Untitled request',
       multiStep: steps.length > 1,

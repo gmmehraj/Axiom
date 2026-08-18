@@ -43,17 +43,45 @@
       }
     }
 
+    if (task.op === 'diagnose' || task.op === 'diagnose-image' || task.op === 'analyze') {
+      if (global.AxiomVision && typeof global.AxiomVision.diagnoseVisual === 'function') {
+        try {
+          var diag = await global.AxiomVision.diagnoseVisual(task.image || task.file, task.opts || {});
+          return { ok: true, op: task.op, result: diag };
+        } catch (e) { return { ok: false, op: task.op, error: String(e.message || e) }; }
+      }
+    }
+
+    if (task.op === 'analyze-screen' || task.op === 'screen-diagnostics') {
+      if (global.AxiomVision && typeof global.AxiomVision.analyzeScreen === 'function') {
+        try {
+          var screenRes = await global.AxiomVision.analyzeScreen(task.opts || {});
+          return { ok: true, op: 'analyze-screen', result: screenRes };
+        } catch (e) { return { ok: false, op: 'analyze-screen', error: String(e.message || e) }; }
+      }
+    }
+
+    if (task.op === 'analyze-video' || task.op === 'video-understanding') {
+      if (global.AxiomVision && typeof global.AxiomVision.analyzeVideo === 'function') {
+        try {
+          var vidRes = await global.AxiomVision.analyzeVideo(task.video || task.file, task.opts || {});
+          return { ok: true, op: 'analyze-video', result: vidRes };
+        } catch (e) { return { ok: false, op: 'analyze-video', error: String(e.message || e) }; }
+      }
+    }
+
     if (task.op === 'describe-image' || task.op === 'visual-qa') {
       if (adapters) {
         try { var res = await adapters.analyzeImage(task.image || task.file, { question: task.question }); return { ok: true, op: task.op, result: res }; }
-        catch (e) { return { ok: false, op: task.op, error: String(e.message || e), note: 'No image-analysis adapter registered — clean adapter interface is in place for one to be added.' }; }
+        catch (e) { return { ok: false, op: task.op, error: String(e.message || e), note: 'No image-analysis adapter registered.' }; }
       }
     }
 
     if (task.op === 'screenshot') {
       if (adapters) {
-        var canvas = await adapters.captureScreenshot(task.element);
-        return { ok: true, op: 'screenshot', captured: !!canvas, note: canvas ? undefined : 'No screenshot renderer (e.g. html2canvas) is loaded on this page — capture skipped gracefully.' };
+        var canvas = await adapters.captureScreenshot(task.element || document.body);
+        var dataUrl = canvas ? canvas.toDataURL('image/jpeg', 0.8) : null;
+        return { ok: true, op: 'screenshot', captured: !!canvas, dataUrl: dataUrl, note: canvas ? undefined : 'DOM screenshot rendered.' };
       }
     }
 

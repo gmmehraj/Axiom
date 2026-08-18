@@ -189,6 +189,130 @@ window.AxiomAICore = (function() {
       pulse: true,
       waveform: 'learning',
     },
+    wake: {
+      label: 'Listening',
+      particles: 150,
+      ringSpeed: 1.8,
+      ringColor: 'rgba(56,189,248,.6)',
+      plasmaColor: 'rgba(56,189,248,.18)',
+      glowColor: 'rgba(56,189,248,.12)',
+      energy: 0.85,
+      lighting: 'vibrant',
+      pulse: true,
+      waveform: 'rapid',
+    },
+    vision: {
+      label: 'Vision',
+      particles: 110,
+      ringSpeed: 1.3,
+      ringColor: 'rgba(45,212,191,.5)',
+      plasmaColor: 'rgba(45,212,191,.15)',
+      glowColor: 'rgba(45,212,191,.1)',
+      energy: 0.7,
+      lighting: 'cool',
+      pulse: true,
+      waveform: 'search',
+    },
+    analyzing_image: {
+      label: 'Analyzing Image',
+      particles: 130,
+      ringSpeed: 1.5,
+      ringColor: 'rgba(20,184,166,.55)',
+      plasmaColor: 'rgba(20,184,166,.16)',
+      glowColor: 'rgba(20,184,166,.1)',
+      energy: 0.75,
+      lighting: 'vibrant',
+      pulse: true,
+      waveform: 'creating',
+    },
+    analyzing_video: {
+      label: 'Analyzing Video',
+      particles: 140,
+      ringSpeed: 1.6,
+      ringColor: 'rgba(6,182,212,.6)',
+      plasmaColor: 'rgba(6,182,212,.18)',
+      glowColor: 'rgba(6,182,212,.12)',
+      energy: 0.8,
+      lighting: 'vibrant',
+      pulse: true,
+      waveform: 'active',
+    },
+    executing: {
+      label: 'Executing',
+      particles: 120,
+      ringSpeed: 1.5,
+      ringColor: 'rgba(168,85,247,.5)',
+      plasmaColor: 'rgba(168,85,247,.16)',
+      glowColor: 'rgba(168,85,247,.1)',
+      energy: 0.75,
+      lighting: 'focus',
+      pulse: true,
+      waveform: 'code',
+    },
+    browser: {
+      label: 'Browser',
+      particles: 100,
+      ringSpeed: 1.2,
+      ringColor: 'rgba(59,130,246,.5)',
+      plasmaColor: 'rgba(59,130,246,.14)',
+      glowColor: 'rgba(59,130,246,.08)',
+      energy: 0.65,
+      lighting: 'cool',
+      pulse: true,
+      waveform: 'steady',
+    },
+    building: {
+      label: 'Building',
+      particles: 130,
+      ringSpeed: 1.6,
+      ringColor: 'rgba(245,158,11,.5)',
+      plasmaColor: 'rgba(245,158,11,.15)',
+      glowColor: 'rgba(245,158,11,.1)',
+      energy: 0.8,
+      lighting: 'vibrant',
+      pulse: true,
+      waveform: 'code',
+    },
+    testing: {
+      label: 'Testing & QA',
+      particles: 110,
+      ringSpeed: 1.4,
+      ringColor: 'rgba(16,185,129,.5)',
+      plasmaColor: 'rgba(16,185,129,.15)',
+      glowColor: 'rgba(16,185,129,.1)',
+      energy: 0.7,
+      lighting: 'focus',
+      pulse: true,
+      waveform: 'search',
+    },
+    deploying: {
+      label: 'Deploying',
+      particles: 150,
+      ringSpeed: 1.8,
+      ringColor: 'rgba(139,92,246,.6)',
+      plasmaColor: 'rgba(139,92,246,.2)',
+      glowColor: 'rgba(139,92,246,.12)',
+      energy: 0.9,
+      lighting: 'vibrant',
+      pulse: true,
+      waveform: 'creating',
+    },
+  };
+
+  // State alias normalization map
+  const STATE_ALIASES = {
+    'analyzing-image': 'analyzing_image',
+    'image-analysis': 'analyzing_image',
+    'analyzing-video': 'analyzing_video',
+    'video-analysis': 'analyzing_video',
+    'browsing': 'browser',
+    'build': 'building',
+    'test': 'testing',
+    'deploy': 'deploying',
+    'execute': 'executing',
+    'listen': 'listening',
+    'think': 'thinking',
+    'speak': 'speaking',
   };
 
   let currentState = 'idle';
@@ -231,14 +355,17 @@ window.AxiomAICore = (function() {
   function getStateInfo(state) { return STATES[state] || STATES.idle; }
 
   function setState(newState) {
-    if (!STATES[newState]) return;
+    if (!newState) return;
+    const raw = String(newState).trim().toLowerCase();
+    const resolved = STATE_ALIASES[raw] || raw;
+    if (!STATES[resolved]) return;
     const prev = currentState;
-    currentState = newState;
+    currentState = resolved;
     
-    listeners.forEach(fn => fn(newState, prev, STATES[newState]));
+    listeners.forEach(fn => fn(resolved, prev, STATES[resolved]));
     
     document.dispatchEvent(new CustomEvent('ax-core-state', {
-      detail: { state: newState, prev, config: STATES[newState] }
+      detail: { state: resolved, prev, config: STATES[resolved] }
     }));
     
     // Update DOM

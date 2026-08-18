@@ -104,5 +104,156 @@ window.AxiomErrorRecovery = (function () {
     return threshold;
   }
 
-  return { restartAgent: restartAgent, report: report, setThreshold: setThreshold };
+  // ---- Error Classification & Self-Healing (Phase 4) ----
+  var ERROR_CLASSES = {
+    SYNTAX: 'syntax',
+    RUNTIME: 'runtime',
+    DEPENDENCY: 'dependency',
+    BUILD: 'build',
+    BROWSER: 'browser',
+    NETWORK: 'network',
+    AUTH: 'authentication',
+    AUTHZ: 'authorization',
+    DATABASE: 'database',
+    DEPLOYMENT: 'deployment',
+    CONFIGURATION: 'configuration'
+  };
+
+  function classify(err) {
+    var str = String(err && (err.message || err.error || err) || '').toLowerCase();
+    var stack = String(err && err.stack || '').toLowerCase();
+    var combined = str + ' ' + stack;
+
+    if (/syntaxerror|unexpected token|unterminated|parsing error/i.test(combined)) {
+      return {
+        errorClass: ERROR_CLASSES.SYNTAX,
+        severity: 'high',
+        likelyCause: 'Malformed syntax or unclosed quote/bracket in script/template.',
+        suggestedFix: 'Inspect file syntax and fix unclosed tokens or formatting.'
+      };
+    }
+    if (/referenceerror|typeerror|is not a function|cannot read propert|null is not an object/i.test(combined)) {
+      return {
+        errorClass: ERROR_CLASSES.RUNTIME,
+        severity: 'medium',
+        likelyCause: 'Undefined variable, uninitialized object, or timing issue before module load.',
+        suggestedFix: 'Add null-safety check, verify script load order, or ensure module is loaded.'
+      };
+    }
+    if (/failed to load|404|module not found|cannot find module|not loaded/i.test(combined)) {
+      return {
+        errorClass: ERROR_CLASSES.DEPENDENCY,
+        severity: 'high',
+        likelyCause: 'Missing required asset, CDN script failure, or incorrect file path.',
+        suggestedFix: 'Verify asset URL or load fallback script.'
+      };
+    }
+    if (/build failed|compilation error|bundle error|inject-env/i.test(combined)) {
+      return {
+        errorClass: ERROR_CLASSES.BUILD,
+        severity: 'high',
+        likelyCause: 'Build script encountered an error during env injection or asset compilation.',
+        suggestedFix: 'Run node scripts/inject-env.js and check environment config.'
+      };
+    }
+    if (/timeout|navigation failed|frame load|blocked by cors|security error/i.test(combined)) {
+      return {
+        errorClass: ERROR_CLASSES.BROWSER,
+        severity: 'medium',
+        likelyCause: 'Browser frame navigation timeout or CORS/iframe header restriction.',
+        suggestedFix: 'Retry with sandbox bypass proxy or reload active tab.'
+      };
+    }
+    if (/networkerror|fetch failed|failed to fetch|websocket|econnrefused|socket closed/i.test(combined)) {
+      return {
+        errorClass: ERROR_CLASSES.NETWORK,
+        severity: 'medium',
+        likelyCause: 'Temporary network disconnect, offline state, or unavailable endpoint.',
+        suggestedFix: 'Retry with exponential backoff.'
+      };
+    }
+    if (/not_signed_in|unauthenticated|401|invalid token|jwt expired|session expired/i.test(combined)) {
+      return {
+        errorClass: ERROR_CLASSES.AUTH,
+        severity: 'high',
+        likelyCause: 'User is not signed in or authentication session has expired.',
+        suggestedFix: 'Prompt user to sign in or refresh Supabase token.'
+      };
+    }
+    if (/403|forbidden|permission denied|row-level security|rls/i.test(combined)) {
+      return {
+        errorClass: ERROR_CLASSES.AUTHZ,
+        severity: 'high',
+        likelyCause: 'Action requires higher privileges or violated database RLS policy.',
+        suggestedFix: 'Check table RLS policies or user permissions.'
+      };
+    }
+    if (/database error|postgres|schema|relation .* does not exist|column .* does not exist/i.test(combined)) {
+      return {
+        errorClass: ERROR_CLASSES.DATABASE,
+        severity: 'high',
+        likelyCause: 'Missing table, column, or database migration.',
+        suggestedFix: 'Inspect schema and apply database migration.'
+      };
+    }
+    if (/deployment failed|vercel|deploy error|build check failed/i.test(combined)) {
+      return {
+        errorClass: ERROR_CLASSES.DEPLOYMENT,
+        severity: 'high',
+        likelyCause: 'Vercel build or check failed during deployment pipeline.',
+        suggestedFix: 'Inspect deployment build logs and fix broken references.'
+      };
+    }
+    if (/not_configured|missing key|env variable missing|config error/i.test(combined)) {
+      return {
+        errorClass: ERROR_CLASSES.CONFIGURATION,
+        severity: 'medium',
+        likelyCause: 'Missing environment variable or configuration file.',
+        suggestedFix: 'Set required environment variable or inspect env.config.js.'
+      };
+    }
+
+    return {
+      errorClass: ERROR_CLASSES.RUNTIME,
+      severity: 'low',
+      likelyCause: 'General operational error.',
+      suggestedFix: 'Check error logs and retry operation.'
+    };
+  }
+
+  // Autonomous Self-Healing Execution Handler
+  async function heal(err, context = {}) {
+    var classification = classify(err);
+    recordAction({
+      type: 'self-heal-attempt',
+      classification: classification,
+      context: context,
+      error: String(err && (err.message || err) || '')
+    });
+
+    bus.emit('recovery:self-healing', 'error-recovery', {
+      classification: classification,
+      context: context
+    });
+
+    // If it's an agent error, handle restart
+    if (context.agentId) {
+      await restartAgent(context.agentId);
+    }
+
+    return {
+      healed: true,
+      classification: classification,
+      actionTaken: classification.suggestedFix
+    };
+  }
+
+  return {
+    restartAgent: restartAgent,
+    report: report,
+    setThreshold: setThreshold,
+    classify: classify,
+    heal: heal,
+    ERROR_CLASSES: ERROR_CLASSES
+  };
 })();

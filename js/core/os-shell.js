@@ -42,6 +42,7 @@
     setupKnowledgeGraphMini();
     setupWidgetSimulation();
     setupKeyboardShortcuts();
+    setupAutonomousListeners();
 
     // Initialize motion
     if (window.AxiomMotion) {
@@ -844,6 +845,72 @@
     window.AxiomThemeEngine.applyTheme(next.id);
     const select = document.getElementById('ccThemeSelect');
     if (select) select.value = next.id;
+  }
+
+  // ---- AUTONOMOUS & VISION COMMAND DISPATCHERS (Phase 3 & Phase 32) ----
+  function setupAutonomousListeners() {
+    document.addEventListener('axiom:autonomous-command', async (e) => {
+      const { intent, prompt } = e.detail || {};
+      if (window.AxiomNotificationCenter) {
+        window.AxiomNotificationCenter.add({
+          title: 'Autonomous Execution',
+          message: `Executing: ${prompt || intent}`,
+          type: 'info'
+        });
+      }
+
+      if (window.AxiomTaskPlanner && window.AxiomOrchestrator) {
+        try {
+          const plan = window.AxiomTaskPlanner.createExecutionPlan(prompt || intent);
+          if (plan && plan.steps.length > 0) {
+            window.AxiomAIState?.setState('executing');
+            const run = window.AxiomOrchestrator.run(plan);
+            if (run && run.promise) {
+              await run.promise;
+              window.AxiomAIState?.setState('idle');
+              if (window.AxiomNotificationCenter) {
+                window.AxiomNotificationCenter.add({
+                  title: 'Task Verified',
+                  message: `Completed and verified: ${prompt || intent}`,
+                  type: 'success'
+                });
+              }
+            }
+          }
+        } catch (err) {
+          window.AxiomAIState?.setState('error');
+          if (window.AxiomNotificationCenter) {
+            window.AxiomNotificationCenter.add({
+              title: 'Execution Notice',
+              message: String(err.message || err),
+              type: 'warning'
+            });
+          }
+        }
+      }
+    });
+
+    document.addEventListener('axiom:vision-command', async (e) => {
+      const { action } = e.detail || {};
+      if (action === 'screenshot' || action === 'screen') {
+        if (window.AxiomVision?.analyzeScreen) {
+          try {
+            window.AxiomAIState?.setState('vision');
+            const res = await window.AxiomVision.analyzeScreen();
+            window.AxiomAIState?.setState('speaking');
+            const summary = res.text ? res.text.slice(0, 200) + '...' : 'Screen analysis complete.';
+            if (window.AxiomElevenLabsVoice?.speak) {
+              await window.AxiomElevenLabsVoice.speak("I've analyzed your screen. " + summary);
+            }
+          } catch (err) {
+            window.AxiomAIState?.setState('error');
+            if (window.JarvisVoiceController?.speak) {
+              window.JarvisVoiceController.speak(err.message || "I couldn't analyze the screen.");
+            }
+          }
+        }
+      }
+    });
   }
 
   // ---- EXPOSE ----

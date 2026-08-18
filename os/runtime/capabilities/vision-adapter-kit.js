@@ -52,10 +52,13 @@ window.AxiomVisionAdapters = (function () {
 
   function analyzeImage(image, opts) {
     var adapter = activeAnalysis && analysisProviders[activeAnalysis];
-    if (!adapter || typeof adapter.analyze !== 'function') {
-      return Promise.reject(new Error('No image-analysis adapter is registered/active.'));
+    if (adapter && typeof adapter.analyze === 'function') {
+      return Promise.resolve(adapter.analyze(image, opts || {}));
     }
-    return Promise.resolve(adapter.analyze(image, opts || {}));
+    if (window.AxiomVision && typeof window.AxiomVision.analyze === 'function') {
+      return Promise.resolve(window.AxiomVision.analyze(image, opts || {}));
+    }
+    return Promise.reject(new Error('No image-analysis adapter is registered/active.'));
   }
 
   function ocr(image, opts) {

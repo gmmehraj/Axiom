@@ -38,8 +38,13 @@
     try { if (sessionStorage.getItem(GREETING_KEY) === sessionMarker) return false; } catch (_) {}
     const name = firstName(user);
     const hour = new Date().getHours();
-    const period = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-    const text = `${period}, ${name}. Welcome back. I'm Axiom. How can I help you?`;
+    let period = 'Good evening';
+    if (hour >= 5 && hour < 12) period = 'Good morning';
+    else if (hour >= 12 && hour < 17) period = 'Good afternoon';
+    else if (hour >= 17 && hour < 22) period = 'Good evening';
+    else period = 'Good night';
+
+    const text = `${period}, ${name}. Welcome back. How can I help?`;
     spoken = true;
     try { sessionStorage.setItem(GREETING_KEY, sessionMarker); } catch (_) {}
     document.dispatchEvent(new CustomEvent('axiom:user-greeting', { detail: { user, name, text } }));
@@ -64,6 +69,21 @@
     return false;
   }
 
+  function reset() {
+    spoken = false;
+    try { sessionStorage.removeItem(GREETING_KEY); } catch (_) {}
+  }
+
+  // Listen for auth changes
+  document.addEventListener('axiom:auth-changed', e => {
+    if (!e.detail?.user) {
+      reset();
+      w.JarvisVoiceController?.stopSpeaking();
+    } else {
+      speakGreeting(e.detail.user);
+    }
+  });
+
   async function init() {
     for (let i = 0; i < 30; i++) {
       const user = await getUser();
@@ -73,5 +93,5 @@
     return false;
   }
 
-  w.AxiomVoiceGreeting = { init, speakGreeting, getUser, firstName };
+  w.AxiomVoiceGreeting = { init, speakGreeting, getUser, firstName, reset };
 })(window);

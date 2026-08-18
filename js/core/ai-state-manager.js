@@ -88,8 +88,9 @@ window.AxiomAIState = (function () {
   // browsing, coding, voice, vision) that no single existing system
   // previously modeled on its own.
   var STATES = [
-    'idle', 'listening', 'thinking', 'responding', 'researching',
-    'browsing', 'coding', 'voice', 'vision', 'automation', 'memory',
+    'idle', 'listening', 'wake', 'thinking', 'responding', 'speaking', 'researching',
+    'browsing', 'browser', 'coding', 'voice', 'vision', 'analyzing_image', 'analyzing_video',
+    'executing', 'building', 'testing', 'deploying', 'automation', 'memory',
     'learning', 'heavy', 'warning', 'error', 'offline', 'sleeping'
   ];
 
@@ -184,9 +185,9 @@ window.AxiomAIState = (function () {
   // os-shell.js's previous inline stateMap) so there is exactly one
   // place that decides what a workspace "means" for AI state.
   var CONTEXT_TO_CANONICAL = {
-    dashboard: 'idle', chat: 'thinking', memory: 'memory', browser: 'browsing',
-    coding: 'coding', brain: 'thinking', voice: 'voice', image: 'vision',
-    video: 'vision', audio: 'voice', agents: 'thinking', analytics: 'idle',
+    dashboard: 'idle', chat: 'thinking', memory: 'memory', browser: 'browser',
+    coding: 'coding', brain: 'thinking', voice: 'voice', image: 'analyzing_image',
+    video: 'analyzing_video', audio: 'voice', agents: 'thinking', analytics: 'idle',
     automation: 'automation', knowledge: 'learning', settings: 'idle', billing: 'idle'
   };
   function setContext(workspaceId) {
@@ -197,20 +198,27 @@ window.AxiomAIState = (function () {
 
   // ---- Escape hatch for direct control (e.g. a demo/manual toggle) ------
   function setState(next, opts) {
-    if (STATES.indexOf(next) === -1) return;
-    activityState = next;
+    if (!next) return;
+    var normalized = String(next).toLowerCase().replace(/-/g, '_');
+    if (STATES.indexOf(normalized) === -1) {
+      if (normalized === 'speech' || normalized === 'speak') normalized = 'speaking';
+      else if (normalized === 'listen') normalized = 'listening';
+      else if (normalized === 'think') normalized = 'thinking';
+      else if (normalized === 'browsing') normalized = 'browser';
+      else return;
+    }
+    activityState = normalized;
     apply((opts && opts.source) || 'manual');
     broadcast({ type: 'activity', state: activityState });
   }
 
   // ---- Output A: drive AxiomAICore (OS shell's Living AI Core orb) ------
-  // Visuals/animations of AxiomAICore itself are NOT touched — only who
-  // calls its existing, unchanged setState() API changes (previously
-  // os-shell.js called this directly).
   var CANONICAL_TO_AICORE = {
-    idle: 'idle', listening: 'listening', thinking: 'thinking', responding: 'speaking',
-    researching: 'researching', browsing: 'researching', coding: 'coding', voice: 'listening',
-    vision: 'generating', automation: 'automation', memory: 'memory', learning: 'learning',
+    idle: 'idle', listening: 'listening', wake: 'wake', thinking: 'thinking', responding: 'speaking',
+    speaking: 'speaking', researching: 'researching', browsing: 'browser', browser: 'browser',
+    coding: 'coding', voice: 'listening', vision: 'vision', analyzing_image: 'analyzing_image',
+    analyzing_video: 'analyzing_video', executing: 'executing', building: 'building', testing: 'testing',
+    deploying: 'deploying', automation: 'automation', memory: 'memory', learning: 'learning',
     heavy: 'thinking', warning: 'warning', error: 'error', offline: 'offline', sleeping: 'sleep'
   };
   function driveAICore(canonicalState) {
@@ -222,25 +230,15 @@ window.AxiomAIState = (function () {
   }
 
   // ---- Output B: drive AxiomBrain (persisted cross-tab activity/mood) ---
-  // AxiomBrain's own fields (mood, day, memoryCount, agentCount) are NOT
-  // touched — only its narrower 'activity' vocabulary is kept in sync,
-  // replacing the direct write ai-avatar.js used to perform on raw
-  // 'axiom:voice-state' events.
   var CANONICAL_TO_BRAIN_ACTIVITY = {
     idle: 'idle', offline: 'idle', sleeping: 'idle',
-    listening: 'listening', voice: 'listening',
-    responding: 'speaking',
+    listening: 'listening', voice: 'listening', wake: 'listening',
+    responding: 'speaking', speaking: 'speaking',
     learning: 'learning',
-    thinking: 'thinking', researching: 'thinking', browsing: 'thinking',
-    coding: 'thinking', automation: 'thinking', memory: 'thinking',
-    vision: 'thinking', heavy: 'thinking',
-    // 'error' now maps to Brain's own 'error' activity (Block 2 · Step 2 ·
-    // Part 2 — previously forced to 'idle' because Brain had no error
-    // concept; see AI_PIPELINE_REPORT.md / BRAIN_INTEGRATION_REPORT.md).
-    // 'warning' is a lesser, still-recoverable signal with no dedicated
-    // Brain activity of its own, so it intentionally falls back to 'idle'
-    // rather than being conflated with a real error.
-    warning: 'idle', error: 'error'
+    thinking: 'thinking', researching: 'thinking', browsing: 'thinking', browser: 'thinking',
+    coding: 'thinking', executing: 'thinking', building: 'thinking', testing: 'thinking', deploying: 'thinking',
+    automation: 'thinking', memory: 'thinking', vision: 'thinking', analyzing_image: 'thinking', analyzing_video: 'thinking',
+    heavy: 'thinking', warning: 'idle', error: 'error'
   };
   function driveBrain(canonicalState) {
     try {
