@@ -335,6 +335,7 @@ window.AxiomAIState = (function () {
   return {
     STATES: STATES.slice(),
     getState: function () { return current; },
+    isValid: function (st) { return STATES.indexOf(st) !== -1; },
     onChange: function (fn) {
       if (typeof fn !== 'function') return function () {};
       listeners.add(fn);

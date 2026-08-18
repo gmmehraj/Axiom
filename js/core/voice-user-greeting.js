@@ -7,7 +7,7 @@
   function firstName(user) {
     const meta = user && user.user_metadata || {};
     const raw = meta.full_name || meta.name || meta.display_name || meta.preferred_username || user?.email?.split('@')[0] || '';
-    return String(raw).trim().split(/\s+/)[0] || 'there';
+    return String(raw).trim().split(/[\s._]+/)[0] || 'there';
   }
 
   async function getUser() {

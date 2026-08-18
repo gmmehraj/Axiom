@@ -114,7 +114,7 @@ window.AxiomTaskPlanner = (function () {
     // Check for specialized autonomous goal archetypes (Phase 2 & Phase 17)
     var normalized = String(text || '').trim().toLowerCase();
     
-    if (/^(build|create|make|design)\s+(me\s+)?(a\s+|an\s+)?(website|landing page|saas|portfolio|dashboard|app|page)/i.test(normalized) || /build this website/i.test(normalized)) {
+    if (/^(build|create|make|design)\s+.*?(website|landing page|saas|portfolio|dashboard|app|page)/i.test(normalized) || /build this website/i.test(normalized)) {
       var buildSteps = [
         { clause: 'Inspect project structure and design tokens', agentId: 'agent.coding', task: { intent: 'coding', op: 'project-analysis', prompt: 'Inspect workspace files and CSS tokens' } },
         { clause: 'Plan semantic components and layout structure', agentId: 'agent.planner', task: { intent: 'planner', op: 'plan', goal: text } },
@@ -151,7 +151,7 @@ window.AxiomTaskPlanner = (function () {
       };
     }
 
-    if (/check (my )?website and fix|analyze (this )?(image|video|screen) and fix|fix (the )?(problem|bug|issue)|repair this/i.test(normalized)) {
+    if (/check.*?(website|app|page|code).*?(fix|repair|heal)|analyze.*?(image|video|screen).*?fix|fix.*?(problem|bug|issue|defect|error)|repair this/i.test(normalized)) {
       var fixSteps = [
         { clause: 'Open website and observe live state', agentId: 'agent.browser', task: { intent: 'browser', op: 'navigate', url: 'index.html' } },
         { clause: 'Capture visual evidence and diagnose defect', agentId: 'agent.vision', task: { intent: 'vision', op: 'screenshot' } },
@@ -245,7 +245,7 @@ window.AxiomTaskPlanner = (function () {
         if (plan.steps[i]) s.plannerStepId = plan.steps[i].id;
       });
     }
-    return { planId: planId, goal: decomposition.goal, multiStep: decomposition.multiStep, steps: decomposition.steps };
+    return { planId: planId, goal: decomposition.goal, multiStep: decomposition.multiStep, archetype: decomposition.archetype, steps: decomposition.steps };
   }
 
   function explain(text) {
