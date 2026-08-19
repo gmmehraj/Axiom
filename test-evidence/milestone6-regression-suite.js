@@ -303,7 +303,8 @@ async function main() {
   check('File Agent pass() hands off (agent collaboration intact)', r.ok && r.result.handedOffTo === 'agent.vision', JSON.stringify(r));
 
   const jsonExt = window.FileProcessing.extractText ? true : true; // extractJson lives in file-processing.js itself
-  const fpSrc = fs.readFileSync(path.join(AI, 'file-processing.js'), 'utf8');
+  const fpPath = fs.existsSync(path.join(AI, 'js', 'pages', 'file-processing.js')) ? path.join(AI, 'js', 'pages', 'file-processing.js') : path.join(AI, 'file-processing.js');
+  const fpSrc = fs.readFileSync(fpPath, 'utf8');
   check('File Agent format support includes JSON (Step 4)', /extractJson/.test(fpSrc) && /ext === .json./.test(fpSrc), 'checked file-processing.js source');
 
   // ===================== Research Agent (Step 5) =====================

@@ -22,7 +22,7 @@
   // workspace Dock implementation after the deferred shell scripts have run,
   // so the shell's generated Dock is replaced by the shared Dock rather than
   // maintaining a second visual implementation.
-  if (document && document.documentElement) {
+  if (typeof document !== 'undefined' && document && document.documentElement) {
     const loadGlobalDock = function () {
       if (!document.getElementById('axDock')) return;
       if (document.querySelector('script[data-axiom-global-dock]')) return;
@@ -37,4 +37,4 @@
       loadGlobalDock();
     }
   }
-})(window);
+})(typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this));

@@ -54,7 +54,7 @@ function main() {
   // Strip the template's own explanatory header comment block from the
   // generated output so the real config file stays short — the template
   // remains the source of truth for documentation.
-  contents = contents.replace(/^\/\/ =+[\s\S]*?\/\/ =+\n/, '');
+  contents = contents.replace(/^\/\/ =+[\s\S]*?\/\/ =+\r?\n/, '');
 
   contents = contents
     .replace('__SUPABASE_URL__', String(process.env.SUPABASE_URL).trim())

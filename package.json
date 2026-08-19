@@ -2,7 +2,7 @@
   "name": "axiom-ai-studio",
   "version": "1.0.0",
   "private": true,
-  "description": "Axiom AI Studio \u2014 credit-based AI playground with JARVIS assistant, Supabase auth/RLS, and Razorpay billing.",
+  "description": "Axiom AI Studio — credit-based AI playground with JARVIS assistant, Supabase auth/RLS, and Razorpay billing.",
   "scripts": {
     "serve": "npx serve ai",
     "build": "node scripts/inject-env.js"
@@ -10,5 +10,8 @@
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0"
+  },
+  "devDependencies": {
+    "jsdom": "^30.0.1"
   }
 }
