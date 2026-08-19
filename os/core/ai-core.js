@@ -1143,20 +1143,36 @@ window.AxiomAICore = (function() {
     animFrame = requestAnimationFrame(animate);
   }
 
+  // ---- Performance Optimization: Pause rAF when tab is hidden ----
+  if (typeof document !== 'undefined') {
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (animFrame) {
+          cancelAnimationFrame(animFrame);
+          animFrame = null;
+        }
+      } else {
+        if (!animFrame && canvas && ctx && currentState !== 'sleep' && currentState !== 'offline') {
+          animate();
+        }
+      }
+    });
+
+    // ---- Auto-Init ----
+    document.addEventListener('DOMContentLoaded', () => {
+      const el = document.getElementById('axiomCoreCanvas');
+      if (el) initCore('axiomCoreCanvas');
+    });
+
+    if (document.getElementById('axiomCoreCanvas')) {
+      initCore('axiomCoreCanvas');
+    }
+  }
+
   // ---- Event System ----
   function onChange(fn) {
     listeners.push(fn);
     return () => { listeners = listeners.filter(l => l !== fn); };
-  }
-
-  // ---- Auto-Init ----
-  document.addEventListener('DOMContentLoaded', () => {
-    const canvas = document.getElementById('axiomCoreCanvas');
-    if (canvas) initCore('axiomCoreCanvas');
-  });
-
-  if (document.getElementById('axiomCoreCanvas')) {
-    initCore('axiomCoreCanvas');
   }
 
   return {

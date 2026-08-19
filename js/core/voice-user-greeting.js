@@ -12,15 +12,15 @@
 
   async function getUser() {
     try {
-      if (w.AxiomSupabaseAuth) {
-        if (typeof w.AxiomSupabaseAuth.getUser === 'function') {
-          const u = await w.AxiomSupabaseAuth.getUser();
-          if (u) return u.user || u;
-        }
-        if (typeof w.AxiomSupabaseAuth.getSession === 'function') {
-          const s = await w.AxiomSupabaseAuth.getSession();
-          if (s) return s.user || s.session?.user || null;
-        }
+      if (w.AxiomSupabaseAuth && typeof w.AxiomSupabaseAuth.getUser === 'function') {
+        const u = await w.AxiomSupabaseAuth.getUser();
+        if (u) return u.user || u;
+      }
+    } catch (_) {}
+    try {
+      if (typeof supabaseClient !== 'undefined' && supabaseClient && supabaseClient.auth) {
+        const { data } = await supabaseClient.auth.getUser();
+        if (data && data.user) return data.user;
       }
     } catch (_) {}
     try {
@@ -85,9 +85,9 @@
   });
 
   async function init() {
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 5; i++) {
       const user = await getUser();
-      if (user) { await new Promise(r => setTimeout(r, 700)); return speakGreeting(user); }
+      if (user) { await new Promise(r => setTimeout(r, 600)); return speakGreeting(user); }
       await new Promise(r => setTimeout(r, 500));
     }
     return false;

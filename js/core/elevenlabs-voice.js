@@ -114,7 +114,11 @@
   }
 
   register();
-  var retry = setInterval(function () { if (register()) clearInterval(retry); }, 100);
+  var retryAttempts = 0;
+  var retry = setInterval(function () {
+    retryAttempts++;
+    if (register() || retryAttempts >= 50) clearInterval(retry);
+  }, 100);
 
   global.AxiomElevenLabsVoice = {
     register: register, speak: adapter.speak, cancel: adapter.cancel,

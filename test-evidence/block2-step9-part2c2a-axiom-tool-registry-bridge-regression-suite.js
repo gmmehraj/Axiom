@@ -34,9 +34,8 @@ function readSrc(rel) {
 
 function codeOnly(src) {
   return src
-    .split('\n')
-    .map((line) => line.replace(/\/\*.*?\*\//g, '').replace(/\/\/.*$/, ''))
-    .join('\n');
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\/\/[^\n]*/g, '');
 }
 
 class FakeCustomEvent {

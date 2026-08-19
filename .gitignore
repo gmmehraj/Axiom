@@ -18,9 +18,10 @@ npm-debug.log*
 dist/
 build/
 
-# Editor
+# Editor & Deployment metadata
 .vscode/
 .idea/
+.vercel/
 
 # Generated public Supabase runtime config
 js/core/env.config.js

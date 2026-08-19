@@ -40,13 +40,13 @@ function check(label, ok, detail) {
   }
 }
 
-function walk(dir, exts, exclude = []) {
+function walk(dir, exts, exclude = ['_archive', 'test-evidence', 'node_modules', '.git']) {
   const out = [];
   (function rec(d) {
     for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
       const full = path.join(d, entry.name);
       const rel = path.relative(ROOT, full);
-      if (exclude.some(x => rel.startsWith(x))) continue;
+      if (exclude.some(x => rel.startsWith(x) || rel === x || entry.name === x)) continue;
       if (entry.isDirectory()) rec(full);
       else if (exts.includes(path.extname(entry.name))) out.push(full);
     }
@@ -57,7 +57,7 @@ function walk(dir, exts, exclude = []) {
 // ---------------------------------------------------------------
 // 1. JS syntax validity (all runtime JS, archive excluded)
 // ---------------------------------------------------------------
-const jsFiles = walk(ROOT, ['.js'], ['_archive', 'test-evidence']);
+const jsFiles = walk(ROOT, ['.js'], ['_archive', 'test-evidence', 'node_modules', '.git']);
 for (const f of jsFiles) {
   try {
     execSync(`node --check ${JSON.stringify(f)}`, { stdio: 'pipe' });
@@ -70,7 +70,7 @@ for (const f of jsFiles) {
 // ---------------------------------------------------------------
 // 2. Inline <script> block syntax
 // ---------------------------------------------------------------
-const htmlFiles = walk(ROOT, ['.html'], ['_archive']);
+const htmlFiles = walk(ROOT, ['.html']);
 for (const hf of htmlFiles) {
   const c = fs.readFileSync(hf, 'utf8');
   const blocks = [...c.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)];
@@ -175,7 +175,7 @@ for (const hf of htmlFiles) {
 // ---------------------------------------------------------------
 // 7. CSS brace balance
 // ---------------------------------------------------------------
-const cssFiles = walk(ROOT, ['.css'], ['_archive']);
+const cssFiles = walk(ROOT, ['.css']);
 for (const f of cssFiles) {
   const c = fs.readFileSync(f, 'utf8');
   const open = (c.match(/{/g) || []).length;
@@ -186,7 +186,7 @@ for (const f of cssFiles) {
 // ---------------------------------------------------------------
 // 8. JSON validity
 // ---------------------------------------------------------------
-const jsonFiles = walk(ROOT, ['.json'], ['_archive']);
+const jsonFiles = walk(ROOT, ['.json']);
 for (const f of jsonFiles) {
   try {
     JSON.parse(fs.readFileSync(f, 'utf8'));

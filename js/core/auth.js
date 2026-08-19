@@ -137,7 +137,11 @@ document.querySelectorAll('[data-oauth]').forEach(btn => {
 document.querySelectorAll('[data-logout]').forEach(el => {
   el.addEventListener('click', async (e) => {
     e.preventDefault();
-    await supabaseClient.auth.signOut();
+    if (supabaseClient && supabaseClient.auth) {
+      try {
+        await supabaseClient.auth.signOut();
+      } catch (_) {}
+    }
     window.location.href = 'index.html';
   });
 });
@@ -154,6 +158,10 @@ async function guardAndPopulate() {
     const user = { email: AXIOM_DEV_PROFILE.email };
     const profile = AXIOM_DEV_PROFILE;
     renderAppShell(user, profile);
+    return;
+  }
+
+  if (!supabaseClient || !supabaseClient.auth) {
     return;
   }
 
@@ -245,11 +253,13 @@ if (document.body.hasAttribute('data-require-auth')) {
 // ============================================
 async function reflectAuthStateOnMarketingNav() {
   const ctaBox = document.querySelector('.nav-cta');
-  if (!ctaBox) return;
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  if (session) {
-    ctaBox.innerHTML = `<a href="os-shell.html" class="btn btn-solid">Go to OS Shell</a>`;
-  }
+  if (!ctaBox || !supabaseClient || !supabaseClient.auth) return;
+  try {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (session) {
+      ctaBox.innerHTML = `<a href="os-shell.html" class="btn btn-solid">Go to OS Shell</a>`;
+    }
+  } catch (_) {}
 }
 if (document.querySelector('.nav-cta') && !document.body.hasAttribute('data-require-auth')) {
   reflectAuthStateOnMarketingNav();

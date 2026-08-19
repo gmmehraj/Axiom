@@ -4,7 +4,8 @@
 (function () {
   'use strict';
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
-  function init(){ensureWorkspaceResponsiveStyles();initClock();initSearchBar();initQuickCommand();initNotifications();initDockAutoHide();initCloudVoice();}
+  function init(){ensureWorkspaceResponsiveStyles();initClock();initSearchBar();initQuickCommand();initNotifications();initDockAutoHide();initCloudVoice();initServiceWorker();}
+  function initServiceWorker(){if('serviceWorker' in navigator && window.location.protocol.startsWith('http')){navigator.serviceWorker.register('sw.js').catch(function(_){});}}
   function ensureWorkspaceResponsiveStyles(){if(document.querySelector('link[data-axiom-workspace-responsive]'))return;const link=document.createElement('link');link.rel='stylesheet';link.href='styles/workspace-responsive.css';link.dataset.axiomWorkspaceResponsive='true';document.head.appendChild(link);}
   function initClock(){const el=document.getElementById('axTimeDisplay');if(!el)return;const update=()=>{el.textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});};update();setInterval(update,10000);}
   function initSearchBar(){const searchBar=document.getElementById('axTopbarSearch'),searchInput=document.getElementById('topbarSearchInput');if(searchBar)searchBar.addEventListener('click',e=>{e.preventDefault();if(window.AxiomSearch)window.AxiomSearch.open();});if(searchInput)searchInput.addEventListener('focus',e=>{e.preventDefault();if(window.AxiomSearch)window.AxiomSearch.open();this.blur();});}

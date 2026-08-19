@@ -71,6 +71,10 @@
     installed = true;
     return true;
   }
-  var timer = setInterval(function () { if (install()) clearInterval(timer); }, 100);
+  var installAttempts = 0;
+  var timer = setInterval(function () {
+    installAttempts++;
+    if (install() || installAttempts >= 50) clearInterval(timer);
+  }, 100);
   install();
 })(window);

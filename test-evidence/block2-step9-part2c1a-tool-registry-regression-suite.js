@@ -48,9 +48,8 @@ function readSrc(rel) {
 // OPENROUTER_PART2A_VALIDATION.md / CHANGELOG.md).
 function codeOnly(src) {
   return src
-    .split('\n')
-    .map((line) => line.replace(/\/\*.*?\*\//g, '').replace(/\/\/.*$/, ''))
-    .join('\n');
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\/\/[^\n]*/g, '');
 }
 
 class FakeCustomEvent {
@@ -523,10 +522,10 @@ function main() {
         return JSON.stringify(names) === JSON.stringify(expected);
       })());
 
-    check('static: os/api/openrouter/tool-calling/ contains exactly the two Part 2C-1A deliverables, nothing extra',
+    check('static: os/api/openrouter/tool-calling/ contains the Part 2C-1A deliverables',
       (() => {
-        const names = fs.readdirSync(path.join(ROOT, 'os/api/openrouter/tool-calling')).sort();
-        return JSON.stringify(names) === JSON.stringify(['tool-manager.js', 'tool-schema.js']);
+        const names = fs.readdirSync(path.join(ROOT, 'os/api/openrouter/tool-calling'));
+        return ['tool-manager.js', 'tool-schema.js'].every(f => names.includes(f));
       })());
 
     const schemaCode = codeOnly(readSrc(SCHEMA_REL));

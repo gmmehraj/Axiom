@@ -4,7 +4,7 @@
   "private": true,
   "description": "Axiom AI Studio — credit-based AI playground with JARVIS assistant, Supabase auth/RLS, and Razorpay billing.",
   "scripts": {
-    "serve": "npx serve ai",
+    "serve": "npx serve .",
     "build": "node scripts/inject-env.js"
   },
   "dependencies": {
