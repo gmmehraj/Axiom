@@ -27,10 +27,24 @@
     return String(text || '').toLowerCase().replace(/[!?.,;:'"]/g, ' ').replace(/\s+/g, ' ').trim();
   }
 
+  const PREFIXES = [
+    'open the ', 'open my ', 'open ',
+    'go to the ', 'go to my ', 'go to ',
+    'show me the ', 'show me ', 'show the ', 'show ',
+    'take me to the ', 'take me to ',
+    'launch the ', 'launch ',
+    'navigate to the ', 'navigate to ',
+    'switch to the ', 'switch to ',
+    'view the ', 'view '
+  ];
+
   function findRoute(t) {
     for (const [route, aliases] of Object.entries(routes)) {
-      if (aliases.some(a => t === a || t === 'open ' + a || t === 'go to ' + a || t === 'show ' + a || t === 'show me ' + a || t === 'take me to ' + a || t === 'launch ' + a)) {
-        return route;
+      for (const a of aliases) {
+        if (t === a) return route;
+        for (const p of PREFIXES) {
+          if (t === p + a) return route;
+        }
       }
     }
     return null;
@@ -42,9 +56,12 @@
     try {
       if (w.AxiomRouter?.navigate) { w.AxiomRouter.navigate(route); return true; }
       if (w.router?.navigate) { w.router.navigate(route); return true; }
-      if (w.AxiomWorkspaceManager?.openApp) {
+      const wm = w.AxiomWorkspaceManager;
+      if (wm && (typeof wm.open === 'function' || typeof wm.openApp === 'function')) {
         const appMap = { dashboard: 'dashboard', brain: 'brain', memory: 'memory', browser: 'browser', automation: 'automation', playground: 'chat', settings: 'settings', billing: 'billing', analytics: 'analytics', workspace: 'files', 'agent-library': 'agents' };
-        if (appMap[route]) { w.AxiomWorkspaceManager.openApp(appMap[route]); return true; }
+        const appId = appMap[route] || route;
+        if (typeof wm.open === 'function') { wm.open(appId); return true; }
+        if (typeof wm.openApp === 'function') { wm.openApp(appId); return true; }
       }
       if (location.pathname.endsWith('/' + route + '.html') || location.pathname === target) return true;
       location.href = target;

@@ -185,6 +185,7 @@ window.AxiomWorkspaceManager = (function() {
     getWorkspace,
     setContainer,
     open,
+    openApp: open,
     onChange,
   };
 })();

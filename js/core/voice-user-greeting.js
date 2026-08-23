@@ -33,10 +33,11 @@
   }
 
   async function speakGreeting(user) {
-    if (spoken || !user) return false;
-    const sessionMarker = user.id + ':' + new Date().toISOString().slice(0, 10);
+    if (spoken) return false;
+    const userId = (user && user.id) || 'guest-commander';
+    const sessionMarker = userId + ':' + new Date().toISOString().slice(0, 10);
     try { if (sessionStorage.getItem(GREETING_KEY) === sessionMarker) return false; } catch (_) {}
-    const name = firstName(user);
+    const name = user ? firstName(user) : 'Commander';
     const hour = new Date().getHours();
     let period = 'Good evening';
     if (hour >= 5 && hour < 12) period = 'Good morning';
@@ -44,17 +45,17 @@
     else if (hour >= 17 && hour < 22) period = 'Good evening';
     else period = 'Good night';
 
-    const text = `${period}, ${name}. Welcome back. How can I help?`;
+    const text = `${period}, ${name}. Axiom is online and listening. How can I help?`;
     spoken = true;
     try { sessionStorage.setItem(GREETING_KEY, sessionMarker); } catch (_) {}
     document.dispatchEvent(new CustomEvent('axiom:user-greeting', { detail: { user, name, text } }));
     try {
-      if (w.AxiomElevenLabsVoice && typeof w.AxiomElevenLabsVoice.speak === 'function') {
-        await w.AxiomElevenLabsVoice.speak(text);
-        return true;
-      }
       if (w.JarvisVoiceController && typeof w.JarvisVoiceController.speak === 'function') {
         await w.JarvisVoiceController.speak(text);
+        return true;
+      }
+      if (w.AxiomElevenLabsVoice && typeof w.AxiomElevenLabsVoice.speak === 'function') {
+        await w.AxiomElevenLabsVoice.speak(text);
         return true;
       }
       if (w.speechSynthesis) {
