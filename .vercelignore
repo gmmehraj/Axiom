@@ -1,19 +1,19 @@
 # Ignore documentation and audit reports
 *.md
-docs/
+/docs/
 
 # Ignore test suites and evidence
-test-evidence/
+/test-evidence/
 
 # Ignore archives
-_archive/
+/_archive/
 
-# Ignore database migration files (managed in Supabase)
-db/
-supabase/
+# Ignore database migration files (managed in Supabase root)
+/db/
+/supabase/
 
 # Ignore editor and local dev files
-.git/
-.github/
-.vscode/
-.idea/
+/.git/
+/.github/
+/.vscode/
+/.idea/

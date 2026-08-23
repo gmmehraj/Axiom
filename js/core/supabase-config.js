@@ -27,16 +27,29 @@
 // dependencies — see js/core/env.config.template.js and
 // scripts/inject-env.js for how real values reach the browser.
 // ============================================================
-const supabaseClient = AxiomSupabaseConnection.init();
+const supabaseClient = typeof AxiomSupabaseConnection !== 'undefined' && typeof AxiomSupabaseConnection.init === 'function'
+  ? AxiomSupabaseConnection.init()
+  : (typeof window !== 'undefined' && window.supabaseClient ? window.supabaseClient : null);
 
 // Backward-compat bare identifiers for the handful of files listed
 // above. Both are `null` when the environment failed validation —
 // see AxiomSupabaseEnv.validate().errors (also logged to console)
 // for exactly what's missing.
-const _axiomEnv = AxiomSupabaseEnv.validate();
-const SUPABASE_URL = _axiomEnv.url;
-const SUPABASE_ANON_KEY = _axiomEnv.anonKey;
+const _axiomEnv = typeof AxiomSupabaseEnv !== 'undefined' && typeof AxiomSupabaseEnv.validate === 'function'
+  ? AxiomSupabaseEnv.validate()
+  : (typeof window !== 'undefined' && window.__AXIOM_ENV__ ? { url: window.__AXIOM_ENV__.SUPABASE_URL || null, anonKey: window.__AXIOM_ENV__.SUPABASE_ANON_KEY || null, valid: !!window.__AXIOM_ENV__.SUPABASE_URL } : { url: null, anonKey: null, valid: false });
+
+const SUPABASE_URL = _axiomEnv.url || (typeof window !== 'undefined' && window.SUPABASE_URL ? window.SUPABASE_URL : '');
+const SUPABASE_ANON_KEY = _axiomEnv.anonKey || (typeof window !== 'undefined' && window.SUPABASE_ANON_KEY ? window.SUPABASE_ANON_KEY : '');
+
+if (typeof window !== 'undefined') {
+  window.supabaseClient = supabaseClient;
+  window.SUPABASE_URL = SUPABASE_URL;
+  window.SUPABASE_ANON_KEY = SUPABASE_ANON_KEY;
+}
 
 // Auth foundation starts as soon as the connection is (or becomes)
 // available; safe no-op if the environment is unconfigured.
-AxiomSupabaseAuth.init();
+if (typeof AxiomSupabaseAuth !== 'undefined' && typeof AxiomSupabaseAuth.init === 'function') {
+  AxiomSupabaseAuth.init();
+}

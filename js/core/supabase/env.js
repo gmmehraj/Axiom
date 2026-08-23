@@ -42,10 +42,12 @@
 
   function read() {
     var env = (global.__AXIOM_ENV__ && typeof global.__AXIOM_ENV__ === 'object') ? global.__AXIOM_ENV__ : {};
+    var url = typeof env.SUPABASE_URL === 'string' ? env.SUPABASE_URL.trim() : (typeof global.SUPABASE_URL === 'string' ? global.SUPABASE_URL.trim() : '');
+    var anonKey = typeof env.SUPABASE_ANON_KEY === 'string' ? env.SUPABASE_ANON_KEY.trim() : (typeof global.SUPABASE_ANON_KEY === 'string' ? global.SUPABASE_ANON_KEY.trim() : '');
     return {
-      url: typeof env.SUPABASE_URL === 'string' ? env.SUPABASE_URL.trim() : '',
-      anonKey: typeof env.SUPABASE_ANON_KEY === 'string' ? env.SUPABASE_ANON_KEY.trim() : '',
-      source: global.__AXIOM_ENV__ ? 'window.__AXIOM_ENV__' : 'unset'
+      url: url,
+      anonKey: anonKey,
+      source: global.__AXIOM_ENV__ ? 'window.__AXIOM_ENV__' : (url ? 'global' : 'unset')
     };
   }
 

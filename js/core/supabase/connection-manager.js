@@ -272,9 +272,11 @@
   // ---------- client creation ----------
 
   function createClient() {
-    var env = AxiomSupabaseEnv.validate();
+    var env = typeof AxiomSupabaseEnv !== 'undefined' && typeof AxiomSupabaseEnv.validate === 'function'
+      ? AxiomSupabaseEnv.validate()
+      : (typeof global.__AXIOM_ENV__ === 'object' && global.__AXIOM_ENV__ ? { valid: true, url: global.__AXIOM_ENV__.SUPABASE_URL, anonKey: global.__AXIOM_ENV__.SUPABASE_ANON_KEY } : { valid: false, errors: ['AxiomSupabaseEnv missing'] });
     if (!env.valid) {
-      setState('unconfigured', { errors: env.errors });
+      setState('unconfigured', { errors: env.errors || ['Invalid environment'] });
       return null;
     }
     if (typeof global.supabase === 'undefined' || typeof global.supabase.createClient !== 'function') {
@@ -284,6 +286,7 @@
     }
     try {
       client = global.supabase.createClient(env.url, env.anonKey);
+      global.supabaseClient = client;
       return client;
     } catch (e) {
       classifyError(e);
