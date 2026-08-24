@@ -11,6 +11,7 @@
   const FALLBACK_SUPABASE_URL = 'https://oduzhebaobaojbchxjci.supabase.co';
   const WS_URL = 'wss://api.elevenlabs.io/v1/speech-to-text/realtime';
   const SAMPLE_RATE = 16000;
+  const CONNECT_TIMEOUT_MS = 8000;
   let socket = null;
   let stream = null;
   let context = null;
@@ -99,48 +100,107 @@
     options = options || {};
     if (running) return;
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.WebSocket) throw new Error('Realtime voice input is not supported in this browser.');
+
     const token = await fetchToken();
     stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: options.echoCancellation !== false, noiseSuppression: options.noiseSuppression !== false, autoGainControl: true } });
     context = new (window.AudioContext || window.webkitAudioContext)();
     await context.resume();
-    socket = new WebSocket(WS_URL + '?model_id=scribe_v2_realtime&audio_format=pcm_16000&sample_rate=' + SAMPLE_RATE + '&token=' + encodeURIComponent(token));
-    socket.binaryType = 'arraybuffer';
 
-    socket.onopen = function () {
-      source = context.createMediaStreamSource(stream);
-      processor = context.createScriptProcessor(4096, 1, 1);
-      processor.onaudioprocess = function (event) {
-        if (!running || !socket || socket.readyState !== WebSocket.OPEN) return;
-        const pcm = downsample(event.inputBuffer.getChannelData(0), context.sampleRate);
-        socket.send(JSON.stringify({ message_type: 'input_audio_chunk', audio_base_64: pcm16Base64(pcm), commit: false }));
+    return await new Promise((resolve, reject) => {
+      let settled = false;
+      let connectTimer = null;
+
+      const failStart = (error) => {
+        if (settled) return;
+        settled = true;
+        if (connectTimer) clearTimeout(connectTimer);
+        cleanup();
+        reject(error instanceof Error ? error : new Error(String(error || 'ElevenLabs Scribe connection failed.')));
       };
-      source.connect(processor);
-      const mute = context.createGain(); mute.gain.value = 0;
-      processor.connect(mute); mute.connect(context.destination);
-      running = true;
-      if (options.onStart) options.onStart();
-    };
 
-    socket.onmessage = function (event) {
-      let data; try { data = JSON.parse(event.data); } catch (_) { return; }
-      if (data.message_type === 'session_started') sessionId = data.session_id || null;
-      if (data.message_type === 'partial_transcript' && options.onInterim) options.onInterim(data.text || '');
-      if (data.message_type === 'committed_transcript' && options.onFinal) options.onFinal(data.text || '');
-      if (data.message_type === 'error' || data.message_type === 'rate_limited') {
-        if (options.onError) options.onError(new Error(data.error || 'ElevenLabs Scribe error.'));
-        stop();
+      const succeedStart = () => {
+        if (settled) return;
+        settled = true;
+        if (connectTimer) clearTimeout(connectTimer);
+        running = true;
+        if (options.onStart) options.onStart();
+        resolve();
+      };
+
+      try {
+        socket = new WebSocket(WS_URL + '?model_id=scribe_v2_realtime&audio_format=pcm_16000&sample_rate=' + SAMPLE_RATE + '&token=' + encodeURIComponent(token));
+        socket.binaryType = 'arraybuffer';
+      } catch (error) {
+        failStart(error);
+        return;
       }
-    };
-    socket.onerror = function () { if (options.onError) options.onError(new Error('ElevenLabs Scribe connection failed.')); };
-    socket.onclose = function () { const wasRunning = running; cleanup(); if (wasRunning && options.onEnd) options.onEnd(); };
+
+      connectTimer = setTimeout(() => {
+        try { socket?.close(); } catch (_) {}
+        failStart(new Error('ElevenLabs Scribe connection timed out.'));
+      }, CONNECT_TIMEOUT_MS);
+
+      socket.onopen = function () {
+        try {
+          source = context.createMediaStreamSource(stream);
+          processor = context.createScriptProcessor(4096, 1, 1);
+          processor.onaudioprocess = function (event) {
+            if (!running || !socket || socket.readyState !== WebSocket.OPEN) return;
+            const pcm = downsample(event.inputBuffer.getChannelData(0), context.sampleRate);
+            socket.send(JSON.stringify({ message_type: 'input_audio_chunk', audio_base_64: pcm16Base64(pcm), commit: false }));
+          };
+          source.connect(processor);
+          const mute = context.createGain();
+          mute.gain.value = 0;
+          processor.connect(mute);
+          mute.connect(context.destination);
+          succeedStart();
+        } catch (error) {
+          failStart(error);
+        }
+      };
+
+      socket.onmessage = function (event) {
+        let data; try { data = JSON.parse(event.data); } catch (_) { return; }
+        if (data.message_type === 'session_started') sessionId = data.session_id || null;
+        if (data.message_type === 'partial_transcript' && options.onInterim) options.onInterim(data.text || '');
+        if (data.message_type === 'committed_transcript' && options.onFinal) options.onFinal(data.text || '');
+        if (data.message_type === 'error' || data.message_type === 'rate_limited') {
+          const error = new Error(data.error || 'ElevenLabs Scribe error.');
+          if (options.onError) options.onError(error);
+          stop();
+        }
+      };
+
+      socket.onerror = function () {
+        const error = new Error('ElevenLabs Scribe connection failed.');
+        if (!settled) {
+          failStart(error);
+          return;
+        }
+        if (options.onError) options.onError(error);
+      };
+
+      socket.onclose = function () {
+        const wasRunning = running;
+        cleanup();
+        if (!settled) {
+          failStart(new Error('ElevenLabs Scribe connection closed before it became ready.'));
+          return;
+        }
+        if (wasRunning && options.onEnd) options.onEnd();
+      };
+    });
   }
 
   function stop() {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      try { socket.send(JSON.stringify({ message_type: 'input_audio_chunk', audio_base_64: '', commit: true })); } catch (_) {}
-      try { socket.close(); } catch (_) {}
+    const currentSocket = socket;
+    if (currentSocket && currentSocket.readyState === WebSocket.OPEN) {
+      try { currentSocket.send(JSON.stringify({ message_type: 'input_audio_chunk', audio_base_64: '', commit: true })); } catch (_) {}
+      try { currentSocket.close(); } catch (_) {}
+    } else {
+      cleanup();
     }
-    cleanup();
   }
 
   function cleanup() {
