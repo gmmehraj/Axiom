@@ -4,6 +4,7 @@
 // ============================================================
 (function (w) {
   'use strict';
+  if (w.AxiomHandsFreeVoice) return;
 
   const WAKE_PHRASES = ['hey axiom', 'hi axiom', 'okay axiom', 'ok axiom', 'axiom'];
   const ACTIVE_MS = 10000; // 10s active window after wake phrase
@@ -222,6 +223,11 @@
       if (browserRecognition) try { browserRecognition.stop(); } catch (_) {}
     },
     isActive: () => !!(w.AxiomElevenLabsScribe?.isRunning() || browserRecognition),
-    wakePhrases: WAKE_PHRASES.slice()
+    wakePhrases: WAKE_PHRASES.slice(),
+    processUtterance: processUtterance,
+    speak: speak,
+    status: status,
+    getStatus: () => document.documentElement.dataset.axiomVoiceState || 'ready',
+    isSpeaking: () => isSpeaking
   };
 })(window);

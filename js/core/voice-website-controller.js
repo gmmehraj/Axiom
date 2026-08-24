@@ -50,21 +50,43 @@
     return null;
   }
 
+  const routePageMap = {
+    dashboard: 'os-shell.html',
+    brain: 'brain.html',
+    memory: 'memory.html',
+    browser: 'browser.html',
+    automation: 'automation.html',
+    playground: 'playground.html',
+    settings: 'settings.html',
+    billing: 'billing.html',
+    analytics: 'analytics.html',
+    workspace: 'workspace.html',
+    'agent-library': 'agent-library.html',
+    studios: 'studios.html'
+  };
+
   function navigate(route) {
-    const candidates = ['/' + route + '.html', route + '.html', '/' + route, '#' + route];
-    const target = candidates[0];
+    const target = routePageMap[route] || (route + '.html');
+    const absTarget = '/' + target.replace(/^\//, '');
     try {
       if (w.AxiomRouter?.navigate) { w.AxiomRouter.navigate(route); return true; }
       if (w.router?.navigate) { w.router.navigate(route); return true; }
-      const wm = w.AxiomWorkspaceManager;
-      if (wm && (typeof wm.open === 'function' || typeof wm.openApp === 'function')) {
+      const isOSShell = location.pathname.endsWith('os-shell.html') || location.pathname.endsWith('os-shell') || !!w.AxiomOSShell;
+      if (isOSShell) {
         const appMap = { dashboard: 'dashboard', brain: 'brain', memory: 'memory', browser: 'browser', automation: 'automation', playground: 'chat', settings: 'settings', billing: 'billing', analytics: 'analytics', workspace: 'files', 'agent-library': 'agents' };
         const appId = appMap[route] || route;
-        if (typeof wm.open === 'function') { wm.open(appId); return true; }
-        if (typeof wm.openApp === 'function') { wm.openApp(appId); return true; }
+        if (w.AxiomOSShell?.openWorkspace) {
+          w.AxiomOSShell.openWorkspace(appId);
+          return true;
+        }
+        const wm = w.AxiomWorkspaceManager;
+        if (wm && (typeof wm.open === 'function' || typeof wm.openApp === 'function')) {
+          if (typeof wm.open === 'function') { wm.open(appId); return true; }
+          if (typeof wm.openApp === 'function') { wm.openApp(appId); return true; }
+        }
       }
-      if (location.pathname.endsWith('/' + route + '.html') || location.pathname === target) return true;
-      location.href = target;
+      if (location.pathname.endsWith(absTarget) || location.pathname === absTarget) return true;
+      location.href = absTarget;
       return true;
     } catch (e) {
       emit('axiom:voice-command-error', { error: e, command: route });
@@ -111,7 +133,8 @@
     // 4. Navigation
     const route = findRoute(t);
     if (route) {
-      const ok = navigate(route);
+      const navFn = (w.AxiomVoiceWebsiteController && w.AxiomVoiceWebsiteController.navigate) || navigate;
+      const ok = navFn(route);
       const name = route.replace('-', ' ').replace(/\b\w/g, c => c.toUpperCase());
       return { handled: true, intent: 'navigate', target: route, response: ok ? 'Opening ' + name + '.' : "I couldn't open " + name + '.' };
     }
@@ -173,7 +196,7 @@
 
   function attach() {
     if (w.AxiomVoiceWebsiteController) return;
-    w.AxiomVoiceWebsiteController = { execute, routes };
+    w.AxiomVoiceWebsiteController = { execute, routes, navigate };
     document.addEventListener('axiom:voice-command-request', e => {
       const text = e.detail?.text || '';
       const result = execute(text);

@@ -45,7 +45,7 @@ window.JarvisVoiceController = (function () {
   function load(i){
     if(i>=files.length)return;
     const src=files[i];
-    const existing=document.querySelector('script[data-axiom-voice-src="'+src+'"],script[src$="/'+src+'"]');
+    const existing=document.querySelector('script[data-axiom-voice-src="'+src+'"],script[src="'+src+'"],script[src="/'+src+'"],script[src$="'+src+'"],script[src$="/'+src+'"]');
     if(existing){load(i+1);return;}
     const s=document.createElement('script');
     s.src=src;s.async=false;s.dataset.axiomVoiceSrc=src;

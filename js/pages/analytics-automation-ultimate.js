@@ -64,7 +64,6 @@
     addAnalyticsCharts();
     addPredictionPanel();
     addAIHealthScore();
-    addLatencyHeatmap();
     addUsageBreakdown();
     startLiveUpdates();
   }

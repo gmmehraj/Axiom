@@ -36,9 +36,8 @@
   function loadScript(src, marker) {
     if (document.querySelector(`script[data-${marker}]`)) return;
     const script = document.createElement('script');
-    script.type = 'text/javascript';
     script.src = src;
-    script.dataset[marker] = 'true';
+    script.setAttribute(`data-${marker}`, 'true');
     script.defer = true;
     document.head.appendChild(script);
   }

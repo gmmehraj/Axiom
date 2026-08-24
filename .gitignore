@@ -25,3 +25,6 @@ build/
 
 # Generated public Supabase runtime config
 js/core/env.config.js
+
+# Local test scratch profiles
+scratch/

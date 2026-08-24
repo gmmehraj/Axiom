@@ -15,6 +15,17 @@
 (function () {
   'use strict';
 
+  var PARTICLE_COLORS = {
+    idle: 'rgba(255,255,255,ALPHA)',
+    listening: 'rgba(96,165,250,ALPHA)',
+    thinking: 'rgba(200,200,255,ALPHA)',
+    speaking: 'rgba(255,205,140,ALPHA)',
+    heavy: 'rgba(255,255,255,ALPHA)',
+    error: 'rgba(255,90,90,ALPHA)',
+    sleeping: 'rgba(200,200,200,ALPHA)',
+  };
+  var PARTICLE_COUNT = { idle: 40, listening: 46, thinking: 55, speaking: 50, heavy: 85, error: 40, sleeping: 14 };
+
   function ready(fn) {
     if (document.readyState !== 'loading') fn();
     else document.addEventListener('DOMContentLoaded', fn);
@@ -67,16 +78,6 @@
   }
 
   // ---- 3. Reactive particle canvas ------------------------------------
-var PARTICLE_COLORS = {
-    idle: 'rgba(255,255,255,ALPHA)',
-    listening: 'rgba(96,165,250,ALPHA)',
-    thinking: 'rgba(200,200,255,ALPHA)',
-    speaking: 'rgba(255,205,140,ALPHA)',
-    heavy: 'rgba(255,255,255,ALPHA)',
-    error: 'rgba(255,90,90,ALPHA)',
-    sleeping: 'rgba(200,200,200,ALPHA)',
-  };
-  var PARTICLE_COUNT = { idle: 40, listening: 46, thinking: 55, speaking: 50, heavy: 85, error: 40, sleeping: 14 };
 
   function mountParticles() {
     if (document.getElementById('axiomOsParticles')) return;

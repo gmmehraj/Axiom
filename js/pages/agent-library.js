@@ -45,36 +45,41 @@
   if (document.readyState !== 'loading') init();
 
   async function init() {
-    if (typeof AxiomAgents === 'undefined') return;
+    if (typeof AxiomAgents === 'undefined' || !grid) return;
     renderToolChips();
     populateModelOptions();
     await renderGrid();
 
-    tabsBar.addEventListener('click', (e) => {
-      const btn = e.target.closest('.chip');
-      if (!btn) return;
-      tabsBar.querySelectorAll('.chip').forEach((c) => c.classList.remove('active'));
-      btn.classList.add('active');
-      activeTab = btn.dataset.tab;
-      renderGrid();
-    });
+    if (tabsBar) {
+      tabsBar.addEventListener('click', (e) => {
+        const btn = e.target.closest('.chip');
+        if (!btn) return;
+        tabsBar.querySelectorAll('.chip').forEach((c) => c.classList.remove('active'));
+        btn.classList.add('active');
+        activeTab = btn.dataset.tab;
+        renderGrid();
+      });
+    }
 
-    searchInput.addEventListener('input', () => {
-      searchQuery = searchInput.value;
-      renderGrid();
-    });
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        searchQuery = searchInput.value;
+        renderGrid();
+      });
+    }
 
-    newAgentBtn.addEventListener('click', () => openEditor(null));
-    closeBtn.addEventListener('click', closeEditor);
-    cancelBtn.addEventListener('click', closeEditor);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeEditor(); });
-    tempInput.addEventListener('input', () => { tempVal.textContent = tempInput.value; });
-    saveBtn.addEventListener('click', saveEditor);
-    deleteBtn.addEventListener('click', deleteEditorAgent);
-    memoryAddBtn.addEventListener('click', addMemoryNote);
+    newAgentBtn?.addEventListener('click', () => openEditor(null));
+    closeBtn?.addEventListener('click', closeEditor);
+    cancelBtn?.addEventListener('click', closeEditor);
+    modal?.addEventListener('click', (e) => { if (e.target === modal) closeEditor(); });
+    tempInput?.addEventListener('input', () => { if (tempVal) tempVal.textContent = tempInput.value; });
+    saveBtn?.addEventListener('click', saveEditor);
+    deleteBtn?.addEventListener('click', deleteEditorAgent);
+    memoryAddBtn?.addEventListener('click', addMemoryNote);
   }
 
   function populateModelOptions() {
+    if (!modelSelect) return;
     const cfg = window.OpenRouterConfig;
     const models = (cfg && cfg.FALLBACK_MODELS) || [];
     modelSelect.innerHTML = models.map((m) => `<option value="${m.id}">${escapeHtml(m.label)}</option>`).join('');
@@ -90,6 +95,7 @@
   }
 
   function renderToolChips() {
+    if (!toolList) return;
     const tools = AxiomAgents.toolCatalog();
     toolList.innerHTML = '';
     tools.forEach((t) => {

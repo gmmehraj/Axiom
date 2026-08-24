@@ -18,10 +18,10 @@
 
   if (!select || typeof AxiomAgents === 'undefined') return;
 
+  let _initialized = false;
+
   document.addEventListener('DOMContentLoaded', init);
   if (document.readyState !== 'loading') init();
-
-  let _initialized = false;
 
   async function init() {
     if (_initialized) return;
