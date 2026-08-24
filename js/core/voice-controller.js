@@ -45,12 +45,13 @@ window.JarvisVoiceController = (function () {
   function load(i){
     if(i>=files.length)return;
     const src=files[i];
-    const existing=document.querySelector('script[data-axiom-voice-src="'+src+'"],script[src="'+src+'"],script[src="/'+src+'"],script[src$="'+src+'"],script[src$="/'+src+'"]');
+    const norm=src.startsWith('/')?src:'/'+src;
+    const existing=document.querySelector('script[data-axiom-voice-src="'+src+'"],script[data-axiom-voice-src="'+norm+'"],script[src="'+src+'"],script[src="'+norm+'"],script[src$="'+src+'"],script[src$="'+norm+'"]');
     if(existing){load(i+1);return;}
     const s=document.createElement('script');
-    s.src=src;s.async=false;s.dataset.axiomVoiceSrc=src;
+    s.src=norm;s.async=false;s.dataset.axiomVoiceSrc=norm;
     s.onload=()=>load(i+1);
-    s.onerror=()=>{try{console.warn('[Axiom Voice] Failed to load',src);}catch(_){};load(i+1);};
+    s.onerror=()=>{try{console.warn('[Axiom Voice] Failed to load',norm);}catch(_){};load(i+1);};
     document.head.appendChild(s);
   }
   function boot(){load(0);}
