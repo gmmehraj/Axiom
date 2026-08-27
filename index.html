@@ -1,377 +1,416 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Axiom — One studio. Every model.</title>
-<meta name="description" content="Axiom is an AI studio building a connected suite of models — voice, vision, writing, code, and agents — under one roof.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles/motion-tokens.css">
-<link rel="stylesheet" href="styles/base.css">
-<link rel="stylesheet" href="styles/rtl.css">
-<link rel="stylesheet" href="styles/vision-glass-theme.css">
-<link rel="stylesheet" href="styles/accessibility.css">
-  <meta name="theme-color" content="#0a0b0e">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Axiom">
-  <link rel="manifest" href="manifest.webmanifest">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Axiom — The AI that sees, listens, thinks and acts.</title>
+  <meta name="description" content="Axiom is an autonomous AI intelligence that perceives, reasons, and executes across desktop, web, and APIs. One intelligence to control your world.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/axiom-flagship.css">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="apple-touch-icon" href="favicon.ico">
+  <meta name="theme-color" content="#030407">
 </head>
 <body>
 
-<a href="#top" class="skip-link">Skip to main content</a>
+  <!-- Ambient Space Canvas & Atmospheric Aurora -->
+  <canvas id="axiom-bg-canvas"></canvas>
+  <div class="ambient-aurora" aria-hidden="true"></div>
 
-<div id="progressBar"></div>
+  <div class="page-wrapper">
 
-<div id="loader">
-  <div class="loader-logo">
-    <div class="loader-ring"><div class="loader-ring-2"></div></div>
-    <div class="loader-core"></div>
-  </div>
-  <h2>axiom</h2>
-  <div class="loader-sub">Studio Max</div>
-  <div class="loader-bar"><span></span></div>
-</div>
+    <!-- TOP NAVIGATION -->
+    <header class="ax-nav" id="axNav">
+      <div class="ax-nav-inner">
+        <!-- Logo -->
+        <a href="#top" class="ax-logo" aria-label="Axiom Home">
+          <span class="ax-logo-mark" aria-hidden="true">
+            <svg class="ax-logo-svg" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2 L22 20 L2 20 Z" stroke="#00f0ff" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M12 8 L17 18 L7 18 Z" fill="#00f0ff" opacity="0.9"/>
+            </svg>
+          </span>
+          AXIOM
+        </a>
 
-<div class="grain"></div>
-<div class="aurora">
-  <span></span><span></span><span></span>
-  <div class="particles" id="particles"></div>
-</div>
-<div class="cursor-glow"></div>
+        <!-- Center Nav Links -->
+        <nav class="ax-nav-links" aria-label="Primary Navigation">
+          <a href="studios.html" class="ax-nav-link">Product</a>
+          <a href="agent-library.html" class="ax-nav-link">Agents</a>
+          <a href="automation.html" class="ax-nav-link">Tools</a>
+          <a href="docs/api.html" class="ax-nav-link">Developers</a>
+          <a href="billing.html" class="ax-nav-link">Pricing</a>
+          <a href="#company" class="ax-nav-link">Company</a>
+        </nav>
 
-<header class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="#top" class="logo">
-      <span class="logo-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 2 L22 20 L2 20 Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9 L16.5 17 L7.5 17 Z" fill="currentColor"/></svg>
-      </span>
-      Axiom
-    </a>
-    <nav class="nav-links" id="navLinks">
-      <a href="#tools">Tools</a>
-      <a href="#studio">Studio</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#docs">Docs</a>
-    </nav>
-    <div class="nav-cta">
-      <a href="login.html" class="btn btn-ghost">Sign in</a>
-      <a href="register.html" class="btn btn-solid">Get started</a>
-    </div>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
-
-<main id="top" tabindex="-1">
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-video-wrap" aria-hidden="true">
-      <video class="hero-video" autoplay muted loop playsinline>
-        <source src="assets/hero-bg.mp4" type="video/mp4">
-      </video>
-      <div class="hero-video-scrim"></div>
-    </div>
-    <div class="hero-inner">
-      <p class="eyebrow"><span class="dot"></span> Nine models. One account. Zero context-switching.</p>
-      <h1 class="hero-title">
-        <span class="hero-title-main">Build the future with AI</span><br>
-        <span class="hero-title-em">one dead-simple studio.</span>
-      </h1>
-      <p class="hero-sub">
-        Generate voice, images, writing, code, and agents from a single prompt bar.
-        No tutorials, no separate accounts — describe what you want and Axiom
-        routes it to the right model.
-      </p>
-      <div class="hero-actions">
-        <a href="register.html" class="btn btn-solid btn-lg">Start for free</a>
-        <a href="#studio" class="btn btn-outline btn-lg">Launch the studio</a>
-      </div>
-      <div class="hero-proof">
-        <span>Trusted by teams shipping at</span>
-        <div class="proof-marks">
-          <span>Fielden</span><span>Northbeam</span><span>Halide Labs</span><span>Corvus</span><span>Petal</span>
+        <!-- Right Action Controls -->
+        <div class="ax-nav-actions">
+          <button class="ax-sound-toggle" id="axSoundToggle" title="Toggle Sound Feedback" aria-label="Toggle Sound">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            </svg>
+          </button>
+          <a href="login.html" class="ax-nav-signin">Sign in</a>
+          <a href="os-shell.html" class="ax-btn-pill">
+            Enter Axiom
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
         </div>
       </div>
-    </div>
+    </header>
 
-    <div class="constellation" aria-hidden="true">
-      <div class="showcase-grid">
-        <div class="showcase-card">
-          <div class="sc-art" style="background:linear-gradient(155deg,rgba(255,255,255,.12) 0%,rgba(255,255,255,.04) 55%,rgba(0,0,0,.3) 100%);"></div>
-          <div class="sc-caption"><span class="sc-tag">Voice</span><p class="sc-prompt">Warm narrator voice, mid-tempo, documentary tone</p></div>
+    <!-- HERO HEADER SECTION -->
+    <main id="top" class="ax-hero">
+      <h1 class="ax-hero-brand">AXIOM</h1>
+      <p class="ax-hero-tagline">THE AI THAT <strong>SEES, LISTENS, THINKS AND ACTS.</strong></p>
+      <p class="ax-hero-sub">One intelligence to control your world.</p>
+      
+      <div class="ax-hero-cta-wrap">
+        <a href="os-shell.html" class="ax-btn-pill ax-btn-lg">
+          Enter Axiom
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+      </div>
+
+      <!-- 3D HOLOGRAPHIC ORBITAL MATRIX (CENTERPIECE) -->
+      <div class="ax-orbit-container" aria-label="Axiom Cognitive Capabilities Interactive Model">
+        <div class="ax-orbit-stage">
+
+          <!-- Concentric Orbital Light Rings -->
+          <div class="ax-orbital-ring outer"></div>
+          <div class="ax-orbital-ring middle"></div>
+          <div class="ax-orbital-ring inner"></div>
+
+          <!-- Sparkle nodes along the rings -->
+          <div class="ax-orbit-spark" style="top: 25%; left: 18%;"></div>
+          <div class="ax-orbit-spark" style="top: 15%; right: 28%;"></div>
+          <div class="ax-orbit-spark" style="bottom: 22%; left: 32%;"></div>
+          <div class="ax-orbit-spark" style="bottom: 30%; right: 16%;"></div>
+
+          <!-- ==================== CENTRAL CORE & PEDESTAL ==================== -->
+          <div class="ax-center-core">
+            <!-- Concentric Tiered Platform -->
+            <div class="ax-core-pedestal">
+              <div class="ax-core-pedestal-tier2">
+                <div class="ax-core-pedestal-tier3"></div>
+              </div>
+            </div>
+            
+            <!-- Under-Sphere Blue Laser Uplight -->
+            <div class="ax-core-uplight"></div>
+
+            <!-- Glass Crystal Sphere with Floating "A" Core -->
+            <div class="ax-crystal-sphere" title="Axiom Core — Click for Overview" role="button" tabindex="0">
+              <div class="ax-sphere-glare"></div>
+              <div class="ax-sphere-particles"></div>
+              <div class="ax-core-a-logo">
+                <svg class="ax-core-a-svg" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2 L22 20 L2 20 Z" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"/>
+                  <path d="M12 8.5 L17 18 L7 18 Z" fill="#00f0ff"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== 6 PEDESTAL HOLOGRAM CARDS ==================== -->
+          
+          <!-- 1. TOP-LEFT: VOICE -->
+          <div class="ax-node node-voice" data-capability="voice" role="button" tabindex="0" title="Inspect Voice Intelligence">
+            <div class="ax-node-pedestal">
+              <div class="ax-node-pedestal-ring"></div>
+            </div>
+            <div class="ax-glass-card">
+              <span class="ax-card-title">VOICE</span>
+              <div class="ax-card-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <line x1="12" x2="12" y1="19" y2="22"/>
+                </svg>
+              </div>
+              <div class="ax-card-footer">
+                <div class="ax-waveform" aria-hidden="true">
+                  <div class="ax-waveform-bar"></div>
+                  <div class="ax-waveform-bar"></div>
+                  <div class="ax-waveform-bar"></div>
+                  <div class="ax-waveform-bar"></div>
+                  <div class="ax-waveform-bar"></div>
+                  <div class="ax-waveform-bar"></div>
+                  <div class="ax-waveform-bar"></div>
+                  <div class="ax-waveform-bar"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. TOP-CENTER: VISION -->
+          <div class="ax-node node-vision" data-capability="vision" role="button" tabindex="0" title="Inspect Vision Perception">
+            <div class="ax-node-pedestal">
+              <div class="ax-node-pedestal-ring"></div>
+            </div>
+            <div class="ax-glass-card">
+              <span class="ax-card-title">VISION</span>
+              <div class="ax-card-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </div>
+              <div class="ax-card-footer">
+                <div class="ax-dot-matrix" aria-hidden="true">
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                  <div class="ax-matrix-dot"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. TOP-RIGHT: AGENTS -->
+          <div class="ax-node node-agents" data-capability="agents" role="button" tabindex="0" title="Inspect Multi-Agent Swarm">
+            <div class="ax-node-pedestal">
+              <div class="ax-node-pedestal-ring"></div>
+            </div>
+            <div class="ax-glass-card">
+              <span class="ax-card-title">AGENTS</span>
+              <div class="ax-card-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-5.04z"/>
+                  <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-5.04z"/>
+                </svg>
+              </div>
+              <div class="ax-card-footer">
+                <div class="ax-synapse-grid" aria-hidden="true">
+                  <div class="ax-synapse-node"></div>
+                  <div class="ax-synapse-node"></div>
+                  <div class="ax-synapse-node"></div>
+                  <div class="ax-synapse-node"></div>
+                  <div class="ax-synapse-node"></div>
+                  <div class="ax-synapse-node"></div>
+                  <div class="ax-synapse-node"></div>
+                  <div class="ax-synapse-node"></div>
+                  <div class="ax-synapse-node"></div>
+                  <div class="ax-synapse-node"></div>
+                  <div class="ax-synapse-node"></div>
+                  <div class="ax-synapse-node"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. BOTTOM-LEFT: COMPUTER -->
+          <div class="ax-node node-computer" data-capability="computer" role="button" tabindex="0" title="Inspect Computer Execution">
+            <div class="ax-node-pedestal">
+              <div class="ax-node-pedestal-ring"></div>
+            </div>
+            <div class="ax-glass-card">
+              <span class="ax-card-title">COMPUTER</span>
+              <div class="ax-card-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="20" height="14" x="2" y="3" rx="2"/>
+                  <line x1="8" x2="16" y1="21" y2="21"/>
+                  <line x1="12" x2="12" y1="17" y2="21"/>
+                </svg>
+              </div>
+              <div class="ax-card-footer">
+                <div class="ax-slider-track" aria-hidden="true">
+                  <div class="ax-slider-line"></div>
+                  <div class="ax-slider-dots">
+                    <span></span><span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. BOTTOM-CENTER: TOOLS -->
+          <div class="ax-node node-tools" data-capability="tools" role="button" tabindex="0" title="Inspect Tool Registry">
+            <div class="ax-node-pedestal">
+              <div class="ax-node-pedestal-ring"></div>
+            </div>
+            <div class="ax-glass-card">
+              <span class="ax-card-title">TOOLS</span>
+              <div class="ax-card-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+              </div>
+              <div class="ax-card-footer">
+                <div class="ax-tool-dials" aria-hidden="true">
+                  <span class="active"></span>
+                  <span></span>
+                  <span class="active"></span>
+                  <span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. BOTTOM-RIGHT: FILES -->
+          <div class="ax-node node-files" data-capability="files" role="button" tabindex="0" title="Inspect Memory & Files">
+            <div class="ax-node-pedestal">
+              <div class="ax-node-pedestal-ring"></div>
+            </div>
+            <div class="ax-glass-card">
+              <span class="ax-card-title">FILES</span>
+              <div class="ax-card-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/>
+                </svg>
+              </div>
+              <div class="ax-card-footer">
+                <div class="ax-folder-meters" aria-hidden="true">
+                  <span class="active"></span>
+                  <span class="active"></span>
+                  <span></span>
+                  <span class="active"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
-        <div class="showcase-card">
-          <div class="sc-art" style="background:linear-gradient(155deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.03) 55%,rgba(0,0,0,.3) 100%);"></div>
-          <div class="sc-caption"><span class="sc-tag">Vision</span><p class="sc-prompt">Editorial product shot, soft studio light, film grain</p></div>
+      </div>
+
+      <!-- STATEMENT & SLOGAN BAR -->
+      <section class="ax-statement-section">
+        <div class="ax-statement-pillars">
+          <span>LISTEN</span>
+          <span class="dot">•</span>
+          <span>SEE</span>
+          <span class="dot">•</span>
+          <span>THINK</span>
+          <span class="dot">•</span>
+          <span>ACT</span>
         </div>
-        <div class="showcase-card">
-          <div class="sc-art" style="background:linear-gradient(155deg,rgba(255,255,255,.08) 0%,rgba(255,255,255,.02) 55%,rgba(0,0,0,.3) 100%);"></div>
-          <div class="sc-caption"><span class="sc-tag">Sonic</span><p class="sc-prompt">Ambient synth pad, slow build, cinematic swell</p></div>
+        <p class="ax-statement-action">AXIOM DOES <strong>THE REST.</strong></p>
+      </section>
+
+      <!-- FEATURE CAPSULES ROW (4 PILL CARDS) -->
+      <section class="ax-features-row" aria-label="Axiom Core Guarantees">
+        <!-- 1. Control -->
+        <div class="ax-feature-pill" role="article">
+          <div class="ax-feat-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+          <div class="ax-feat-content">
+            <span class="ax-feat-title">You're in Control</span>
+            <span class="ax-feat-desc">Always you decide. Axiom acts.</span>
+          </div>
         </div>
-        <div class="showcase-card">
-          <div class="sc-art" style="background:linear-gradient(155deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.05) 55%,rgba(0,0,0,.3) 100%);"></div>
-          <div class="sc-caption"><span class="sc-tag">Codex</span><p class="sc-prompt">Refactor this endpoint, keep the existing test suite green</p></div>
+
+        <!-- 2. Private -->
+        <div class="ax-feature-pill" role="article">
+          <div class="ax-feat-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <div class="ax-feat-content">
+            <span class="ax-feat-title">Private by Design</span>
+            <span class="ax-feat-desc">Your data stays yours.</span>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <div class="marquee-wrap">
-    <p class="marquee-label">The models inside the studio</p>
-    <div class="marquee">
-      <span>Voice</span><span>Vision</span><span>Scribe</span><span>Codex</span><span>Agent</span><span>Sonic</span><span>Lens</span><span>Relay</span>
-      <span>Voice</span><span>Vision</span><span>Scribe</span><span>Codex</span><span>Agent</span><span>Sonic</span><span>Lens</span><span>Relay</span>
-    </div>
-  </div>
-
-  <!-- TOOLS -->
-  <section class="tools" id="tools">
-    <div class="section-head">
-      <p class="eyebrow eyebrow-dark"><span class="dot"></span> The catalog</p>
-      <h2>Eight models. One shared memory.</h2>
-      <p class="section-sub">Pick one tool or run them together — every Axiom model reads the same
-        project context, so output from one becomes input for the next without exporting anything.</p>
-    </div>
-
-    <div class="tool-grid">
-
-      <article class="tool-card" data-tool="voice">
-        <div class="tool-icon"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M9 2h6v11a3 3 0 0 1-6 0V2Z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4M9 22h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-        <h3>Voice</h3>
-        <p>Studio-grade speech synthesis in 40 languages, tuned per project so every line lands the same
-          way twice — cast a voice once, reuse it everywhere.</p>
-        <a href="#" class="tool-link">Try Voice →</a>
-      </article>
-
-      <article class="tool-card" data-tool="vision">
-        <div class="tool-icon"><svg viewBox="0 0 24 24" width="26" height="26"><rect x="3" y="4" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="10" r="1.6" fill="currentColor"/><path d="M4 16l5-4 4 3 3-3 4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <h3>Vision</h3>
-        <p>Generate and edit imagery from a brief, a sketch, or a reference board — with layout,
-          lighting, and brand palette held constant across a whole campaign.</p>
-        <a href="#" class="tool-link">Try Vision →</a>
-      </article>
-
-      <article class="tool-card" data-tool="scribe">
-        <div class="tool-icon"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M5 3h10l4 4v14H5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 11h8M8 15h8M8 7h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-        <h3>Scribe</h3>
-        <p>A drafting partner that learns your house style from three examples and keeps it — briefs,
-          docs, and long-form copy that read like your team wrote them.</p>
-        <a href="#" class="tool-link">Try Scribe →</a>
-      </article>
-
-      <article class="tool-card" data-tool="codex">
-        <div class="tool-icon"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M9 8l-5 4 5 4M15 8l5 4-5 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <h3>Codex</h3>
-        <p>Reads your repo, not just your prompt. Ships patches that match existing conventions and
-          come with the tests already written.</p>
-        <a href="#" class="tool-link">Try Codex →</a>
-      </article>
-
-      <article class="tool-card" data-tool="agent">
-        <div class="tool-icon"><svg viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-        <h3>Agent</h3>
-        <p>Give it a goal and a toolbelt. Agent plans the steps, asks before anything irreversible,
-          and shows its work the whole way through.</p>
-        <a href="#" class="tool-link">Try Agent →</a>
-      </article>
-
-      <article class="tool-card" data-tool="sonic">
-        <div class="tool-icon"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M3 12h3l3-7 4 14 3-9 2 4h3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <h3>Sonic</h3>
-        <p>Score, sound-design, and mix in one pass — describe a mood or drop a reference track and
-          get stems back, not just a finished loop.</p>
-        <a href="#" class="tool-link">Try Sonic →</a>
-      </article>
-
-      <article class="tool-card" data-tool="lens">
-        <div class="tool-icon"><svg viewBox="0 0 24 24" width="26" height="26"><circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M20 20l-4.5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-        <h3>Lens</h3>
-        <p>Point it at a photo, a PDF, or a screen recording and get structured answers back —
-          line-item receipts, chart data, on-screen bugs, all extracted, not just described.</p>
-        <a href="#" class="tool-link">Try Lens →</a>
-      </article>
-
-      <article class="tool-card" data-tool="relay">
-        <div class="tool-icon"><svg viewBox="0 0 24 24" width="26" height="26"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 8h18M8 5v3" stroke="currentColor" stroke-width="1.5"/></svg></div>
-        <h3>Relay</h3>
-        <p>The connector layer. Relay pipes output between any two Axiom tools — or into Slack,
-          Sheets, and your own API — on a schedule or a trigger.</p>
-        <a href="#" class="tool-link">Try Relay →</a>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- STUDIO / how it connects -->
-  <section class="studio" id="studio">
-    <div class="studio-inner">
-      <div class="studio-copy">
-        <p class="eyebrow"><span class="dot"></span> How it connects</p>
-        <h2>One project. Every tool reads it.</h2>
-        <p>Most AI tools forget everything the moment you close the tab. Axiom keeps a single
-          project file — brand voice, source assets, prior outputs, house style — and every
-          model in the studio reads from it before it generates anything.</p>
-        <ul class="studio-list">
-          <li><span class="num">01</span><div><strong>Start a project.</strong> Drop in brand guidelines, past work, or nothing at all.</div></li>
-          <li><span class="num">02</span><div><strong>Run any tool.</strong> Voice, Vision, Scribe — each one inherits the same context automatically.</div></li>
-          <li><span class="num">03</span><div><strong>Chain them with Relay.</strong> A Scribe draft becomes a Voice script becomes a Sonic mix, hands-free.</div></li>
-        </ul>
-        <a href="#pricing" class="btn btn-solid">Start a project</a>
-      </div>
-      <div class="studio-visual" aria-hidden="true">
-        <div class="stack-card sc-1">
-          <span class="sc-label">Scribe</span>
-          <div class="sc-line w80"></div>
-          <div class="sc-line w60"></div>
-          <div class="sc-line w70"></div>
+        <!-- 3. Speed -->
+        <div class="ax-feature-pill" role="article">
+          <div class="ax-feat-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <div class="ax-feat-content">
+            <span class="ax-feat-title">Blazing Fast</span>
+            <span class="ax-feat-desc">Real-time intelligence that moves with you.</span>
+          </div>
         </div>
-        <div class="stack-card sc-2">
-          <span class="sc-label">Voice</span>
-          <div class="wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+        <!-- 4. Everywhere -->
+        <div class="ax-feature-pill" role="article">
+          <div class="ax-feat-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+          </div>
+          <div class="ax-feat-content">
+            <span class="ax-feat-title">Works Everywhere</span>
+            <span class="ax-feat-desc">Web, Windows, Mobile. All connected.</span>
+          </div>
         </div>
-        <div class="stack-card sc-3">
-          <span class="sc-label">Vision</span>
-          <div class="sc-grid"><i></i><i></i><i></i><i></i></div>
-        </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- STATS -->
-  <section class="stats">
-    <div class="stats-inner">
-      <div class="stat">
-        <span class="stat-num" data-target="8">0</span>
-        <span class="stat-label">models, one account</span>
+      <!-- BOTTOM CTA BUTTON -->
+      <div class="ax-bottom-cta-wrap">
+        <a href="os-shell.html" class="ax-btn-pill ax-btn-lg">
+          Enter Axiom
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
       </div>
-      <div class="stat">
-        <span class="stat-num" data-target="40">0</span>
-        <span class="stat-label">languages in Voice</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num" data-target="120" data-suffix="ms">0</span>
-        <span class="stat-label">median Relay handoff</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num" data-target="99.95" data-decimal="2" data-suffix="%">0</span>
-        <span class="stat-label">studio uptime</span>
-      </div>
-    </div>
-  </section>
 
-  <!-- PRICING -->
-  <section class="pricing" id="pricing">
-    <div class="section-head">
-      <p class="eyebrow eyebrow-dark"><span class="dot"></span> Pricing</p>
-      <h2>Pay for output, not per model.</h2>
-      <p class="section-sub">One credit pool spends across every tool in the studio. No separate
-        bills for Voice versus Vision versus Codex.</p>
-    </div>
-    <div class="price-grid">
-      <div class="price-card">
-        <h3>Studio</h3>
-        <p class="price-tag">$0<span>/mo</span></p>
-        <p class="price-desc">For trying every model before you commit.</p>
-        <ul>
-          <li>3 projects</li>
-          <li>500 credits / month</li>
-          <li>All 8 tools, watermarked exports</li>
-        </ul>
-        <a href="register.html" class="btn btn-outline btn-full">Start free</a>
-      </div>
-      <div class="price-card price-card-featured">
-        <span class="price-badge">Most teams choose this</span>
-        <h3>Studio Pro</h3>
-        <p class="price-tag">$49<span>/mo</span></p>
-        <p class="price-desc">For shipping real work, weekly.</p>
-        <ul>
-          <li>Unlimited projects</li>
-          <li>8,000 credits / month</li>
-          <li>Full-resolution exports</li>
-          <li>Relay automations</li>
-        </ul>
-        <a href="register.html" class="btn btn-solid btn-full">Get Studio Pro</a>
-      </div>
-      <div class="price-card">
-        <h3>Studio Max</h3>
-        <p class="price-tag">Custom</p>
-        <p class="price-desc">For teams running Axiom at scale.</p>
-        <ul>
-          <li>Seat-based collaboration</li>
-          <li>Dedicated capacity</li>
-          <li>SSO &amp; audit logs</li>
-        </ul>
-        <a href="#" class="btn btn-outline btn-full">Talk to us</a>
-      </div>
-    </div>
-  </section>
+    </main>
 
-  <!-- CTA BANNER -->
-  <section class="cta-band" id="docs">
-    <div class="cta-inner">
-      <h2>Bring your first project in.<br>See which tool it needs.</h2>
-      <div class="hero-actions">
-        <a href="register.html" class="btn btn-solid btn-lg">Get started free</a>
-        <a href="#" class="btn btn-outline btn-lg">Read the docs</a>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a href="#top" class="logo">
-        <span class="logo-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2 L22 20 L2 20 Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9 L16.5 17 L7.5 17 Z" fill="currentColor"/></svg>
+    <!-- FOOTER -->
+    <footer class="ax-footer">
+      <span class="ax-footer-phrase">THE FUTURE ISN'T COMING.</span>
+      <div class="ax-footer-divider">
+        <span class="ax-footer-line"></span>
+        <span class="ax-footer-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+            <path d="M12 2 L22 20 L2 20 Z" stroke="#00f0ff" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M12 8 L17 18 L7 18 Z" fill="#00f0ff" opacity="0.9"/>
+          </svg>
         </span>
-        Axiom
-      </a>
-      <p>One studio. Every model.</p>
-    </div>
-    <div class="footer-cols">
-      <div class="footer-col">
-        <h4>Tools</h4>
-        <a href="#tools">Voice</a><a href="#tools">Vision</a><a href="#tools">Scribe</a><a href="#tools">Codex</a>
+        <span class="ax-footer-line"></span>
       </div>
-      <div class="footer-col">
-        <h4>Studio</h4>
-        <a href="#studio">How it works</a><a href="#pricing">Pricing</a><a href="#">Changelog</a>
-      </div>
-      <div class="footer-col">
-        <h4>Account</h4>
-        <a href="login.html">Log in</a><a href="register.html">Sign up</a>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <a href="#">Terms</a><a href="#">Privacy</a>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 Axiom Studio, Inc.</span>
-  </div>
-</footer>
+      <span class="ax-footer-phrase">YOU'RE ENTERING IT.</span>
+    </footer>
 
-<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script defer src="js/core/env.config.js"></script>
-<script defer src="js/core/supabase/env.js"></script>
-<script defer src="js/core/supabase/connection-manager.js"></script>
-<script defer src="js/core/supabase/auth-service.js"></script>
-<script defer src="js/core/supabase-config.js"></script>
-<script defer src="locales/_registry.js"></script>
-<script defer src="js/core/i18n.js"></script>
-<script defer src="js/core/auth.js"></script>
-<script defer src="js/core/script.js"></script>
-<script defer src="js/core/accessibility.js"></script>
+  </div>
+
+  <!-- INTERACTIVE CAPABILITY MODAL -->
+  <div class="ax-modal-backdrop" id="axModalBackdrop" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="ax-modal-dialog">
+      <button class="ax-modal-close" id="axModalClose" aria-label="Close dialog">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="ax-modal-header">
+        <div class="ax-modal-icon-badge" id="axModalIcon"></div>
+        <div>
+          <h2 class="ax-modal-title" id="axModalTitle">Capability</h2>
+          <span class="ax-modal-badge" id="axModalBadge">Status</span>
+        </div>
+      </div>
+      <p class="ax-modal-body" id="axModalDesc">Description</p>
+      <pre class="ax-modal-interactive-box" id="axModalTerminal"></pre>
+      <div class="ax-modal-footer">
+        <a href="os-shell.html" class="ax-btn-pill" id="axModalLaunchBtn">
+          Launch Live in Axiom OS
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/axiom-core-orb.js"></script>
 </body>
 </html>

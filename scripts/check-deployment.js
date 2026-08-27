@@ -15,7 +15,7 @@ async function check() {
           const sha = latest.meta?.githubCommitSha || '';
           const state = latest.state || latest.readyState;
           console.log(`[Poll ${i + 1}] Deployment: ${latest.id} | SHA: ${sha.slice(0, 7)} | State: ${state} | URL: ${latest.url}`);
-          if (sha.startsWith('3d7988e') && state === 'READY') {
+          if (sha.startsWith('7e3aacc') && state === 'READY') {
             console.log('\nSUCCESS: Vercel production deployment is READY!');
             console.log('Final Deployed URL:', `https://${latest.url}`);
             return latest;
